@@ -1,0 +1,66 @@
+{
+    "name": "@guardian/atoms-rendering",
+    "source": "src/App.tsx",
+    "main": "dist/app.js",
+    "module": "dist/app.module.js",
+    "unpkg": "dist/app.umd.js",
+    "scripts": {
+        "build": "microbundle --jsx React.createElement",
+        "dev": "microbundle watch --jsx React.createElement",
+        "storybook": "start-storybook -p 6006",
+        "build-storybook": "build-storybook",
+        "tsc": "tsc",
+        "lint": "eslint . --ext .ts",
+        "test": "jest --watch"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.9.6",
+        "@babel/plugin-transform-runtime": "^7.9.6",
+        "@babel/preset-react": "^7.9.4",
+        "@babel/preset-typescript": "^7.9.0",
+        "@storybook/addons": "^5.3.19",
+        "@storybook/preset-typescript": "^3.0.0",
+        "@storybook/react": "^5.3.19",
+        "@testing-library/jest-dom": "^5.8.0",
+        "@testing-library/react": "^10.0.4",
+        "@types/jest": "^25.2.3",
+        "@typescript-eslint/eslint-plugin": "^3.0.1",
+        "@typescript-eslint/parser": "^3.0.1",
+        "babel-loader": "^8.1.0",
+        "eslint": "^7.1.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-prettier": "^3.1.3",
+        "eslint-plugin-react": "^7.20.0",
+        "husky": "^4.2.5",
+        "jest": "^26.0.1",
+        "microbundle": "^0.12.0",
+        "prettier": "^2.0.5",
+        "pretty-quick": "^2.0.1"
+    },
+    "eslintConfig": {
+        "root": true,
+        "ignorePatterns": [
+            "/dist"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "extends": [
+            "eslint:recommended",
+            "plugin:prettier/recommended",
+            "plugin:react/recommended",
+            "plugin:@typescript-eslint/recommended"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "pretty-quick --staged && yarn lint && yarn tsc && yarn test --watchAll=false"
+        }
+    },
+    "dependencies": {
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
+    }
+}
