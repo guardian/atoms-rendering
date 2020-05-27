@@ -1,3 +1,3 @@
-import { App } from './App';
+import { ExplainerAtom } from './ExplainerAtom';
 
-export { App };
+export { ExplainerAtom };
