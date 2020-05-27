@@ -4,6 +4,9 @@
     "main": "dist/app.js",
     "module": "dist/app.module.js",
     "unpkg": "dist/app.umd.js",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "microbundle --jsx React.createElement",
         "dev": "microbundle watch --jsx React.createElement",
@@ -64,5 +67,6 @@
         "@guardian/src-foundations": "^1.0.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
-    }
+    },
+    "version": "1.0.0"
 }
