@@ -1,6 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
-    "source": "src/App.tsx",
+    "source": "src/index.ts",
     "main": "dist/app.js",
     "module": "dist/app.module.js",
     "unpkg": "dist/app.umd.js",
