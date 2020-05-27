@@ -2,7 +2,7 @@
 
 ## What is an Atom?
 
-An Atom is a self contained piece of content that can be inserted into multiple articles. There are several different types of atoms, this repositry aims to document them all.
+An Atom is a self contained piece of content that can be inserted into multiple articles. There are several different types of atoms, this repository aims to document them all.
 
 ## Why are they here?
 
