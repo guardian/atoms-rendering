@@ -1,3 +1,5 @@
-export interface Example {
-    name: string;
-}
+export type ExplainerAtomType = {
+    id: string;
+    title: string;
+    html: string;
+};

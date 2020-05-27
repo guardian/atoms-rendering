@@ -63,7 +63,7 @@
             "pre-push": "pretty-quick --staged && yarn lint && yarn tsc && yarn test --watchAll=false"
         }
     },
-    "dependencies": {
+    "peerDependencies": {
         "@guardian/src-foundations": "^1.0.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
