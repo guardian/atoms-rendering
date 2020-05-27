@@ -5,11 +5,7 @@ import { headline, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { background, text } from '@guardian/src-foundations/palette';
 
-type ExplainerAtomType = {
-    id: string;
-    title: string;
-    html: string;
-};
+import { ExplainerAtomType } from './types';
 
 const Container = ({
     id,
