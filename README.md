@@ -26,6 +26,26 @@ yarn
 yarn storybook
 ```
 
+also
+
+```
+yarn link // so you don't need to publish to test changes remotely
+```
+
+and then
+
+```typescript
+    "scripts": {
+        "build": "microbundle --jsx React.createElement",
+        "dev": "microbundle watch --jsx React.createElement",
+        "storybook": "start-storybook -p 6006",
+        "build-storybook": "build-storybook",
+        "tsc": "tsc",
+        "lint": "eslint . --ext .ts",
+        "test": "jest --watch"
+    }
+```
+
 ### How do you add a new atom to this repo?
 
 Adding a new atom in `atoms-rendering` involves
