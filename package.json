@@ -1,9 +1,9 @@
 {
     "name": "@guardian/atoms-rendering",
     "source": "src/index.ts",
-    "main": "dist/app.js",
-    "module": "dist/app.module.js",
-    "unpkg": "dist/app.umd.js",
+    "main": "dist/index.js",
+    "module": "dist/index.module.js",
+    "unpkg": "dist/index.umd.js",
     "publishConfig": {
         "access": "public"
     },
