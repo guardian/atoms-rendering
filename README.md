@@ -60,8 +60,9 @@ Adding a new atom in `atoms-rendering` involves
 Manual publishing steps:
 
 1. Ensure your changes are on master
-2. `yarn build`
-3. Create a branch, `yourname/v1.0.1`
-4. `yarn publish` (enter new version number, eg. 1.0.1)
-5. Create a PR for the version
-6. Then, in the consuming project, update the version of `@guardian/atoms-rendering` installed to see the changes
+2. Ensure you have an [Npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the Npm @guardian organisation
+3. `yarn build`
+4. Create a branch, `yourname/v1.0.1`
+5. `yarn publish` (enter new version number, eg. 1.0.1)
+6. Create a PR for the version
+7. Then, in the consuming project, update the version of `@guardian/atoms-rendering` installed to see the changes
