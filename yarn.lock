@@ -1093,9 +1093,9 @@
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
 "@guardian/src-foundations@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.0.1.tgz#f415733d458c503133adc776128401a7232935c9"
-  integrity sha512-/5XWjXRt5jsOwpD9u687xNrJFkOMmnCS8u0FoEbn/csy002TBpdVBYQaqOW46kW6RYPVCQPpBJK9mAga5PmvuQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.1.0.tgz#1955a3933c3aecfae46d4688a43f331866386b94"
+  integrity sha512-XGZSbHuHf20kewajdIAOPk7jb6mB6+wPYFj+CUuKcEPXXjNLQ4K5WVIzu0xQ9Fa5aO1wG/s0ek0ii9KbpDcbNA==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

@@ -1,5 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
+    "version": "1.2.2",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.module.js",
@@ -24,6 +25,7 @@
         "@babel/plugin-transform-runtime": "^7.9.6",
         "@babel/preset-react": "^7.9.4",
         "@babel/preset-typescript": "^7.9.0",
+        "@guardian/src-foundations": "^1.0.1",
         "@storybook/addons": "^5.3.19",
         "@storybook/preset-typescript": "^3.0.0",
         "@storybook/react": "^5.3.19",
@@ -43,7 +45,9 @@
         "jest": "^26.0.1",
         "microbundle": "^0.12.0",
         "prettier": "^2.0.5",
-        "pretty-quick": "^2.0.1"
+        "pretty-quick": "^2.0.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
     },
     "eslintConfig": {
         "root": true,
@@ -67,9 +71,9 @@
         }
     },
     "peerDependencies": {
-        "@guardian/src-foundations": "^1.0.1",
+        "@guardian/src-foundations": "^1.1.0",
+        "emotion": "^10.0.27",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
-    },
-    "version": "1.2.2"
+    }
 }
