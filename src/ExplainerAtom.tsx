@@ -25,6 +25,11 @@ const Container = ({
                 border-top: 1px solid ${text.primary};
                 background-color: ${background.secondary};
                 color: ${text.primary};
+
+                p {
+                    margin-top: ${space[3]}px;
+                    margin-bottom: ${space[3]}px;
+                }
             `}
         >
             {children}
