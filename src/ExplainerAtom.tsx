@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { background, text } from '@guardian/src-foundations/palette';
+import { neutral, text } from '@guardian/src-foundations/palette';
 
 import { ExplainerAtomType } from './types';
 
@@ -24,7 +24,7 @@ const Container = ({
                 padding-right: ${space[2]}px;
                 border-top: 1px solid ${text.primary};
                 color: ${text.primary};
-                background: ${background.secondary};
+                background: ${neutral[97]};
 
                 p {
                     margin-top: ${space[3]}px;
