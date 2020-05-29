@@ -24,6 +24,7 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 git clone https://github.com/guardian/atoms-rendering.git
 // or
 git clone git@github.com:guardian/atoms-rendering.git
+nvm use
 yarn
 yarn storybook
 ```
