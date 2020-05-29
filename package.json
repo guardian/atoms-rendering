@@ -45,7 +45,9 @@
         "jest": "^26.0.1",
         "microbundle": "^0.12.0",
         "prettier": "^2.0.5",
-        "pretty-quick": "^2.0.1"
+        "pretty-quick": "^2.0.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
     },
     "eslintConfig": {
         "root": true,
