@@ -1,5 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
+    "version": "1.2.2",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.module.js",
@@ -70,6 +71,5 @@
         "@guardian/src-foundations": "^1.0.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
-    },
-    "version": "1.2.2"
+    }
 }
