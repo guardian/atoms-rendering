@@ -22,6 +22,7 @@ const Container = ({
                 padding-bottom: ${space[1]}px;
                 padding-left: ${space[2]}px;
                 padding-right: ${space[2]}px;
+                margin: auto 0;
                 border-top: 1px solid ${text.primary};
                 color: ${text.primary};
                 background: ${neutral[97]};
