@@ -21,21 +21,33 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 ## Running locally
 
 ```
-git clone https://github.com/guardian/atoms-rendering.git
-// or
-git clone git@github.com:guardian/atoms-rendering.git
-nvm use
-yarn
-yarn storybook
+$ git clone https://github.com/guardian/atoms-rendering.git
+or
+$ git clone git@github.com:guardian/atoms-rendering.git
 ```
 
-also
+Make sure that you have `yarn` installed, if not run
 
 ```
-yarn link // so you don't need to publish to test changes remotely
+$ brew install yarn
 ```
 
-and then
+Then,
+
+```
+$ yarn
+$ yarn storybook
+```
+
+You can also run
+
+```
+$ yarn link
+```
+
+so you don't need to publish to test changes remotely.
+
+The available yarn commands are given below:
 
 ```typescript
     "scripts": {
@@ -49,7 +61,7 @@ and then
     }
 ```
 
-### How do you add a new atom to this repo?
+## How do you add a new atom to this repo?
 
 Adding a new atom in `atoms-rendering` involves
 
@@ -63,7 +75,7 @@ Adding a new atom in `atoms-rendering` involves
 Manual publishing steps:
 
 1. Ensure your changes are on master
-2. Ensure you have an [Npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the Npm @guardian organisation
+2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
 3. `yarn build`
 4. Create a branch, `yourname/v1.0.1`
 5. `yarn publish` (enter new version number, eg. 1.0.1)
