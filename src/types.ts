@@ -8,7 +8,7 @@ export type AudioAtomType = {
     id: string;
 };
 
-export type CtaAtomType = {
+export type ChartAtomType = {
     id: string;
 };
 
