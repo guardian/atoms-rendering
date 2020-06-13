@@ -18,6 +18,6 @@ export const ChartAtom = ({ id, url }: ChartAtomType): JSX.Element => (
             background: ${neutral[97]};
         `}
     >
-        <iframe src={url} frameBorder="0"></iframe>
+        <iframe src={url} frameBorder="0" height="450px"></iframe>
     </div>
 );

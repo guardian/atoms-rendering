@@ -8,5 +8,10 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
-    return <ChartAtom id="abc123" />;
+    return (
+        <ChartAtom
+            id="abc123"
+            url="https://embed.theguardian.com/embed/atom/chart/650c584d-551f-41ac-8bf8-3283fb04a863"
+        />
+    );
 };
