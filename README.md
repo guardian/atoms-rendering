@@ -1,12 +1,8 @@
 # Atoms Rendering
 
-## What is an Atom?
+## Atoms
 
-An Atom is a self contained piece of content that can be inserted into multiple articles. There are several different types of atoms, this repository aims to document them all.
-
-## Why are they here?
-
-Mainly so we can share this code cross platform, but also to create one location where atoms are listed, typed and defined.
+An Atom is a self contained piece of content that can be inserted into multiple articles. There are currently 13 types of atoms. This repository implements them as a separate self contained library. 
 
 ## Usage
 
@@ -39,14 +35,6 @@ $ yarn
 $ yarn storybook
 ```
 
-You can also run
-
-```
-$ yarn link
-```
-
-so you don't need to publish to test changes remotely.
-
 The available yarn commands are given below:
 
 ```typescript
@@ -61,7 +49,23 @@ The available yarn commands are given below:
     }
 ```
 
-## How do you add a new atom to this repo?
+## Testing locally
+
+If you want to test a change before publishing to NPM, you will need to point to this repository. For instance, you might want to check in dotcom-rendering on local that a change you make in this library is correct. For this do the following
+
+1. In atoms-rendering run `yarn build`
+2. In atoms-rendering run `yarn link`, then
+3. In dotcom-rendering run `yarn link "@guardian/atoms-rendering"`. 
+
+After Step 2 you will notice that your 
+
+```
+dotcom-rendering/node_modules/@guardian/atoms-rendering
+```
+
+is a symlink to this repository.
+
+## Adding a new atom 
 
 Adding a new atom in `atoms-rendering` involves
 
@@ -70,7 +74,7 @@ Adding a new atom in `atoms-rendering` involves
 3. Adding a line to `index.ts` to export the component
 4. Publishing a new version of the library to Npm (see below)
 
-## Publishing
+## Publishing to NPM
 
 Manual publishing steps:
 
