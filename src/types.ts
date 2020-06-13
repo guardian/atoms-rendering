@@ -18,6 +18,7 @@ export type GuideAtomType = {
 
 export type InteractiveAtomType = {
     id: string;
+    url: string;
 };
 
 export type MediaAtomType = {
