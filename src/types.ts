@@ -10,6 +10,7 @@ export type AudioAtomType = {
 
 export type ChartAtomType = {
     id: string;
+    url: string;
 };
 
 export type GuideAtomType = {
