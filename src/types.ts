@@ -16,7 +16,7 @@ export type GuideAtomType = {
     id: string;
     label: string;
     title: string;
-    img: string;
+    img?: string;
     html: string;
     credit: string;
 };
@@ -33,7 +33,7 @@ export type ProfileAtomType = {
     id: string;
     label: string;
     title: string;
-    img: string;
+    img?: string;
     html: string;
     credit: string;
 };
