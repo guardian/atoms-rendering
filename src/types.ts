@@ -14,6 +14,11 @@ export type ChartAtomType = {
 
 export type GuideAtomType = {
     id: string;
+    label: string;
+    title: string;
+    img: string;
+    html: string;
+    credit: string;
 };
 
 export type InteractiveAtomType = {
@@ -26,6 +31,11 @@ export type MediaAtomType = {
 
 export type ProfileAtomType = {
     id: string;
+    label: string;
+    title: string;
+    img: string;
+    html: string;
+    credit: string;
 };
 
 export type QandaAtomType = {
