@@ -13,6 +13,7 @@ export const DefaultStory = (): JSX.Element => {
         <div
             className={css`
                 width: 500px;
+                height: 500px;
             `}
         >
             <InteractiveAtom
