@@ -21,11 +21,11 @@ export const InteractiveAtom = ({
     id,
     url,
 }: InteractiveAtomType): JSX.Element => (
-    <div data-atom-id={id} data-atom-type="interactive">
+    <figure data-atom-id={id} data-atom-type="interactive">
         <iframe
             className={cx(fullWidthStyles, iframeStyles)}
             src={url}
             frameBorder="0"
         />
-    </div>
+    </figure>
 );
