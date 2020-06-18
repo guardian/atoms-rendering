@@ -1,10 +1,14 @@
 import React from 'react';
-
 import { css } from 'emotion';
+
 import { space } from '@guardian/src-foundations';
-import { neutral, text } from '@guardian/src-foundations/palette';
+import { text } from '@guardian/src-foundations/palette';
 
 import { InteractiveAtomType } from './types';
+
+const fullWidthStyles = css`
+    width: 100%;
+`;
 
 export const InteractiveAtom = ({
     id,
@@ -20,6 +24,6 @@ export const InteractiveAtom = ({
             color: ${text.primary};
         `}
     >
-        <iframe src={url} frameBorder="0"></iframe>
+        <iframe className={fullWidthStyles} src={url} frameBorder="0"></iframe>
     </div>
 );
