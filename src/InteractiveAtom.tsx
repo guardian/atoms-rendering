@@ -24,7 +24,6 @@ const iframeStyles = css`
 
 export const InteractiveAtom = ({
     id,
-    url,
     html,
     js,
     css,
