@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css, cx } from 'emotion';
 
 import { space } from '@guardian/src-foundations';
 import { text } from '@guardian/src-foundations/palette';
 
+import { unifyPageContent } from './lib/unifyPageContent';
 import { InteractiveAtomType } from './types';
 
 const figureStyles = css`
@@ -24,24 +25,28 @@ const iframeStyles = css`
 export const InteractiveAtom = ({
     id,
     url,
+    html,
+    js,
+    css,
 }: InteractiveAtomType): JSX.Element => {
     const [height, setHeight] = useState(0);
+    const iframeRef = useRef(null);
 
     useEffect(() => {
         const setIframeHight = (e: MessageEvent) => {
-            // security check that this comes from Guardian context
-            if (e.origin.startsWith('https://api.nextgen.guardianapps.co.uk')) {
+            // check that event comes from current iframe
+            if(iframeRef.current && iframeRef.current.contentWindow === e.source) {
+                const { value, type } = JSON.parse(e.data)
                 // check message is regarding embed type
-                if (e.data.type === 'embed-size') {
-                    setHeight(e.data.height || 0);
+                if (type === 'set-height') {
+                    setHeight(value || 0);
                 }
             }
         };
-
-        // TODO: make sure message originates from locally rendered iframe
         window.addEventListener('message', setIframeHight);
         return () => window.removeEventListener('message', setIframeHight);
     }, []);
+    const markup = unifyPageContent({ js: js, css: css, html: html });
 
     return (
         <figure
@@ -50,8 +55,9 @@ export const InteractiveAtom = ({
             data-atom-type="interactive"
         >
             <iframe
+                ref={iframeRef}
                 className={cx(fullWidthStyles, iframeStyles)}
-                src={url}
+                srcDoc={markup}
                 frameBorder="0"
                 height={height}
             />

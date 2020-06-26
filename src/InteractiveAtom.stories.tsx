@@ -1,6 +1,7 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css as emotionCSS } from 'emotion';
 
+import { AtomEmbedBlockElement } from '../fixtures/AtomEmbedBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
 
 export default {
@@ -9,17 +10,15 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
+    const { id, html, js, css, url } = AtomEmbedBlockElement;
     return (
         <div
-            className={css`
+            className={emotionCSS`
                 width: 500px;
                 height: 500px;
             `}
         >
-            <InteractiveAtom
-                id="abc123"
-                url="https://api.nextgen.guardianapps.co.uk/embed/atom/interactive/interactives%2F2020%2F03%2Fcovid-19-uk%2Fdefault"
-            />
+            <InteractiveAtom id={id} url={url} html={html} js={js} css={css} />
         </div>
     );
 };
