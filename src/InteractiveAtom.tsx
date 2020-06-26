@@ -30,7 +30,7 @@ export const InteractiveAtom = ({
     css,
 }: InteractiveAtomType): JSX.Element => {
     const [height, setHeight] = useState(0);
-    const iframeRef = useRef(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
         const setIframeHight = (e: MessageEvent) => {
