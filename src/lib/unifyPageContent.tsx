@@ -18,6 +18,7 @@ export const unifyPageContent = ({
             <body>
                 <div dangerouslySetInnerHTML={{ __html: html }} />
             </body>
+            {/* JS need to load on body render */}
             <script dangerouslySetInnerHTML={{ __html: js }} />
             <script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
             <script>iframeMessenger.enableAutoResize();</script>

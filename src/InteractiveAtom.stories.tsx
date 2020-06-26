@@ -10,7 +10,7 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
-    const { id, html, js, css, url } = AtomEmbedBlockElement;
+    const { id, html, js, css } = AtomEmbedBlockElement;
     return (
         <div
             className={emotionCSS`
