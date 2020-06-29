@@ -11,16 +11,24 @@ export const unifyPageContent = ({
     html: string;
 }) =>
     renderToString(
-        <html>
-            <head>
-                <style dangerouslySetInnerHTML={{ __html: css }} />
-            </head>
-            <body>
-                <div dangerouslySetInnerHTML={{ __html: html }} />
-            </body>
-            {/* JS need to load on body render */}
-            <script dangerouslySetInnerHTML={{ __html: js }} />
-            <script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
-            <script>iframeMessenger.enableAutoResize();</script>
-        </html>,
+        <>
+            {`<!DOCTYPE html>`}
+            <html>
+                <head>
+                    <meta charSet="utf-8" />
+                    <meta
+                        name="viewport"
+                        content="width=device-width,minimum-scale=1,initial-scale=1"
+                    />
+                    <style dangerouslySetInnerHTML={{ __html: css }} />
+                </head>
+                <body>
+                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                </body>
+                {/* JS need to load on body render */}
+                <script dangerouslySetInnerHTML={{ __html: js }} />
+                <script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
+                <script>iframeMessenger.enableAutoResize();</script>
+            </html>
+        </>,
     );
