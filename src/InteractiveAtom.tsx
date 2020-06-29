@@ -34,8 +34,11 @@ export const InteractiveAtom = ({
     useEffect(() => {
         const setIframeHight = (e: MessageEvent) => {
             // check that event comes from current iframe
-            if(iframeRef.current && iframeRef.current.contentWindow === e.source) {
-                const { value, type } = JSON.parse(e.data)
+            if (
+                iframeRef.current &&
+                iframeRef.current.contentWindow === e.source
+            ) {
+                const { value, type } = JSON.parse(e.data);
                 // check message is regarding embed type
                 if (type === 'set-height') {
                     setHeight(value || 0);
