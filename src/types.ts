@@ -44,7 +44,7 @@ export type TimelineAtomType = {
     id: string;
 };
 
-export type AtomEmbedBlockElement = {
+export type InteractiveAtomBlockElementType = {
     _type: string;
     css: string;
     js: string;

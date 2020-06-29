@@ -1,7 +1,7 @@
 import React from 'react';
 import { css as emotionCSS } from 'emotion';
 
-import { AtomEmbedBlockElement } from '../fixtures/AtomEmbedBlockElement';
+import { InteractiveAtomBlockElement } from '../fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
-    const { id, html, js, css } = AtomEmbedBlockElement;
+    const { id, html, js, css } = InteractiveAtomBlockElement;
     return (
         <div
             className={emotionCSS`
