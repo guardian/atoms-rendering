@@ -6,9 +6,9 @@ export const unifyPageContent = ({
     js,
     html,
 }: {
-    css: string;
+    css?: string;
     js: string;
-    html: string;
+    html?: string;
 }) =>
     renderToString(
         <>
@@ -20,10 +20,10 @@ export const unifyPageContent = ({
                         name="viewport"
                         content="width=device-width,minimum-scale=1,initial-scale=1"
                     />
-                    <style dangerouslySetInnerHTML={{ __html: css }} />
+                    {css && <style dangerouslySetInnerHTML={{ __html: css }} />}
                 </head>
                 <body>
-                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                    {html && <div dangerouslySetInnerHTML={{ __html: html }} />}
                 </body>
                 {/* JS need to load on body render */}
                 <script dangerouslySetInnerHTML={{ __html: js }} />

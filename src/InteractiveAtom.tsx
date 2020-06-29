@@ -48,7 +48,7 @@ export const InteractiveAtom = ({
         window.addEventListener('message', setIframeHight);
         return () => window.removeEventListener('message', setIframeHight);
     }, []);
-    const markup = unifyPageContent({ js: js, css: css, html: html });
+    const markup = unifyPageContent({ js, css, html });
 
     return (
         <figure
