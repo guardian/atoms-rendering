@@ -37,7 +37,6 @@ export const InteractiveAtom = ({
             className={cx(fullWidthStyles, iframeStyles)}
             srcDoc={unifyPageContent({ js, css, html })}
             frameBorder="0"
-            // height={height}
         />
     </figure>
 );
