@@ -18,6 +18,10 @@ export type GuideAtomType = {
 
 export type InteractiveAtomType = {
     id: string;
+    url?: string;
+    html?: string;
+    js: string;
+    css?: string;
 };
 
 export type MediaAtomType = {
@@ -38,4 +42,13 @@ export type QuizAtomType = {
 
 export type TimelineAtomType = {
     id: string;
+};
+
+export type InteractiveAtomBlockElementType = {
+    _type: string;
+    css: string;
+    js: string;
+    html: string;
+    id: string;
+    url: string;
 };
