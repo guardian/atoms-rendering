@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { css, cx } from 'emotion';
 
 import { space } from '@guardian/src-foundations';
@@ -27,42 +27,17 @@ export const InteractiveAtom = ({
     html,
     js,
     css,
-}: InteractiveAtomType): JSX.Element => {
-    const [height, setHeight] = useState(0);
-    const iframeRef = useRef<HTMLIFrameElement>(null);
-
-    useEffect(() => {
-        const setIframeHight = (e: MessageEvent) => {
-            // check that event comes from current iframe
-            if (
-                iframeRef.current &&
-                iframeRef.current.contentWindow === e.source
-            ) {
-                const { value, type } = JSON.parse(e.data);
-                // check message is regarding embed type
-                if (type === 'set-height') {
-                    setHeight(value || 0);
-                }
-            }
-        };
-        window.addEventListener('message', setIframeHight);
-        return () => window.removeEventListener('message', setIframeHight);
-    }, []);
-    const markup = unifyPageContent({ js, css, html });
-
-    return (
-        <figure
-            className={figureStyles}
-            data-atom-id={id}
-            data-atom-type="interactive"
-        >
-            <iframe
-                ref={iframeRef}
-                className={cx(fullWidthStyles, iframeStyles)}
-                srcDoc={markup}
-                frameBorder="0"
-                height={height}
-            />
-        </figure>
-    );
-};
+}: InteractiveAtomType): JSX.Element => (
+    <figure
+        className={figureStyles}
+        data-atom-id={id}
+        data-atom-type="interactive"
+    >
+        <iframe
+            className={cx(fullWidthStyles, iframeStyles)}
+            srcDoc={unifyPageContent({ js, css, html })}
+            frameBorder="0"
+            // height={height}
+        />
+    </figure>
+);
