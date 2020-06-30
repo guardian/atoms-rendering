@@ -12,7 +12,6 @@ export const unifyPageContent = ({
 }) =>
     renderToString(
         <>
-            {`<!DOCTYPE html>`}
             <html>
                 <head>
                     <meta charSet="utf-8" />
@@ -27,8 +26,17 @@ export const unifyPageContent = ({
                 </body>
                 {/* JS need to load on body render */}
                 <script dangerouslySetInnerHTML={{ __html: js }} />
-                <script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
-                <script>iframeMessenger.enableAutoResize();</script>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                        function resize() {
+                            window.frameElement.height = document.body.offsetHeight;
+                        }
+                        window.addEventListener('resize', resize);
+                        resize();
+                    `,
+                    }}
+                />
             </html>
         </>,
     );
