@@ -6,7 +6,9 @@ import { QandaAtom } from './QandaAtom';
 
 describe('QandaAtom', () => {
     it('should render', () => {
-        const { getByText } = render(<QandaAtom id="123abc" />);
+        const { getByText } = render(
+            <QandaAtom id="123abc" title="title" html="<p>QandaAtom</p>" />,
+        );
 
         expect(getByText('QandaAtom')).toBeInTheDocument();
     });
