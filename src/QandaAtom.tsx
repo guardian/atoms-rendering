@@ -1,6 +1,59 @@
 import React from 'react';
-
+import { css } from 'emotion';
+import { neutral, text } from '@guardian/src-foundations/palette';
+import { headline, textSans } from '@guardian/src-foundations/typography';
 import { QandaAtomType } from './types';
+
+// CSS
+const figureStyling = css`
+    background: ${neutral[93]};
+    border-image: repeating-linear-gradient(
+            to bottom,
+            #dcdcdc,
+            #dcdcdc 1px,
+            transparent 1px,
+            transparent 4px
+        )
+        13;
+    border-top: 13px solid black;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    position: relative;
+    padding: 0 5px 20px;
+    margin: 16px 0 36px;
+    details > summary {
+        list-style: none;
+    }
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+`;
+
+const summaryStyling = css``;
+
+const showHideStyling = css`
+    background: #121212;
+    color: #ffffff;
+    font-size: 13px;
+    position: absolute;
+    bottom: 0;
+    transform: translate(0, 50%);
+    padding: 0 15px 0 7px;
+    border-radius: 100em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    margin: 0;
+`;
+
+const iconStyling = css`
+    fill: white;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+`;
 
 const Figure = ({
     id,
@@ -13,14 +66,14 @@ const Figure = ({
 }) => {
     return (
         <figure
-            className="element element-atom"
+            className={figureStyling}
             data-atom-id={id}
             data-atom-type="qanda"
         >
             <details
                 data-snippet-id={id}
                 data-snippet-type="qanda"
-                className="atom atom--snippet atom--snippet--qanda"
+                className=""
             >
                 <Summary title={title}></Summary>
                 {children}
@@ -35,13 +88,34 @@ const Figure = ({
 ); */
 
 const Summary = ({ title }: { title: string }) => (
-    <summary className="atom--snippet__header">
-        <span className="atom--snippet__label">Q&amp;A</span>
-        <h4 className="atom--snippet__headline">{title}</h4>{' '}
+    <summary className={summaryStyling}>
         <span
-            className="atom__button atom__button--large atom__button--rounded atom--snippet__handle"
-            aria-hidden="true"
+            className={css`
+                color: #e00000;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 22px;
+                display: block;
+                ${headline.xxsmall({
+                    fontWeight: 'bold',
+                    lineHeight: 'tight',
+                })};
+            `}
         >
+            Q&amp;A
+        </span>
+        <h4
+            className={css`
+                ${headline.xxsmall({
+                    fontWeight: 'medium',
+                })};
+                margin: 0;
+                line-height: 22px;
+            `}
+        >
+            {title}
+        </h4>{' '}
+        <span className={showHideStyling} aria-hidden="true">
             {' '}
             <span className="is-on">
                 <svg
