@@ -28,7 +28,33 @@ const figureStyling = css`
     details > summary::-webkit-details-marker {
         display: none;
     }
+
+    @media (min-width: 46.25em) {
+        ul {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin: 0 0 0.75rem;
+        padding: 0;
+    }
+
+    a {
+        color: #ab0613;
+        text-decoration: none !important;
+        border-bottom: 0.0625rem solid #bdbdbd;
+        transition: border-color 0.15s ease-out;
+    }
+
+    a:hover {
+        border-bottom: solid 0.0625rem #c70000;
+    }
 `;
+
+const detailStyling = css``;
 
 const summaryStyling = css``;
 
@@ -46,7 +72,16 @@ const showHideStyling = css`
     align-items: center;
     border: 0;
     margin: 0;
+    :hover {
+        background: #e00000;
+    }
 `;
+
+const iconHiding = css``;
+/*
+    .atom--snippet[open] .atom--snippet__handle>:nth-child(1),
+    .atom--snippet:not([open]) .atom--snippet__handle>:nth-child(2){display:none}
+*/
 
 const iconStyling = css`
     fill: white;
@@ -55,6 +90,61 @@ const iconStyling = css`
     margin-right: 10px;
 `;
 
+const buttonRound = css`
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    border-color: black;
+    color: white;
+    border-radius: 100%;
+    margin: 0 0 0 5px;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+
+    :hover {
+        background: #e00000;
+        border-color: #e00000;
+    }
+
+    button.active.focus,
+    button.active:focus,
+    button.focus,
+    button:active.focus,
+    button:active:focus,
+    button:focus {
+        background: #e00000;
+        border-color: #e00000;
+        outline: none;
+        box-shadow: none;
+    }
+`;
+
+const thumbIcon = css`
+    width: 16px;
+    height: 16px;
+`;
+
+const dislikeThumb = css`
+    transform: rotate(180deg);
+`;
+
+const footerStyling = css`
+    font-size: 13px;
+    line-height: 16px;
+    display: flex;
+    justify-content: flex-end;
+`;
+
+const footerSnippet = css`
+    display: flex;
+    align-items: center;
+    ${textSans.xsmall()};
+`;
+
+// Components
 const Figure = ({
     id,
     title,
@@ -73,7 +163,7 @@ const Figure = ({
             <details
                 data-snippet-id={id}
                 data-snippet-type="qanda"
-                className=""
+                className={detailStyling}
             >
                 <Summary title={title}></Summary>
                 {children}
@@ -81,11 +171,6 @@ const Figure = ({
         </figure>
     );
 };
-
-/* export const QandaAtom = ({ id }: QandaAtomType): JSX.Element => (
-    //<div data-atom-id={id}>QandaAtom</div>
-
-); */
 
 const Summary = ({ title }: { title: string }) => (
     <summary className={summaryStyling}>
@@ -119,7 +204,7 @@ const Summary = ({ title }: { title: string }) => (
             {' '}
             <span className="is-on">
                 <svg
-                    className="icon icon--plus "
+                    className={iconStyling}
                     width="18px"
                     height="18px"
                     viewBox="0 0 18 18"
@@ -130,7 +215,7 @@ const Summary = ({ title }: { title: string }) => (
             </span>{' '}
             <span className="is-off">
                 <svg
-                    className="icon icon--minus "
+                    className={iconStyling}
                     width="32px"
                     height="32px"
                     viewBox="0 0 32 32"
@@ -145,7 +230,12 @@ const Summary = ({ title }: { title: string }) => (
 
 const Body = ({ html }: { html: string }) => (
     <div
-        className={'atom--snippet__body '}
+        className={css`
+            ${textSans.medium({
+                fontWeight: 'regular',
+                lineHeight: 'loose',
+            })}
+        `}
         dangerouslySetInnerHTML={{
             __html: html,
         }}
@@ -153,16 +243,12 @@ const Body = ({ html }: { html: string }) => (
 );
 
 const Footer = () => (
-    <footer className="atom--snippet__footer">
-        <div className="atom--snippet__feedback">
+    <footer className={footerStyling}>
+        <div className={footerSnippet}>
             <div>Was this helpful?</div>
-            <button
-                className="atom__button atom__button--round"
-                value="like"
-                aria-label="Yes"
-            >
+            <button className={buttonRound} value="like" aria-label="Yes">
                 <svg
-                    className="icon icon--thumb "
+                    className={thumbIcon}
                     width="40px"
                     height="40px"
                     viewBox="0 0 40 40"
@@ -173,13 +259,9 @@ const Footer = () => (
                     ></path>
                 </svg>
             </button>
-            <button
-                className="atom__button atom__button--round"
-                value="dislike"
-                aria-label="No"
-            >
+            <button className={buttonRound} value="dislike" aria-label="No">
                 <svg
-                    className="icon icon--thumb "
+                    className={thumbIcon + ' ' + dislikeThumb}
                     width="40px"
                     height="40px"
                     viewBox="0 0 40 40"
@@ -195,6 +277,7 @@ const Footer = () => (
             className="atom--snippet__ack"
             aria-role="alert"
             aria-live="polite"
+            hidden
         >
             Thank you for your feedback.
         </div>
