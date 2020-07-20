@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { neutral, text } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { QandaAtomType } from './types';
 
@@ -42,6 +42,22 @@ const figureStyling = css`
         padding: 0;
     }
 
+    li {
+        margin-bottom: 0.375rem;
+        padding-left: 1.25rem;
+    }
+
+    li:before {
+        display: inline-block;
+        content: '';
+        border-radius: 0.375rem;
+        height: 0.75rem;
+        width: 0.75rem;
+        margin-right: 0.5rem;
+        background-color: #dcdcdc;
+        margin-left: -1.25rem;
+    }
+
     a {
         color: #ab0613;
         text-decoration: none !important;
@@ -52,6 +68,13 @@ const figureStyling = css`
     a:hover {
         border-bottom: solid 0.0625rem #c70000;
     }
+
+    details[open] .is-on {
+        display: none;
+    }
+    details:not([open]) .is-off {
+        display: none;
+    }
 `;
 
 const detailStyling = css``;
@@ -61,6 +84,7 @@ const summaryStyling = css``;
 const showHideStyling = css`
     background: #121212;
     color: #ffffff;
+    height: 2rem;
     font-size: 13px;
     position: absolute;
     bottom: 0;
@@ -77,12 +101,6 @@ const showHideStyling = css`
     }
 `;
 
-const iconHiding = css``;
-/*
-    .atom--snippet[open] .atom--snippet__handle>:nth-child(1),
-    .atom--snippet:not([open]) .atom--snippet__handle>:nth-child(2){display:none}
-*/
-
 const iconStyling = css`
     fill: white;
     width: 20px;
@@ -96,8 +114,8 @@ const buttonRound = css`
     align-items: center;
     justify-content: center;
     background: black;
-    border-color: black;
     color: white;
+    border-style: hidden;
     border-radius: 100%;
     margin: 0 0 0 5px;
     padding: 0;
@@ -108,18 +126,12 @@ const buttonRound = css`
         background: #e00000;
         border-color: #e00000;
     }
+`;
 
-    button.active.focus,
-    button.active:focus,
-    button.focus,
-    button:active.focus,
-    button:active:focus,
-    button:focus {
-        background: #e00000;
-        border-color: #e00000;
-        outline: none;
-        box-shadow: none;
-    }
+const iconSpacing = css`
+    display: inline-flex;
+    align-items: center;
+    ${textSans.xsmall()};
 `;
 
 const thumbIcon = css`
@@ -181,7 +193,7 @@ const Summary = ({ title }: { title: string }) => (
                 font-size: 18px;
                 line-height: 22px;
                 display: block;
-                ${headline.xxsmall({
+                ${textSans.medium({
                     fontWeight: 'bold',
                     lineHeight: 'tight',
                 })};
@@ -202,7 +214,7 @@ const Summary = ({ title }: { title: string }) => (
         </h4>{' '}
         <span className={showHideStyling} aria-hidden="true">
             {' '}
-            <span className="is-on">
+            <span className={'is-on ' + iconSpacing}>
                 <svg
                     className={iconStyling}
                     width="18px"
@@ -213,7 +225,7 @@ const Summary = ({ title }: { title: string }) => (
                 </svg>{' '}
                 Show
             </span>{' '}
-            <span className="is-off">
+            <span className={'is-off ' + iconSpacing}>
                 <svg
                     className={iconStyling}
                     width="32px"
@@ -232,9 +244,12 @@ const Body = ({ html }: { html: string }) => (
     <div
         className={css`
             ${textSans.medium({
-                fontWeight: 'regular',
+                fontWeight: 'light',
                 lineHeight: 'loose',
             })}
+            p {
+                margin-bottom: 0.5rem;
+            }
         `}
         dangerouslySetInnerHTML={{
             __html: html,
@@ -273,12 +288,7 @@ const Footer = () => (
                 </svg>
             </button>
         </div>
-        <div
-            className="atom--snippet__ack"
-            aria-role="alert"
-            aria-live="polite"
-            hidden
-        >
+        <div className="feedback" aria-role="alert" aria-live="polite" hidden>
             Thank you for your feedback.
         </div>
     </footer>
