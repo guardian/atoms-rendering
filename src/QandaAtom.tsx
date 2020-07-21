@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { css } from 'emotion';
 import { neutral } from '@guardian/src-foundations/palette';
-import { headline, textSans } from '@guardian/src-foundations/typography';
+import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { QandaAtomType } from './types';
 
 // CSS
-const figureStyling = css`
+const detailStyling = css`
+    margin: 16px 0 36px;
     background: ${neutral[93]};
+    padding: 0 5px 6px;
     border-image: repeating-linear-gradient(
             to bottom,
             #dcdcdc,
@@ -20,12 +22,11 @@ const figureStyling = css`
     border-right: 0;
     border-bottom: 0;
     position: relative;
-    padding: 0 5px 20px;
-    margin: 16px 0 36px;
-    details > summary {
+    summary {
         list-style: none;
+        margin: 0 0 16px;
     }
-    details > summary::-webkit-details-marker {
+    summary::-webkit-details-marker {
         display: none;
     }
 
@@ -69,6 +70,21 @@ const figureStyling = css`
         border-bottom: solid 0.0625rem #c70000;
     }
 
+    b {
+        font-weight: bold;
+    }
+
+    summary:focus {
+        outline: none;
+    }
+`;
+
+const figureStyling = css`
+    display: block;
+    position: relative;
+    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+
     details[open] .is-on {
         display: none;
     }
@@ -76,8 +92,6 @@ const figureStyling = css`
         display: none;
     }
 `;
-
-const detailStyling = css``;
 
 const summaryStyling = css``;
 
@@ -126,6 +140,22 @@ const buttonRound = css`
         background: #e00000;
         border-color: #e00000;
     }
+
+    :focus {
+        border: none;
+    }
+`;
+
+const imageStyling = css`
+    float: left;
+    margin-right: 16px;
+    margin-bottom: 6px;
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    border: 0px;
 `;
 
 const iconSpacing = css`
@@ -154,6 +184,29 @@ const footerSnippet = css`
     display: flex;
     align-items: center;
     ${textSans.xsmall()};
+`;
+
+const creditStyling = css`
+    ${textSans.xsmall()};
+    margin: 12px 0;
+`;
+
+const creditIconStyling = css`
+    height: 12px;
+    overflow: visible;
+    width: 6px;
+    fill: white;
+`;
+
+const creditSpanStyling = css`
+    display: inline-flex;
+    background: #bdbdbd;
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
 `;
 
 // Components
@@ -189,13 +242,10 @@ const Summary = ({ title }: { title: string }) => (
         <span
             className={css`
                 color: #e00000;
-                font-weight: 600;
-                font-size: 18px;
-                line-height: 22px;
                 display: block;
-                ${textSans.medium({
-                    fontWeight: 'bold',
+                ${body.medium({
                     lineHeight: 'tight',
+                    fontWeight: 'bold',
                 })};
             `}
         >
@@ -203,7 +253,7 @@ const Summary = ({ title }: { title: string }) => (
         </span>
         <h4
             className={css`
-                ${headline.xxsmall({
+                ${headline.xxxsmall({
                     fontWeight: 'medium',
                 })};
                 margin: 0;
@@ -211,9 +261,8 @@ const Summary = ({ title }: { title: string }) => (
             `}
         >
             {title}
-        </h4>{' '}
+        </h4>
         <span className={showHideStyling} aria-hidden="true">
-            {' '}
             <span className={'is-on ' + iconSpacing}>
                 <svg
                     className={iconStyling}
@@ -222,9 +271,9 @@ const Summary = ({ title }: { title: string }) => (
                     viewBox="0 0 18 18"
                 >
                     <path d="M8.2 0h1.6l.4 7.8 7.8.4v1.6l-7.8.4-.4 7.8H8.2l-.4-7.8L0 9.8V8.2l7.8-.4.4-7.8z"></path>
-                </svg>{' '}
+                </svg>
                 Show
-            </span>{' '}
+            </span>
             <span className={'is-off ' + iconSpacing}>
                 <svg
                     className={iconStyling}
@@ -233,28 +282,53 @@ const Summary = ({ title }: { title: string }) => (
                     viewBox="0 0 32 32"
                 >
                     <rect x="5" y="15" width="22" height="3"></rect>
-                </svg>{' '}
+                </svg>
                 Hide
-            </span>{' '}
-        </span>{' '}
+            </span>
+        </span>
     </summary>
 );
 
-const Body = ({ html }: { html: string }) => (
-    <div
-        className={css`
-            ${textSans.medium({
-                fontWeight: 'light',
-                lineHeight: 'loose',
-            })}
-            p {
-                margin-bottom: 0.5rem;
-            }
-        `}
-        dangerouslySetInnerHTML={{
-            __html: html,
-        }}
-    />
+const Body = ({
+    html,
+    image,
+    credit,
+}: {
+    html: string;
+    image: string;
+    credit: string;
+}) => (
+    <Fragment>
+        {image && <img className={imageStyling} src={image} alt="" />}
+        <div
+            className={css`
+                ${body.medium()}
+                p {
+                    margin-bottom: 0.5rem;
+                }
+            `}
+            dangerouslySetInnerHTML={{
+                __html: html,
+            }}
+        />
+        {credit && <Credit credit={credit} />}
+    </Fragment>
+);
+
+const Credit = ({ credit }: { credit: string }) => (
+    <div className={creditStyling}>
+        <span className={creditSpanStyling}>
+            <svg
+                className={creditIconStyling}
+                width="6px"
+                height="14px"
+                viewBox="0 0 6 14"
+            >
+                <path d="M4.6 12l-.4 1.4c-.7.2-1.9.6-3 .6-.7 0-1.2-.2-1.2-.9 0-.2 0-.3.1-.5l2-6.7H.7l.4-1.5 4.2-.6h.2L3 12h1.6zM4.3 2.8c-.9 0-1.4-.5-1.4-1.3C2.9.5 3.7 0 4.6 0 5.4 0 6 .5 6 1.3c0 1-.8 1.5-1.7 1.5z"></path>
+            </svg>
+        </span>
+        {' ' + credit}
+    </div>
 );
 
 const Footer = () => (
@@ -274,7 +348,12 @@ const Footer = () => (
                     ></path>
                 </svg>
             </button>
-            <button className={buttonRound} value="dislike" aria-label="No">
+            <button
+                className={buttonRound}
+                value="dislike"
+                aria-label="No"
+                onClick={FeedbackFunction}
+            >
                 <svg
                     className={thumbIcon + ' ' + dislikeThumb}
                     width="40px"
@@ -288,14 +367,36 @@ const Footer = () => (
                 </svg>
             </button>
         </div>
-        <div className="feedback" aria-role="alert" aria-live="polite" hidden>
+        <div
+            className={
+                'feedback' +
+                ' ' +
+                css`
+                    ${textSans.xsmall()}
+                `
+            }
+            aria-live="polite"
+            hidden
+        >
             Thank you for your feedback.
         </div>
     </footer>
 );
-export const QandaAtom = ({ id, title, html }: QandaAtomType): JSX.Element => (
+export const QandaAtom = ({
+    id,
+    title,
+    image,
+    html,
+    credit,
+}: QandaAtomType): JSX.Element => (
     <Figure id={id} title={title}>
-        <Body html={html} />
+        <Body html={html} image={image} credit={credit} />
         <Footer></Footer>
     </Figure>
 );
+
+// Functions
+
+function FeedbackFunction() {
+    console.log('clicked ' + event);
+}
