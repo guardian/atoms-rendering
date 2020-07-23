@@ -38,6 +38,9 @@ export type QandaAtomType = {
     image: string;
     html: string;
     credit: string;
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+    expandHandler?: () => void;
 };
 
 export type QuizAtomType = {

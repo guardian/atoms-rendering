@@ -22,6 +22,15 @@ export const ListStory = (): JSX.Element => {
             html={html}
             image={''}
             credit={''}
+            likeHandler={() => {
+                console.log('Liked');
+            }}
+            dislikeHandler={() => {
+                console.log('Dislike');
+            }}
+            expandHandler={() => {
+                console.log('');
+            }}
         ></QandaAtom>
     );
 };
@@ -41,6 +50,15 @@ export const AuthorStory = (): JSX.Element => {
             html={html2}
             image={''}
             credit={''}
+            likeHandler={() => {
+                console.log('Liked');
+            }}
+            dislikeHandler={() => {
+                console.log('Dislike');
+            }}
+            expandHandler={() => {
+                console.log('');
+            }}
         ></QandaAtom>
     );
 };
@@ -79,6 +97,27 @@ export const ImageStory = (): JSX.Element => {
             html={imageBodyHtml}
             image={image}
             credit={credit}
+            likeHandler={() => {
+                console.log('Liked');
+            }}
+            dislikeHandler={() => {
+                console.log('Dislike');
+            }}
+            expandHandler={() => {
+                console.log('');
+            }}
+        ></QandaAtom>
+    );
+};
+
+export const NoHandlerStory = (): JSX.Element => {
+    return (
+        <QandaAtom
+            id={id2}
+            title={title2}
+            html={html2}
+            image={''}
+            credit={''}
         ></QandaAtom>
     );
 };

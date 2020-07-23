@@ -293,10 +293,12 @@ const Body = ({
     html,
     image,
     credit,
+    expandHandler,
 }: {
     html: string;
     image: string;
     credit: string;
+    expandHandler?: () => void;
 }) => (
     <Fragment>
         {image && <img className={imageStyling} src={image} alt="" />}
@@ -331,11 +333,22 @@ const Credit = ({ credit }: { credit: string }) => (
     </div>
 );
 
-const Footer = () => (
+const Footer = ({
+    likeHandler,
+    dislikeHandler,
+}: {
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+}) => (
     <footer className={footerStyling}>
         <div className={footerSnippet}>
             <div>Was this helpful?</div>
-            <button className={buttonRound} value="like" aria-label="Yes">
+            <button
+                className={buttonRound}
+                value="like"
+                aria-label="Yes"
+                onClick={likeHandler}
+            >
                 <svg
                     className={thumbIcon}
                     width="40px"
@@ -352,7 +365,7 @@ const Footer = () => (
                 className={buttonRound}
                 value="dislike"
                 aria-label="No"
-                onClick={FeedbackFunction}
+                onClick={dislikeHandler}
             >
                 <svg
                     className={thumbIcon + ' ' + dislikeThumb}
@@ -388,10 +401,21 @@ export const QandaAtom = ({
     image,
     html,
     credit,
+    likeHandler,
+    dislikeHandler,
+    expandHandler,
 }: QandaAtomType): JSX.Element => (
     <Figure id={id} title={title}>
-        <Body html={html} image={image} credit={credit} />
-        <Footer></Footer>
+        <Body
+            html={html}
+            image={image}
+            credit={credit}
+            expandHandler={expandHandler}
+        />
+        <Footer
+            likeHandler={likeHandler}
+            dislikeHandler={dislikeHandler}
+        ></Footer>
     </Figure>
 );
 
