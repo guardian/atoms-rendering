@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react';
-import { css } from 'emotion';
-import { neutral } from '@guardian/src-foundations/palette';
-import { headline, textSans, body } from '@guardian/src-foundations/typography';
+import React from 'react';
 import { QandaAtomType } from './types';
+import { css } from 'emotion';
+import { neutral, error } from '@guardian/src-foundations/palette';
+import { headline, textSans, body } from '@guardian/src-foundations/typography';
+
+const { useState } = React;
 
 // CSS
 const detailStyling = css`
@@ -11,8 +13,8 @@ const detailStyling = css`
     padding: 0 5px 6px;
     border-image: repeating-linear-gradient(
             to bottom,
-            #dcdcdc,
-            #dcdcdc 1px,
+            ${neutral[86]},
+            ${neutral[86]} 1px,
             transparent 1px,
             transparent 4px
         )
@@ -55,7 +57,7 @@ const detailStyling = css`
         height: 0.75rem;
         width: 0.75rem;
         margin-right: 0.5rem;
-        background-color: #dcdcdc;
+        background-color: ${neutral[86]};
         margin-left: -1.25rem;
     }
 
@@ -67,7 +69,7 @@ const detailStyling = css`
     }
 
     a:hover {
-        border-bottom: solid 0.0625rem #c70000;
+        border-bottom: solid 0.0625rem ${error[400]};
     }
 
     b {
@@ -96,8 +98,8 @@ const figureStyling = css`
 const summaryStyling = css``;
 
 const showHideStyling = css`
-    background: #121212;
-    color: #ffffff;
+    background: ${neutral[7]};
+    color: ${neutral[100]};
     height: 2rem;
     font-size: 13px;
     position: absolute;
@@ -137,8 +139,8 @@ const buttonRound = css`
     height: 28px;
 
     :hover {
-        background: #e00000;
-        border-color: #e00000;
+        background: ${error[400]};
+        border-color: ${error[400]};
     }
 
     :focus {
@@ -186,6 +188,11 @@ const footerSnippet = css`
     ${textSans.xsmall()};
 `;
 
+const footerFeedback = css`
+    ${textSans.xsmall()};
+    height: 28px;
+`;
+
 const creditStyling = css`
     ${textSans.xsmall()};
     margin: 12px 0;
@@ -214,10 +221,12 @@ const Figure = ({
     id,
     title,
     children,
+    expandHandler,
 }: {
     id: string;
     title: string;
     children: React.ReactNode;
+    expandHandler: () => void;
 }) => {
     return (
         <figure
@@ -230,77 +239,93 @@ const Figure = ({
                 data-snippet-type="qanda"
                 className={detailStyling}
             >
-                <Summary title={title}></Summary>
+                <Summary title={title} expandHandler={expandHandler}></Summary>
                 {children}
             </details>
         </figure>
     );
 };
 
-const Summary = ({ title }: { title: string }) => (
-    <summary className={summaryStyling}>
-        <span
-            className={css`
-                color: #e00000;
-                display: block;
-                ${body.medium({
-                    lineHeight: 'tight',
-                    fontWeight: 'bold',
-                })};
-            `}
-        >
-            Q&amp;A
-        </span>
-        <h4
-            className={css`
-                ${headline.xxxsmall({
-                    fontWeight: 'medium',
-                })};
-                margin: 0;
-                line-height: 22px;
-            `}
-        >
-            {title}
-        </h4>
-        <span className={showHideStyling} aria-hidden="true">
-            <span className={'is-on ' + iconSpacing}>
-                <svg
-                    className={iconStyling}
-                    width="18px"
-                    height="18px"
-                    viewBox="0 0 18 18"
-                >
-                    <path d="M8.2 0h1.6l.4 7.8 7.8.4v1.6l-7.8.4-.4 7.8H8.2l-.4-7.8L0 9.8V8.2l7.8-.4.4-7.8z"></path>
-                </svg>
-                Show
+const Summary = ({
+    title,
+    expandHandler,
+}: {
+    title: string;
+    expandHandler: () => void;
+}) => {
+    const [hasBeenExpanded, setExpandStatus] = useState(false);
+    return (
+        <summary className={summaryStyling}>
+            <span
+                className={css`
+                    color: #e00000;
+                    display: block;
+                    ${body.medium({
+                        lineHeight: 'tight',
+                        fontWeight: 'bold',
+                    })};
+                `}
+            >
+                Q&amp;A
             </span>
-            <span className={'is-off ' + iconSpacing}>
-                <svg
-                    className={iconStyling}
-                    width="32px"
-                    height="32px"
-                    viewBox="0 0 32 32"
-                >
-                    <rect x="5" y="15" width="22" height="3"></rect>
-                </svg>
-                Hide
+            <h4
+                className={css`
+                    ${headline.xxxsmall({
+                        fontWeight: 'medium',
+                    })};
+                    margin: 0;
+                    line-height: 22px;
+                `}
+            >
+                {title}
+            </h4>
+            <span
+                className={showHideStyling}
+                onClick={() => {
+                    if (!hasBeenExpanded) {
+                        expandHandler();
+                        setExpandStatus(true);
+                    }
+                }}
+                aria-hidden="true"
+            >
+                <span className={'is-on ' + iconSpacing}>
+                    <svg
+                        className={iconStyling}
+                        width="18px"
+                        height="18px"
+                        viewBox="0 0 18 18"
+                    >
+                        <path d="M8.2 0h1.6l.4 7.8 7.8.4v1.6l-7.8.4-.4 7.8H8.2l-.4-7.8L0 9.8V8.2l7.8-.4.4-7.8z"></path>
+                    </svg>
+                    Show
+                </span>
+                <span className={'is-off ' + iconSpacing}>
+                    <svg
+                        className={iconStyling}
+                        width="32px"
+                        height="32px"
+                        viewBox="0 0 32 32"
+                    >
+                        <rect x="5" y="15" width="22" height="3"></rect>
+                    </svg>
+                    Hide
+                </span>
             </span>
-        </span>
-    </summary>
-);
+        </summary>
+    );
+};
 
 const Body = ({
     html,
     image,
     credit,
-    expandHandler,
 }: {
     html: string;
-    image: string;
-    credit: string;
-    expandHandler?: () => void;
+    image?: string;
+    credit?: string;
 }) => (
-    <Fragment>
+    <div>
         {image && <img className={imageStyling} src={image} alt="" />}
         <div
             className={css`
@@ -314,7 +339,7 @@ const Body = ({
             }}
         />
         {credit && <Credit credit={credit} />}
-    </Fragment>
+    </div>
 );
 
 const Credit = ({ credit }: { credit: string }) => (
@@ -337,64 +362,69 @@ const Footer = ({
     likeHandler,
     dislikeHandler,
 }: {
-    likeHandler?: () => void;
-    dislikeHandler?: () => void;
-}) => (
-    <footer className={footerStyling}>
-        <div className={footerSnippet}>
-            <div>Was this helpful?</div>
-            <button
-                className={buttonRound}
-                value="like"
-                aria-label="Yes"
-                onClick={likeHandler}
+    likeHandler: () => void;
+    dislikeHandler: () => void;
+}) => {
+    const [showFeedback, setFeedbackVisibility] = useState(false);
+    return (
+        <footer className={footerStyling}>
+            <div hidden={showFeedback ? true : false}>
+                <div className={footerSnippet}>
+                    <div>Was this helpful?</div>
+                    <button
+                        className={buttonRound}
+                        value="like"
+                        aria-label="Yes"
+                        onClick={() => {
+                            likeHandler();
+                            setFeedbackVisibility(true);
+                        }}
+                    >
+                        <svg
+                            className={thumbIcon}
+                            width="40px"
+                            height="40px"
+                            viewBox="0 0 40 40"
+                        >
+                            <path
+                                fill="#FFF"
+                                d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
+                            ></path>
+                        </svg>
+                    </button>
+                    <button
+                        className={buttonRound}
+                        value="dislike"
+                        aria-label="No"
+                        onClick={() => {
+                            dislikeHandler();
+                            setFeedbackVisibility(true);
+                        }}
+                    >
+                        <svg
+                            className={thumbIcon + ' ' + dislikeThumb}
+                            width="40px"
+                            height="40px"
+                            viewBox="0 0 40 40"
+                        >
+                            <path
+                                fill="#FFF"
+                                d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div
+                className={'feedback' + ' ' + footerFeedback}
+                aria-live="polite"
+                hidden={showFeedback ? false : true}
             >
-                <svg
-                    className={thumbIcon}
-                    width="40px"
-                    height="40px"
-                    viewBox="0 0 40 40"
-                >
-                    <path
-                        fill="#FFF"
-                        d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
-                    ></path>
-                </svg>
-            </button>
-            <button
-                className={buttonRound}
-                value="dislike"
-                aria-label="No"
-                onClick={dislikeHandler}
-            >
-                <svg
-                    className={thumbIcon + ' ' + dislikeThumb}
-                    width="40px"
-                    height="40px"
-                    viewBox="0 0 40 40"
-                >
-                    <path
-                        fill="#FFF"
-                        d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
-                    ></path>
-                </svg>
-            </button>
-        </div>
-        <div
-            className={
-                'feedback' +
-                ' ' +
-                css`
-                    ${textSans.xsmall()}
-                `
-            }
-            aria-live="polite"
-            hidden
-        >
-            Thank you for your feedback.
-        </div>
-    </footer>
-);
+                Thank you for your feedback.
+            </div>
+        </footer>
+    );
+};
 export const QandaAtom = ({
     id,
     title,
@@ -405,22 +435,11 @@ export const QandaAtom = ({
     dislikeHandler,
     expandHandler,
 }: QandaAtomType): JSX.Element => (
-    <Figure id={id} title={title}>
-        <Body
-            html={html}
-            image={image}
-            credit={credit}
-            expandHandler={expandHandler}
-        />
+    <Figure id={id} title={title} expandHandler={expandHandler}>
+        <Body html={html} image={image} credit={credit} />
         <Footer
             likeHandler={likeHandler}
             dislikeHandler={dislikeHandler}
         ></Footer>
     </Figure>
 );
-
-// Functions
-
-function FeedbackFunction() {
-    console.log('clicked ' + event);
-}
