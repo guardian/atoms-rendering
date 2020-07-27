@@ -35,9 +35,9 @@ export type ProfileAtomType = {
 export type QandaAtomType = {
     id: string;
     title: string;
-    image: string;
+    image?: string;
     html: string;
-    credit: string;
+    credit?: string;
     likeHandler: () => void;
     dislikeHandler: () => void;
     expandHandler: () => void;

@@ -20,8 +20,6 @@ export const ListStory = (): JSX.Element => {
             id={id}
             title={title}
             html={html}
-            image={''}
-            credit={''}
             likeHandler={() => {
                 console.log('Liked');
             }}
