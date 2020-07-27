@@ -110,7 +110,8 @@ export const ImageStory = (): JSX.Element => {
     );
 };
 
-export const NoHandlerStory = (): JSX.Element => {
+// Handlers are not nullable as they need to be called
+/* export const NoHandlerStory = (): JSX.Element => {
     return (
         <QandaAtom
             id={id2}
@@ -121,3 +122,4 @@ export const NoHandlerStory = (): JSX.Element => {
         ></QandaAtom>
     );
 };
+*/
