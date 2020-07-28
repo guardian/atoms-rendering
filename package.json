@@ -82,5 +82,8 @@
         "moduleNameMapper": {
             "^@guardian/src-foundations/(.*)$": "@guardian/src-foundations/$1/cjs"
         }
+    },
+    "dependencies": {
+        "@guardian/src-icons": "^2.0.0"
     }
 }

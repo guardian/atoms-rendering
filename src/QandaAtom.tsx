@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QandaAtomType } from './types';
-import { css } from 'emotion';
-import { neutral, error } from '@guardian/src-foundations/palette';
+import { css, cx } from 'emotion';
+import { neutral, news } from '@guardian/src-foundations/palette';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
-
-const { useState } = React;
+import { SvgPlus, SvgMinus } from '@guardian/src-icons';
 
 // CSS
+const containerStyling = css`
+    display: block;
+    position: relative;
+    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+`;
+
 const detailStyling = css`
     margin: 16px 0 36px;
     background: ${neutral[93]};
@@ -32,6 +38,16 @@ const detailStyling = css`
         display: none;
     }
 
+    summary:focus {
+        outline: none;
+    }
+`;
+
+const bodyStyling = css`
+    ${body.medium()}
+    p {
+        margin-bottom: 0.5rem;
+    }
     @media (min-width: 46.25em) {
         ul {
             list-style: none;
@@ -69,29 +85,11 @@ const detailStyling = css`
     }
 
     a:hover {
-        border-bottom: solid 0.0625rem ${error[400]};
+        border-bottom: solid 0.0625rem ${news[400]};
     }
 
     b {
         font-weight: bold;
-    }
-
-    summary:focus {
-        outline: none;
-    }
-`;
-
-const figureStyling = css`
-    display: block;
-    position: relative;
-    margin-bottom: 0.75rem;
-    margin-top: 1rem;
-
-    details[open] .is-on {
-        display: none;
-    }
-    details:not([open]) .is-off {
-        display: none;
     }
 `;
 
@@ -117,13 +115,6 @@ const showHideStyling = css`
     }
 `;
 
-const iconStyling = css`
-    fill: white;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-`;
-
 const buttonRound = css`
     display: inline-flex;
     cursor: pointer;
@@ -137,10 +128,9 @@ const buttonRound = css`
     padding: 0;
     width: 28px;
     height: 28px;
-
     :hover {
-        background: ${error[400]};
-        border-color: ${error[400]};
+        background: ${news[400]};
+        border-color: ${news[400]};
     }
 
     :focus {
@@ -160,19 +150,32 @@ const imageStyling = css`
     border: 0px;
 `;
 
+const plusStyling = css`
+    margin-right: 12px;
+    margin-bottom: 6px;
+    width: 33px !important;
+    fill: white;
+    height: 28px !important;
+`;
+
+const minusStyling = css`
+    margin-right: 14px;
+    margin-bottom: 6px;
+    width: 30px !important;
+    fill: white;
+    height: 25px !important;
+    padding-left: 4px;
+`;
+
 const iconSpacing = css`
     display: inline-flex;
     align-items: center;
-    ${textSans.xsmall()};
+    ${textSans.small()};
 `;
 
 const thumbIcon = css`
     width: 16px;
     height: 16px;
-`;
-
-const dislikeThumb = css`
-    transform: rotate(180deg);
 `;
 
 const footerStyling = css`
@@ -217,7 +220,7 @@ const creditSpanStyling = css`
 `;
 
 // Components
-const Figure = ({
+const Container = ({
     id,
     title,
     children,
@@ -229,8 +232,8 @@ const Figure = ({
     expandHandler: () => void;
 }) => {
     return (
-        <figure
-            className={figureStyling}
+        <div
+            className={containerStyling}
             data-atom-id={id}
             data-atom-type="qanda"
         >
@@ -242,7 +245,7 @@ const Figure = ({
                 <Summary title={title} expandHandler={expandHandler}></Summary>
                 {children}
             </details>
-        </figure>
+        </div>
     );
 };
 
@@ -254,6 +257,7 @@ const Summary = ({
     expandHandler: () => void;
 }) => {
     const [hasBeenExpanded, setExpandStatus] = useState(false);
+    const [expandEventSent, setExpandEventFired] = useState(false);
     return (
         <summary className={summaryStyling}>
             <span
@@ -283,34 +287,32 @@ const Summary = ({
                 className={showHideStyling}
                 onClick={() => {
                     if (!hasBeenExpanded) {
-                        expandHandler();
-                        setExpandStatus(true);
+                        // Makes sure EXPAND event is only fired on initial expand
+                        if (!expandEventSent) {
+                            expandHandler();
+                            setExpandEventFired(true);
+                        }
                     }
+                    setExpandStatus(!hasBeenExpanded);
                 }}
                 aria-hidden="true"
             >
-                <span className={'is-on ' + iconSpacing}>
-                    <svg
-                        className={iconStyling}
-                        width="18px"
-                        height="18px"
-                        viewBox="0 0 18 18"
-                    >
-                        <path d="M8.2 0h1.6l.4 7.8 7.8.4v1.6l-7.8.4-.4 7.8H8.2l-.4-7.8L0 9.8V8.2l7.8-.4.4-7.8z"></path>
-                    </svg>
-                    Show
-                </span>
-                <span className={'is-off ' + iconSpacing}>
-                    <svg
-                        className={iconStyling}
-                        width="32px"
-                        height="32px"
-                        viewBox="0 0 32 32"
-                    >
-                        <rect x="5" y="15" width="22" height="3"></rect>
-                    </svg>
-                    Hide
-                </span>
+                {!hasBeenExpanded && (
+                    <span className={iconSpacing}>
+                        <span className={plusStyling}>
+                            <SvgPlus />
+                        </span>
+                        Show
+                    </span>
+                )}
+                {hasBeenExpanded && (
+                    <span className={iconSpacing}>
+                        <span className={minusStyling}>
+                            <SvgMinus />
+                        </span>
+                        Hide
+                    </span>
+                )}
             </span>
         </summary>
     );
@@ -328,12 +330,7 @@ const Body = ({
     <div>
         {image && <img className={imageStyling} src={image} alt="" />}
         <div
-            className={css`
-                ${body.medium()}
-                p {
-                    margin-bottom: 0.5rem;
-                }
-            `}
+            className={bodyStyling}
             dangerouslySetInnerHTML={{
                 __html: html,
             }}
@@ -375,6 +372,7 @@ const Footer = ({
                         className={buttonRound}
                         value="like"
                         aria-label="Yes"
+                        data-testid="like"
                         onClick={() => {
                             likeHandler();
                             setFeedbackVisibility(true);
@@ -396,13 +394,20 @@ const Footer = ({
                         className={buttonRound}
                         value="dislike"
                         aria-label="No"
+                        data-testid="dislike"
                         onClick={() => {
                             dislikeHandler();
                             setFeedbackVisibility(true);
                         }}
                     >
                         <svg
-                            className={thumbIcon + ' ' + dislikeThumb}
+                            className={
+                                thumbIcon +
+                                ' ' +
+                                css`
+                                    transform: rotate(180deg);
+                                `
+                            }
                             width="40px"
                             height="40px"
                             viewBox="0 0 40 40"
@@ -416,7 +421,7 @@ const Footer = ({
                 </div>
             </div>
             <div
-                className={'feedback' + ' ' + footerFeedback}
+                className={footerFeedback}
                 aria-live="polite"
                 hidden={showFeedback ? false : true}
             >
@@ -435,11 +440,11 @@ export const QandaAtom = ({
     dislikeHandler,
     expandHandler,
 }: QandaAtomType): JSX.Element => (
-    <Figure id={id} title={title} expandHandler={expandHandler}>
+    <Container id={id} title={title} expandHandler={expandHandler}>
         <Body html={html} image={image} credit={credit} />
         <Footer
             likeHandler={likeHandler}
             dislikeHandler={dislikeHandler}
         ></Footer>
-    </Figure>
+    </Container>
 );
