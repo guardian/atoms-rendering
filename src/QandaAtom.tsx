@@ -138,12 +138,13 @@ const buttonRound = css`
     }
 `;
 
+// The important is here to override the default image style which defaults to 100% width
 const imageStyling = css`
+    width: 100px !important;
+    height: 100px !important;
     float: left;
     margin-right: 16px;
     margin-bottom: 6px;
-    width: 100px;
-    height: 100px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
