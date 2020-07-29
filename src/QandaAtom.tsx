@@ -179,13 +179,6 @@ const thumbIcon = css`
     height: 16px;
 `;
 
-const thumbDown = cx(
-    thumbIcon,
-    css`
-        transform: rotate(180deg);
-    `,
-);
-
 const rotate = css`
     transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
