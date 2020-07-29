@@ -186,6 +186,13 @@ const thumbDown = cx(
     `,
 );
 
+const rotate = css`
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+`;
+
 const footerStyling = css`
     font-size: 13px;
     line-height: 16px;
@@ -288,20 +295,7 @@ const Summary = ({
             >
                 {title}
             </h4>
-            <span
-                className={showHideStyling}
-                onClick={() => {
-                    if (!hasBeenExpanded) {
-                        // Makes sure EXPAND event is only fired on initial expand
-                        if (!expandEventSent) {
-                            expandHandler();
-                            setExpandEventFired(true);
-                        }
-                    }
-                    setHasBeenExpanded(!hasBeenExpanded);
-                }}
-                aria-hidden="true"
-            >
+            <span className={showHideStyling}>
                 {!hasBeenExpanded && (
                     <span className={iconSpacing}>
                         <span className={plusStyling}>
@@ -382,7 +376,7 @@ const Footer = ({
                         </svg>
                     </button>
                     <button
-                        className={buttonRound}
+                        className={cx(buttonRound, rotate)}
                         value="dislike"
                         aria-label="No"
                         data-testid="dislike"
@@ -391,7 +385,7 @@ const Footer = ({
                             setShowFeedback(true);
                         }}
                     >
-                        <svg className={thumbDown} viewBox="0 0 40 40">
+                        <svg className={thumbIcon} viewBox="0 0 40 40">
                             <path
                                 fill="#FFF"
                                 d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
