@@ -79,7 +79,7 @@ const bodyStyling = css`
 
     a {
         color: ${news[300]};
-        text-decoration: none !important;
+        text-decoration: none;
         border-bottom: 0.0625rem solid ${neutral[86]};
         transition: border-color 0.15s ease-out;
     }
