@@ -3,7 +3,7 @@ import { QandaAtomType } from './types';
 import { css, cx } from 'emotion';
 import { neutral, news } from '@guardian/src-foundations/palette';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
-import { SvgPlus, SvgMinus } from '@guardian/src-icons';
+import { SvgPlus, SvgMinus, SvgInfo } from '@guardian/src-icons';
 
 // CSS
 const containerStyling = css`
@@ -78,9 +78,9 @@ const bodyStyling = css`
     }
 
     a {
-        color: #ab0613;
+        color: ${news[300]};
         text-decoration: none !important;
-        border-bottom: 0.0625rem solid #bdbdbd;
+        border-bottom: 0.0625rem solid ${neutral[86]};
         transition: border-color 0.15s ease-out;
     }
 
@@ -111,7 +111,7 @@ const showHideStyling = css`
     border: 0;
     margin: 0;
     :hover {
-        background: #e00000;
+        background: ${news[400]};
     }
 `;
 
@@ -142,8 +142,8 @@ const imageStyling = css`
     float: left;
     margin-right: 16px;
     margin-bottom: 6px;
-    width: 100px !important;
-    height: 100px !important;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
@@ -153,17 +153,17 @@ const imageStyling = css`
 const plusStyling = css`
     margin-right: 12px;
     margin-bottom: 6px;
-    width: 33px !important;
+    width: 33px;
     fill: white;
-    height: 28px !important;
+    height: 28px;
 `;
 
 const minusStyling = css`
     margin-right: 14px;
     margin-bottom: 6px;
-    width: 30px !important;
+    width: 30px;
     fill: white;
-    height: 25px !important;
+    height: 25px;
     padding-left: 4px;
 `;
 
@@ -177,6 +177,13 @@ const thumbIcon = css`
     width: 16px;
     height: 16px;
 `;
+
+const thumbDown = cx(
+    thumbIcon,
+    css`
+        transform: rotate(180deg);
+    `,
+);
 
 const footerStyling = css`
     font-size: 13px;
@@ -199,24 +206,12 @@ const footerFeedback = css`
 const creditStyling = css`
     ${textSans.xsmall()};
     margin: 12px 0;
-`;
-
-const creditIconStyling = css`
-    height: 12px;
-    overflow: visible;
-    width: 6px;
-    fill: white;
-`;
-
-const creditSpanStyling = css`
-    display: inline-flex;
-    background: #bdbdbd;
-    border-radius: 100%;
-    width: 16px;
-    height: 16px;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: 5px;
+    svg {
+        width: 30px;
+        fill: #999999;
+    }
 `;
 
 // Components
@@ -256,13 +251,13 @@ const Summary = ({
     title: string;
     expandHandler: () => void;
 }) => {
-    const [hasBeenExpanded, setExpandStatus] = useState(false);
+    const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
     const [expandEventSent, setExpandEventFired] = useState(false);
     return (
         <summary className={summaryStyling}>
             <span
                 className={css`
-                    color: #e00000;
+                    color: ${news[400]};
                     display: block;
                     ${body.medium({
                         lineHeight: 'tight',
@@ -293,7 +288,7 @@ const Summary = ({
                             setExpandEventFired(true);
                         }
                     }
-                    setExpandStatus(!hasBeenExpanded);
+                    setHasBeenExpanded(!hasBeenExpanded);
                 }}
                 aria-hidden="true"
             >
@@ -341,17 +336,8 @@ const Body = ({
 
 const Credit = ({ credit }: { credit: string }) => (
     <div className={creditStyling}>
-        <span className={creditSpanStyling}>
-            <svg
-                className={creditIconStyling}
-                width="6px"
-                height="14px"
-                viewBox="0 0 6 14"
-            >
-                <path d="M4.6 12l-.4 1.4c-.7.2-1.9.6-3 .6-.7 0-1.2-.2-1.2-.9 0-.2 0-.3.1-.5l2-6.7H.7l.4-1.5 4.2-.6h.2L3 12h1.6zM4.3 2.8c-.9 0-1.4-.5-1.4-1.3C2.9.5 3.7 0 4.6 0 5.4 0 6 .5 6 1.3c0 1-.8 1.5-1.7 1.5z"></path>
-            </svg>
-        </span>
-        {' ' + credit}
+        <SvgInfo />
+        {credit}
     </div>
 );
 
@@ -362,10 +348,10 @@ const Footer = ({
     likeHandler: () => void;
     dislikeHandler: () => void;
 }) => {
-    const [showFeedback, setFeedbackVisibility] = useState(false);
+    const [showFeedback, setShowFeedback] = useState(false);
     return (
         <footer className={footerStyling}>
-            <div hidden={showFeedback ? true : false}>
+            <div hidden={showFeedback}>
                 <div className={footerSnippet}>
                     <div>Was this helpful?</div>
                     <button
@@ -375,15 +361,10 @@ const Footer = ({
                         data-testid="like"
                         onClick={() => {
                             likeHandler();
-                            setFeedbackVisibility(true);
+                            setShowFeedback(true);
                         }}
                     >
-                        <svg
-                            className={thumbIcon}
-                            width="40px"
-                            height="40px"
-                            viewBox="0 0 40 40"
-                        >
+                        <svg className={thumbIcon} viewBox="0 0 40 40">
                             <path
                                 fill="#FFF"
                                 d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
@@ -397,21 +378,10 @@ const Footer = ({
                         data-testid="dislike"
                         onClick={() => {
                             dislikeHandler();
-                            setFeedbackVisibility(true);
+                            setShowFeedback(true);
                         }}
                     >
-                        <svg
-                            className={
-                                thumbIcon +
-                                ' ' +
-                                css`
-                                    transform: rotate(180deg);
-                                `
-                            }
-                            width="40px"
-                            height="40px"
-                            viewBox="0 0 40 40"
-                        >
+                        <svg className={thumbDown} viewBox="0 0 40 40">
                             <path
                                 fill="#FFF"
                                 d="M33.78 22.437l-4.228 13.98L27.93 37.5 5.062 34.14V15.503l7.8-1.517L24.354 2.5h1.624L28.9 5.426l-4.548 8.67h.107l10.477 1.31"
@@ -423,7 +393,7 @@ const Footer = ({
             <div
                 className={footerFeedback}
                 aria-live="polite"
-                hidden={showFeedback ? false : true}
+                hidden={!showFeedback}
             >
                 Thank you for your feedback.
             </div>

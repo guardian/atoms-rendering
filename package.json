@@ -73,6 +73,7 @@
     },
     "peerDependencies": {
         "@guardian/src-foundations": "^1.1.0",
+        "@guardian/src-icons": "^2.0.0",
         "emotion": "^10.0.27",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
@@ -82,8 +83,5 @@
         "moduleNameMapper": {
             "^@guardian/src-foundations/(.*)$": "@guardian/src-foundations/$1/cjs"
         }
-    },
-    "dependencies": {
-        "@guardian/src-icons": "^2.0.0"
     }
 }

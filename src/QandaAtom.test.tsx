@@ -90,7 +90,7 @@ describe('QandaAtom', () => {
         expect(queryByTestId('dislike')).toBeVisible();
         expect(queryByText('Thank you for your feedback.')).not.toBeVisible();
 
-        // Fire like event
+        // Fire dislike event
         fireEvent.click(queryByTestId('dislike'));
         // Feedback should be visible, like button should be hidden
         expect(queryByText('Thank you for your feedback.')).toBeVisible();
