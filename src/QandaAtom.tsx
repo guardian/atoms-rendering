@@ -255,7 +255,16 @@ const Summary = ({
     const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
     const [expandEventSent, setExpandEventFired] = useState(false);
     return (
-        <summary className={summaryStyling}>
+        <summary
+            onClick={() => {
+                if (!expandEventSent) {
+                    expandHandler();
+                    setExpandEventFired(true);
+                }
+                setHasBeenExpanded(!hasBeenExpanded);
+            }}
+            className={summaryStyling}
+        >
             <span
                 className={css`
                     color: ${news[400]};
