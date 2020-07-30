@@ -138,10 +138,11 @@ const buttonRound = css`
     }
 `;
 
-// The important is here to override the default image style which defaults to 100% width
 const imageStyling = css`
-    width: 100px !important;
-    height: 100px !important;
+    .forceHeightAndWidth & {
+        width: 100px;
+        height: 100px;
+    }
     float: left;
     margin-right: 16px;
     margin-bottom: 6px;
@@ -320,7 +321,11 @@ const Body = ({
     credit?: string;
 }) => (
     <div>
-        {image && <img className={imageStyling} src={image} alt="" />}
+        {image && (
+            <span className={'forceHeightAndWidth'}>
+                <img className={imageStyling} src={image} alt="" />
+            </span>
+        )}
         <div
             className={bodyStyling}
             dangerouslySetInnerHTML={{
