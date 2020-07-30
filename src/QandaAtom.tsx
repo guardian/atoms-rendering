@@ -391,6 +391,7 @@ const Footer = ({
                 className={footerFeedback}
                 aria-live="polite"
                 hidden={!showFeedback}
+                data-testid="feedback"
             >
                 Thank you for your feedback.
             </div>
