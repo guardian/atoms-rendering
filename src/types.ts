@@ -34,6 +34,13 @@ export type ProfileAtomType = {
 
 export type QandaAtomType = {
     id: string;
+    title: string;
+    image?: string;
+    html: string;
+    credit?: string;
+    likeHandler: () => void;
+    dislikeHandler: () => void;
+    expandHandler: () => void;
 };
 
 export type QuizAtomType = {
