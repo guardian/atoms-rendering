@@ -15,13 +15,6 @@ const fullWidthStyles = css`
     width: 100%;
 `;
 
-const iframeStyles = css`
-    padding-bottom: ${space[1]}px;
-    padding-left: ${space[2]}px;
-    padding-right: ${space[2]}px;
-    color: ${text.primary};
-`;
-
 export const InteractiveAtom = ({
     id,
     html,
@@ -34,7 +27,7 @@ export const InteractiveAtom = ({
         data-atom-type="interactive"
     >
         <iframe
-            className={cx(fullWidthStyles, iframeStyles)}
+            className={fullWidthStyles}
             srcDoc={unifyPageContent({ js, css, html })}
             frameBorder="0"
         />
