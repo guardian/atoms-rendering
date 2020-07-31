@@ -65,12 +65,12 @@ dotcom-rendering/node_modules/@guardian/atoms-rendering
 
 is a symlink to the atoms-rendering repository.
 
-When you are done, you should run
+When you are done, you should
 
 - In dotcom-rendering run `yarn unlink "@guardian/atoms-rendering"`. 
 - In atoms-rendering run `yarn unlink`
 
-And you might also want to run 
+And in dotcom-rendering you might also want to run 
 
 - `yarn install --force`, to get the regular package re-installed. 
 
