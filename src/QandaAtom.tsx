@@ -48,25 +48,25 @@ const bodyStyling = css`
     p {
         margin-bottom: 0.5rem;
     }
-    @media (min-width: 46.25em) {
-        ul {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
+    ol {
+        list-style: decimal;
+        list-style-position: inside;
+        margin-bottom: 1rem;
     }
 
     ul {
         list-style: none;
         margin: 0 0 0.75rem;
         padding: 0;
+        margin-bottom: 1rem;
     }
 
-    li {
+    ul li {
         margin-bottom: 0.375rem;
         padding-left: 1.25rem;
     }
 
-    li:before {
+    ul li:before {
         display: inline-block;
         content: '';
         border-radius: 0.375rem;

@@ -77,6 +77,7 @@
     "peerDependencies": {
         "@guardian/src-foundations": "^1.1.0",
         "@guardian/src-icons": "^1.9.1",
+        "@emotion/core": "^10.0.28",
         "emotion": "^10.0.27",
         "react": "^16.13.1",
         "react-dom": "^16.13.1"
