@@ -191,6 +191,7 @@ export const Footer = ({
                 >
                     <div>Was this helpful?</div>
                     <button
+                        data-testid="like"
                         className={buttonStyling}
                         onClick={() => {
                             likeHandler();
@@ -209,6 +210,7 @@ export const Footer = ({
                                 -o-transform: rotate(180deg);
                             `,
                         )}
+                        data-testid="dislike"
                         onClick={() => {
                             dislikeHandler();
                             setShowFeedback(true);

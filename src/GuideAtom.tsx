@@ -188,7 +188,6 @@ const Credit = ({ credit }: { credit: string }) => (
 
 export const GuideAtom = ({
     id,
-    label,
     title,
     image,
     html,
