@@ -19,7 +19,7 @@ describe('GuideAtom', () => {
                 dislikeHandler={() => {
                     return null;
                 }}
-                expandHandler={() => {
+                expandCallback={() => {
                     return null;
                 }}
             />,
@@ -51,7 +51,7 @@ describe('GuideAtom', () => {
                 dislikeHandler={() => {
                     return null;
                 }}
-                expandHandler={() => {
+                expandCallback={() => {
                     return null;
                 }}
             />,
@@ -84,7 +84,7 @@ describe('GuideAtom', () => {
                 dislikeHandler={() => {
                     return null;
                 }}
-                expandHandler={() => {
+                expandCallback={() => {
                     return null;
                 }}
             />,

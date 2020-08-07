@@ -24,7 +24,7 @@ export const DefaultStory = (): JSX.Element => {
                 console.log('DISLIKED');
                 return null;
             }}
-            expandHandler={() => {
+            expandCallback={() => {
                 console.log('EXPANDED');
                 return null;
             }}
@@ -33,6 +33,7 @@ export const DefaultStory = (): JSX.Element => {
 };
 
 export const ListStory = (): JSX.Element => {
+    //Modelled after: https://www.theguardian.com/business/2020/jan/27/global-markets-slide-on-back-of-coronavirus-concerns-in-china-stocks
     return (
         <GuideAtom
             id="0a09a661-0ee2-41ea-b0a0-9e1deefd9268"
@@ -46,7 +47,7 @@ export const ListStory = (): JSX.Element => {
             dislikeHandler={() => {
                 return null;
             }}
-            expandHandler={() => {
+            expandCallback={() => {
                 return null;
             }}
         />
@@ -54,6 +55,7 @@ export const ListStory = (): JSX.Element => {
 };
 
 export const OrderedListStory = (): JSX.Element => {
+    //Modelled after: https://www.theguardian.com/environment/2020/aug/01/plan-to-curb-englands-most-polluted-spot-divides-residents
     return (
         <GuideAtom
             id="b4c77875-8ba3-40d0-926b-0cd7956eed8a"
@@ -67,7 +69,7 @@ export const OrderedListStory = (): JSX.Element => {
             dislikeHandler={() => {
                 return null;
             }}
-            expandHandler={() => {
+            expandCallback={() => {
                 return null;
             }}
         />
@@ -75,6 +77,7 @@ export const OrderedListStory = (): JSX.Element => {
 };
 
 export const ImageStory = (): JSX.Element => {
+    //Modelled after: https://www.theguardian.com/politics/2019/jul/06/tory-member-questions-boris-johnsons-ability-to-represent-minorities
     return (
         <GuideAtom
             id="249abe8e-134a-45e3-afcf-b45a665c9a93"
@@ -89,7 +92,7 @@ export const ImageStory = (): JSX.Element => {
             dislikeHandler={() => {
                 return null;
             }}
-            expandHandler={() => {
+            expandCallback={() => {
                 return null;
             }}
         />

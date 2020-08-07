@@ -21,7 +21,7 @@ export type GuideAtomType = {
     credit?: string;
     likeHandler: () => void;
     dislikeHandler: () => void;
-    expandHandler: () => void;
+    expandCallback: () => void;
 };
 
 export type InteractiveAtomType = {

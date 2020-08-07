@@ -5,9 +5,9 @@ import { css } from 'emotion';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { news, neutral } from '@guardian/src-foundations/palette';
 import { SvgInfo } from '@guardian/src-icons';
-import { Footer, Summary } from './SharedElements';
+import { Footer } from './components/Footer';
+import { Summary } from './components/Summary';
 
-// CSS
 const containerStyling = css`
     display: block;
     position: relative;
@@ -123,29 +123,28 @@ const creditStyling = css`
     }
 `;
 
-// ELEMENTS
-
 const Container = ({
     id,
     title,
     children,
-    expandHandler,
+    expandCallback,
 }: {
     id: string;
     title: string;
     children: React.ReactNode;
-    expandHandler: () => void;
+    expandCallback: () => void;
 }) => (
     <div className={containerStyling} data-atom-id={id} data-atom-type="guide">
         <details
             className={detailStyling}
             data-atom-id={id}
             data-atom-type="guide"
+            data-snippet-type="guide"
         >
             <Summary
                 sectionTitle={'Quick Guide'}
                 title={title}
-                expandHandler={expandHandler}
+                expandCallback={expandCallback}
             ></Summary>
             {children}
         </details>
@@ -194,9 +193,9 @@ export const GuideAtom = ({
     credit,
     likeHandler,
     dislikeHandler,
-    expandHandler,
+    expandCallback,
 }: GuideAtomType): JSX.Element => (
-    <Container id={id} title={title} expandHandler={expandHandler}>
+    <Container id={id} title={title} expandCallback={expandCallback}>
         <Body html={html} image={image} credit={credit} />
         <Footer
             dislikeHandler={dislikeHandler}
