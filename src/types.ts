@@ -19,6 +19,7 @@ export type GuideAtomType = {
     image?: string;
     html: string;
     credit?: string;
+    pillar: string;
     likeHandler: () => void;
     dislikeHandler: () => void;
     expandCallback: () => void;

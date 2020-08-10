@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
-import { news, neutral } from '@guardian/src-foundations/palette';
+import {
+    news,
+    neutral,
+    opinion,
+    culture,
+    sport,
+    lifestyle,
+    labs,
+} from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
 
 /// SUMMARY ELEMENT
-
-const atomTitleStylinng = css`
-    color: ${news[400]};
-    display: block;
-    ${body.medium({
-        lineHeight: 'tight',
-        fontWeight: 'bold',
-    })};
-`;
+let linkColourStyleHover = '';
+let titleColour = '';
 
 const titleStyling = css`
     ${headline.xxxsmall({
@@ -37,9 +38,6 @@ const showHideStyling = css`
     align-items: center;
     border: 0;
     margin: 0;
-    :hover {
-        background: ${news[400]};
-    }
 `;
 
 const plusStyling = css`
@@ -65,15 +63,57 @@ const iconSpacing = css`
     ${textSans.small()};
 `;
 
+function SetHighlightColour(pillar: string) {
+    switch (pillar) {
+        case 'opinion':
+            linkColourStyleHover = opinion[400];
+            titleColour = opinion[400];
+            break;
+        case 'sport':
+            linkColourStyleHover = sport[400];
+            titleColour = sport[400];
+            break;
+        case 'culture':
+            linkColourStyleHover = culture[400];
+            titleColour = culture[400];
+            break;
+        case 'lifestyle':
+            linkColourStyleHover = lifestyle[400];
+            titleColour = lifestyle[400];
+            break;
+        case 'labs':
+            linkColourStyleHover = labs[400];
+            titleColour = labs[400];
+            break;
+        case 'news':
+            linkColourStyleHover = news[400];
+            titleColour = news[400];
+            break;
+    }
+}
+
 export const Summary = ({
     sectionTitle,
     title,
+    pillar,
     expandCallback,
 }: {
+    pillar: string;
     sectionTitle: string;
     title: string;
     expandCallback: () => void;
 }): JSX.Element => {
+    SetHighlightColour(pillar);
+    console.log('TITLE COLOUR: ' + titleColour);
+    console.log('PILLAR: ' + pillar);
+    const atomTitleStyling = css`
+        display: block;
+        ${body.medium({
+            lineHeight: 'tight',
+            fontWeight: 'bold',
+        })};
+        color: ${titleColour};
+    `;
     const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
     const [expandEventSent, setExpandEventFired] = useState(false);
     return (
@@ -86,9 +126,19 @@ export const Summary = ({
                 setHasBeenExpanded(!hasBeenExpanded);
             }}
         >
-            <span className={atomTitleStylinng}>{sectionTitle}</span>
+            <span className={atomTitleStyling}>{sectionTitle}</span>
             <h4 className={titleStyling}>{title}</h4>
-            <span className={showHideStyling}>
+            <span
+                className={
+                    showHideStyling +
+                    ' ' +
+                    css`
+                        :hover {
+                            background: ${linkColourStyleHover};
+                        }
+                    `
+                }
+            >
                 {!hasBeenExpanded ? (
                     <span className={iconSpacing}>
                         <span className={plusStyling}>

@@ -1,12 +1,22 @@
 import React from 'react';
 
 import { GuideAtomType } from './types';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import { body, textSans } from '@guardian/src-foundations/typography';
-import { news, neutral } from '@guardian/src-foundations/palette';
+import {
+    news,
+    neutral,
+    opinion,
+    culture,
+    lifestyle,
+    labs,
+} from '@guardian/src-foundations/palette';
 import { SvgInfo } from '@guardian/src-icons';
 import { Footer } from './components/Footer';
 import { Summary } from './components/Summary';
+
+let linkColourStyle = news[300];
+let linkColourStyleHover = news[400];
 
 const containerStyling = css`
     display: block;
@@ -80,17 +90,6 @@ const bodyStyling = css`
         margin-left: -1.25rem;
     }
 
-    a {
-        color: ${news[300]};
-        text-decoration: none;
-        border-bottom: 0.0625rem solid ${neutral[86]};
-        transition: border-color 0.15s ease-out;
-    }
-
-    a:hover {
-        border-bottom: solid 0.0625rem ${news[400]};
-    }
-
     b {
         font-weight: bold;
     }
@@ -127,10 +126,12 @@ const Container = ({
     id,
     title,
     children,
+    pillar,
     expandCallback,
 }: {
     id: string;
     title: string;
+    pillar: string;
     children: React.ReactNode;
     expandCallback: () => void;
 }) => (
@@ -143,9 +144,10 @@ const Container = ({
         >
             <Summary
                 sectionTitle={'Quick Guide'}
+                pillar={pillar}
                 title={title}
                 expandCallback={expandCallback}
-            ></Summary>
+            />
             {children}
         </details>
     </div>
@@ -168,7 +170,22 @@ const Body = ({
                 </span>
             )}
             <div
-                className={bodyStyling}
+                className={cx(
+                    bodyStyling,
+                    css`
+                        a {
+                            color: ${linkColourStyle};
+                            text-decoration: none;
+                            border-bottom: 0.0625rem solid ${neutral[86]};
+                            transition: border-color 0.15s ease-out;
+                        }
+
+                        a:hover {
+                            border-bottom: solid 0.0625rem
+                                ${linkColourStyleHover};
+                        }
+                    `,
+                )}
                 dangerouslySetInnerHTML={{
                     __html: html,
                 }}
@@ -185,21 +202,56 @@ const Credit = ({ credit }: { credit: string }) => (
     </div>
 );
 
+function SetPillarColours(pillar: string) {
+    switch (pillar) {
+        case 'opinion':
+            linkColourStyle = opinion[300];
+            linkColourStyleHover = opinion[400];
+            break;
+        case 'sport':
+            linkColourStyle = opinion[300];
+            linkColourStyleHover = opinion[400];
+            break;
+        case 'culture':
+            linkColourStyle = culture[300];
+            linkColourStyleHover = culture[400];
+            break;
+        case 'lifestyle':
+            linkColourStyle = lifestyle[300];
+            linkColourStyleHover = lifestyle[400];
+            break;
+        case 'labs':
+            linkColourStyle = labs[300];
+            linkColourStyleHover = labs[400];
+            break;
+    }
+}
+
 export const GuideAtom = ({
     id,
     title,
     image,
     html,
     credit,
+    pillar,
     likeHandler,
     dislikeHandler,
     expandCallback,
-}: GuideAtomType): JSX.Element => (
-    <Container id={id} title={title} expandCallback={expandCallback}>
-        <Body html={html} image={image} credit={credit} />
-        <Footer
-            dislikeHandler={dislikeHandler}
-            likeHandler={likeHandler}
-        ></Footer>
-    </Container>
-);
+}: GuideAtomType): JSX.Element => {
+    SetPillarColours(pillar);
+    console.log('PILLAR IN GUIDE ATOM: ' + pillar);
+    return (
+        <Container
+            id={id}
+            title={title}
+            pillar={pillar}
+            expandCallback={expandCallback}
+        >
+            <Body html={html} image={image} credit={credit} />
+            <Footer
+                dislikeHandler={dislikeHandler}
+                likeHandler={likeHandler}
+            ></Footer>
+        </Container>
+    );
+};
