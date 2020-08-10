@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { css, cx } from 'emotion';
 import { textSans } from '@guardian/src-foundations/typography';
-import { news } from '@guardian/src-foundations/palette';
+import {
+    news,
+    opinion,
+    labs,
+    lifestyle,
+    sport,
+    culture,
+} from '@guardian/src-foundations/palette';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
 const footerStyling = css`
@@ -9,29 +16,6 @@ const footerStyling = css`
     line-height: 16px;
     display: flex;
     justify-content: flex-end;
-`;
-
-const buttonStyling = css`
-    display: inline-flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    background: black;
-    color: white;
-    border-style: hidden;
-    border-radius: 100%;
-    margin: 0 0 0 5px;
-    padding: 0;
-    width: 28px;
-    height: 28px;
-    :hover {
-        background: ${news[400]};
-        border-color: ${news[400]};
-    }
-
-    :focus {
-        border: none;
-    }
 `;
 
 // Currently no thumb icon in src-icons so a path is needed
@@ -52,13 +36,58 @@ const ThumbImage = () => {
     );
 };
 
+function GetPillarColour(pillar: string) {
+    switch (pillar) {
+        case 'opinion':
+            return opinion[400];
+
+        case 'sport':
+            return sport[400];
+
+        case 'culture':
+            return culture[400];
+
+        case 'lifestyle':
+            return lifestyle[400];
+
+        case 'labs':
+            return labs[400];
+
+        case 'news':
+            return news[400];
+    }
+}
+
 export const Footer = ({
+    pillar,
     likeHandler,
     dislikeHandler,
 }: {
+    pillar: string;
     likeHandler: () => void;
     dislikeHandler: () => void;
 }): JSX.Element => {
+    // This is defined here because adding the hover styling using cx breaks the text styling
+    const buttonStyling = css`
+        display: inline-flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        background: black;
+        color: white;
+        border-style: hidden;
+        border-radius: 100%;
+        margin: 0 0 0 5px;
+        padding: 0;
+        width: 28px;
+        height: 28px;
+        :hover {
+            background: ${GetPillarColour(pillar)};
+        }
+        :focus {
+            border: none;
+        }
+    `;
     const [showThankYou, setShowThankYou] = useState(false);
     return (
         <footer className={footerStyling}>

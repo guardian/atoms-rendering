@@ -43,6 +43,7 @@ const detailStyling = css`
         list-style: none;
         margin: 0 0 16px;
     }
+
     summary::-webkit-details-marker {
         display: none;
     }
@@ -245,6 +246,7 @@ export const GuideAtom = ({
         >
             <Body html={html} image={image} credit={credit} />
             <Footer
+                pillar={pillar}
                 dislikeHandler={dislikeHandler}
                 likeHandler={likeHandler}
             ></Footer>

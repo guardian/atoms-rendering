@@ -102,3 +102,26 @@ export const ImageStory = (): JSX.Element => {
         />
     );
 };
+
+export const LifestylePillarStory = (): JSX.Element => {
+    //Modelled after: https://www.theguardian.com/money/2020/aug/07/energy-bills-to-be-cut-by-84-pounds-for-11m-uk-households-ofgem
+    return (
+        <GuideAtom
+            id="acf5fd97-28ab-4971-96f2-2acaab08b5e9"
+            label="Quick Guide"
+            title="What is the energy price cap and how does it work?"
+            html="<p>The cap, one of the biggest shake-ups of the energy market since privatisation,&nbsp;<a href='https://www.theguardian.com/business/2018/dec/31/millions-to-see-annual-energy-bills-drop-as-price-cap-takes-effect'>came into effect on 1 January 2019</a>&nbsp;for 11m households on default tariffs, known as standard variable tariffs (SVTs). The government told the energy regulator, Ofgem, to set the cap because ministers argued people on SVTs were being ripped off by big energy firms capitalising on consumer loyalty. The limit is not an absolute one but the maximum suppliers can charge per unit of energy and for a standing charge. There is a separate cap for 4m homes on prepayment meters.</p><p><b>Does that mean energy bills will never go up?</b></p><p>No. It is not <a href='https://www.theguardian.com/money/2017/apr/23/energy-prices-tory-cap-miliband-freeze'>a freeze</a>, it is a movable cap. The energy cap has fallen twice since it was put in place because the wholesale price of electricity and gas, the biggest variable influencing prices, have fallen. But if energy market prices climb higher, the cap would move higher, too. Homes may also face higher bills if they use more energy because the cap applies to the price of each unit of energy - not the whole bill.&nbsp;</p><p><b>Is there any way to avoid the increase?</b></p><p>Yes. Homes can save hundreds of pounds a year by spending a few minutes on one of the many comparison sites, or sign up to an <a href='https://www.theguardian.com/money/2019/feb/02/energy-bills-will-these-sites-save-you-a-flipping-fortune'>auto-switching service</a>, and move to a cheaper tariff, either with your existing supplier or a rival one. Fixed tariffs, which are not covered by the cap, are almost always much cheaper than SVTs, although <a href='https://www.theguardian.com/money/2018/oct/22/third-dual-fuel-tariffs-break-government-price-cap'>there are exceptions</a>, so watch out. Several smaller suppliers also offer good customer service and variable tariffs that are well below the cap.&nbsp;</p><p><b>Could bills fall again?</b></p><p>Maybe. Energy market experts believe gas and electricity wholesale prices will remain low through 2020 because energy demand is lower than normal because of the Covid-19 crisis. But wholesale costs are not the only factor in setting the level of the cap. Ofgem, the regulator, includes the cost of using energy networks and paying for government policies, too. These costs are expected to keep rising.&nbsp;</p>"
+            credit=""
+            pillar="lifestyle"
+            likeHandler={() => {
+                return null;
+            }}
+            dislikeHandler={() => {
+                return null;
+            }}
+            expandCallback={() => {
+                return null;
+            }}
+        />
+    );
+};
