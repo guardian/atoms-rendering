@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { css, cx } from 'emotion';
 import { textSans } from '@guardian/src-foundations/typography';
-import {
-    news,
-    opinion,
-    labs,
-    lifestyle,
-    sport,
-    culture,
-} from '@guardian/src-foundations/palette';
+import { GetPillarColour400 } from '../lib/PillarColours';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
 const footerStyling = css`
@@ -36,28 +29,6 @@ const ThumbImage = () => {
     );
 };
 
-function GetPillarColour(pillar: string) {
-    switch (pillar) {
-        case 'opinion':
-            return opinion[400];
-
-        case 'sport':
-            return sport[400];
-
-        case 'culture':
-            return culture[400];
-
-        case 'lifestyle':
-            return lifestyle[400];
-
-        case 'labs':
-            return labs[400];
-
-        case 'news':
-            return news[400];
-    }
-}
-
 export const Footer = ({
     pillar,
     likeHandler,
@@ -82,7 +53,7 @@ export const Footer = ({
         width: 28px;
         height: 28px;
         :hover {
-            background: ${GetPillarColour(pillar)};
+            background: ${GetPillarColour400(pillar)};
         }
         :focus {
             border: none;

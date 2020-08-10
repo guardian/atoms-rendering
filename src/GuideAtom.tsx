@@ -3,20 +3,11 @@ import React from 'react';
 import { GuideAtomType } from './types';
 import { css, cx } from 'emotion';
 import { body, textSans } from '@guardian/src-foundations/typography';
-import {
-    news,
-    neutral,
-    opinion,
-    culture,
-    lifestyle,
-    labs,
-} from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 import { SvgInfo } from '@guardian/src-icons';
 import { Footer } from './components/Footer';
 import { Summary } from './components/Summary';
-
-let linkColourStyle = news[300];
-let linkColourStyleHover = news[400];
+import { GetPillarColour400, GetPillarColour300 } from './lib/PillarColours';
 
 const containerStyling = css`
     display: block;
@@ -137,7 +128,6 @@ const Container = ({
         <details
             className={detailStyling}
             data-atom-id={id}
-            data-atom-type="guide"
             data-snippet-type="guide"
         >
             <Summary
@@ -155,10 +145,12 @@ const Body = ({
     html,
     image,
     credit,
+    pillar,
 }: {
     html: string;
     image?: string;
     credit?: string;
+    pillar: string;
 }) => {
     return (
         <div>
@@ -172,7 +164,7 @@ const Body = ({
                     bodyStyling,
                     css`
                         a {
-                            color: ${linkColourStyle};
+                            color: ${GetPillarColour300(pillar)};
                             text-decoration: none;
                             border-bottom: 0.0625rem solid ${neutral[86]};
                             transition: border-color 0.15s ease-out;
@@ -180,7 +172,7 @@ const Body = ({
 
                         a:hover {
                             border-bottom: solid 0.0625rem
-                                ${linkColourStyleHover};
+                                ${GetPillarColour400(pillar)};
                         }
                     `,
                 )}
@@ -188,42 +180,15 @@ const Body = ({
                     __html: html,
                 }}
             />
-            {credit && <Credit credit={credit} />}
+            {credit && (
+                <div className={creditStyling}>
+                    <SvgInfo />
+                    {credit}
+                </div>
+            )}
         </div>
     );
 };
-
-const Credit = ({ credit }: { credit: string }) => (
-    <div className={creditStyling}>
-        <SvgInfo />
-        {credit}
-    </div>
-);
-
-function SetPillarColours(pillar: string) {
-    switch (pillar) {
-        case 'opinion':
-            linkColourStyle = opinion[300];
-            linkColourStyleHover = opinion[400];
-            break;
-        case 'sport':
-            linkColourStyle = opinion[300];
-            linkColourStyleHover = opinion[400];
-            break;
-        case 'culture':
-            linkColourStyle = culture[300];
-            linkColourStyleHover = culture[400];
-            break;
-        case 'lifestyle':
-            linkColourStyle = lifestyle[300];
-            linkColourStyleHover = lifestyle[400];
-            break;
-        case 'labs':
-            linkColourStyle = labs[300];
-            linkColourStyleHover = labs[400];
-            break;
-    }
-}
 
 export const GuideAtom = ({
     id,
@@ -236,7 +201,6 @@ export const GuideAtom = ({
     dislikeHandler,
     expandCallback,
 }: GuideAtomType): JSX.Element => {
-    SetPillarColours(pillar);
     return (
         <Container
             id={id}
@@ -244,7 +208,7 @@ export const GuideAtom = ({
             pillar={pillar}
             expandCallback={expandCallback}
         >
-            <Body html={html} image={image} credit={credit} />
+            <Body html={html} image={image} credit={credit} pillar={pillar} />
             <Footer
                 pillar={pillar}
                 dislikeHandler={dislikeHandler}
