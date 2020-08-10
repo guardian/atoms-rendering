@@ -116,11 +116,13 @@ const Container = ({
     title,
     children,
     pillar,
+    expandForStorybook,
     expandCallback,
 }: {
     id: string;
     title: string;
     pillar: string;
+    expandForStorybook?: boolean;
     children: React.ReactNode;
     expandCallback: () => void;
 }) => (
@@ -129,6 +131,7 @@ const Container = ({
             className={detailStyling}
             data-atom-id={id}
             data-snippet-type="guide"
+            open={expandForStorybook}
         >
             <Summary
                 sectionTitle={'Quick Guide'}
@@ -197,6 +200,7 @@ export const GuideAtom = ({
     html,
     credit,
     pillar,
+    expandForStorybook,
     likeHandler,
     dislikeHandler,
     expandCallback,
@@ -206,6 +210,7 @@ export const GuideAtom = ({
             id={id}
             title={title}
             pillar={pillar}
+            expandForStorybook={expandForStorybook}
             expandCallback={expandCallback}
         >
             <Body html={html} image={image} credit={credit} pillar={pillar} />

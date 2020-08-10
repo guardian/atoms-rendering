@@ -20,6 +20,7 @@ export type GuideAtomType = {
     html: string;
     credit?: string;
     pillar: string;
+    expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
     expandCallback: () => void;
