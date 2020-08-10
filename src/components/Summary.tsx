@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import {
     news,
@@ -104,8 +104,6 @@ export const Summary = ({
     expandCallback: () => void;
 }): JSX.Element => {
     SetHighlightColour(pillar);
-    console.log('TITLE COLOUR: ' + titleColour);
-    console.log('PILLAR: ' + pillar);
     const atomTitleStyling = css`
         display: block;
         ${body.medium({

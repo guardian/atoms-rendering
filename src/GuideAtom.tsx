@@ -38,9 +38,6 @@ const detailStyling = css`
         )
         13;
     border-top: 13px solid black;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
     position: relative;
     summary {
         list-style: none;
@@ -239,7 +236,6 @@ export const GuideAtom = ({
     expandCallback,
 }: GuideAtomType): JSX.Element => {
     SetPillarColours(pillar);
-    console.log('PILLAR IN GUIDE ATOM: ' + pillar);
     return (
         <Container
             id={id}
