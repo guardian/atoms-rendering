@@ -14,11 +14,16 @@ export type ChartAtomType = {
 
 export type GuideAtomType = {
     id: string;
-    label: string;
+    label?: string;
     title: string;
-    img?: string;
+    image?: string;
     html: string;
-    credit: string;
+    credit?: string;
+    pillar: string;
+    expandForStorybook?: boolean;
+    likeHandler: () => void;
+    dislikeHandler: () => void;
+    expandCallback: () => void;
 };
 
 export type InteractiveAtomType = {
