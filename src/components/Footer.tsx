@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { css, cx } from 'emotion';
 import { textSans } from '@guardian/src-foundations/typography';
-import { GetPillarColour400 } from '../lib/PillarColours';
+import { GetPillarColour } from '../lib/PillarColours';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
 const footerStyling = css`
@@ -53,7 +53,7 @@ export const Footer = ({
         width: 28px;
         height: 28px;
         :hover {
-            background: ${GetPillarColour400(pillar)};
+            background: ${GetPillarColour(pillar, 400)};
         }
         :focus {
             border: none;

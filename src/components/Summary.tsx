@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
-import { GetPillarColour400 } from '../lib/PillarColours';
+import { GetPillarColour } from '../lib/PillarColours';
 
 /// SUMMARY ELEMENT
 
@@ -55,7 +55,7 @@ export const Summary = ({
             lineHeight: 'tight',
             fontWeight: 'bold',
         })};
-        color: ${GetPillarColour400(pillar)};
+        color: ${GetPillarColour(pillar, 400)};
     `;
 
     const showHideStyling = css`
@@ -73,7 +73,7 @@ export const Summary = ({
         border: 0;
         margin: 0;
         :hover {
-            background: ${GetPillarColour400(pillar)};
+            background: ${GetPillarColour(pillar, 400)};
         }
     `;
     const [hasBeenExpanded, setHasBeenExpanded] = useState(false);

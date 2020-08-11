@@ -7,7 +7,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { SvgInfo } from '@guardian/src-icons';
 import { Footer } from './components/Footer';
 import { Summary } from './components/Summary';
-import { GetPillarColour400, GetPillarColour300 } from './lib/PillarColours';
+import { GetPillarColour } from './lib/PillarColours';
 
 const containerStyling = css`
     display: block;
@@ -35,6 +35,7 @@ const detailStyling = css`
         margin: 0 0 16px;
     }
 
+    /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details#Customizing_the_disclosure_widget */
     summary::-webkit-details-marker {
         display: none;
     }
@@ -79,8 +80,9 @@ const bodyStyling = css`
         margin-left: -1.25rem;
     }
 
+    /* Without this bold elements are overridden */
     b {
-        font-weight: bold;
+        font-weight: 700;
     }
 `;
 
@@ -155,6 +157,18 @@ const Body = ({
     credit?: string;
     pillar: string;
 }) => {
+    const linkStyling = css`
+        a {
+            color: ${GetPillarColour(pillar, 300)};
+            text-decoration: none;
+            border-bottom: 0.0625rem solid ${neutral[86]};
+            transition: border-color 0.15s ease-out;
+        }
+
+        a:hover {
+            border-bottom: solid 0.0625rem ${GetPillarColour(pillar, 400)};
+        }
+    `;
     return (
         <div>
             {image && (
@@ -163,22 +177,7 @@ const Body = ({
                 </span>
             )}
             <div
-                className={cx(
-                    bodyStyling,
-                    css`
-                        a {
-                            color: ${GetPillarColour300(pillar)};
-                            text-decoration: none;
-                            border-bottom: 0.0625rem solid ${neutral[86]};
-                            transition: border-color 0.15s ease-out;
-                        }
-
-                        a:hover {
-                            border-bottom: solid 0.0625rem
-                                ${GetPillarColour400(pillar)};
-                        }
-                    `,
-                )}
+                className={cx(bodyStyling, linkStyling)}
                 dangerouslySetInnerHTML={{
                     __html: html,
                 }}

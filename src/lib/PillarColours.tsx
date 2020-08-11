@@ -4,41 +4,25 @@ import {
     culture,
     sport,
     lifestyle,
-    labs,
 } from '@guardian/src-foundations/palette/';
 
-export function GetPillarColour400(pillar: string) {
+//Labs uses different structure so has been removed for now
+export function GetPillarColour(
+    pillar: string,
+    colourValue: keyof typeof opinion,
+): string {
     switch (pillar) {
         case 'opinion':
-            return opinion[400];
+            return opinion[colourValue];
         case 'sport':
-            return sport[400];
+            return sport[colourValue];
         case 'culture':
-            return culture[400];
+            return culture[colourValue];
         case 'lifestyle':
-            return lifestyle[400];
-        case 'labs':
-            return labs[400];
+            return lifestyle[colourValue];
         case 'news':
+            return news[colourValue];
         default:
             return news[400];
-    }
-}
-
-export function GetPillarColour300(pillar: string) {
-    switch (pillar) {
-        case 'opinion':
-            return opinion[300];
-        case 'sport':
-            return sport[300];
-        case 'culture':
-            return culture[300];
-        case 'lifestyle':
-            return lifestyle[300];
-        case 'labs':
-            return labs[300];
-        case 'news':
-        default:
-            return news[300];
     }
 }
