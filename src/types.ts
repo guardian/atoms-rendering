@@ -64,6 +64,14 @@ export type QuizAtomType = {
 
 export type TimelineAtomType = {
     id: string;
+    events?: TimelineEvent[];
+    title: string;
+    pillar: string;
+    description: string;
+    expandForStorybook?: boolean;
+    likeHandler: () => void;
+    dislikeHandler: () => void;
+    expandCallback: () => void;
 };
 
 export type InteractiveAtomBlockElementType = {
@@ -74,3 +82,10 @@ export type InteractiveAtomBlockElementType = {
     id: string;
     url: string;
 };
+
+interface TimelineEvent {
+    title: string;
+    date: string;
+    body?: string;
+    toDate?: string;
+}
