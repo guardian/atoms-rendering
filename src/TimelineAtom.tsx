@@ -7,41 +7,66 @@ import { css } from 'emotion';
 import { body } from '@guardian/src-foundations/typography';
 
 import { TimelineAtomType } from './types';
-import { neutral, brandAlt } from '@guardian/src-foundations';
+import { neutral, brandAlt, space } from '@guardian/src-foundations';
 
 const EventContainer = css`
-    div::not(:last-child) {
+    [data-type~='event-snippet']:not(:last-child) {
         border-left: 0.0625rem solid ${neutral[60]};
         padding-bottom: 1rem;
     }
+`;
 
-    ${body.medium()};
+const Snippet = css`
+    padding-left: ${space[4]}px;
+    margin-left: ${space[2]}px;
+`;
+
+const EventTitle = css`
+    ${body.medium({
+        lineHeight: 'tight',
+        fontWeight: 'bold',
+    })};
+`;
+
+const EventDateBullet = css`
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    float: left;
+    margin-left: -24px;
+    background-color: #121212;
 `;
 
 const EventDate = css`
+    ::before {
+        ${EventDateBullet}
+    }
     background: ${brandAlt[400]};
+    ${body.medium({
+        lineHeight: 'tight',
+        fontWeight: 'bold',
+    })};
 `;
 
 const TimelineContents = ({
     events,
+    pillar,
 }: {
     events: TimelineEvent[];
+    pillar: string;
 }): JSX.Element => {
     return (
         <div className={EventContainer}>
             {events.map((event, index) => (
-                <div key={index}>
+                <div key={index} data-type="event-snippet" className={Snippet}>
                     <div>
                         <span className={EventDate}>{event.date}</span>
                     </div>
-                    {event.body}
-                    {event.body && (
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: event.body,
-                            }}
-                        />
+                    {event.title && (
+                        <div className={EventTitle}>{event.title}</div>
                     )}
+                    {event.body && <Body html={event.body} pillar={pillar} />}
                 </div>
             ))}
         </div>
@@ -59,10 +84,6 @@ export const TimelineAtom = ({
     dislikeHandler,
     expandCallback,
 }: TimelineAtomType): JSX.Element => {
-    console.log('--------EVENTS-------');
-    console.log(events);
-    console.log('----------------------');
-
     return (
         <Container
             atomType="timeline"
@@ -74,7 +95,7 @@ export const TimelineAtom = ({
             expandCallback={expandCallback}
         >
             {description && <Body html={description} pillar={pillar} />}
-            {events && <TimelineContents events={events} />}
+            {events && <TimelineContents events={events} pillar={pillar} />}
             <Footer
                 pillar={pillar}
                 dislikeHandler={dislikeHandler}
