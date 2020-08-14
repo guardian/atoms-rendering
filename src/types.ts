@@ -67,7 +67,7 @@ export type TimelineAtomType = {
     events?: TimelineEvent[];
     title: string;
     pillar: string;
-    description: string;
+    description?: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -83,7 +83,7 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
-interface TimelineEvent {
+export interface TimelineEvent {
     title: string;
     date: string;
     body?: string;
