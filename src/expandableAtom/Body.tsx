@@ -77,6 +77,19 @@ const bodyStyling = css`
     }
 `;
 
+const linkStyling = (pillar: string) => css`
+    a {
+        color: ${GetPillarColour(pillar, 300)};
+        text-decoration: none;
+        border-bottom: 0.0625rem solid ${neutral[86]};
+        transition: border-color 0.15s ease-out;
+    }
+
+    a:hover {
+        border-bottom: solid 0.0625rem ${GetPillarColour(pillar, 400)};
+    }
+`;
+
 export const Body = ({
     html,
     image,
@@ -88,18 +101,6 @@ export const Body = ({
     credit?: string;
     pillar: string;
 }): JSX.Element => {
-    const linkStyling = css`
-        a {
-            color: ${GetPillarColour(pillar, 300)};
-            text-decoration: none;
-            border-bottom: 0.0625rem solid ${neutral[86]};
-            transition: border-color 0.15s ease-out;
-        }
-
-        a:hover {
-            border-bottom: solid 0.0625rem ${GetPillarColour(pillar, 400)};
-        }
-    `;
     return (
         <div>
             {image && (
@@ -108,7 +109,7 @@ export const Body = ({
                 </span>
             )}
             <div
-                className={cx(bodyStyling, linkStyling)}
+                className={cx(bodyStyling, linkStyling(pillar))}
                 dangerouslySetInnerHTML={{
                     __html: html,
                 }}

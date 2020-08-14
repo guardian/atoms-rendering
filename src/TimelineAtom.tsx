@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container } from './components/Container';
-import { Footer } from './components/Footer';
-import { Body } from './components/Body';
+import { Container } from './expandableAtom/Container';
+import { Footer } from './expandableAtom/Footer';
+import { Body } from './expandableAtom/Body';
 import { TimelineEvent } from './types';
 import { css } from 'emotion';
 import { body } from '@guardian/src-foundations/typography';
@@ -9,14 +9,11 @@ import { body } from '@guardian/src-foundations/typography';
 import { TimelineAtomType } from './types';
 import { neutral, brandAlt, space } from '@guardian/src-foundations';
 
-const EventContainer = css`
-    [data-type~='event-snippet']:not(:last-child) {
+const Snippet = css`
+    :not(:last-child) {
         border-left: 0.0625rem solid ${neutral[60]};
         padding-bottom: 1rem;
     }
-`;
-
-const Snippet = css`
     padding-left: ${space[4]}px;
     margin-left: ${space[2]}px;
 `;
@@ -57,27 +54,44 @@ const TimelineContents = ({
     pillar: string;
 }): JSX.Element => {
     return (
-        <div className={EventContainer}>
-            {events.map((event, index) => (
-                <div key={index} data-type="event-snippet" className={Snippet}>
-                    <div>
-                        <span className={EventDate}>{event.date}</span>
-                        {event.toDate && (
-                            <span>
-                                {' '}
-                                -{' '}
-                                <span className={EventDate}>
-                                    {event.toDate}
+        <div>
+            {events.map((event, index) => {
+                const time = new Date(Date.parse(event.date)).toISOString();
+                const toTime = event.toDate
+                    ? new Date(Date.parse(event.toDate)).toISOString()
+                    : '';
+                return (
+                    <div
+                        key={index}
+                        data-type="event-snippet"
+                        className={Snippet}
+                    >
+                        <div>
+                            <time dateTime={time} className={EventDate}>
+                                {event.date}
+                            </time>
+                            {event.toDate && (
+                                <span>
+                                    {' '}
+                                    -{' '}
+                                    <time
+                                        dateTime={toTime}
+                                        className={EventDate}
+                                    >
+                                        {event.toDate}
+                                    </time>
                                 </span>
-                            </span>
+                            )}
+                        </div>
+                        {event.title && (
+                            <div className={EventTitle}>{event.title}</div>
+                        )}
+                        {event.body && (
+                            <Body html={event.body} pillar={pillar} />
                         )}
                     </div>
-                    {event.title && (
-                        <div className={EventTitle}>{event.title}</div>
-                    )}
-                    {event.body && <Body html={event.body} pillar={pillar} />}
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 };
@@ -109,7 +123,7 @@ export const TimelineAtom = ({
                 pillar={pillar}
                 dislikeHandler={dislikeHandler}
                 likeHandler={likeHandler}
-            ></Footer>
+            />
         </Container>
     );
 };
