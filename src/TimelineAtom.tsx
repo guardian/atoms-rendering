@@ -62,6 +62,15 @@ const TimelineContents = ({
                 <div key={index} data-type="event-snippet" className={Snippet}>
                     <div>
                         <span className={EventDate}>{event.date}</span>
+                        {event.toDate && (
+                            <span>
+                                {' '}
+                                -{' '}
+                                <span className={EventDate}>
+                                    {event.toDate}
+                                </span>
+                            </span>
+                        )}
                     </div>
                     {event.title && (
                         <div className={EventTitle}>{event.title}</div>

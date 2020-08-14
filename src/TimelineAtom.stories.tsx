@@ -8,7 +8,7 @@ export default {
 };
 
 // Based on https://www.theguardian.com/stage/2018/mar/06/hamilton-nominated-olivier-awards
-export const NoEventsStoryExpanded = (): JSX.Element => {
+export const NoTimelineEventsStoryExpanded = (): JSX.Element => {
     return (
         <TimelineAtom
             id="9704dbd0-0273-49d2-8425-c58ccf9a1951"
@@ -30,7 +30,7 @@ export const NoEventsStoryExpanded = (): JSX.Element => {
 };
 
 // Based on https://www.theguardian.com/uk-news/2020/jul/21/importance-of-prince-andrew-interview-became-clear-in-editing-suite-says-maitlis
-export const NewsStoryNoDescriptionExpanded = (): JSX.Element => {
+export const NewsTimelineStoryNoDescriptionExpanded = (): JSX.Element => {
     return (
         <TimelineAtom
             id="a10c1968-908d-4ec5-86ef-05b45468c0de"
@@ -51,7 +51,8 @@ export const NewsStoryNoDescriptionExpanded = (): JSX.Element => {
     );
 };
 
-export const SportStoryWithDescriptionAndEventsExpanded = (): JSX.Element => {
+// Based on https://www.theguardian.com/sport/blog/2020/jul/09/why-chris-froome-and-team-ineos-parting-of-the-ways-cycling
+export const SportTimelineStoryWithDescriptionAndEventsExpanded = (): JSX.Element => {
     return (
         <TimelineAtom
             id="15418150-6d0c-4bd1-86a2-be894e5fe928"
@@ -59,6 +60,28 @@ export const SportStoryWithDescriptionAndEventsExpanded = (): JSX.Element => {
             pillar="sport"
             description="<p><i>Chris Froome has won seven Grand Tours since joining Team Sky in 2010</i></p>"
             events={SportEvents}
+            expandForStorybook={true}
+            likeHandler={() => {
+                return null;
+            }}
+            dislikeHandler={() => {
+                return null;
+            }}
+            expandCallback={() => {
+                return null;
+            }}
+        />
+    );
+};
+
+// Based on https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order
+export const NewsStoryWithDatesToExpanded = (): JSX.Element => {
+    return (
+        <TimelineAtom
+            id="d7cdd1bd-7b85-4ad0-8368-3fb0d5b20593"
+            title="Julian Assange extradition battle"
+            pillar="news"
+            events={DateToEvents}
             expandForStorybook={true}
             likeHandler={() => {
                 return null;
@@ -184,5 +207,117 @@ const SportEvents = [
         date: 'June 2018',
         body:
             '<p>Froome gets the better of Simon Yates in a spectacular ride on the Colle delle Finestre to win his first Giro and complete his Grand Tour collection. At the 2018 Tour, he ends up working to lead his teammate, Geraint Thomas, to overall victory</p>',
+    },
+];
+
+const DateToEvents = [
+    {
+        title: ' ',
+        date: 'June 2010',
+        body:
+            '<p>WikiLeaks releases about 470,000 classified military documents concerning American diplomacy and the wars in Afghanistan and Iraq. It later releases a further tranche of more than 250,000 classified US diplomatic cables.</p>',
+        toDate: 'October 2010',
+    },
+    {
+        title: ' ',
+        date: 'November 2010',
+        body:
+            '<p>A Swedish prosecutor issues a European arrest warrant for Assange over sexual assault allegations involving two Swedish women. Assange denies the claims.</p>',
+    },
+    {
+        title: ' ',
+        date: 'December 2010',
+        body:
+            '<p><a href="https://www.theguardian.com/news/blog/2010/dec/07/wikileaks-us-embassy-cables-live-updates">He turns himself in to police in London</a> and is placed in custody. He is later released on bail and calls the Swedish allegations a smear campaign.</p>',
+    },
+    {
+        title: ' ',
+        date: 'February 2011',
+        body:
+            '<p>A British judge rules that Assange can be extradited to Sweden. Assange fears Sweden will hand him over to US authorities who could prosecute him.</p>',
+    },
+    {
+        title: ' ',
+        date: 'June 2012',
+        body:
+            '<p><a href="https://www.theguardian.com/media/2012/jun/19/julian-assange-wikileaks-asylum-ecuador">He takes refuge in the Ecuadorian embassy</a> in London. He requests, and is later granted, political asylum.</p>',
+    },
+    {
+        title: ' ',
+        date: 'November 2016',
+        body:
+            '<p>Assange&nbsp;<a href="https://www.theguardian.com/media/2016/nov/14/julian-assange-to-face-swedish-prosecutors-over-accusation">is questioned</a>&nbsp;in a two-day interview over the allegations at the Ecuadorian embassy by Swedish authorities.</p>',
+    },
+    {
+        title: ' ',
+        date: 'January 2017',
+        body:
+            "<p>WikiLeaks says <a href=\"https://www.theguardian.com/media/2017/jan/19/julian-assange-confirms-he-is-willing-to-travel-to-us-after-manning-decision\">Assange could travel to the United States to face investigation</a> if his rights are 'guaranteed'. It comes after one of the site's main sources of leaked documents, Chelsea Manning, is given clemency.</p>",
+    },
+    {
+        title: ' ',
+        date: 'May 2017',
+        body:
+            '<p>Swedish prosecutors say they have <a href="https://www.theguardian.com/media/2017/may/19/julian-assange-signals-he-will-stay-in-ecuadorian-embassy">closed their seven-year sex assault investigation into Assange</a>. British police say they would still arrest him if he leaves the embassy as he breached the terms of his bail in 2012.</p>',
+    },
+    {
+        title: ' ',
+        date: 'January 2018',
+        body:
+            "<p>Britain refuses Ecuador's request to accord Assange diplomatic status, which would allow him to leave the embassy without being arrested.</p>",
+    },
+    {
+        title: ' ',
+        date: 'February 2018',
+        body:
+            '<p><a href="https://www.theguardian.com/media/2018/feb/13/judge-refuses-to-withdraw-julian-assange-arrest-warrant">He loses a bid to have his British arrest warrant cancelled</a> on health grounds.</p>',
+    },
+    {
+        title: ' ',
+        date: 'March 2018',
+        body:
+            '<p><a href="https://www.theguardian.com/media/2018/mar/28/julian-assange-internet-connection-ecuador-embassy-cut-off-wikileaks">Ecuador cuts off Assange\'s internet access</a> alleging he broke an agreement on interfering in other countries\' affairs.</p>',
+    },
+    {
+        title: ' ',
+        date: 'November 2018',
+        body:
+            '<p>US prosecutors inadvertently disclose <a href="https://www.theguardian.com/media/2018/nov/16/julian-assange-charged-in-secret-mistake-on-us-court-filing-suggests">the existence of a sealed indictment against Assange</a>.</p>',
+    },
+    {
+        title: ' ',
+        date: '2 April 2019',
+        body:
+            "<p>Ecuador's President Lenin Moreno says Assange has <a href=\"https://www.theguardian.com/world/2019/apr/02/julian-assange-wikileaks-asylum-ecuador-violated\">'repeatedly violated' the conditions of his asylum</a> at the embassy.</p>",
+    },
+    {
+        title: ' ',
+        date: '11 April 2019',
+        body:
+            '<p><a href="https://www.theguardian.com/uk-news/2019/apr/11/julian-assange-arrested-at-ecuadorian-embassy-wikileaks">Police arrest Assange at the embassy</a>&nbsp;on behalf of the US after his asylum was withdrawn. He is charged by the US with \'a federal charge of conspiracy to commit computer intrusion for agreeing to break a password to a classified U.S. government computer.\'</p>',
+    },
+    {
+        title: ' ',
+        date: '1 May 2019',
+        body:
+            '<p><a href="https://www.theguardian.com/media/2019/may/01/julian-assange-jailed-for-50-weeks-for-breaching-bail-in-2012">He is jailed for 50 weeks</a>&nbsp;in the UK for breaching his bail conditions back in 2012. An apology letter from Assange is read out in court, but the judge rules that he had engaged in a \'deliberate attempt to evade justice\'. On the following day <a href="https://www.theguardian.com/media/2019/may/02/us-begins-extradition-case-against-julian-assange-in-london">the US extradition proceedings were formally started</a>.&nbsp;</p>',
+    },
+    {
+        title: ' ',
+        date: '13 May 2019',
+        body:
+            '<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
+    },
+    {
+        title: ' ',
+        date: '13 June 2019',
+        body:
+            '<p>Home secretary Sajid Javid reveals he has <a href="https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order">signed the US extradition order for Assange</a> paving the way for it to be heard in court.</p>',
+    },
+    {
+        title: ' ',
+        date: '24 February 2020',
+        body:
+            '<p>Assange\'s <a href="https://www.theguardian.com/uk-news/2020/feb/24/julian-assange-hearing-journalism-is-no-excuse-for-breaking-law">extradition hearing begins</a> at Woolwich crown court in south-east London. <br></p><p>After a week of opening arguments, the extradition case is to \nbe adjourned until May, when the two sides will lay out their evidence. \nThe judge is not expected to rule until several months after that, with \nthe losing side likely to appeal. If the courts approve extradition, the British government will have the final say.</p>',
     },
 ];
