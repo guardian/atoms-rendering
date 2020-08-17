@@ -32,14 +32,13 @@ const EventDateBullet = css`
     border-radius: 100%;
     float: left;
     position: relative;
+    left: -24px;
     background-color: #121212;
 `;
 
 const EventDate = css`
     ::before {
         ${EventDateBullet}
-        position: absolute;
-        left: -24px;
     }
     margin-left: -16px;
     background: ${brandAlt[400]};
