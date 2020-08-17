@@ -7,12 +7,12 @@ import { css } from 'emotion';
 import { body } from '@guardian/src-foundations/typography';
 
 import { TimelineAtomType } from './types';
-import { neutral, brandAlt, space } from '@guardian/src-foundations';
+import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
 
 const Snippet = css`
     :not(:last-child) {
         border-left: 0.0625rem solid ${neutral[60]};
-        padding-bottom: 1rem;
+        padding-bottom: ${remSpace[4]};
     }
     padding-left: ${space[4]}px;
     margin-left: ${space[2]}px;
@@ -27,8 +27,8 @@ const EventTitle = css`
 
 const EventDateBullet = css`
     content: '';
-    width: 16px;
-    height: 16px;
+    width: ${space[4]}px;
+    height: ${space[4]}px;
     border-radius: 100%;
     float: left;
     margin-left: -24px;
