@@ -31,14 +31,25 @@ const EventDateBullet = css`
     height: ${space[4]}px;
     border-radius: 100%;
     float: left;
-    margin-left: -24px;
+    position: relative;
     background-color: #121212;
 `;
 
 const EventDate = css`
     ::before {
         ${EventDateBullet}
+        position: absolute;
+        left: -24px;
     }
+    margin-left: -16px;
+    background: ${brandAlt[400]};
+    ${body.medium({
+        lineHeight: 'tight',
+        fontWeight: 'bold',
+    })};
+`;
+
+const EventToDate = css`
     background: ${brandAlt[400]};
     ${body.medium({
         lineHeight: 'tight',
@@ -76,7 +87,7 @@ const TimelineContents = ({
                                     -{' '}
                                     <time
                                         dateTime={toTime}
-                                        className={EventDate}
+                                        className={EventToDate}
                                     >
                                         {event.toDate}
                                     </time>
