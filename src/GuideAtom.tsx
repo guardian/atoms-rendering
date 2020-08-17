@@ -5,8 +5,8 @@ import { css, cx } from 'emotion';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { SvgInfo } from '@guardian/src-icons';
-import { Footer } from './components/Footer';
-import { Summary } from './components/Summary';
+import { Footer } from './expandableAtom/Footer';
+import { Summary } from './expandableAtom/Summary';
 import { GetPillarColour } from './lib/PillarColours';
 
 const containerStyling = css`
