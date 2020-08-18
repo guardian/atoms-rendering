@@ -1,33 +1,38 @@
 import React from 'react';
 
 import { ProfileAtomType } from './types';
-
-const Body = ({ html }: { html: string }) => (
-    <div
-        dangerouslySetInnerHTML={{
-            __html: html,
-        }}
-    />
-);
+import { Container } from './expandableAtom/Container';
+import { Footer } from './expandableAtom/Footer';
+import { Body } from './expandableAtom/Body';
 
 export const ProfileAtom = ({
     id,
-    label,
     title,
-    img,
+    image,
     html,
     credit,
-}: ProfileAtomType): JSX.Element => (
-    <figure data-atom-id={id} data-atom-type="profile">
-        <details data-snippet-id={id} data-snippet-type="profile">
-            <summary>
-                <span>{label}</span>
-                <h4>{title}</h4>
-            </summary>
-            <div>
-                <Body html={html} />
-            </div>
-            <footer></footer>
-        </details>
-    </figure>
-);
+    pillar,
+    expandForStorybook,
+    likeHandler,
+    dislikeHandler,
+    expandCallback,
+}: ProfileAtomType): JSX.Element => {
+    return (
+        <Container
+            id={id}
+            title={title}
+            pillar={pillar}
+            atomType="profile"
+            atomTypeTitle="Profile"
+            expandForStorybook={expandForStorybook}
+            expandCallback={expandCallback}
+        >
+            <Body html={html} image={image} credit={credit} pillar={pillar} />
+            <Footer
+                pillar={pillar}
+                dislikeHandler={dislikeHandler}
+                likeHandler={likeHandler}
+            ></Footer>
+        </Container>
+    );
+};
