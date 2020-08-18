@@ -3,27 +3,15 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
 import { QandaAtom } from './QandaAtom';
+import { imageStory } from '../fixtures/qandaAtom';
 
 describe('QandaAtom', () => {
     it('should render & expand works', () => {
         const { getByText, queryByText } = render(
-            <QandaAtom
-                id="123abc"
-                title="title"
-                html="<p>QandaAtom</p>"
-                likeHandler={() => {
-                    return null;
-                }}
-                dislikeHandler={() => {
-                    return null;
-                }}
-                expandHandler={() => {
-                    return null;
-                }}
-            />,
+            <QandaAtom {...imageStory} />,
         );
 
-        expect(getByText('QandaAtom')).toBeInTheDocument();
+        expect(getByText('Q&A')).toBeInTheDocument();
 
         // Test that the 'Show' part of the expand switch is hidden on expand
         expect(getByText('Show')).toBeInTheDocument();
@@ -37,20 +25,7 @@ describe('QandaAtom', () => {
 
     it('Show feedback on like', () => {
         const { getByText, queryByText, queryByTestId } = render(
-            <QandaAtom
-                id="123abc"
-                title="Test 2"
-                html="<p>QandaAtom</p>"
-                likeHandler={() => {
-                    return null;
-                }}
-                dislikeHandler={() => {
-                    return null;
-                }}
-                expandHandler={() => {
-                    return null;
-                }}
-            />,
+            <QandaAtom {...imageStory} />,
         );
 
         // Expand Q&A
@@ -68,20 +43,7 @@ describe('QandaAtom', () => {
 
     it('Show feedback on dislike', () => {
         const { getByText, queryByText, queryByTestId } = render(
-            <QandaAtom
-                id="123abc"
-                title="Test 2"
-                html="<p>QandaAtom</p>"
-                likeHandler={() => {
-                    return null;
-                }}
-                dislikeHandler={() => {
-                    return null;
-                }}
-                expandHandler={() => {
-                    return null;
-                }}
-            />,
+            <QandaAtom {...imageStory} />,
         );
 
         // Expand Q&A

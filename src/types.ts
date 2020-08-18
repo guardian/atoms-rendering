@@ -58,9 +58,11 @@ export type QandaAtomType = {
     image?: string;
     html: string;
     credit?: string;
+    pillar: string;
+    expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
-    expandHandler: () => void;
+    expandCallback: () => void;
 };
 
 export type QuizAtomType = {
