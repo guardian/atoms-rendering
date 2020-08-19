@@ -1,3 +1,5 @@
+import { Pillar, Display, Design, Format } from '@guardian/types/Format';
+
 export type ExplainerAtomType = {
     id: string;
     title: string;
@@ -36,8 +38,34 @@ export type InteractiveAtomType = {
     css?: string;
 };
 
+export type AdTargeting = {
+    adUnit: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    customParams: { [key: string]: any };
+};
+
+type YoutubeMeta = {
+    assetId: string;
+    mediaTitle: string;
+    id?: string;
+    channelId?: string;
+    duration?: number;
+    posterSrc?: string;
+    height?: string;
+    width?: string;
+};
+
 export type MediaAtomType = {
-    id: string;
+    format: Format;
+    videoMeta: YoutubeMeta;
+    hideCaption?: boolean;
+    overlayImage?: string;
+    adTargeting?: AdTargeting;
+    isMainMedia?: boolean;
+    height?: number;
+    width?: number;
+    title?: string;
+    duration?: number; // in seconds
 };
 
 export type ProfileAtomType = {

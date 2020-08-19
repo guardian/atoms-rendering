@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { MediaAtom } from './MediaAtom';
+import { Pillar, Display, Design } from '@guardian/types/Format';
 
 export default {
     title: 'MediaAtom',
@@ -8,5 +9,18 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
-    return <MediaAtom id="abc123" />;
+    return (
+        <MediaAtom
+            format={{
+                pillar: Pillar.Culture,
+                design: Design.Article,
+                display: Display.Standard,
+            }}
+            videoMeta={{
+                assetId: '-ZCvZmYlQD8',
+                mediaTitle:
+                    "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
+            }}
+        />
+    );
 };
