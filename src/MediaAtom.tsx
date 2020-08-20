@@ -10,8 +10,13 @@ import {
     lifestyle,
 } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
 import { text } from '@guardian/src-foundations/palette';
+
+const borderless = css`
+    iframe {
+        border: 0;
+    }
+`;
 
 type RatioProps = {
     height: number;
@@ -76,6 +81,7 @@ const iconStyle = (pillar: Pillar) => css`
 const captionTextStyle = css`
     ${textSans.xsmall()};
     padding-top: 6px;
+    margin-bottom: 6px;
     ${textSans.xsmall()};
     word-wrap: break-word;
     color: ${text.supporting};
