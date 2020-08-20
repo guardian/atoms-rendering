@@ -12,7 +12,7 @@ export const DefaultStory = (): JSX.Element => {
     return (
         <MediaAtom
             format={{
-                pillar: Pillar.Culture,
+                pillar: Pillar.News,
                 design: Design.Article,
                 display: Display.Standard,
             }}

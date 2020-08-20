@@ -1,7 +1,17 @@
 import React from 'react';
 import { css } from 'emotion';
-import { Pillar, Display, Design, Format } from '@guardian/types/Format';
+import { Pillar, Format } from '@guardian/types/Format';
 import { MediaAtomType, AdTargeting } from './types';
+import {
+    news,
+    opinion,
+    sport,
+    culture,
+    lifestyle,
+} from '@guardian/src-foundations/palette';
+import { textSans } from '@guardian/src-foundations/typography';
+import { space } from '@guardian/src-foundations';
+import { text } from '@guardian/src-foundations/palette';
 
 type RatioProps = {
     height: number;
@@ -34,6 +44,43 @@ const MaintainAspectRatio = ({
     </div>
 );
 
+type colour = string;
+
+interface PillarColours {
+    dark: colour;
+    main: colour;
+    bright: colour;
+    pastel: colour;
+    faded: colour;
+    300: colour;
+    400: colour;
+    500: colour;
+    600: colour;
+    800: colour;
+}
+
+// TODO move
+const pillarPalette: Record<Pillar, PillarColours> = {
+    [Pillar.News]: news,
+    [Pillar.Opinion]: opinion,
+    [Pillar.Sport]: sport,
+    [Pillar.Culture]: culture,
+    [Pillar.Lifestyle]: lifestyle,
+};
+
+const iconStyle = (pillar: Pillar) => css`
+    fill: ${pillarPalette[pillar].main};
+    padding-right: 3px;
+`;
+
+const captionTextStyle = css`
+    ${textSans.xsmall()};
+    padding-top: 6px;
+    ${textSans.xsmall()};
+    word-wrap: break-word;
+    color: ${text.supporting};
+`;
+
 type CaptionProps = {
     format: Format;
     captionText?: string;
@@ -50,8 +97,8 @@ const Caption = ({
     }
 
     return (
-        <figcaption>
-            <span>
+        <figcaption className={captionTextStyle}>
+            <span className={iconStyle(format.pillar)}>
                 {/* TODO colour as required */}
                 <svg width="11" height="10" viewBox="0 0 11 10">
                     <path fillRule="evenodd" d="M5.5 0L11 10H0z" />

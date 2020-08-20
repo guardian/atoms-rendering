@@ -1,4 +1,4 @@
-import { Pillar, Display, Design, Format } from '@guardian/types/Format';
+import { Format } from '@guardian/types/Format';
 
 export type ExplainerAtomType = {
     id: string;
