@@ -169,13 +169,14 @@ const IconWrapper = (el: JSX.Element) => <div className={iconStyle}>{el}</div>;
 export const QuizAtom = ({ id, questions }: QuizAtomType): JSX.Element => (
     <div data-atom-id={id}>
         <form>
-            {questions.map((question) => (
-                <Question
-                    key={question.id}
-                    number={questions.indexOf(question) + 1}
-                    {...question}
-                />
-            ))}
+            {Array.isArray(questions) &&
+                questions.map((question) => (
+                    <Question
+                        key={question.id}
+                        number={questions.indexOf(question) + 1}
+                        {...question}
+                    />
+                ))}
         </form>
     </div>
 );
