@@ -79,8 +79,23 @@ export type QandaAtomType = {
     expandCallback: () => void;
 };
 
+export type Answer = {
+    id: string;
+    text: string;
+    revealText?: string;
+    isCorrect: boolean;
+};
+
+export type Question = {
+    id: string;
+    text: string;
+    answers: Answer[];
+    imageUrl?: string;
+};
+
 export type QuizAtomType = {
     id: string;
+    questions: Question[];
 };
 
 export type TimelineAtomType = {
