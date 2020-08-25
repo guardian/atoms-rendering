@@ -18,7 +18,11 @@ const enum AnswerState {
     Unanswered,
 }
 
-const answerState = (isAnswered, isChosen, isCorrect) => {
+const answerState = (
+    isAnswered: boolean,
+    isChosen: boolean,
+    isCorrect: boolean,
+) => {
     if (!isAnswered) {
         return AnswerState.Unanswered;
     } else if (isCorrect && isChosen) {
