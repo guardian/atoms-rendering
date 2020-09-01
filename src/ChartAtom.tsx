@@ -6,12 +6,8 @@ import { text } from '@guardian/src-foundations/palette';
 import { ChartAtomType } from './types';
 
 export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
-    /* const js =
-        '<script>function resize(){window.frameElement.height = ' +
-        "document.body.offsetHeight;}window.addEventListener('resize', resize);resize();</script>";
-    html = html.replace('</body>', js + '</body>'); */
-    //const js = '<script>console.log("CONDITION 2");</script>';
-    //html = html.replace('</head>', js + '</head>');
+    // The script tag needs to replaced with 'gu-script' to work with iframe
+    // resizing on frontend
     html = html
         .split('<script>')
         .join('<gu-script>')
