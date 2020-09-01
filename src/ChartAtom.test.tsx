@@ -7,7 +7,7 @@ import { ChartAtom } from './ChartAtom';
 
 describe('ChartAtom', () => {
     it('should render', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
             <ChartAtom
                 url="https://api.nextgen.guardianapps.co.uk/embed/atom/chart/16597f9d-cc9c-4659-bfcb-1a1fcbbf6263"
                 id="123abc"
@@ -15,6 +15,6 @@ describe('ChartAtom', () => {
             />,
         );
 
-        // expect(getByText('chart')).toBeInTheDocument();
+        expect(getByTestId('chart')).toBeInTheDocument();
     });
 });

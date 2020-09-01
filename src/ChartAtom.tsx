@@ -16,6 +16,7 @@ export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
     return (
         <div
             data-atom-id={id}
+            data-testid="chart"
             data-atom-type="chart"
             className={css`
                 padding-bottom: ${space[1]}px;
