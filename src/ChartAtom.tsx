@@ -18,6 +18,7 @@ export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
             data-atom-id={id}
             data-testid="chart"
             data-atom-type="chart"
+            data-snippet-type="chart"
             className={css`
                 padding-bottom: ${space[1]}px;
                 padding-left: ${space[2]}px;
