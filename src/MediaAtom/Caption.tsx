@@ -8,6 +8,7 @@ import { css, cx } from 'emotion';
 import { pillarPalette } from './pillarPalette';
 import { Format, Pillar, Display } from '@guardian/types/Format';
 
+// TODO add this to @guardian/src-icons
 const TriangleIcon = (
     <svg width="11" height="10" viewBox="0 0 11 10">
         <path fillRule="evenodd" d="M5.5 0L11 10H0z" />

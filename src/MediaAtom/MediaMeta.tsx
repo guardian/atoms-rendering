@@ -5,24 +5,7 @@ import { textSans } from '@guardian/src-foundations/typography';
 
 import { pillarPalette } from './pillarPalette';
 import { Pillar } from '@guardian/types/Format';
-
-const Audio = (
-    <svg width="16" height="13" viewBox="0 0 16 13">
-        <path d="M3 4H1L0 5v3l1 1h2l4 4h1V0H7L3 4zm11.7 2.5c0 2-.7 3.8-1.8 5.2l.4.4c1.6-1.3 2.6-3.3 2.6-5.6s-1-4.3-2.6-5.6l-.4.4c1.2 1.5 1.8 3.3 1.8 5.2m-3.7 0c0 1.1-.3 2.2-.9 3.1l.5.5c.8-1 1.4-2.2 1.4-3.6s-.6-2.6-1.5-3.5l-.5.5c.6.8 1 1.9 1 3" />
-    </svg>
-);
-
-const Photo = (
-    <svg width="18" height="13" viewBox="0 0 18 13">
-        <path d="M18 3.5v8L16.5 13h-15L0 11.5v-8L1.5 2H5l2-2h4l2 2h3.5L18 3.5zM9 11c1.9 0 3.5-1.6 3.5-3.5S10.9 4 9 4 5.5 5.6 5.5 7.5 7.1 11 9 11z" />
-    </svg>
-);
-
-const Video = (
-    <svg width="36" height="23" viewBox="0 0 36 23">
-        <path d="M3.2 0L0 3.3v16.4L3.3 23H22V0H3.2m30.4 1L25 9v5l8.6 8H36V1h-2.4" />
-    </svg>
-);
+import { SvgAudio, SvgCamera, SvgVideo } from '@guardian/src-icons';
 
 type MediaType = 'Video' | 'Audio' | 'Gallery';
 
@@ -91,14 +74,14 @@ export function secondsToDuration(secs?: number): string {
     return duration.join(':');
 }
 
-const Icon = ({ mediaType }: { mediaType: MediaType }) => {
+const icon = (mediaType: MediaType) => {
     switch (mediaType) {
         case 'Gallery':
-            return Photo;
+            return SvgCamera;
         case 'Video':
-            return Video;
+            return SvgVideo;
         case 'Audio':
-            return Audio;
+            return SvgAudio;
     }
 };
 
@@ -110,7 +93,7 @@ const MediaIcon = ({
     pillar: Pillar;
 }) => (
     <span className={iconWrapperStyles(mediaType, pillar)}>
-        <Icon mediaType={mediaType} />
+        {icon(mediaType)}
     </span>
 );
 
