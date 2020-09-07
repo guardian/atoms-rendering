@@ -8,6 +8,7 @@ import { ChartAtomType } from './types';
 export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
     // The script tag needs to replaced with 'gu-script' to work with iframe
     // resizing on frontend
+
     html = html
         .split('<script>')
         .join('<gu-script>')
