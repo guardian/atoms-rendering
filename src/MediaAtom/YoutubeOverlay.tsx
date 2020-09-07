@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Pillar } from '@guardian/types/Format';
+import { space } from '@guardian/src-foundations';
 
 import { MediaMeta } from './MediaMeta';
 
@@ -26,8 +27,8 @@ const BottomLeft = ({
     <div
         className={css`
             position: absolute;
-            bottom: 12px;
-            left: 12px;
+            bottom: ${space[3]};
+            left: ${space[3]};
         `}
     >
         {children}
