@@ -15,7 +15,7 @@ export {
     ChartAtom,
     GuideAtom,
     InteractiveAtom,
-    YoutubeAtom as MediaAtom,
+    YoutubeAtom,
     ProfileAtom,
     QandaAtom,
     QuizAtom,
