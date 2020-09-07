@@ -22,9 +22,6 @@ export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
             data-snippet-type="chart"
             className={css`
                 padding-bottom: ${space[1]}px;
-                padding-left: ${space[2]}px;
-                padding-right: ${space[2]}px;
-                color: ${text.primary};
                 margin-bottom: ${space[2]}px;
             `}
         >
