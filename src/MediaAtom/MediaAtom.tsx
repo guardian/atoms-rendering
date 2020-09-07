@@ -68,7 +68,7 @@ export const MediaAtom = ({
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
 
     return (
-        <>
+        <div>
             <MaintainAspectRatio height={height} width={width}>
                 {overlayImage && (
                     <YoutubeOverlay
@@ -92,6 +92,6 @@ export const MediaAtom = ({
                     shouldLimitWidth={shouldLimitWidth}
                 />
             )}
-        </>
+        </div>
     );
 };
