@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
-import { MediaMeta } from './MediaMeta';
+import { YoutubeMeta } from './YoutubeMeta';
 
 const overlayStyles = (image: string) => css`
     background-image: url(${image});
@@ -46,11 +46,7 @@ export const YoutubeOverlay = ({
 }): JSX.Element => (
     <div className={overlayStyles(image)}>
         <BottomLeft>
-            <MediaMeta
-                mediaType="Video"
-                mediaDuration={duration}
-                pillar={pillar}
-            />
+            <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </BottomLeft>
     </div>
 );

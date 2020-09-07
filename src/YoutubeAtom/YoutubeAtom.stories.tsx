@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { MediaAtom } from './MediaAtom';
+import { YoutubeAtom } from './YoutubeAtom';
 import { Pillar, Display, Design } from '@guardian/types/Format';
 
 export default {
-    title: 'MediaAtom',
-    component: MediaAtom,
+    title: 'YoutubeAtom',
+    component: YoutubeAtom,
 };
 
 export const DefaultStory = (): JSX.Element => {
     return (
-        <MediaAtom
+        <YoutubeAtom
             format={{
                 pillar: Pillar.News,
                 design: Design.Article,

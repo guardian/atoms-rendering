@@ -5,17 +5,14 @@ import { textSans } from '@guardian/src-foundations/typography';
 
 import { pillarPalette } from './pillarPalette';
 import { Pillar } from '@guardian/types/Format';
-import { SvgAudio, SvgCamera, SvgVideo } from '@guardian/src-icons';
-
-type MediaType = 'Video' | 'Audio' | 'Gallery';
+import { SvgVideo } from '@guardian/src-icons';
 
 type Props = {
-    mediaType: MediaType;
     pillar: Pillar;
     mediaDuration?: number;
 };
 
-const iconWrapperStyles = (mediaType: MediaType, pillar: Pillar) => css`
+const iconWrapperStyles = (pillar: Pillar) => css`
     width: 24px;
     height: 23px;
     /* Below we force the colour to be bright if the pillar is news (because it looks better) */
@@ -32,7 +29,7 @@ const iconWrapperStyles = (mediaType: MediaType, pillar: Pillar) => css`
         margin-right: auto;
         margin-top: 6px;
         display: block;
-        transform: ${mediaType === 'Video' ? `translateY(0.0625rem)` : ``};
+        transform: translateY(0.0625rem);
     }
 `;
 
@@ -51,7 +48,7 @@ const wrapperStyles = css`
     padding: 0 5px 5px 5px;
 `;
 
-export function secondsToDuration(secs?: number): string {
+const secondsToDuration = (secs?: number): string => {
     if (typeof secs === `undefined` || secs === 0) {
         return ``;
     }
@@ -72,32 +69,15 @@ export function secondsToDuration(secs?: number): string {
         duration.push(s);
     }
     return duration.join(':');
-}
-
-const icon = (mediaType: MediaType) => {
-    switch (mediaType) {
-        case 'Gallery':
-            return SvgCamera;
-        case 'Video':
-            return SvgVideo;
-        case 'Audio':
-            return SvgAudio;
-    }
 };
 
-const MediaIcon = ({
-    mediaType,
-    pillar,
-}: {
-    mediaType: MediaType;
-    pillar: Pillar;
-}) => (
-    <span className={iconWrapperStyles(mediaType, pillar)}>
-        {icon(mediaType)}
+const Icon = ({ pillar }: { pillar: Pillar }) => (
+    <span className={iconWrapperStyles(pillar)}>
+        <SvgVideo />
     </span>
 );
 
-const MediaDuration = ({
+const Duration = ({
     mediaDuration,
     pillar,
 }: {
@@ -107,16 +87,12 @@ const MediaDuration = ({
     <p className={durationStyles(pillar)}>{secondsToDuration(mediaDuration)}</p>
 );
 
-export const MediaMeta = ({
-    mediaType,
-    mediaDuration,
-    pillar,
-}: Props): JSX.Element => (
+export const YoutubeMeta = ({ mediaDuration, pillar }: Props): JSX.Element => (
     <div className={wrapperStyles}>
-        <MediaIcon mediaType={mediaType} pillar={pillar} />
+        <Icon pillar={pillar} />
         &nbsp;
         {mediaDuration && (
-            <MediaDuration mediaDuration={mediaDuration} pillar={pillar} />
+            <Duration mediaDuration={mediaDuration} pillar={pillar} />
         )}
     </div>
 );

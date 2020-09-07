@@ -55,13 +55,11 @@ type YoutubeMeta = {
     width?: string;
 };
 
-export type MediaAtomType = {
+export type YoutubeAtomType = {
     format: Format;
     videoMeta: YoutubeMeta;
-    hideCaption?: boolean;
     overlayImage?: string;
     adTargeting?: AdTargeting;
-    isMainMedia?: boolean;
     height?: number;
     width?: number;
     title?: string;
