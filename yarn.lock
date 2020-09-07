@@ -1124,10 +1124,10 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.9.1.tgz#86d9dba8085042014e5851db8b2388ff2a25c201"
   integrity sha512-wdLFDoE8qvKxRyb3EjTBvErMxsYpsckrb/2eRtEjqm4dP2nycK51qTyhLS9aJXvILQnlZLKg5yVbxKdYQokEgQ==
 
-"@guardian/types@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.3.0.tgz#f96cdcadd5706b5788d911f1277937c9839dd016"
-  integrity sha512-jVgRn4EMxex8AwN80AAE4XHkb5x5j2/Jm4F2bEQPI4/8Gp2qTnSnnKFmfZRDFon5REttnvwaEXSjWB8QpErUFg==
+"@guardian/types@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.4.4.tgz#dba5c1ef0e95cfe9b8411c21354a528cba7b338c"
+  integrity sha512-kBnfpMouvhheuEXaWLFEDQRv2Lyx1wbrz/4IidSK04RqALAMdrsZiXRLHIApUDcgohgEGYp9Jwquml0Vvp7o5Q==
   dependencies:
     typescript "^3.8.3"
 
