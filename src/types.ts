@@ -1,15 +1,15 @@
-export type ExplainerAtomType = {
-    id: string;
-    title: string;
-    html: string;
-};
-
 export type AudioAtomType = {
     id: string;
 };
 
 export type ChartAtomType = {
     id: string;
+};
+
+export type ExplainerAtomType = {
+    id: string;
+    title: string;
+    html: string;
 };
 
 export type GuideAtomType = {
@@ -24,6 +24,15 @@ export type GuideAtomType = {
     likeHandler: () => void;
     dislikeHandler: () => void;
     expandCallback: () => void;
+};
+
+export type InteractiveAtomBlockElementType = {
+    _type: string;
+    css: string;
+    js: string;
+    html: string;
+    id: string;
+    url: string;
 };
 
 export type InteractiveAtomType = {
@@ -64,13 +73,4 @@ export type QuizAtomType = {
 
 export type TimelineAtomType = {
     id: string;
-};
-
-export type InteractiveAtomBlockElementType = {
-    _type: string;
-    css: string;
-    js: string;
-    html: string;
-    id: string;
-    url: string;
 };
