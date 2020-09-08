@@ -6,6 +6,8 @@ An Atom is a self contained piece of content that can be inserted into multiple 
 
 ## Usage
 
+### import 
+
 To import an atom in your project use `yarn add @guardian/atoms-rendering` then
 
 ```
@@ -13,6 +15,10 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 <TheAtomYouWant someProp={localData.someProp} />
 ```
+
+### Naming conventions
+
+There is mostly a one to one correspondance between atom as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
 
 ## Moving to main
 
