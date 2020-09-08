@@ -5,6 +5,7 @@ module.exports = {
         '@babel/preset-react',
     ],
     plugins: [
+        'const-enum',
         [
             'emotion',
             {
