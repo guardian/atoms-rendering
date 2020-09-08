@@ -14,6 +14,17 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 <TheAtomYouWant someProp={localData.someProp} />
 ```
 
+## Moving to main
+
+The `master` branch in the atoms-rendering repository has now been renamed to `main`. If you have been working with this repository before the change, then run the following sequence of commands.
+
+```
+git fetch --all
+git remote set-head origin -a
+git branch master --set-upstream-to origin/main
+git branch -m master main
+```
+
 ## Running locally
 
 ```
