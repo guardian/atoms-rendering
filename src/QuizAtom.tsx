@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { css } from 'emotion';
-import { neutral, news, success } from '@guardian/src-foundations/palette';
+import { neutral, news } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 
 import {
@@ -152,6 +152,7 @@ const visuallyHidden = css`
 `;
 
 const iconStyle = css`
+    height: 26px;
     svg {
         fill: ${neutral[100]};
         height: 26px;
@@ -200,18 +201,18 @@ export const Question = ({
                         display: flex;
                     `}
                 >
-                    <div
-                        className={css`
-                            padding-right: 0.5ch;
-                        `}
-                    >
-                        {number + '.'}
-                    </div>
                     <legend
                         className={css`
                             margin-bottom: 12px;
                         `}
                     >
+                        <span
+                            className={css`
+                                padding-right: 12px;
+                            `}
+                        >
+                            {number + '.'}
+                        </span>
                         {text}
                     </legend>
                 </div>
