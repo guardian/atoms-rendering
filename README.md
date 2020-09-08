@@ -87,7 +87,7 @@ Adding a new atom in `atoms-rendering` involves
 
 Manual publishing steps:
 
-1. Ensure your changes are on master
+1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
 3. `yarn build`
 4. Create a branch, `yourname/v1.0.1`
