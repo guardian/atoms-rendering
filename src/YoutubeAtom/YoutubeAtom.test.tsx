@@ -8,6 +8,7 @@ describe('YoutubeAtom', () => {
     it('should render', () => {
         const atom = (
             <YoutubeAtom
+                title="My Youtube video!"
                 format={{
                     pillar: Pillar.News,
                     design: Design.Article,
@@ -19,8 +20,8 @@ describe('YoutubeAtom', () => {
                 }}
             />
         );
-        const { getByText } = render(atom);
+        const { getByTitle } = render(atom);
 
-        expect(getByText('Youtube')).toBeInTheDocument();
+        expect(getByTitle('My Youtube video!')).toBeInTheDocument();
     });
 });
