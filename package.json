@@ -1,6 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
-    "version": "1.9.0",
+    "version": "1.10.0",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
@@ -85,7 +85,7 @@
         "react-dom": "^16.13.1"
     },
     "jest": {
-        "testEnvironment": "jest-environment-jsdom-sixteen",  
+        "testEnvironment": "jest-environment-jsdom-sixteen",
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types)/)"
         ]
