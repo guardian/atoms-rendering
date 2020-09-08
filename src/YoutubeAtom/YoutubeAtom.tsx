@@ -43,6 +43,7 @@ const constructQuery = (query: { [key: string]: any }): string =>
         })
         .join('&');
 
+// Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     format,
     videoMeta,
