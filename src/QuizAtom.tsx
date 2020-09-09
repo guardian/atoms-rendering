@@ -3,6 +3,7 @@ import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { css } from 'emotion';
 import { neutral, news } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
+import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 
 import {
     QuizAtomType,
@@ -139,16 +140,25 @@ const fieldsetStyle = css`
     padding: 0px;
 `;
 
-// Will appear on screen readers
-const visuallyHidden = css`
-    border: 0 !important;
-    clip: rect(0 0 0 0) !important;
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    width: 1px !important;
+const questionStyle = css`
+    display: flex;
+    div {
+        padding-right: 0.5ch;
+    }
+    legend {
+        margin-bottom: 12px;
+    }
+    span {
+        padding-right: 12px;
+    }
+`;
+
+const answerStyle = css`
+    display: flex;
+    div {
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 const iconStyle = css`
@@ -166,12 +176,8 @@ const IconWrapper = (el: JSX.Element) => <div className={iconStyle}>{el}</div>;
 export const QuizAtom = ({ id, questions }: QuizAtomType): JSX.Element => (
     <div data-atom-id={id}>
         <form>
-            {questions.map((question) => (
-                <Question
-                    key={question.id}
-                    number={questions.indexOf(question) + 1}
-                    {...question}
-                />
+            {questions.map((question, idx) => (
+                <Question key={question.id} number={idx + 1} {...question} />
             ))}
         </form>
     </div>
@@ -196,23 +202,9 @@ export const Question = ({
             `}
         >
             <fieldset className={fieldsetStyle}>
-                <div
-                    className={css`
-                        display: flex;
-                    `}
-                >
-                    <legend
-                        className={css`
-                            margin-bottom: 12px;
-                        `}
-                    >
-                        <span
-                            className={css`
-                                padding-right: 12px;
-                            `}
-                        >
-                            {number + '.'}
-                        </span>
+                <div className={questionStyle}>
+                    <legend>
+                        <span>{number + '.'}</span>
                         {text}
                     </legend>
                 </div>
@@ -224,12 +216,7 @@ export const Question = ({
                         src={imageUrl}
                     ></img>
                 )}
-                <div
-                    className={css`
-                        display: flex;
-                        flex-direction: column;
-                    `}
-                >
+                <div>
                     {answers.map((answer) => (
                         <Answer
                             key={answer.id}
@@ -273,7 +260,9 @@ export const Answer = ({
             checked={isChosen}
             onClick={() => setChosen(id)}
             disabled={isAnswered}
-            className={visuallyHidden}
+            className={css`
+                ${visuallyHidden};
+            `}
         ></input>
         <label
             htmlFor={`answer-${id}`}
@@ -281,22 +270,13 @@ export const Answer = ({
                 answerState({ isAnswered, isChosen, isCorrect }),
             )}
         >
-            <div
-                className={css`
-                    display: flex;
-                `}
-            >
+            <div className={answerStyle}>
                 {isAnswered &&
                     isChosen &&
                     (isCorrect
                         ? IconWrapper(<SvgCheckmark />)
                         : IconWrapper(<SvgCross />))}
-                <div
-                    className={css`
-                        display: flex;
-                        flex-direction: column;
-                    `}
-                >
+                <div>
                     <span
                         className={textStyle(
                             answerState({ isAnswered, isChosen, isCorrect }),
