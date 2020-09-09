@@ -5,6 +5,7 @@ module.exports = {
         '@babel/preset-react',
     ],
     plugins: [
+        // this is needed to support `const enum`s - see https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats
         'const-enum',
         [
             'emotion',
