@@ -18,7 +18,7 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 ### Naming conventions
 
-There is mostly a one to one correspondance between atom as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
+There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
 
 ## Moving to main
 
