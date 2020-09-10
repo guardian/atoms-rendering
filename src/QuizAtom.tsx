@@ -4,6 +4,7 @@ import { css } from 'emotion';
 import { neutral, news } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 
 import {
     QuizAtomType,
@@ -61,6 +62,10 @@ const unansweredLabel = css`
     ${commonLabelStyle}
     background-color: ${neutralBackgroundColour};
     :hover {
+        background-color: ${darkerNeutralBackgroundColour};
+    }
+    :focus {
+        ${focusHalo}
         background-color: ${darkerNeutralBackgroundColour};
     }
 `;
@@ -198,7 +203,7 @@ export const Question = ({
     return (
         <div
             className={css`
-                ${body.medium()}
+                ${body.medium()};
             `}
         >
             <fieldset className={fieldsetStyle}>
@@ -255,6 +260,7 @@ export const Answer = ({
     >
         <input
             type="radio"
+            tabIndex={-1}
             id={`answer-${id}`}
             required
             checked={isChosen}
@@ -266,9 +272,15 @@ export const Answer = ({
         ></input>
         <label
             htmlFor={`answer-${id}`}
+            tabIndex={0}
             className={labelStyle(
                 answerState({ isAnswered, isChosen, isCorrect }),
             )}
+            onKeyPress={(e) => {
+                if (e.key === 'Enter' && !isAnswered) {
+                    setChosen(id);
+                }
+            }}
         >
             <div className={answerStyle}>
                 {isAnswered &&
