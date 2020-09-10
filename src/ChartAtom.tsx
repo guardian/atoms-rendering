@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
 import { space } from '@guardian/src-foundations';
-import { text } from '@guardian/src-foundations/palette';
 
 import { ChartAtomType } from './types';
 
