@@ -9,11 +9,6 @@ export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
     // The script tag needs to replaced with 'gu-script' to work with iframe
     // resizing on frontend
 
-    html = html
-        .split('<script>')
-        .join('<gu-script>')
-        .split('</script>')
-        .join('</gu-script>');
     return (
         <div
             data-atom-id={id}
