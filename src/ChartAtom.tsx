@@ -5,8 +5,6 @@ import { space } from '@guardian/src-foundations';
 import { ChartAtomType } from './types';
 
 export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
-    // The script tag needs to replaced with 'gu-script' to work with iframe
-    // resizing on frontend
 
     return (
         <div
