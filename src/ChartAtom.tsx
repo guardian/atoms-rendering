@@ -4,7 +4,7 @@ import { space } from '@guardian/src-foundations';
 
 import { ChartAtomType } from './types';
 
-export const ChartAtom = ({ id, url, html }: ChartAtomType): JSX.Element => {
+export const ChartAtom = ({ id, html }: ChartAtomType): JSX.Element => {
     return (
         <div
             data-atom-id={id}

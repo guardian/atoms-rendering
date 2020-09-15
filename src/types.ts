@@ -12,7 +12,6 @@ export type AudioAtomType = {
 
 export type ChartAtomType = {
     id: string;
-    url: string;
     html: string;
 };
 
