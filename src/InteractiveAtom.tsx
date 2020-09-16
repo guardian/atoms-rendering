@@ -1,8 +1,5 @@
 import React from 'react';
-import { css, cx } from 'emotion';
-
-import { space } from '@guardian/src-foundations';
-import { text } from '@guardian/src-foundations/palette';
+import { css } from 'emotion';
 
 import { unifyPageContent } from './lib/unifyPageContent';
 import { InteractiveAtomType } from './types';
