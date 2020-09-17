@@ -178,15 +178,22 @@ const iconStyle = css`
 
 const IconWrapper = (el: JSX.Element) => <div className={iconStyle}>{el}</div>;
 
-export const QuizAtom = ({ id, questions }: QuizAtomType): JSX.Element => (
-    <div data-atom-id={id}>
-        <form>
-            {questions.map((question, idx) => (
-                <Question key={question.id} number={idx + 1} {...question} />
-            ))}
-        </form>
-    </div>
-);
+export const QuizAtom = ({ id, questions }: QuizAtomType): JSX.Element => {
+    console.log(`rendered atom`);
+    return (
+        <div data-atom-id={id}>
+            <form>
+                {questions.map((question, idx) => (
+                    <Question
+                        key={question.id}
+                        number={idx + 1}
+                        {...question}
+                    />
+                ))}
+            </form>
+        </div>
+    );
+};
 
 export type QuestionProps = {
     number: number;
@@ -256,6 +263,7 @@ export const Answer = ({
         className={css`
             clear: both;
             margin-bottom: 6px;
+            position: relative;
         `}
     >
         <input
