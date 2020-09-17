@@ -186,8 +186,11 @@ export const QuizAtom = ({ id, questions }: QuizAtomType): JSX.Element => {
                 {questions.map((question, idx) => (
                     <Question
                         key={question.id}
+                        id={question.id}
                         number={idx + 1}
-                        {...question}
+                        text={question.text}
+                        imageUrl={question.imageUrl}
+                        answers={question.answers}
                     />
                 ))}
             </form>
@@ -205,7 +208,7 @@ export const Question = ({
     answers,
     number,
 }: QuestionType & QuestionProps): JSX.Element => {
-    const [Chosen, setChosen] = useState<string | undefined>(undefined);
+    const [chosen, setChosen] = useState<string | undefined>(undefined);
 
     return (
         <div
@@ -232,10 +235,13 @@ export const Question = ({
                     {answers.map((answer) => (
                         <Answer
                             key={answer.id}
-                            isChosen={Chosen === answer.id}
-                            {...answer}
+                            id={answer.id}
+                            text={answer.text}
+                            isCorrect={answer.isCorrect}
+                            revealText={answer.revealText}
+                            isChosen={chosen === answer.id}
                             setChosen={setChosen}
-                            isAnswered={Chosen !== undefined}
+                            isAnswered={chosen !== undefined}
                         />
                     ))}
                 </div>
@@ -271,7 +277,7 @@ export const Answer = ({
             tabIndex={-1}
             id={`answer-${id}`}
             required
-            checked={isChosen}
+            defaultChecked={isChosen}
             onClick={() => setChosen(id)}
             disabled={isAnswered}
             className={css`
