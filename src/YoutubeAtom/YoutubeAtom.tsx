@@ -60,19 +60,21 @@ export const YoutubeAtom = ({
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
+                <iframe
+                    title={title}
+                    width={width}
+                    height={height}
+                    id={videoMeta.assetId}
+                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=https://www.theguardian.com&widgetid=1&modestbranding=1`}
+                />
                 {overlayImage && (
                     <YoutubeOverlay
                         image={overlayImage}
                         pillar={format.pillar}
                         duration={duration}
+                        id={videoMeta.assetId}
                     />
                 )}
-                <iframe
-                    title={title}
-                    width={width}
-                    height={height}
-                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=https://www.theguardian.com&widgetid=1&modestbranding=1`}
-                />
             </MaintainAspectRatio>
         </div>
     );
