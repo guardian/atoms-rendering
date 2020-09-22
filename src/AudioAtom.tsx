@@ -86,6 +86,18 @@ const timeDurationStyle = css`
     display: block;
 `;
 
+const secondsInAnHour = 3600;
+// converts time format from 77.13787824 to 00:01:17
+const formatTimeToString = (timeInSeconds: number) => {
+    const hours = Math.floor(timeInSeconds / secondsInAnHour);
+    const minutes = Math.floor((timeInSeconds % secondsInAnHour) / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+
+    return `${hours > 10 ? hours : `0${hours}`}:${
+        minutes > 10 ? minutes : `0${minutes}`
+    }:${seconds > 10 ? seconds : `0${seconds}`}`;
+};
+
 const PauseButton = ({ onClick }: { onClick: () => void }) => (
     <button onClick={onClick} className={buttonStyle}>
         <svg
@@ -187,7 +199,13 @@ export const AudioAtom = ({
                         </div>
                         <div className={timingStyle}>
                             <div className={timePlayedStyle}>
-                                <span>00:00:00</span>
+                                <span>
+                                    {audioEl.current
+                                        ? formatTimeToString(
+                                              audioEl.current.currentTime,
+                                          )
+                                        : '00:00:00'}
+                                </span>
                             </div>
                             <div className={progressBarStyle}>
                                 <input
@@ -199,7 +217,13 @@ export const AudioAtom = ({
                                 />
                             </div>
                             <div className={timeDurationStyle}>
-                                <span>00:14:09</span>
+                                <span>
+                                    {audioEl.current
+                                        ? formatTimeToString(
+                                              audioEl.current.duration,
+                                          )
+                                        : '00:00:00'}
+                                </span>
                             </div>
                         </div>
                     </div>
