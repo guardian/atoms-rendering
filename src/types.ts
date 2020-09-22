@@ -7,6 +7,7 @@ export type AdTargeting = {
 };
 
 export type AudioAtomType = {
+    id: string;
     trackUrl: string;
     kicker: string;
     title?: string;
