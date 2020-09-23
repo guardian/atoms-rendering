@@ -278,11 +278,13 @@ export const AudioAtom = ({
                         className={audioElementStyle}
                         src={trackUrl}
                         ref={audioEl}
+                        data-duration={
+                            audioEl.current ? audioEl.current.duration : 0
+                        }
+                        preload="none"
+                        data-media-id={id}
+                        data-title={titleStyle}
                         // TODO:
-                        // data-duration="849"
-                        // preload="none"
-                        // data-media-id="_no_ids"
-                        // data-title="Football Weekly Extra Extra"
                         // data-component="inarticle audio"
                     >
                         <p>
