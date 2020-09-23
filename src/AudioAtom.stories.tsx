@@ -1,8 +1,9 @@
 import React from 'react';
 import { css } from 'emotion';
 
-import { AudioAtom } from './AudioAtom';
 import { Pillar } from '@guardian/types/Format';
+
+import { AudioAtom } from './AudioAtom';
 
 export default {
     title: 'AudioAtom',
