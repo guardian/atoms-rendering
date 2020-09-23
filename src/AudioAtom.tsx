@@ -178,7 +178,7 @@ export const AudioAtom = ({
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     // update current time
-    const [currentTime, setCurrentTime] = useState<number>();
+    const [currentTime, setCurrentTime] = useState<number>(0);
     useEffect(() => {
         const updateCurrentTime = () =>
             setCurrentTime(audioEl.current ? audioEl.current.currentTime : 0);
@@ -196,7 +196,7 @@ export const AudioAtom = ({
     }, [audioEl, setCurrentTime]);
 
     // update duration time
-    const [durationTime, setDurationTime] = useState<number>();
+    const [durationTime, setDurationTime] = useState<number>(0);
     useEffect(() => {
         const updateDurationTime = () =>
             setDurationTime(audioEl.current ? audioEl.current.duration : 0);
@@ -256,9 +256,7 @@ export const AudioAtom = ({
                     <div className={timingStyle}>
                         <div className={timePlayedStyle}>
                             <span className={timeStyles}>
-                                {currentTime
-                                    ? formatTime(currentTime)
-                                    : '00:00:00'}
+                                {formatTime(currentTime)}
                             </span>
                         </div>
                         <div className={progressBarStyle}>
@@ -273,9 +271,7 @@ export const AudioAtom = ({
                         </div>
                         <div className={timeDurationStyle}>
                             <span className={timeStyles}>
-                                {durationTime
-                                    ? formatTime(durationTime)
-                                    : '00:00:00'}
+                                {formatTime(durationTime)}
                             </span>
                         </div>
                     </div>
