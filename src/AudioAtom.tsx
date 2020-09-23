@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css } from 'emotion';
 
 import { headline, textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
 import { neutral, text } from '@guardian/src-foundations/palette';
+import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 
 import { pillarPalette } from './lib/pillarPalette';
@@ -12,12 +12,17 @@ import { AudioAtomType } from './types';
 const wrapperStyles = css`
     border-image: repeating-linear-gradient(
             to bottom,
-            #dcdcdc,
-            #dcdcdc 1px,
+            ${palette.neutral[86]},
+            ${palette.neutral[86]} 1px,
             transparent 1px,
             transparent 4px
         )
         13;
+    border-top: 13px solid black;
+    background-color: ${palette.neutral[97]};
+    position: relative;
+    padding: 0 5px 6px;
+    margin: 16px 0 36px;
 `;
 
 const figureStyle = css`
@@ -60,6 +65,7 @@ const audioControlsStyle = css`
 `;
 
 const buttonStyle = css`
+    padding: 0;
     border: 0;
     background-color: transparent;
 `;
