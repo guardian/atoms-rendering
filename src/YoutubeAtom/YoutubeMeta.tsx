@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { pillarPalette } from './pillarPalette';
+import { pillarPalette } from '../lib/pillarPalette';
 import { Pillar } from '@guardian/types/Format';
 import { SvgVideo } from '@guardian/src-icons';
 
