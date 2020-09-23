@@ -164,6 +164,38 @@ export const AudioAtom = ({
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+    // update current time
+    const [currentTime, setCurrentTime] = useState<number>();
+    useEffect(() => {
+        const updateCurrentTime = () =>
+            setCurrentTime(audioEl.current ? audioEl.current.currentTime : 0);
+
+        audioEl.current &&
+            audioEl.current.addEventListener('timeupdate', updateCurrentTime);
+
+        return () =>
+            audioEl.current &&
+            audioEl.current.removeEventListener(
+                'timeupdate',
+                updateCurrentTime,
+            );
+    }, [audioEl, setCurrentTime]);
+
+    // update duration time
+    const [durationTime, setDurationTime] = useState<number>();
+    useEffect(() => {
+        const updateDurationTime = () =>
+            setDurationTime(audioEl.current ? audioEl.current.duration : 0);
+        audioEl.current &&
+            audioEl.current.addEventListener('loadeddata', updateDurationTime);
+        return () =>
+            audioEl.current &&
+            audioEl.current.removeEventListener(
+                'loadeddata',
+                updateDurationTime,
+            );
+    }, [audioEl, setDurationTime]);
+
     useEffect(() => {
         if (isPlaying) {
             audioEl.current && audioEl.current.play();
@@ -209,8 +241,8 @@ export const AudioAtom = ({
                     <div className={timingStyle}>
                         <div className={timePlayedStyle}>
                             <span>
-                                {audioEl.current
-                                    ? formatTime(audioEl.current.currentTime)
+                                {currentTime
+                                    ? formatTime(currentTime)
                                     : '00:00:00'}
                             </span>
                         </div>
@@ -226,8 +258,8 @@ export const AudioAtom = ({
                         </div>
                         <div className={timeDurationStyle}>
                             <span>
-                                {audioEl.current
-                                    ? formatTime(audioEl.current.duration)
+                                {durationTime
+                                    ? formatTime(durationTime)
                                     : '00:00:00'}
                             </span>
                         </div>
