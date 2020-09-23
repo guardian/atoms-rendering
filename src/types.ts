@@ -33,7 +33,7 @@ export type GuideAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -64,7 +64,7 @@ export type ProfileAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -77,7 +77,7 @@ export type QandaAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -92,7 +92,7 @@ export type TimelineAtomType = {
     id: string;
     events?: TimelineEvent[];
     title: string;
-    pillar: Pillar;
+    pillar: string;
     description?: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
