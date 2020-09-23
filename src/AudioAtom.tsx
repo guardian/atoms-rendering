@@ -85,8 +85,7 @@ const timingStyle = css`
 `;
 
 const timePlayedStyle = css`
-    min-width: 65px;
-    padding-right: 10px;
+    min-width: 75px;
     padding-top: 6px;
     display: block;
 `;
@@ -199,20 +198,32 @@ export const AudioAtom = ({
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-    // update current time
+    // update current time and progress bar position
     const [currentTime, setCurrentTime] = useState<number>(0);
+    const [percentPlayed, setPercentPlayed] = useState<number>(0);
     useEffect(() => {
-        const updateCurrentTime = () =>
+        const updateCurrentTimeAndPosition = () => {
+            setPercentPlayed(
+                audioEl.current
+                    ? (audioEl.current.currentTime / audioEl.current.duration) *
+                          100
+                    : 0,
+            );
+
             setCurrentTime(audioEl.current ? audioEl.current.currentTime : 0);
+        };
 
         audioEl.current &&
-            audioEl.current.addEventListener('timeupdate', updateCurrentTime);
+            audioEl.current.addEventListener(
+                'timeupdate',
+                updateCurrentTimeAndPosition,
+            );
 
         return () =>
             audioEl.current
                 ? audioEl.current.removeEventListener(
                       'timeupdate',
-                      updateCurrentTime,
+                      updateCurrentTimeAndPosition,
                   )
                 : undefined;
     }, [audioEl, setCurrentTime]);
@@ -294,7 +305,7 @@ export const AudioAtom = ({
                                 min="0"
                                 max="100"
                                 step="1"
-                                value="0"
+                                value={percentPlayed}
                             />
                         </div>
                         <div className={timeDurationStyle}>
