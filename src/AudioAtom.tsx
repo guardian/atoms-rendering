@@ -235,6 +235,7 @@ export const AudioAtom = ({
     useEffect(() => {
         const updateDurationTime = () =>
             setDurationTime(audioEl.current ? audioEl.current.duration : 0);
+
         audioEl.current &&
             audioEl.current.addEventListener('loadeddata', updateDurationTime);
         return () =>
@@ -281,7 +282,6 @@ export const AudioAtom = ({
                         data-duration={
                             audioEl.current ? audioEl.current.duration : 0
                         }
-                        preload="none"
                         data-media-id={id}
                         data-title={titleStyle}
                         // TODO:
