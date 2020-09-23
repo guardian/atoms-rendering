@@ -4,15 +4,28 @@ import { css } from 'emotion';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { neutral, text } from '@guardian/src-foundations/palette';
+import { Pillar } from '@guardian/types/Format';
 
+import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
+
+const wrapperStyles = css`
+    border-image: repeating-linear-gradient(
+            to bottom,
+            #dcdcdc,
+            #dcdcdc 1px,
+            transparent 1px,
+            transparent 4px
+        )
+        13;
+`;
 
 const figureStyle = css`
     width: 100%;
 `;
 
-const kickerStyle = css`
-    color: #0084c6;
+const kickerStyle = (pillar: Pillar) => css`
+    color: ${pillarPalette[pillar].main};
     font-weight: 600;
     font-size: 18px;
     line-height: 22px;
@@ -44,7 +57,7 @@ const audioControlsStyle = css`
     padding-right: 10px;
     width: 50px;
     height: 50px;
-}`;
+`;
 
 const buttonStyle = css`
     cursor: pointer;
@@ -103,7 +116,7 @@ const PauseButton = ({ onClick }: { onClick: () => void }) => (
             height="30px"
             viewBox="0 0 30 30"
         >
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
                 <circle fill="#C70000" cx="15" cy="15" r="15"></circle>
                 <path
                     d="M9.429 7.286h3.429v15.429h-3.43zm7.286 0h3.429v15.429h-3.43z"
@@ -122,7 +135,7 @@ const PlayButton = ({ onClick }: { onClick: () => void }) => (
             height="30px"
             viewBox="0 0 30 30"
         >
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
                 <circle fill="#C70000" cx="15" cy="15" r="15"></circle>
                 <path
                     fill="#FFFFFF"
@@ -138,6 +151,7 @@ export const AudioAtom = ({
     trackUrl,
     kicker,
     title,
+    pillar,
 }: AudioAtomType): JSX.Element => {
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -162,8 +176,8 @@ export const AudioAtom = ({
                 data-atom-id={id}
                 data-atom-type="audio"
             >
-                <div>
-                    <span className={kickerStyle}>{kicker}</span>
+                <div className={wrapperStyles}>
+                    <span className={kickerStyle(pillar)}>{kicker}</span>
                     <h4 className={titleStyle}>{title}</h4>
                     <div className={audioBodyStyle}>
                         <audio

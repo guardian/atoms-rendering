@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AudioAtom } from './AudioAtom';
+import { Pillar } from '@guardian/types/Format';
 
 export default {
     title: 'AudioAtom',
@@ -14,6 +15,7 @@ export const DefaultStory = (): JSX.Element => {
             trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
             kicker="Football Weekly Extra Extra"
             title="Q&A and Detective Wilson"
+            pillar={Pillar.Sport}
         />
     );
 };
