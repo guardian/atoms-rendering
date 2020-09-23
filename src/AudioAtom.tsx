@@ -86,16 +86,13 @@ const timeDurationStyle = css`
     display: block;
 `;
 
-const secondsInAnHour = 3600;
-// converts time format from 77.13787824 to 00:01:17
-const formatTimeToString = (timeInSeconds: number) => {
-    const hours = Math.floor(timeInSeconds / secondsInAnHour);
-    const minutes = Math.floor((timeInSeconds % secondsInAnHour) / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
+const format = (t: number) => t.toFixed(0).padStart(2, '0');
 
-    return `${hours > 10 ? hours : `0${hours}`}:${
-        minutes > 10 ? minutes : `0${minutes}`
-    }:${seconds > 10 ? seconds : `0${seconds}`}`;
+const formatTime = (t: number) => {
+    const second = Math.floor(t % 60);
+    const minute = Math.floor((t % 3600) / 60);
+    const hour = Math.floor(t / 3600);
+    return `${format(hour)}:${format(minute)}:${format(second)}`;
 };
 
 const PauseButton = ({ onClick }: { onClick: () => void }) => (
@@ -201,7 +198,7 @@ export const AudioAtom = ({
                             <div className={timePlayedStyle}>
                                 <span>
                                     {audioEl.current
-                                        ? formatTimeToString(
+                                        ? formatTime(
                                               audioEl.current.currentTime,
                                           )
                                         : '00:00:00'}
@@ -219,9 +216,7 @@ export const AudioAtom = ({
                             <div className={timeDurationStyle}>
                                 <span>
                                     {audioEl.current
-                                        ? formatTimeToString(
-                                              audioEl.current.duration,
-                                          )
+                                        ? formatTime(audioEl.current.duration)
                                         : '00:00:00'}
                                 </span>
                             </div>
