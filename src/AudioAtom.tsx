@@ -174,11 +174,12 @@ export const AudioAtom = ({
             audioEl.current.addEventListener('timeupdate', updateCurrentTime);
 
         return () =>
-            audioEl.current &&
-            audioEl.current.removeEventListener(
-                'timeupdate',
-                updateCurrentTime,
-            );
+            audioEl.current
+                ? audioEl.current.removeEventListener(
+                      'timeupdate',
+                      updateCurrentTime,
+                  )
+                : undefined;
     }, [audioEl, setCurrentTime]);
 
     // update duration time
@@ -189,11 +190,12 @@ export const AudioAtom = ({
         audioEl.current &&
             audioEl.current.addEventListener('loadeddata', updateDurationTime);
         return () =>
-            audioEl.current &&
-            audioEl.current.removeEventListener(
-                'loadeddata',
-                updateDurationTime,
-            );
+            audioEl.current
+                ? audioEl.current.removeEventListener(
+                      'loadeddata',
+                      updateDurationTime,
+                  )
+                : undefined;
     }, [audioEl, setDurationTime]);
 
     useEffect(() => {
