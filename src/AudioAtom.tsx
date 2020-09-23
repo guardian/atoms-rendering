@@ -67,6 +67,8 @@ const audioControlsStyle = css`
 const buttonStyle = css`
     padding: 0;
     border: 0;
+    outline: 0;
+    cursor: pointer;
     background-color: transparent;
 `;
 
@@ -102,8 +104,17 @@ const progressBarStyle = css`
     display: block;
 `;
 
-const progressBarInputStyle = css`
+const progressBarInputStyle = (pillar: Pillar) => css`
     width: 100%;
+    appearance: none;
+    background-image: linear-gradient(
+        to right,
+        ${pillarPalette[pillar].main} 0%,
+        ${palette.neutral[60]} 0%
+    );
+    height: 6px;
+    outline: 0;
+    cursor: pointer;
 `;
 
 const timeDurationStyle = css`
@@ -256,7 +267,7 @@ export const AudioAtom = ({
                         </div>
                         <div className={progressBarStyle}>
                             <input
-                                className={progressBarInputStyle}
+                                className={progressBarInputStyle(pillar)}
                                 type="range"
                                 min="0"
                                 max="100"
