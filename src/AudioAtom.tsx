@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from 'emotion';
 
-import { headline, textSans } from '@guardian/src-foundations/typography';
-import { neutral, text } from '@guardian/src-foundations/palette';
+import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 
@@ -31,18 +30,11 @@ const figureStyle = css`
 
 const kickerStyle = (pillar: Pillar) => css`
     color: ${pillarPalette[pillar].main};
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
-    font-family: 'Guardian Egyptian Web', Georgia, serif;
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
 `;
 
 const titleStyle = css`
-    color: black;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    font-family: 'Guardian Egyptian Web', Georgia, serif;
+    ${headline.xxxsmall()};
 `;
 
 const audioBodyStyle = css`
@@ -122,6 +114,10 @@ const timeDurationStyle = css`
     padding-top: 6px;
     padding-left: 10px;
     display: block;
+`;
+
+const timeStyles = css`
+    ${textSans.small()}
 `;
 
 const format = (t: number) => t.toFixed(0).padStart(2, '0');
@@ -259,7 +255,7 @@ export const AudioAtom = ({
                     </div>
                     <div className={timingStyle}>
                         <div className={timePlayedStyle}>
-                            <span>
+                            <span className={timeStyles}>
                                 {currentTime
                                     ? formatTime(currentTime)
                                     : '00:00:00'}
@@ -276,7 +272,7 @@ export const AudioAtom = ({
                             />
                         </div>
                         <div className={timeDurationStyle}>
-                            <span>
+                            <span className={timeStyles}>
                                 {durationTime
                                     ? formatTime(durationTime)
                                     : '00:00:00'}
