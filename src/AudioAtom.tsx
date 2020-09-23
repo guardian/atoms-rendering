@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 import { css } from 'emotion';
 
 import { textSans, headline } from '@guardian/src-foundations/typography';
@@ -106,6 +106,8 @@ const progressBarInputStyle = (pillar: Pillar) => css`
     height: 6px;
     outline: 0;
     cursor: pointer;
+    margin-left: 0;
+    margin-right: 0;
 `;
 
 const timeDurationStyle = css`
@@ -252,6 +254,16 @@ export const AudioAtom = ({
         }
     }, [isPlaying, audioEl]);
 
+    const updateAudioCurrentTime = (e: MouseEvent<HTMLInputElement>) => {
+        if (audioEl.current) {
+            const percentagePositionClick =
+                (e.nativeEvent.offsetX / e.currentTarget.offsetWidth) * 100;
+            // set the currentTime of the audio based on percentagePositionClick
+            audioEl.current.currentTime =
+                (audioEl.current.duration / 100) * percentagePositionClick;
+        }
+    };
+
     return (
         <figure
             className={figureStyle}
@@ -306,6 +318,7 @@ export const AudioAtom = ({
                                 max="100"
                                 step="1"
                                 value={percentPlayed}
+                                onClick={updateAudioCurrentTime}
                             />
                         </div>
                         <div className={timeDurationStyle}>
