@@ -60,11 +60,8 @@ const audioControlsStyle = css`
 `;
 
 const buttonStyle = css`
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
     border: 0;
-    margin: 0;
+    background-color: transparent;
 `;
 
 const svgPlayStyle = css`
@@ -88,14 +85,25 @@ const timingStyle = css`
 `;
 
 const timePlayedStyle = css`
+    min-width: 65px;
+    padding-right: 10px;
+    padding-top: 6px;
     display: block;
 `;
 
 const progressBarStyle = css`
+    flex: 1;
     display: block;
 `;
 
+const progressBarInputStyle = css`
+    width: 100%;
+`;
+
 const timeDurationStyle = css`
+    min-width: 65px;
+    padding-top: 6px;
+    padding-left: 10px;
     display: block;
 `;
 
@@ -208,6 +216,7 @@ export const AudioAtom = ({
                         </div>
                         <div className={progressBarStyle}>
                             <input
+                                className={progressBarInputStyle}
                                 type="range"
                                 min="0"
                                 max="100"
