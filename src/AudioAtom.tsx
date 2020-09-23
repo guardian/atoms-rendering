@@ -165,79 +165,66 @@ export const AudioAtom = ({
     }, [isPlaying, audioEl]);
 
     return (
-        <div
-            className={css`
-                width: 700px;
-                border: red 1px solid;
-            `}
+        <figure
+            className={figureStyle}
+            data-atom-id={id}
+            data-atom-type="audio"
         >
-            <figure
-                className={figureStyle}
-                data-atom-id={id}
-                data-atom-type="audio"
-            >
-                <div className={wrapperStyles}>
-                    <span className={kickerStyle(pillar)}>{kicker}</span>
-                    <h4 className={titleStyle}>{title}</h4>
-                    <div className={audioBodyStyle}>
-                        <audio
-                            className={audioElementStyle}
-                            src={trackUrl}
-                            ref={audioEl}
-                            // TODO:
-                            // data-duration="849"
-                            // preload="none"
-                            // data-media-id="_no_ids"
-                            // data-title="Football Weekly Extra Extra"
-                            // data-component="inarticle audio"
-                        >
-                            <p>
-                                Sorry your browser does not support audio - but
-                                you can download here and listen
-                                https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3
-                            </p>
-                        </audio>
-                        <div className={audioControlsStyle}>
-                            {isPlaying ? (
-                                <PauseButton
-                                    onClick={() => setIsPlaying(false)}
-                                />
-                            ) : (
-                                <PlayButton
-                                    onClick={() => setIsPlaying(true)}
-                                />
-                            )}
+            <div className={wrapperStyles}>
+                <span className={kickerStyle(pillar)}>{kicker}</span>
+                <h4 className={titleStyle}>{title}</h4>
+                <div className={audioBodyStyle}>
+                    <audio
+                        className={audioElementStyle}
+                        src={trackUrl}
+                        ref={audioEl}
+                        // TODO:
+                        // data-duration="849"
+                        // preload="none"
+                        // data-media-id="_no_ids"
+                        // data-title="Football Weekly Extra Extra"
+                        // data-component="inarticle audio"
+                    >
+                        <p>
+                            Sorry your browser does not support audio - but you
+                            can download here and listen
+                            https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3
+                        </p>
+                    </audio>
+                    <div className={audioControlsStyle}>
+                        {isPlaying ? (
+                            <PauseButton onClick={() => setIsPlaying(false)} />
+                        ) : (
+                            <PlayButton onClick={() => setIsPlaying(true)} />
+                        )}
+                    </div>
+                    <div className={timingStyle}>
+                        <div className={timePlayedStyle}>
+                            <span>
+                                {audioEl.current
+                                    ? formatTime(audioEl.current.currentTime)
+                                    : '00:00:00'}
+                            </span>
                         </div>
-                        <div className={timingStyle}>
-                            <div className={timePlayedStyle}>
-                                <span>
-                                    {audioEl.current
-                                        ? formatTime(
-                                              audioEl.current.currentTime,
-                                          )
-                                        : '00:00:00'}
-                                </span>
-                            </div>
-                            <div className={progressBarStyle}>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="100"
-                                    step="1"
-                                    value="0"
-                                />
-                            </div>
-                            <div className={timeDurationStyle}>
-                                <span>
-                                    {audioEl.current
-                                        ? formatTime(audioEl.current.duration)
-                                        : '00:00:00'}
-                                </span>
-                            </div>
+                        <div className={progressBarStyle}>
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value="0"
+                            />
+                        </div>
+                        <div className={timeDurationStyle}>
+                            <span>
+                                {audioEl.current
+                                    ? formatTime(audioEl.current.duration)
+                                    : '00:00:00'}
+                            </span>
                         </div>
                     </div>
                 </div>
-            </figure>
-        </div>
+            </div>
+        </figure>
     );
 };
