@@ -129,7 +129,13 @@ const formatTime = (t: number) => {
     return `${format(hour)}:${format(minute)}:${format(second)}`;
 };
 
-const PauseButton = ({ onClick }: { onClick: () => void }) => (
+const PauseButton = ({
+    onClick,
+    pillar,
+}: {
+    onClick: () => void;
+    pillar: Pillar;
+}) => (
     <button onClick={onClick} className={buttonStyle}>
         <svg
             className={svgPauseStyle}
@@ -138,7 +144,12 @@ const PauseButton = ({ onClick }: { onClick: () => void }) => (
             viewBox="0 0 30 30"
         >
             <g fill="none" fillRule="evenodd">
-                <circle fill="#C70000" cx="15" cy="15" r="15"></circle>
+                <circle
+                    fill={pillarPalette[pillar].main}
+                    cx="15"
+                    cy="15"
+                    r="15"
+                ></circle>
                 <path
                     d="M9.429 7.286h3.429v15.429h-3.43zm7.286 0h3.429v15.429h-3.43z"
                     fill="#FFFFFF"
@@ -148,7 +159,13 @@ const PauseButton = ({ onClick }: { onClick: () => void }) => (
     </button>
 );
 
-const PlayButton = ({ onClick }: { onClick: () => void }) => (
+const PlayButton = ({
+    onClick,
+    pillar,
+}: {
+    onClick: () => void;
+    pillar: Pillar;
+}) => (
     <button onClick={onClick} className={buttonStyle}>
         <svg
             className={svgPlayStyle}
@@ -157,7 +174,12 @@ const PlayButton = ({ onClick }: { onClick: () => void }) => (
             viewBox="0 0 30 30"
         >
             <g fill="none" fillRule="evenodd">
-                <circle fill="#C70000" cx="15" cy="15" r="15"></circle>
+                <circle
+                    fill={pillarPalette[pillar].main}
+                    cx="15"
+                    cy="15"
+                    r="15"
+                ></circle>
                 <path
                     fill="#FFFFFF"
                     d="M10.113 8.571l-.47.366V20.01l.472.347 13.456-5.593v-.598z"
@@ -248,9 +270,15 @@ export const AudioAtom = ({
                     </audio>
                     <div className={audioControlsStyle}>
                         {isPlaying ? (
-                            <PauseButton onClick={() => setIsPlaying(false)} />
+                            <PauseButton
+                                pillar={pillar}
+                                onClick={() => setIsPlaying(false)}
+                            />
                         ) : (
-                            <PlayButton onClick={() => setIsPlaying(true)} />
+                            <PlayButton
+                                pillar={pillar}
+                                onClick={() => setIsPlaying(true)}
+                            />
                         )}
                     </div>
                     <div className={timingStyle}>
