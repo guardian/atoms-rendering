@@ -157,7 +157,7 @@ const PauseButton = ({
                 ></circle>
                 <path
                     d="M9.429 7.286h3.429v15.429h-3.43zm7.286 0h3.429v15.429h-3.43z"
-                    fill="#FFFFFF"
+                    fill={palette.neutral[100]}
                 ></path>
             </g>
         </svg>
@@ -186,7 +186,7 @@ const PlayButton = ({
                     r="15"
                 ></circle>
                 <path
-                    fill="#FFFFFF"
+                    fill={palette.neutral[100]}
                     d="M10.113 8.571l-.47.366V20.01l.472.347 13.456-5.593v-.598z"
                 ></path>
             </g>
