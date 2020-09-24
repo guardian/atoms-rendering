@@ -137,7 +137,11 @@ const PauseButton = ({
     onClick: () => void;
     pillar: Pillar;
 }) => (
-    <button onClick={onClick} className={buttonStyle}>
+    <button
+        data-testid="pause-button"
+        onClick={onClick}
+        className={buttonStyle}
+    >
         <svg
             className={svgPauseStyle}
             width="30px"
@@ -167,7 +171,7 @@ const PlayButton = ({
     onClick: () => void;
     pillar: Pillar;
 }) => (
-    <button onClick={onClick} className={buttonStyle}>
+    <button data-testid="play-button" onClick={onClick} className={buttonStyle}>
         <svg
             className={svgPlayStyle}
             width="30px"
@@ -279,9 +283,7 @@ export const AudioAtom = ({
                         className={audioElementStyle}
                         src={trackUrl}
                         ref={audioEl}
-                        data-duration={
-                            audioEl.current ? audioEl.current.duration : 0
-                        }
+                        data-duration={durationTime}
                         data-media-id={id}
                         data-title={titleStyle}
                         // TODO:
