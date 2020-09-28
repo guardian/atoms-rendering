@@ -87,6 +87,8 @@
     },
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
-        "transformIgnorePatterns": ["node_modules/(?!@guardian/src-foundations/)"]
+        "transformIgnorePatterns": [
+            "node_modules/(?!(@guardian/src-foundations|@guardian/types)/)"
+        ]
     }
 }
