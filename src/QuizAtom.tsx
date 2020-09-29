@@ -1,6 +1,7 @@
 import React, { useState, KeyboardEvent } from 'react';
-import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { css, cx } from 'emotion';
+
+import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';

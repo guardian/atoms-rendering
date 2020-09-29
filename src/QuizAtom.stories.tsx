@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { QuizAtom } from './QuizAtom';
-import { QuizAtomType, Question } from './types';
 import { exampleQuestions } from '../fixtures/quizAtom';
 
 export default {
