@@ -267,3 +267,155 @@ export const Answer = ({
         </div>
     );
 };
+
+const selectableAnswerStyles = css`
+    :hover {
+        background-color: ${neutral[86]};
+        cursor: pointer;
+    }
+    :focus {
+        background-color: ${neutral[86]};
+        ${focusHalo}
+    }
+`;
+
+export const UnselectedAnswer = ({
+    onClick,
+    disabled,
+    answerText,
+    onKeyPress,
+}: {
+    onClick: () => void;
+    onKeyPress: () => void;
+    disabled: boolean;
+    answerText: string;
+}): JSX.Element => (
+    <>
+        <label
+            className={css`
+                ${body.medium()};
+                background-color: ${neutral[97]};
+                ${!disabled ? selectableAnswerStyles : ''}
+
+                margin-bottom: 6px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-left: 20px;
+                padding-right: 20px;
+            `}
+            onKeyPress={onKeyPress}
+            tabIndex={0}
+        >
+            {answerText}
+        </label>
+        <input
+            type="radio"
+            tabIndex={-1}
+            // id={`answer-${id}`}
+            required
+            // defaultChecked={isChosen}
+            onClick={onClick}
+            disabled={disabled}
+            className={css`
+                ${visuallyHidden};
+            `}
+        />
+    </>
+);
+
+export const CorrectSelectedAnswer = ({
+    answerText,
+    explainerText,
+}: {
+    answerText: string;
+    explainerText: string;
+}): JSX.Element => (
+    <div
+        className={css`
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: 6px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            background-color: rgb(61, 181, 64);
+        `}
+    >
+        <div className={iconStyle}>
+            <SvgCheckmark />
+        </div>
+        <label
+            className={css`
+                color: ${neutral[100]};
+
+                display: flex;
+                flex-direction: column;
+            `}
+        >
+            <span
+                className={css`
+                    ${body.medium()};
+                `}
+            >
+                {answerText}
+            </span>
+            <span
+                className={css`
+                    ${textSans.xsmall()}
+                `}
+            >
+                {explainerText}
+            </span>
+        </label>
+    </div>
+);
+
+export const NonSelectedCorrectAnswer = ({
+    answerText,
+    explainerText,
+}: {
+    answerText: string;
+    explainerText: string;
+}): JSX.Element => (
+    <div
+        className={css`
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: 6px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            background-color: rgb(61, 181, 64, 0.6);
+        `}
+    >
+        <label
+            className={css`
+                color: ${neutral[0]};
+
+                display: flex;
+                flex-direction: column;
+            `}
+        >
+            <span
+                className={css`
+                    ${body.medium()};
+                `}
+            >
+                {answerText}
+            </span>
+            <span
+                className={css`
+                    ${textSans.xsmall()}
+                `}
+            >
+                {explainerText}
+            </span>
+        </label>
+    </div>
+);
