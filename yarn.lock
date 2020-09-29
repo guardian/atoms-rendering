@@ -1124,6 +1124,13 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.9.1.tgz#86d9dba8085042014e5851db8b2388ff2a25c201"
   integrity sha512-wdLFDoE8qvKxRyb3EjTBvErMxsYpsckrb/2eRtEjqm4dP2nycK51qTyhLS9aJXvILQnlZLKg5yVbxKdYQokEgQ==
 
+"@guardian/types@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.4.4.tgz#dba5c1ef0e95cfe9b8411c21354a528cba7b338c"
+  integrity sha512-kBnfpMouvhheuEXaWLFEDQRv2Lyx1wbrz/4IidSK04RqALAMdrsZiXRLHIApUDcgohgEGYp9Jwquml0Vvp7o5Q==
+  dependencies:
+    typescript "^3.8.3"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -3079,7 +3086,7 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-emotion@^10.0.20, babel-plugin-emotion@^10.0.27:
+babel-plugin-emotion@^10.0.20, babel-plugin-emotion@^10.0.27, babel-plugin-emotion@^10.0.33:
   version "10.0.33"
   resolved "https://registry.yarnpkg.com/babel-plugin-emotion/-/babel-plugin-emotion-10.0.33.tgz#ce1155dcd1783bbb9286051efee53f4e2be63e03"
   integrity sha512-bxZbTTGz0AJQDHm8k6Rf3RQJ8tX2scsfsRyKVgAbiUPUNIRtlK+7JxP+TAd1kRLABFxe0CFm2VdK4ePkoA9FxQ==

@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral, text } from '@guardian/src-foundations/palette';
 import { Summary } from './Summary';
 
 const containerStyling = css`
@@ -13,6 +13,7 @@ const containerStyling = css`
 const detailStyling = css`
     margin: 16px 0 36px;
     background: ${neutral[93]};
+    color: ${text.primary};
     padding: 0 5px 6px;
     border-image: repeating-linear-gradient(
             to bottom,

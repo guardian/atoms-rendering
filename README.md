@@ -6,12 +6,29 @@ An Atom is a self contained piece of content that can be inserted into multiple 
 
 ## Usage
 
+### import 
+
 To import an atom in your project use `yarn add @guardian/atoms-rendering` then
 
 ```
 import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 <TheAtomYouWant someProp={localData.someProp} />
+```
+
+### Naming conventions
+
+There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
+
+## Moving to main
+
+The `master` branch in the atoms-rendering repository has now been renamed to `main`. If you have been working with this repository before the change, then run the following sequence of commands.
+
+```
+git fetch --all
+git remote set-head origin -a
+git branch master --set-upstream-to origin/main
+git branch -m master main
 ```
 
 ## Running locally
@@ -87,7 +104,7 @@ Adding a new atom in `atoms-rendering` involves
 
 Manual publishing steps:
 
-1. Ensure your changes are on master
+1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
 3. `yarn build`
 4. Create a branch, `yourname/v1.0.1`
