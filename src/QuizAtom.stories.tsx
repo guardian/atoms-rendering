@@ -9,9 +9,9 @@ export default {
     component: QuizAtom,
 };
 
-const questions: QuizAtomType = {
-    id: '2c6bf552-2827-4256-b3a0-f557d215c394',
-    questions: exampleQuestions,
-};
-
-export const DefaultStory = (): JSX.Element => <QuizAtom {...questions} />;
+export const DefaultStory = (): JSX.Element => (
+    <QuizAtom
+        id="2c6bf552-2827-4256-b3a0-f557d215c394"
+        questions={exampleQuestions}
+    />
+);
