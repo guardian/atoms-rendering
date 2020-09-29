@@ -6,6 +6,7 @@ import {
     UnselectedAnswer,
     CorrectSelectedAnswer,
     NonSelectedCorrectAnswer,
+    IncorrectAnswer,
 } from './QuizAtom';
 import { exampleQuestions } from '../fixtures/quizAtom';
 
@@ -29,16 +30,16 @@ export const Answers = (): JSX.Element => (
         `}
     >
         <UnselectedAnswer
+            id="someId1"
             onClick={() => console.log('unselected answer was clicked')}
             onKeyPress={() => console.log('unselected answer was key pressed')}
             disabled={false}
-            answerText="selectable unanswered answer"
+            answerText="Selectable unanswered answer"
         />
         <UnselectedAnswer
-            onClick={() => console.log('unselected answer was clicked')}
-            onKeyPress={() => console.log('unselected answer was key pressed')}
+            id="someId2"
             disabled={true}
-            answerText="unselectable unanswered answer"
+            answerText="Unselectable unanswered answer"
         />
         <CorrectSelectedAnswer
             answerText="Correct Selected Answer"
@@ -48,5 +49,6 @@ export const Answers = (): JSX.Element => (
             answerText="Correct Non Selected Answer"
             explainerText="this is such a cool answer"
         />
+        <IncorrectAnswer answerText="Correct Non Selected Answer" />
     </div>
 );
