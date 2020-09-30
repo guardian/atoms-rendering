@@ -66,6 +66,13 @@ export const UnselectedAnswer = ({
             onKeyPress={onKeyPress}
             tabIndex={disabled ? -1 : 0}
             htmlFor={`answer-${id}`}
+            data-answerType={
+                disabled
+                    ? 'unselected-disabled-answer'
+                    : 'unselected-enabled-answer'
+            }
+            id={id}
+            data-testId={id}
         >
             {answerText}
         </label>
@@ -93,9 +100,11 @@ const correctSelectedAnswerStyles = css`
 export const CorrectSelectedAnswer = ({
     answerText,
     explainerText,
+    id,
 }: {
     answerText: string;
     explainerText: string;
+    id: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -106,7 +115,12 @@ export const CorrectSelectedAnswer = ({
         <div className={iconStyle}>
             <SvgCheckmark />
         </div>
-        <label className={correctSelectedAnswerStyles}>
+        <label
+            className={correctSelectedAnswerStyles}
+            id={id}
+            data-testId={id}
+            data-answerType="correct-selected-answer"
+        >
             <span
                 className={css`
                     ${body.medium()};
@@ -134,9 +148,11 @@ const nonSelectedCorrectAnswerLabelStyles = css`
 export const NonSelectedCorrectAnswer = ({
     answerText,
     explainerText,
+    id,
 }: {
     answerText: string;
     explainerText: string;
+    id: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -144,7 +160,12 @@ export const NonSelectedCorrectAnswer = ({
             background-color: rgb(61, 181, 64, 0.6);
         `}
     >
-        <label className={nonSelectedCorrectAnswerLabelStyles}>
+        <label
+            className={nonSelectedCorrectAnswerLabelStyles}
+            id={id}
+            data-testId={id}
+            data-answerType="non-selected-correct-answer"
+        >
             <span
                 className={css`
                     ${body.medium()};
@@ -174,8 +195,10 @@ const incorrectAnswerLabelStyles = css`
 
 export const IncorrectAnswer = ({
     answerText,
+    id,
 }: {
     answerText: string;
+    id: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -186,6 +209,13 @@ export const IncorrectAnswer = ({
         <div className={iconStyle}>
             <SvgCross />
         </div>
-        <label className={incorrectAnswerLabelStyles}>{answerText}</label>
+        <label
+            className={incorrectAnswerLabelStyles}
+            id={id}
+            data-testId={id}
+            data-answerType="incorrect-answer"
+        >
+            {answerText}
+        </label>
     </div>
 );

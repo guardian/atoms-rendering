@@ -94,7 +94,7 @@ export const Question = ({
                     />
                 )}
                 <div>
-                    {answers.map((answer) => {
+                    {answers.map((answer, index) => {
                         const isAnswered = selected !== undefined;
                         const isSelected = selected === answer.id;
 
@@ -103,6 +103,7 @@ export const Question = ({
                                 if (answer.isCorrect) {
                                     return (
                                         <CorrectSelectedAnswer
+                                            id={answer.id}
                                             answerText={answer.text}
                                             explainerText={
                                                 answer.revealText || ''
@@ -114,6 +115,7 @@ export const Question = ({
                                 if (!answer.isCorrect) {
                                     return (
                                         <IncorrectAnswer
+                                            id={answer.id}
                                             answerText={answer.text}
                                         />
                                     );
@@ -123,6 +125,7 @@ export const Question = ({
                             if (answer.isCorrect) {
                                 return (
                                     <NonSelectedCorrectAnswer
+                                        id={answer.id}
                                         answerText={answer.text}
                                         explainerText={answer.revealText || ''}
                                     />
