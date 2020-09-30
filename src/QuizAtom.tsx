@@ -9,7 +9,25 @@ import {
     NonSelectedCorrectAnswer,
     UnselectedAnswer,
 } from './Answers';
-import { QuizAtomType, Question as QuestionType } from './types';
+
+export type AnswerType = {
+    id: string;
+    text: string;
+    revealText?: string;
+    isCorrect: boolean;
+};
+
+export type QuestionType = {
+    id: string;
+    text: string;
+    answers: AnswerType[];
+    imageUrl?: string;
+};
+
+export type QuizAtomType = {
+    id: string;
+    questions: QuestionType[];
+};
 
 const fieldsetStyle = css`
     margin-bottom: 12px;
