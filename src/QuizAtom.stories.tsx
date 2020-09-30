@@ -42,13 +42,18 @@ export const Answers = (): JSX.Element => (
             answerText="Unselectable unanswered answer"
         />
         <CorrectSelectedAnswer
+            id="someId3"
             answerText="Correct Selected Answer"
             explainerText="this is such a cool answer"
         />
         <NonSelectedCorrectAnswer
+            id="someId4"
             answerText="Correct Non Selected Answer"
             explainerText="this is such a cool answer"
         />
-        <IncorrectAnswer answerText="Correct Non Selected Answer" />
+        <IncorrectAnswer
+            id="someId5"
+            answerText="Correct Non Selected Answer"
+        />
     </div>
 );
