@@ -93,7 +93,12 @@ export const Question = ({
                         src={imageUrl}
                     />
                 )}
-                <div>
+                <div
+                    className={css`
+                        /* fix for chrome jumping to top of page */
+                        position: relative;
+                    `}
+                >
                     {answers.map((answer, index) => {
                         const isAnswered = selected !== undefined;
                         const isSelected = selected === answer.id;
