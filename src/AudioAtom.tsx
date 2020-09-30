@@ -277,6 +277,33 @@ export const AudioAtom = ({
         }
     };
 
+    // ***************************
+    // *     Accessibility       *
+    // ***************************
+    const progressBarEl = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        const rightArrowKeyCode = 39;
+        const leftArrowKeyCode = 37;
+        const keyListener = (e: KeyboardEvent) => {
+            if (
+                e.keyCode === rightArrowKeyCode &&
+                document.activeElement === progressBarEl.current
+            ) {
+                if (audioEl.current) audioEl.current.currentTime += 15;
+            }
+
+            if (
+                e.keyCode === leftArrowKeyCode &&
+                document.activeElement === progressBarEl.current
+            ) {
+                if (audioEl.current) audioEl.current.currentTime -= 15;
+            }
+        };
+
+        document.addEventListener('keydown', keyListener);
+        return () => document.removeEventListener('keydown', keyListener);
+    }, [audioEl, progressBarEl]);
+
     return (
         <figure
             className={figureStyle}
@@ -300,8 +327,6 @@ export const AudioAtom = ({
                         data-duration={durationTime}
                         data-media-id={id}
                         data-title={titleStyle}
-                        // TODO:
-                        // data-component="inarticle audio"
                     >
                         <p>
                             Sorry your browser does not support audio - but you
@@ -331,6 +356,7 @@ export const AudioAtom = ({
                         <div className={progressBarStyle}>
                             <input
                                 className={progressBarInputStyle(pillar)}
+                                ref={progressBarEl}
                                 type="range"
                                 min="0"
                                 max="100"
