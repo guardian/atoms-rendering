@@ -1,4 +1,5 @@
 import { Format } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types/Format';
 
 export type AdTargeting = {
     adUnit: string;
@@ -8,6 +9,10 @@ export type AdTargeting = {
 
 export type AudioAtomType = {
     id: string;
+    trackUrl: string;
+    kicker: string;
+    title?: string;
+    pillar: Pillar;
 };
 
 export type ChartAtomType = {
