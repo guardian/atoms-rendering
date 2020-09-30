@@ -1,13 +1,13 @@
 import React from 'react';
 import { css } from 'emotion';
 
+import { QuizAtom } from './QuizAtom';
 import {
-    QuizAtom,
-    UnselectedAnswer,
     CorrectSelectedAnswer,
-    NonSelectedCorrectAnswer,
     IncorrectAnswer,
-} from './QuizAtom';
+    NonSelectedCorrectAnswer,
+    UnselectedAnswer,
+} from './Answers';
 import { exampleQuestions } from '../fixtures/quizAtom';
 
 export default {
