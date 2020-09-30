@@ -60,7 +60,7 @@ export const UnselectedAnswer = ({
     disabled: boolean;
     answerText: string;
 }): JSX.Element => (
-    <>
+    <div>
         <label
             className={unselectedAnswerLabelStyles(disabled)}
             onKeyPress={onKeyPress}
@@ -87,7 +87,7 @@ export const UnselectedAnswer = ({
                 ${visuallyHidden};
             `}
         />
-    </>
+    </div>
 );
 
 const correctSelectedAnswerStyles = css`
