@@ -4,6 +4,7 @@ import { css } from 'emotion';
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
@@ -20,7 +21,9 @@ const wrapperStyles = css`
     border-top: 13px solid black;
     background-color: ${palette.neutral[97]};
     position: relative;
-    padding: 0 5px 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 1px;
     margin: 16px 0 36px;
 `;
 
@@ -50,10 +53,9 @@ const audioElementStyle = css`
 
 const audioControlsStyle = css`
     box-sizing: content-box;
-    padding-top: 10px;
-    padding-right: 10px;
+    padding: 5px;
     width: 50px;
-    height: 50px;
+    height: 55px;
 `;
 
 const buttonStyle = css`
@@ -62,6 +64,9 @@ const buttonStyle = css`
     outline: 0;
     cursor: pointer;
     background-color: transparent;
+    :focus {
+        ${focusHalo}
+    }
 `;
 
 const svgPlayStyle = css`
@@ -108,6 +113,9 @@ const progressBarInputStyle = (pillar: Pillar) => css`
     cursor: pointer;
     margin-left: 0;
     margin-right: 0;
+    :focus {
+        ${focusHalo}
+    }
 `;
 
 const timeDurationStyle = css`
@@ -276,8 +284,14 @@ export const AudioAtom = ({
             data-atom-type="audio"
         >
             <div className={wrapperStyles}>
-                <span className={kickerStyle(pillar)}>{kicker}</span>
-                <h4 className={titleStyle}>{title}</h4>
+                <div
+                    className={css`
+                        padding-left: 5px;
+                    `}
+                >
+                    <span className={kickerStyle(pillar)}>{kicker}</span>
+                    <h4 className={titleStyle}>{title}</h4>
+                </div>
                 <div className={audioBodyStyle}>
                     <audio
                         className={audioElementStyle}
