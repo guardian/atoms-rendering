@@ -84,10 +84,6 @@ export type QandaAtomType = {
     expandCallback: () => void;
 };
 
-export type QuizAtomType = {
-    id: string;
-};
-
 export type TimelineAtomType = {
     id: string;
     events?: TimelineEvent[];
