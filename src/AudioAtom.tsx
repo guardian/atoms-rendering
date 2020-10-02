@@ -259,14 +259,6 @@ export const AudioAtom = ({
                 : undefined;
     }, [audioEl, setDurationTime]);
 
-    useEffect(() => {
-        if (isPlaying) {
-            audioEl.current && audioEl.current.play();
-        } else {
-            audioEl.current && audioEl.current.pause();
-        }
-    }, [isPlaying, audioEl]);
-
     const updateAudioCurrentTime = (e: MouseEvent<HTMLInputElement>) => {
         if (audioEl.current) {
             const percentagePositionClick =
@@ -325,7 +317,7 @@ export const AudioAtom = ({
                         src={trackUrl}
                         ref={audioEl}
                         data-duration={durationTime}
-                        data-media-id={id}
+                        data-media-id={id || '_no_ids'}
                         data-title={titleStyle}
                     >
                         <p>
@@ -338,12 +330,18 @@ export const AudioAtom = ({
                         {isPlaying ? (
                             <PauseButton
                                 pillar={pillar}
-                                onClick={() => setIsPlaying(false)}
+                                onClick={() => {
+                                    setIsPlaying(false);
+                                    audioEl.current && audioEl.current.pause();
+                                }}
                             />
                         ) : (
                             <PlayButton
                                 pillar={pillar}
-                                onClick={() => setIsPlaying(true)}
+                                onClick={() => {
+                                    audioEl.current && audioEl.current.play();
+                                    setIsPlaying(true);
+                                }}
                             />
                         )}
                     </div>
