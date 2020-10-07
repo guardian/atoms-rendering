@@ -17,8 +17,8 @@ const iconWrapperStyles = (pillar: Pillar) => css`
     height: 23px;
     /* Below we force the colour to be bright if the pillar is news (because it looks better) */
     background-color: ${pillar === Pillar.News
-        ? pillarPalette[pillar].bright
-        : pillarPalette[pillar].main};
+        ? pillarPalette[pillar][500]
+        : pillarPalette[pillar][400]};
     border-radius: 50%;
     display: inline-block;
 
@@ -36,8 +36,8 @@ const iconWrapperStyles = (pillar: Pillar) => css`
 const durationStyles = (pillar: Pillar) => css`
     /* Below we force the colour to be bright if the pillar is news (because it looks better) */
     color: ${pillar === Pillar.News
-        ? pillarPalette[pillar].bright
-        : pillarPalette[pillar].main};
+        ? pillarPalette[pillar][500]
+        : pillarPalette[pillar][400]};
     ${textSans.xsmall({ fontWeight: `bold` })}
 `;
 

@@ -32,7 +32,7 @@ const figureStyle = css`
 `;
 
 const kickerStyle = (pillar: Pillar) => css`
-    color: ${pillarPalette[pillar].main};
+    color: ${pillarPalette[pillar][400]};
     ${headline.xxxsmall({ fontWeight: 'bold' })};
 `;
 
@@ -105,7 +105,7 @@ const progressBarInputStyle = (pillar: Pillar) => css`
     appearance: none;
     background-image: linear-gradient(
         to right,
-        ${pillarPalette[pillar].main} 0%,
+        ${pillarPalette[pillar][400]} 0%,
         ${palette.neutral[60]} 0%
     );
     height: 6px;
@@ -158,7 +158,7 @@ const PauseButton = ({
         >
             <g fill="none" fillRule="evenodd">
                 <circle
-                    fill={pillarPalette[pillar].main}
+                    fill={pillarPalette[pillar][400]}
                     cx="15"
                     cy="15"
                     r="15"
@@ -188,7 +188,7 @@ const PlayButton = ({
         >
             <g fill="none" fillRule="evenodd">
                 <circle
-                    fill={pillarPalette[pillar].main}
+                    fill={pillarPalette[pillar][400]}
                     cx="15"
                     cy="15"
                     r="15"
