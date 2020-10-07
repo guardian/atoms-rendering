@@ -89,5 +89,8 @@
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types)/)"
         ]
+    },
+    "dependencies": {
+        "@types/youtube": "^0.0.39"
     }
 }

@@ -56,7 +56,6 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
-
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
@@ -65,7 +64,7 @@ export const YoutubeAtom = ({
                     width={width}
                     height={height}
                     id={videoMeta.assetId}
-                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=https://www.theguardian.com&widgetid=1&modestbranding=1`}
+                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=http://localhost:3030&widgetid=1&modestbranding=1`}
                 />
                 {overlayImage && (
                     <YoutubeOverlay

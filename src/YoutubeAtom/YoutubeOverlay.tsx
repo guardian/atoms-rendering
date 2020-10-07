@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
 import { YoutubeMeta } from './YoutubeMeta';
+
+declare let window: any;
 
 const overlayStyles = (image: string) => css`
     background-image: url(${image});
@@ -76,12 +78,48 @@ export const YoutubeOverlay = ({
     id: string;
 }): JSX.Element => {
     const [hideOverlay, setHideOverlay] = useState(false);
-    console.log(`Overlay ${hideOverlay}`);
-    const YoutubeCode =
-        'function onYouTubeIframeAPIReady(){' +
-        'let player = new YT.Player(`' +
-        id +
-        '`);this.addEventListener(`click`, clickFunction());function clickFunction(){if(player){player.playVideo()};};};';
+    const [isPlayerReady, setIsPlayerReady] = useState(false);
+    const [player, setPlayer] = useState<YT.Player | null>(null);
+
+    const loadVideo = () => {
+        setPlayer(
+            new window.YT.Player(`${id}`, {
+                events: {
+                    onReady: onPlayerReady,
+                },
+            }),
+        );
+    };
+
+    function onPlayerReady() {
+        setIsPlayerReady(true);
+        console.log('ONPLAYERREADY');
+        console.log(player);
+    }
+
+    function PlayVideo() {
+        player && player.playVideo();
+    }
+    useEffect(() => {
+        console.log('useEffect called');
+        if (!window.YT) {
+            // If not, load the script asynchronously
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+
+            // onYouTubeIframeAPIReady will load the video after the script is loaded
+            window.onYouTubeIframeAPIReady = loadVideo;
+
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag &&
+                firstScriptTag.parentNode &&
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        } else {
+            // If script is already there, load the video directly
+            loadVideo;
+        }
+    }, []);
+
     return (
         <div
             className={
@@ -91,14 +129,14 @@ export const YoutubeOverlay = ({
             }
             onClick={() => {
                 setHideOverlay(true);
-                console.log(`Clicke Overlay: ${hideOverlay}`);
+                console.log('overlay clicked');
+                console.log('overlay state: ' + hideOverlay);
+                PlayVideo();
             }}
         >
-            <script src="https://www.youtube.com/iframe_api" />
             <BottomLeft>
                 <YoutubeMeta mediaDuration={duration} pillar={pillar} />
             </BottomLeft>
-            <script>{YoutubeCode}</script>
         </div>
     );
 };
