@@ -1151,10 +1151,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@guardian/src-foundations@^1.0.1":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.1.0.tgz#1955a3933c3aecfae46d4688a43f331866386b94"
-  integrity sha512-XGZSbHuHf20kewajdIAOPk7jb6mB6+wPYFj+CUuKcEPXXjNLQ4K5WVIzu0xQ9Fa5aO1wG/s0ek0ii9KbpDcbNA==
+"@guardian/src-foundations@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.4.0.tgz#e87d935881b5554e35c00a5b054ced948ac1b5c7"
+  integrity sha512-yShUGqULr7joOxWW+sUq9uziXC9WfIv/S05Tmi8QxevYpkgrSyLK0jSUY3S2ZRg+SfXSyX1g30qvOI+NuhSKfA==
 
 "@guardian/src-icons@^1.9.1":
   version "1.9.1"
