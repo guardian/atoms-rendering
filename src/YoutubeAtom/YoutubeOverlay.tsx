@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { YoutubeMeta } from './YoutubeMeta';
 
 declare let window: any;
+let player2: YT.Player;
 
 const overlayStyles = (image: string) => css`
     background-image: url(${image});
@@ -91,17 +92,17 @@ export const YoutubeOverlay = ({
         );
     };
 
-    function onPlayerReady() {
+    function onPlayerReady(event: any) {
         setIsPlayerReady(true);
-        console.log('ONPLAYERREADY');
-        console.log(player);
+        console.log('OnPlayerReady');
     }
 
     function PlayVideo() {
+        console.log(!!player);
+        player && player.cueVideoById(`${id}`);
         player && player.playVideo();
     }
     useEffect(() => {
-        console.log('useEffect called');
         if (!window.YT) {
             // If not, load the script asynchronously
             const tag = document.createElement('script');
@@ -116,7 +117,7 @@ export const YoutubeOverlay = ({
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         } else {
             // If script is already there, load the video directly
-            loadVideo;
+            loadVideo();
         }
     }, []);
 
@@ -128,10 +129,14 @@ export const YoutubeOverlay = ({
                 (hideOverlay ? hideOverlayStyling : '')
             }
             onClick={() => {
+                console.log('overlay clicked!');
+                console.log(player);
+                if (player) {
+                    console.log('PLAYER is READY');
+                    //player.playVideo();
+                    console.log(player.getDuration());
+                }
                 setHideOverlay(true);
-                console.log('overlay clicked');
-                console.log('overlay state: ' + hideOverlay);
-                PlayVideo();
             }}
         >
             <BottomLeft>

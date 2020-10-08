@@ -56,6 +56,7 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
+    console.log('Atom Rendered');
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
