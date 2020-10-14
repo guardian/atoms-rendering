@@ -10,11 +10,6 @@ import {
 type colour = string;
 
 interface PillarColours {
-    dark: colour;
-    main: colour;
-    bright: colour;
-    pastel: colour;
-    faded: colour;
     300: colour;
     400: colour;
     500: colour;
