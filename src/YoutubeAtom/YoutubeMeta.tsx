@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { pillarPalette } from './pillarPalette';
+import { pillarPalette } from '../lib/pillarPalette';
 import { Pillar } from '@guardian/types/Format';
 import { SvgVideo } from '@guardian/src-icons';
 
@@ -17,8 +17,8 @@ const iconWrapperStyles = (pillar: Pillar) => css`
     height: 23px;
     /* Below we force the colour to be bright if the pillar is news (because it looks better) */
     background-color: ${pillar === Pillar.News
-        ? pillarPalette[pillar].bright
-        : pillarPalette[pillar].main};
+        ? pillarPalette[pillar][500]
+        : pillarPalette[pillar][400]};
     border-radius: 50%;
     display: inline-block;
 
@@ -36,8 +36,8 @@ const iconWrapperStyles = (pillar: Pillar) => css`
 const durationStyles = (pillar: Pillar) => css`
     /* Below we force the colour to be bright if the pillar is news (because it looks better) */
     color: ${pillar === Pillar.News
-        ? pillarPalette[pillar].bright
-        : pillarPalette[pillar].main};
+        ? pillarPalette[pillar][500]
+        : pillarPalette[pillar][400]};
     ${textSans.xsmall({ fontWeight: `bold` })}
 `;
 
