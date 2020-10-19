@@ -90,7 +90,6 @@ export const YoutubeOverlay = ({
     const [hideOverlay, setHideOverlay] = useState(false);
     const [isPlayerReady, setIsPlayerReady] = useState(false);
     const [player, setPlayer] = useState<YT.Player | null>(null);
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
     const loadVideo = () => {
         setPlayer(
@@ -139,22 +138,20 @@ export const YoutubeOverlay = ({
                 (hideOverlay ? hideOverlayStyling : '')
             }
             onClick={() => {
-                console.log('overlay clicked!');
-                console.log(player);
+                if (player && player.playVideo) {
+                    console.log('overlay clicked!');
+                    console.log(player);
 
-                console.log('PLAYER is READY');
-                // player && player.cueVideoById(`${id}`);
-                player && player.getIframe().focus();
-                player && player.playVideo();
-
-                if (!isVideoPlaying) {
-                    setIsVideoPlaying(true);
-                    player && console.log(player.getDuration());
-                    const temp = document.getElementById(`${id}`);
-                    console.log(temp);
+                    console.log('PLAYER is READY');
+                    // player.cueVideoById(`${id}`);
+                    try {
+                        player.getIframe().focus();
+                        player.playVideo();
+                        setHideOverlay(true);
+                    } catch (e) {
+                        console.error(`Unable to play video due to: ${e}`);
+                    }
                 }
-
-                setHideOverlay(true);
             }}
         >
             <BottomLeft>
