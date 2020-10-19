@@ -106,18 +106,6 @@ export const YoutubeOverlay = ({
         );
     };
 
-    function onPlayerReady(event: any) {
-        setIsPlayerReady(true);
-        console.log('OnPlayerReady');
-        console.log(event);
-    }
-
-    function PlayVideo() {
-        console.log(!!player);
-        player && player.cueVideoById(`${id}`);
-        player && player.playVideo();
-    }
-
     useEffect(() => {
         if (!window.YT) {
             // If not, load the script asynchronously
@@ -150,7 +138,7 @@ export const YoutubeOverlay = ({
 
                 console.log('PLAYER is READY');
                 // player && player.cueVideoById(`${id}`);
-                // player && player.getIframe().focus;
+                player && player.getIframe().focus();
                 player && player.playVideo();
 
                 if (!isVideoPlaying) {
