@@ -106,6 +106,12 @@ export const YoutubeOverlay = ({
         );
     };
 
+    function onPlayerReady(event: any) {
+        setIsPlayerReady(true);
+        console.log('OnPlayerReady');
+        console.log(event);
+    }
+
     useEffect(() => {
         if (!window.YT) {
             // If not, load the script asynchronously
