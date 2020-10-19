@@ -6,7 +6,6 @@ import { space } from '@guardian/src-foundations';
 import { YoutubeMeta } from './YoutubeMeta';
 
 declare let window: any;
-let player2: YT.Player;
 
 const overlayStyles = (image: string) => css`
     background-image: url(${image});
@@ -29,6 +28,14 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
+const svgStyle = css`
+    left: 35%;
+    top: 1%;
+    position: absolute;
+    height: 100%;
+    width: 1.5rem;
+`;
+
 const buttonStyling = css`
     background: #ff4e36;
     border-radius: 100%;
@@ -37,13 +44,15 @@ const buttonStyling = css`
     left: ${space[4]}px;
     height: 60px;
     width: 60px;
-`;
 
-const svgStyle = css`
-    left: 35%;
-    position: absolute;
-    height: 100%;
-    width: 1.5rem;
+    :hover {
+        transform: scale(1.15);
+        -webkit-transform: scale(1.15);
+        transform: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            -webkit-transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: -webkit-transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 `;
 
 const BottomLeft = ({
@@ -62,8 +71,8 @@ const BottomLeft = ({
             >
                 <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
             </svg>
-            {children}
         </div>
+        {children}
     </div>
 );
 
@@ -81,12 +90,17 @@ export const YoutubeOverlay = ({
     const [hideOverlay, setHideOverlay] = useState(false);
     const [isPlayerReady, setIsPlayerReady] = useState(false);
     const [player, setPlayer] = useState<YT.Player | null>(null);
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
     const loadVideo = () => {
         setPlayer(
             new window.YT.Player(`${id}`, {
                 events: {
                     onReady: onPlayerReady,
+                },
+                playerVars: {
+                    mute: 1,
+                    autoplay: 1,
                 },
             }),
         );
@@ -95,6 +109,7 @@ export const YoutubeOverlay = ({
     function onPlayerReady(event: any) {
         setIsPlayerReady(true);
         console.log('OnPlayerReady');
+        console.log(event);
     }
 
     function PlayVideo() {
@@ -102,6 +117,7 @@ export const YoutubeOverlay = ({
         player && player.cueVideoById(`${id}`);
         player && player.playVideo();
     }
+
     useEffect(() => {
         if (!window.YT) {
             // If not, load the script asynchronously
@@ -131,11 +147,19 @@ export const YoutubeOverlay = ({
             onClick={() => {
                 console.log('overlay clicked!');
                 console.log(player);
-                if (player) {
-                    console.log('PLAYER is READY');
-                    //player.playVideo();
-                    console.log(player.getDuration());
+
+                console.log('PLAYER is READY');
+                // player && player.cueVideoById(`${id}`);
+                // player && player.getIframe().focus;
+                player && player.playVideo();
+
+                if (!isVideoPlaying) {
+                    setIsVideoPlaying(true);
+                    player && console.log(player.getDuration());
+                    const temp = document.getElementById(`${id}`);
+                    console.log(temp);
                 }
+
                 setHideOverlay(true);
             }}
         >
