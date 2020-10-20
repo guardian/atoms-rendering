@@ -44,14 +44,12 @@ const buttonStyling = css`
     left: ${space[4]}px;
     height: 60px;
     width: 60px;
+    transform: scale(1);
+    transition-duration: 300ms;
 
     :hover {
         transform: scale(1.15);
-        -webkit-transform: scale(1.15);
-        transform: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            -webkit-transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        transform: -webkit-transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        transform: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition-duration: 300ms;
     }
 `;
 
