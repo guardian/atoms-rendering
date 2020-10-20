@@ -38,7 +38,7 @@ const svgStyle = css`
     width: 1.5rem;
 `;
 
-const buttonStyling = css`
+const playButtonStyling = css`
     background-color: ${palette['news'][500]};
     border-radius: 100%;
     position: absolute;
@@ -55,26 +55,14 @@ const buttonStyling = css`
     }
 `;
 
-const BottomLeft = ({
-    children,
-}: {
-    children: JSX.Element | JSX.Element[];
-}) => (
-    <div>
-        <div className={buttonStyling}>
-            <svg
-                className={svgStyle}
-                width="46"
-                height="39"
-                viewBox="0 0 46 39"
-                fill={palette['neutral'][100]}
-            >
-                <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
-            </svg>
-        </div>
-        {children}
-    </div>
-);
+const overlayInfoWrapperStyles = css`
+    display: flex;
+    flex-direction: row;
+`;
+
+const videoDurationStyles = css`
+    color: ${palette['news'][500]};
+`;
 
 export const YoutubeOverlay = ({
     image,
@@ -142,9 +130,21 @@ export const YoutubeOverlay = ({
             }`}
             onClick={onClickOverlay}
         >
-            <BottomLeft>
-                <YoutubeMeta mediaDuration={duration} pillar={pillar} />
-            </BottomLeft>
+            <div className={overlayInfoWrapperStyles}>
+                <div className={playButtonStyling}>
+                    <svg
+                        className={svgStyle}
+                        width="46"
+                        height="39"
+                        viewBox="0 0 46 39"
+                        fill={palette['neutral'][100]}
+                    >
+                        <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
+                    </svg>
+                </div>
+                <div className={videoDurationStyles}>4:14</div>
+            </div>
+            <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
     );
 };
