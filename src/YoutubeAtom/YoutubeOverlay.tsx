@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
@@ -139,10 +139,10 @@ export const YoutubeOverlay = ({
 
     return (
         <div
-            className={cx(
-                overlayStyles(image),
-                hideOverlay ? hideOverlayStyling : '',
-            )}
+            // cannot use cx because it would cause new key to be generated on `hideOverlay` toggle causing css refresh
+            className={`${overlayStyles(image)} ${
+                hideOverlay ? hideOverlayStyling : ''
+            }`}
             onClick={onClickOverlay}
         >
             <BottomLeft>
