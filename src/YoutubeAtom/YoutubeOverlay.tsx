@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { css } from 'emotion';
+import React, { useEffect, useState, useCallback } from 'react';
+import { css, cx } from 'emotion';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
@@ -95,7 +95,7 @@ export const YoutubeOverlay = ({
         setPlayer(
             new window.YT.Player(`${id}`, {
                 events: {
-                    onReady: onPlayerReady,
+                    onReady: () => setIsPlayerReady(true),
                 },
                 playerVars: {
                     mute: 1,
@@ -104,12 +104,6 @@ export const YoutubeOverlay = ({
             }),
         );
     };
-
-    function onPlayerReady(event: any) {
-        setIsPlayerReady(true);
-        console.log('OnPlayerReady');
-        console.log(event);
-    }
 
     useEffect(() => {
         if (!window.YT) {
@@ -130,29 +124,26 @@ export const YoutubeOverlay = ({
         }
     }, []);
 
+    const onClickOverlay = useCallback(() => {
+        if (isPlayerReady && player) {
+            // player.cueVideoById(`${id}`);
+            try {
+                // player.getIframe().focus();
+                player.playVideo();
+                setHideOverlay(true);
+            } catch (e) {
+                console.error(`Unable to play video due to: ${e}`);
+            }
+        }
+    }, [player, isPlayerReady]);
+
     return (
         <div
-            className={
-                overlayStyles(image) +
-                ' ' +
-                (hideOverlay ? hideOverlayStyling : '')
-            }
-            onClick={() => {
-                if (player && player.playVideo) {
-                    console.log('overlay clicked!');
-                    console.log(player);
-
-                    console.log('PLAYER is READY');
-                    // player.cueVideoById(`${id}`);
-                    try {
-                        player.getIframe().focus();
-                        player.playVideo();
-                        setHideOverlay(true);
-                    } catch (e) {
-                        console.error(`Unable to play video due to: ${e}`);
-                    }
-                }
-            }}
+            className={cx(
+                overlayStyles(image),
+                hideOverlay ? hideOverlayStyling : '',
+            )}
+            onClick={onClickOverlay}
         >
             <BottomLeft>
                 <YoutubeMeta mediaDuration={duration} pillar={pillar} />
