@@ -127,7 +127,6 @@ export const YoutubeOverlay = ({
         if (isPlayerReady && player) {
             // player.cueVideoById(`${id}`);
             try {
-                // player.getIframe().focus();
                 player.playVideo();
                 setHideOverlay(true);
             } catch (e) {
