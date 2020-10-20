@@ -125,7 +125,6 @@ export const YoutubeOverlay = ({
 
     const onClickOverlay = useCallback(() => {
         if (isPlayerReady && player) {
-            // player.cueVideoById(`${id}`);
             try {
                 player.playVideo();
                 setHideOverlay(true);
