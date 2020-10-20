@@ -67,7 +67,7 @@ const BottomLeft = ({
                 width="46"
                 height="39"
                 viewBox="0 0 46 39"
-                fill="#ffff"
+                fill={palette['neutral'][100]}
             >
                 <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
             </svg>
