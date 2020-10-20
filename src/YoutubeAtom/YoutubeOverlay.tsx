@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { css } from 'emotion';
+
+import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
@@ -37,7 +39,7 @@ const svgStyle = css`
 `;
 
 const buttonStyling = css`
-    background: #ff4e36;
+    background-color: ${palette['news'][500]};
     border-radius: 100%;
     position: absolute;
     bottom: ${space[4]}px;
