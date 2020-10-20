@@ -106,7 +106,9 @@ export const YoutubeOverlay = ({
     };
 
     useEffect(() => {
-        if (!window.YT) {
+        if (window.YT) {
+            loadVideo();
+        } else {
             // If not, load the script asynchronously
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
@@ -118,9 +120,6 @@ export const YoutubeOverlay = ({
             firstScriptTag &&
                 firstScriptTag.parentNode &&
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        } else {
-            // If script is already there, load the video directly
-            loadVideo();
         }
     }, []);
 
