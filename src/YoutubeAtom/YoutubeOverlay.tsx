@@ -71,6 +71,12 @@ const videoDurationStyles = css`
     color: ${palette['news'][500]};
 `;
 
+const formatTime = (videoDurationInSeconds: number) => {
+    const minutes = Math.floor(videoDurationInSeconds / 60);
+    const seconds = videoDurationInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+};
+
 export const YoutubeOverlay = ({
     image,
     pillar,
@@ -148,7 +154,9 @@ export const YoutubeOverlay = ({
                 <div className={playButtonStyling}>
                     <SvgPlay />
                 </div>
-                <div className={videoDurationStyles}>{videoDuration}</div>
+                <div className={videoDurationStyles}>
+                    {formatTime(videoDuration)}
+                </div>
             </div>
             <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
