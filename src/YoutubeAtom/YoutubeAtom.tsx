@@ -69,6 +69,7 @@ export const YoutubeAtom = ({
                     // needed in order to allow `player.playVideo();` to be able to run
                     // https://stackoverflow.com/a/53298579/7378674
                     allow="autoplay"
+                    tabIndex={overlayImage ? -1 : 0}
                 />
                 {overlayImage && (
                     <YoutubeOverlay

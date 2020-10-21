@@ -22,6 +22,14 @@ const overlayStyles = (image: string) => css`
     position: absolute;
     max-height: 100vh;
     cursor: pointer;
+
+    /* hard code "overlay-play-button" to be able to give play button animation on focus */
+    :focus {
+        .overlay-play-button {
+            transform: scale(1.15);
+            transition-duration: 300ms;
+        }
+    }
 `;
 
 const hideOverlayStyling = css`
@@ -142,6 +150,26 @@ export const YoutubeOverlay = ({
         }
     }, [player, isPlayerReady]);
 
+    const onKeydownOverlay = useCallback(
+        (e) => {
+            const spaceKey = 32;
+            const enterKey = 13;
+            if (
+                (e.keyCode === spaceKey || e.keyCode === enterKey) &&
+                isPlayerReady &&
+                player
+            ) {
+                try {
+                    player.playVideo();
+                    setHideOverlay(true);
+                } catch (e) {
+                    console.error(`Unable to play video due to: ${e}`);
+                }
+            }
+        },
+        [player, isPlayerReady],
+    );
+
     return (
         <div
             // cannot use cx because it would cause new key to be generated on `hideOverlay` toggle causing css refresh
@@ -149,9 +177,11 @@ export const YoutubeOverlay = ({
                 hideOverlay ? hideOverlayStyling : ''
             }`}
             onClick={onClickOverlay}
+            onKeyDown={onKeydownOverlay}
+            tabIndex={0}
         >
             <div className={overlayInfoWrapperStyles}>
-                <div className={playButtonStyling}>
+                <div className={`${playButtonStyling} overlay-play-button`}>
                     <SvgPlay />
                 </div>
                 <div className={videoDurationStyles}>
