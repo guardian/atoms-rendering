@@ -65,7 +65,7 @@ export const YoutubeAtom = ({
                     height={height}
                     id={videoMeta.assetId}
                     // need to add the origin flag back for production when merging
-                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1`}
+                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=https://www.theguardian.com&widgetid=1&modestbranding=1`}
                     // needed in order to allow `player.playVideo();` to be able to run
                     // https://stackoverflow.com/a/53298579/7378674
                     allow="autoplay"
