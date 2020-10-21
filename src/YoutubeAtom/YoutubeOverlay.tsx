@@ -74,7 +74,7 @@ const overlayInfoWrapperStyles = css`
 
 const videoDurationStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })};
-    padding-left: ${space[3]};
+    padding-left: ${space[3]}px;
     color: ${palette['news'][500]};
 `;
 
