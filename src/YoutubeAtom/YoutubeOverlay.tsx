@@ -4,6 +4,7 @@ import { css } from 'emotion';
 import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
+import { textSans } from '@guardian/src-foundations/typography';
 
 import { YoutubeMeta } from './YoutubeMeta';
 
@@ -41,9 +42,6 @@ const svgStyle = css`
 const playButtonStyling = css`
     background-color: ${palette['news'][500]};
     border-radius: 100%;
-    position: absolute;
-    bottom: ${space[4]}px;
-    left: ${space[4]}px;
     height: 60px;
     width: 60px;
     transform: scale(1);
@@ -58,9 +56,15 @@ const playButtonStyling = css`
 const overlayInfoWrapperStyles = css`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    position: absolute;
+    bottom: ${space[4]}px;
+    left: ${space[4]}px;
 `;
 
 const videoDurationStyles = css`
+    ${textSans.medium({ fontWeight: 'bold' })};
+    padding-left: 10px;
     color: ${palette['news'][500]};
 `;
 
