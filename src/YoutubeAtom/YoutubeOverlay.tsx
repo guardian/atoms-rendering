@@ -97,7 +97,6 @@ export const YoutubeOverlay = ({
 }): JSX.Element => {
     const [hideOverlay, setHideOverlay] = useState(false);
     const [isPlayerReady, setIsPlayerReady] = useState(false);
-    const [videoDuration, setVideoDuration] = useState<number>(0);
     const [player, setPlayer] = useState<YT.Player | null>(null);
 
     const loadVideo = () => {
@@ -131,12 +130,6 @@ export const YoutubeOverlay = ({
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
     }, []);
-
-    useEffect(() => {
-        if (isPlayerReady && player) {
-            setVideoDuration(player.getDuration());
-        }
-    }, [player, isPlayerReady]);
 
     const onClickOverlay = useCallback(() => {
         if (isPlayerReady && player) {
@@ -183,9 +176,11 @@ export const YoutubeOverlay = ({
                 <div className={`${playButtonStyling} overlay-play-button`}>
                     <SvgPlay />
                 </div>
-                <div className={videoDurationStyles}>
-                    {formatTime(videoDuration)}
-                </div>
+                {duration && (
+                    <div className={videoDurationStyles}>
+                        {formatTime(duration)}
+                    </div>
+                )}
             </div>
             <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
