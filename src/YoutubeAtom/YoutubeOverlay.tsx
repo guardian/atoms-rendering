@@ -5,6 +5,7 @@ import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
+import { SvgPlay } from '@guardian/src-icons';
 
 import { YoutubeMeta } from './YoutubeMeta';
 
@@ -31,14 +32,6 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
-const svgStyle = css`
-    left: 35%;
-    top: 1%;
-    position: absolute;
-    height: 100%;
-    width: 1.5rem;
-`;
-
 const playButtonStyling = css`
     background-color: ${palette['news'][500]};
     border-radius: 100%;
@@ -47,9 +40,19 @@ const playButtonStyling = css`
     transform: scale(1);
     transition-duration: 300ms;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     :hover {
         transform: scale(1.15);
         transition-duration: 300ms;
+    }
+
+    svg {
+        fill: ${palette['neutral'][100]};
+        width: 45px;
+        height: 40px;
     }
 `;
 
@@ -81,6 +84,7 @@ export const YoutubeOverlay = ({
 }): JSX.Element => {
     const [hideOverlay, setHideOverlay] = useState(false);
     const [isPlayerReady, setIsPlayerReady] = useState(false);
+    const [videoDuration, setVideoDuration] = useState<number>(0);
     const [player, setPlayer] = useState<YT.Player | null>(null);
 
     const loadVideo = () => {
@@ -115,6 +119,12 @@ export const YoutubeOverlay = ({
         }
     }, []);
 
+    useEffect(() => {
+        if (isPlayerReady && player) {
+            setVideoDuration(player.getDuration());
+        }
+    }, [player, isPlayerReady]);
+
     const onClickOverlay = useCallback(() => {
         if (isPlayerReady && player) {
             try {
@@ -136,17 +146,9 @@ export const YoutubeOverlay = ({
         >
             <div className={overlayInfoWrapperStyles}>
                 <div className={playButtonStyling}>
-                    <svg
-                        className={svgStyle}
-                        width="46"
-                        height="39"
-                        viewBox="0 0 46 39"
-                        fill={palette['neutral'][100]}
-                    >
-                        <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
-                    </svg>
+                    <SvgPlay />
                 </div>
-                <div className={videoDurationStyles}>4:14</div>
+                <div className={videoDurationStyles}>{videoDuration}</div>
             </div>
             <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
