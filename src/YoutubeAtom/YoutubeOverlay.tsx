@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { css } from 'emotion';
 
-import { palette } from '@guardian/src-foundations';
+import { palette, space } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
-import { space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
 
@@ -75,7 +74,7 @@ const overlayInfoWrapperStyles = css`
 
 const videoDurationStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })};
-    padding-left: 10px;
+    padding-left: ${space[3]};
     color: ${palette['news'][500]};
 `;
 
