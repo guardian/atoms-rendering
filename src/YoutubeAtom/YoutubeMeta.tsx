@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 
 import { textSans } from '@guardian/src-foundations/typography';
+import { space } from '@guardian/src-foundations';
 
 import { pillarPalette } from '../lib/pillarPalette';
 import { Pillar } from '@guardian/types/Format';
@@ -77,6 +78,31 @@ const Icon = ({ pillar }: { pillar: Pillar }) => (
     </span>
 );
 
+const svgStyle = css`
+    left: 35%;
+    top: 1%;
+    position: absolute;
+    height: 100%;
+    width: 1.5rem;
+`;
+
+const buttonStyling = css`
+    background: #ff4e36;
+    border-radius: 100%;
+    position: absolute;
+    bottom: ${space[4]}px;
+    left: ${space[4]}px;
+    height: 60px;
+    width: 60px;
+`;
+
+const buttonHover = css`
+    :hover {
+        transform: scale(1.2);
+        -webkit-transform: scale() (1.2);
+    }
+`;
+
 const Duration = ({
     mediaDuration,
     pillar,
@@ -89,7 +115,6 @@ const Duration = ({
 
 export const YoutubeMeta = ({ mediaDuration, pillar }: Props): JSX.Element => (
     <div className={wrapperStyles}>
-        <Icon pillar={pillar} />
         &nbsp;
         {mediaDuration && (
             <Duration mediaDuration={mediaDuration} pillar={pillar} />

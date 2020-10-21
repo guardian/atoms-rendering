@@ -56,7 +56,6 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
-    console.log('Atom Rendered');
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
@@ -65,7 +64,11 @@ export const YoutubeAtom = ({
                     width={width}
                     height={height}
                     id={videoMeta.assetId}
-                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=http://localhost:3030&widgetid=1&modestbranding=1`}
+                    // need to add the origin flag back for production when merging
+                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1`}
+                    // needed in order to allow `player.playVideo();` to be able to run
+                    // https://stackoverflow.com/a/53298579/7378674
+                    allow="autoplay"
                 />
                 {overlayImage && (
                     <YoutubeOverlay

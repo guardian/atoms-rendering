@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { css } from 'emotion';
+
+import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { space } from '@guardian/src-foundations';
 
 import { YoutubeMeta } from './YoutubeMeta';
 
 declare let window: any;
-let player2: YT.Player;
 
 const overlayStyles = (image: string) => css`
     background-image: url(${image});
@@ -29,43 +30,39 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
-const buttonStyling = css`
-    background: #ff4e36;
+const svgStyle = css`
+    left: 35%;
+    top: 1%;
+    position: absolute;
+    height: 100%;
+    width: 1.5rem;
+`;
+
+const playButtonStyling = css`
+    background-color: ${palette['news'][500]};
     border-radius: 100%;
     position: absolute;
     bottom: ${space[4]}px;
     left: ${space[4]}px;
     height: 60px;
     width: 60px;
+    transform: scale(1);
+    transition-duration: 300ms;
+
+    :hover {
+        transform: scale(1.15);
+        transition-duration: 300ms;
+    }
 `;
 
-const svgStyle = css`
-    left: 35%;
-    position: absolute;
-    height: 100%;
-    width: 1.5rem;
+const overlayInfoWrapperStyles = css`
+    display: flex;
+    flex-direction: row;
 `;
 
-const BottomLeft = ({
-    children,
-}: {
-    children: JSX.Element | JSX.Element[];
-}) => (
-    <div>
-        <div className={buttonStyling}>
-            <svg
-                className={svgStyle}
-                width="46"
-                height="39"
-                viewBox="0 0 46 39"
-                fill="#ffff"
-            >
-                <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
-            </svg>
-            {children}
-        </div>
-    </div>
-);
+const videoDurationStyles = css`
+    color: ${palette['news'][500]};
+`;
 
 export const YoutubeOverlay = ({
     image,
@@ -86,24 +83,20 @@ export const YoutubeOverlay = ({
         setPlayer(
             new window.YT.Player(`${id}`, {
                 events: {
-                    onReady: onPlayerReady,
+                    onReady: () => setIsPlayerReady(true),
+                },
+                playerVars: {
+                    mute: 1,
+                    autoplay: 1,
                 },
             }),
         );
     };
 
-    function onPlayerReady(event: any) {
-        setIsPlayerReady(true);
-        console.log('OnPlayerReady');
-    }
-
-    function PlayVideo() {
-        console.log(!!player);
-        player && player.cueVideoById(`${id}`);
-        player && player.playVideo();
-    }
     useEffect(() => {
-        if (!window.YT) {
+        if (window.YT) {
+            loadVideo();
+        } else {
             // If not, load the script asynchronously
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
@@ -115,33 +108,43 @@ export const YoutubeOverlay = ({
             firstScriptTag &&
                 firstScriptTag.parentNode &&
                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        } else {
-            // If script is already there, load the video directly
-            loadVideo();
         }
     }, []);
 
+    const onClickOverlay = useCallback(() => {
+        if (isPlayerReady && player) {
+            try {
+                player.playVideo();
+                setHideOverlay(true);
+            } catch (e) {
+                console.error(`Unable to play video due to: ${e}`);
+            }
+        }
+    }, [player, isPlayerReady]);
+
     return (
         <div
-            className={
-                overlayStyles(image) +
-                ' ' +
-                (hideOverlay ? hideOverlayStyling : '')
-            }
-            onClick={() => {
-                console.log('overlay clicked!');
-                console.log(player);
-                if (player) {
-                    console.log('PLAYER is READY');
-                    //player.playVideo();
-                    console.log(player.getDuration());
-                }
-                setHideOverlay(true);
-            }}
+            // cannot use cx because it would cause new key to be generated on `hideOverlay` toggle causing css refresh
+            className={`${overlayStyles(image)} ${
+                hideOverlay ? hideOverlayStyling : ''
+            }`}
+            onClick={onClickOverlay}
         >
-            <BottomLeft>
-                <YoutubeMeta mediaDuration={duration} pillar={pillar} />
-            </BottomLeft>
+            <div className={overlayInfoWrapperStyles}>
+                <div className={playButtonStyling}>
+                    <svg
+                        className={svgStyle}
+                        width="46"
+                        height="39"
+                        viewBox="0 0 46 39"
+                        fill={palette['neutral'][100]}
+                    >
+                        <path d="M46 20.58v-2.02L1.64 0 0 1.3v36.55L1.64 39 46 20.58z"></path>
+                    </svg>
+                </div>
+                <div className={videoDurationStyles}>4:14</div>
+            </div>
+            <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
     );
 };

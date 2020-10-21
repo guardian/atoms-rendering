@@ -48,7 +48,7 @@ export const WithOverlayImage = (): JSX.Element => {
                     display: Display.Standard,
                 }}
                 videoMeta={{
-                    assetId: '-ZCvZmYlQD8',
+                    assetId: '3jpXAMwRSu4',
                     mediaTitle:
                         "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
                 }}
