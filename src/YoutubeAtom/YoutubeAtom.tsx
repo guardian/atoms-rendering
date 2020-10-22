@@ -74,7 +74,6 @@ export const YoutubeAtom = ({
                 {overlayImage && (
                     <YoutubeOverlay
                         image={overlayImage}
-                        pillar={format.pillar}
                         duration={duration}
                         id={videoMeta.assetId}
                     />
