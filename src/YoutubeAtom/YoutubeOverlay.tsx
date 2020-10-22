@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { css } from 'emotion';
 
 import { palette, space } from '@guardian/src-foundations';
-import { Pillar } from '@guardian/types/Format';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
+
+import { formatTime } from '../lib/formatTime';
 
 declare let window: any;
 
@@ -75,12 +76,6 @@ const videoDurationStyles = css`
     padding-left: ${space[3]}px;
     color: ${palette['news'][500]};
 `;
-
-const formatTime = (videoDurationInSeconds: number) => {
-    const minutes = Math.floor(videoDurationInSeconds / 60);
-    const seconds = videoDurationInSeconds % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-};
 
 export const YoutubeOverlay = ({
     image,
