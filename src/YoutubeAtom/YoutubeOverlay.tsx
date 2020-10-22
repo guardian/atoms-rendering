@@ -21,8 +21,9 @@ const overlayStyles = (image: string) => css`
     max-height: 100vh;
     cursor: pointer;
 
-    /* hard code "overlay-play-button" to be able to give play button animation on focus */
-    :focus {
+    /* hard code "overlay-play-button" to be able to give play button animation on focus/hover of overlay */
+    :focus,
+    :hover {
         .overlay-play-button {
             transform: scale(1.15);
             transition-duration: 300ms;
@@ -49,11 +50,6 @@ const playButtonStyling = css`
     display: flex;
     align-items: center;
     justify-content: center;
-
-    :hover {
-        transform: scale(1.15);
-        transition-duration: 300ms;
-    }
 
     svg {
         fill: ${palette['neutral'][100]};
