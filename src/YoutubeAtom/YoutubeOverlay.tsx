@@ -6,8 +6,6 @@ import { Pillar } from '@guardian/types/Format';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
 
-import { YoutubeMeta } from './YoutubeMeta';
-
 declare let window: any;
 
 const overlayStyles = (image: string) => css`
@@ -182,7 +180,6 @@ export const YoutubeOverlay = ({
                     </div>
                 )}
             </div>
-            <YoutubeMeta mediaDuration={duration} pillar={pillar} />
         </div>
     );
 };
