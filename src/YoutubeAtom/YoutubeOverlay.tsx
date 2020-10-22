@@ -84,12 +84,10 @@ const formatTime = (videoDurationInSeconds: number) => {
 
 export const YoutubeOverlay = ({
     image,
-    pillar,
     duration,
     id,
 }: {
     image: string;
-    pillar: Pillar;
     duration?: number;
     id: string;
 }): JSX.Element => {
