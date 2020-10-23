@@ -129,7 +129,7 @@ export const YoutubeOverlay = ({
         }
     }, [player, isPlayerReady]);
 
-    const onKeydownOverlay = useCallback(
+    const onKeyDownOverlay = useCallback(
         (e) => {
             const spaceKey = 32;
             const enterKey = 13;
@@ -156,7 +156,7 @@ export const YoutubeOverlay = ({
                 hideOverlay ? hideOverlayStyling : ''
             }`}
             onClick={onClickOverlay}
-            onKeyDown={onKeydownOverlay}
+            onKeyDown={onKeyDownOverlay}
             tabIndex={0}
         >
             <div className={overlayInfoWrapperStyles}>
