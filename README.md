@@ -2,7 +2,9 @@
 
 ## Atoms
 
-An Atom is a self contained piece of content that can be inserted into multiple articles. There are currently 13 types of atoms. This repository implements them as a separate self contained library. 
+![Atoms Web Architecture](./docs/atomswebarchitecture.png)
+
+An Atom is a self contained piece of content that can be inserted into multiple articles. This repository implements atom definitions as part of a library which can be imported into the appropriate rendering service ([dotcom-rendering](https://github.com/guardian/dotcom-rendering) or [apps-rendering](https://github.com/guardian/apps-rendering)). Once imported, you can configure your rendering service to render the atom component for the atom data passed from your backend ([frontend](https://github.com/guardian/frontend) in the case of web).
 
 ## Usage
 
@@ -99,6 +101,8 @@ Adding a new atom in `atoms-rendering` involves
 2. Adding stories, eg. MyComponent.stories.tsx
 3. Adding a line to `index.ts` to export the component
 4. Publishing a new version of the library to Npm (see below)
+
+An example PR for adding the Profile Atom can be found [here](https://github.com/guardian/atoms-rendering/pull/35/files). The component is defined in [/src/ProfileAtom.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/ProfileAtom.tsx), with the supporting type ProfileAtomType in [src/types.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/types.ts). Types are transpiled when this project is built, and are made available to your rendering project when you include the published library as a dependency.
 
 ## Publishing to NPM
 
