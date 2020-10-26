@@ -2,7 +2,12 @@ import React from 'react';
 
 import { YoutubeOverlay } from './YoutubeOverlay';
 import { MaintainAspectRatio } from './MaintainAspectRatio';
-import { YoutubeAtomType } from '../types';
+
+declare global {
+    interface Window {
+        isStory?: boolean;
+    }
+}
 
 type EmbedConfig = {
     adsConfig: {
@@ -43,9 +48,29 @@ const constructQuery = (query: { [key: string]: any }): string =>
         })
         .join('&');
 
+type YoutubeMeta = {
+    assetId: string;
+    mediaTitle: string;
+    id?: string;
+    channelId?: string;
+    duration?: number;
+    posterSrc?: string;
+    height?: string;
+    width?: string;
+};
+
+type YoutubeAtomType = {
+    videoMeta: YoutubeMeta;
+    overlayImage?: string;
+    adTargeting?: AdTargeting;
+    height?: number;
+    width?: number;
+    title?: string;
+    duration?: number; // in seconds
+};
+
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
-    format,
     videoMeta,
     overlayImage,
     adTargeting,
@@ -56,23 +81,33 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
-
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
-                {overlayImage && (
-                    <YoutubeOverlay
-                        image={overlayImage}
-                        pillar={format.pillar}
-                        duration={duration}
-                    />
-                )}
                 <iframe
                     title={title}
                     width={width}
                     height={height}
-                    src={`https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1&origin=https://www.theguardian.com&widgetid=1&modestbranding=1`}
+                    id={videoMeta.assetId}
+                    src={`https://www.youtube.com/embed/${
+                        videoMeta.assetId
+                    }?embed_config=${embedConfig}&enablejsapi=1${
+                        window.isStory
+                            ? ''
+                            : '&origin=https://www.theguardian.com'
+                    }&widgetid=1&modestbranding=1`}
+                    // needed in order to allow `player.playVideo();` to be able to run
+                    // https://stackoverflow.com/a/53298579/7378674
+                    allow="autoplay"
+                    tabIndex={overlayImage ? -1 : 0}
                 />
+                {overlayImage && (
+                    <YoutubeOverlay
+                        image={overlayImage}
+                        duration={duration}
+                        id={videoMeta.assetId}
+                    />
+                )}
             </MaintainAspectRatio>
         </div>
     );

@@ -1,4 +1,3 @@
-import { Format } from '@guardian/types/Format';
 import { Pillar } from '@guardian/types/Format';
 
 export type AdTargeting = {
@@ -102,25 +101,3 @@ export interface TimelineEvent {
     body?: string;
     toDate?: string;
 }
-
-export type YoutubeAtomType = {
-    format: Format;
-    videoMeta: YoutubeMeta;
-    overlayImage?: string;
-    adTargeting?: AdTargeting;
-    height?: number;
-    width?: number;
-    title?: string;
-    duration?: number; // in seconds
-};
-
-type YoutubeMeta = {
-    assetId: string;
-    mediaTitle: string;
-    id?: string;
-    channelId?: string;
-    duration?: number;
-    posterSrc?: string;
-    height?: string;
-    width?: string;
-};
