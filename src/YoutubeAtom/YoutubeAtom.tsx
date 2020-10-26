@@ -4,7 +4,7 @@ import { YoutubeOverlay } from './YoutubeOverlay';
 import { MaintainAspectRatio } from './MaintainAspectRatio';
 
 declare global {
-    interface Document {
+    interface Window {
         isStory?: boolean;
     }
 }
@@ -92,7 +92,7 @@ export const YoutubeAtom = ({
                     src={`https://www.youtube.com/embed/${
                         videoMeta.assetId
                     }?embed_config=${embedConfig}&enablejsapi=1${
-                        document.isStory
+                        window.isStory
                             ? ''
                             : '&origin=https://www.theguardian.com'
                     }&widgetid=1&modestbranding=1`}
