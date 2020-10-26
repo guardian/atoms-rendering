@@ -3,6 +3,12 @@ import React from 'react';
 import { YoutubeOverlay } from './YoutubeOverlay';
 import { MaintainAspectRatio } from './MaintainAspectRatio';
 
+declare global {
+    interface Document {
+        isStory?: boolean;
+    }
+}
+
 type EmbedConfig = {
     adsConfig: {
         adTagParameters: {
@@ -61,7 +67,6 @@ type YoutubeAtomType = {
     width?: number;
     title?: string;
     duration?: number; // in seconds
-    isStory?: boolean; // workaround to remove origin in src to allow play in storybook
 };
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
@@ -73,7 +78,6 @@ export const YoutubeAtom = ({
     width = 460,
     title = 'YouTube video player',
     duration,
-    isStory = false,
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
@@ -88,7 +92,9 @@ export const YoutubeAtom = ({
                     src={`https://www.youtube.com/embed/${
                         videoMeta.assetId
                     }?embed_config=${embedConfig}&enablejsapi=1${
-                        isStory ? '' : '&origin=https://www.theguardian.com'
+                        !!document.isStory
+                            ? ''
+                            : '&origin=https://www.theguardian.com'
                     }&widgetid=1&modestbranding=1`}
                     // needed in order to allow `player.playVideo();` to be able to run
                     // https://stackoverflow.com/a/53298579/7378674
