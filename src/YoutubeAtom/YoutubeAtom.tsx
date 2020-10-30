@@ -3,12 +3,6 @@ import React from 'react';
 import { YoutubeOverlay } from './YoutubeOverlay';
 import { MaintainAspectRatio } from './MaintainAspectRatio';
 
-declare global {
-    interface Window {
-        isStory?: boolean;
-    }
-}
-
 type EmbedConfig = {
     adsConfig: {
         adTagParameters: {
@@ -81,34 +75,34 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
+
+    // if window is undefined it is because this logic is running on the server side
+    const origin =
+        typeof window !== 'undefined' &&
+        window.location.hostname === 'localhost'
+            ? ''
+            : '&origin=https://www.theguardian.com';
+    const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${origin}&widgetid=1&modestbranding=1`;
     return (
-        <div>
-            <MaintainAspectRatio height={height} width={width}>
-                <iframe
-                    title={title}
-                    width={width}
-                    height={height}
+        <MaintainAspectRatio height={height} width={width}>
+            <iframe
+                title={title}
+                width={width}
+                height={height}
+                id={videoMeta.assetId}
+                src={iframeSrc}
+                // needed in order to allow `player.playVideo();` to be able to run
+                // https://stackoverflow.com/a/53298579/7378674
+                allow="autoplay"
+                tabIndex={overlayImage ? -1 : 0}
+            />
+            {overlayImage && (
+                <YoutubeOverlay
+                    image={overlayImage}
+                    duration={duration}
                     id={videoMeta.assetId}
-                    src={`https://www.youtube.com/embed/${
-                        videoMeta.assetId
-                    }?embed_config=${embedConfig}&enablejsapi=1${
-                        window.isStory
-                            ? ''
-                            : '&origin=https://www.theguardian.com'
-                    }&widgetid=1&modestbranding=1`}
-                    // needed in order to allow `player.playVideo();` to be able to run
-                    // https://stackoverflow.com/a/53298579/7378674
-                    allow="autoplay"
-                    tabIndex={overlayImage ? -1 : 0}
                 />
-                {overlayImage && (
-                    <YoutubeOverlay
-                        image={overlayImage}
-                        duration={duration}
-                        id={videoMeta.assetId}
-                    />
-                )}
-            </MaintainAspectRatio>
-        </div>
+            )}
+        </MaintainAspectRatio>
     );
 };

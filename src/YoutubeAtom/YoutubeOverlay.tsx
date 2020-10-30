@@ -101,6 +101,9 @@ export const YoutubeOverlay = ({
     };
 
     useEffect(() => {
+        // if window is undefined it is because this logic is running on the server side
+        if (typeof window === 'undefined') return;
+
         if (window.YT) {
             loadVideo();
         } else {
