@@ -81,6 +81,13 @@ export const YoutubeAtom = ({
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
+
+    // if window is undefined it is because this logic is running on the server side
+    const origin =
+        typeof window !== 'undefined' && window.isStory
+            ? ''
+            : '&origin=https://www.theguardian.com';
+    const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${origin}&widgetid=1&modestbranding=1`;
     return (
         <div>
             <MaintainAspectRatio height={height} width={width}>
@@ -89,13 +96,7 @@ export const YoutubeAtom = ({
                     width={width}
                     height={height}
                     id={videoMeta.assetId}
-                    src={`https://www.youtube.com/embed/${
-                        videoMeta.assetId
-                    }?embed_config=${embedConfig}&enablejsapi=1${
-                        window.isStory
-                            ? ''
-                            : '&origin=https://www.theguardian.com'
-                    }&widgetid=1&modestbranding=1`}
+                    src={iframeSrc}
                     // needed in order to allow `player.playVideo();` to be able to run
                     // https://stackoverflow.com/a/53298579/7378674
                     allow="autoplay"
