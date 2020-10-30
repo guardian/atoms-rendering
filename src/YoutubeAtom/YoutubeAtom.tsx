@@ -3,12 +3,6 @@ import React from 'react';
 import { YoutubeOverlay } from './YoutubeOverlay';
 import { MaintainAspectRatio } from './MaintainAspectRatio';
 
-declare global {
-    interface Window {
-        isStory?: boolean;
-    }
-}
-
 type EmbedConfig = {
     adsConfig: {
         adTagParameters: {
@@ -84,7 +78,8 @@ export const YoutubeAtom = ({
 
     // if window is undefined it is because this logic is running on the server side
     const origin =
-        typeof window !== 'undefined' && window.isStory
+        typeof window !== 'undefined' &&
+        window.location.hostname === 'localhost'
             ? ''
             : '&origin=https://www.theguardian.com';
     const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${origin}&widgetid=1&modestbranding=1`;
