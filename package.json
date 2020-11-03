@@ -80,6 +80,7 @@
     },
     "peerDependencies": {
         "@guardian/src-foundations": "^2.4.0",
+        "@guardian/consent-management-platform": "^6.6.0",
         "@guardian/src-icons": "^2.4.0",
         "emotion": "^10.0.27",
         "react": "^16.13.1",
