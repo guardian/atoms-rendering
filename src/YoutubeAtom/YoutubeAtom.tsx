@@ -61,6 +61,7 @@ type YoutubeAtomType = {
     width?: number;
     title?: string;
     duration?: number; // in seconds
+    origin?: string;
 };
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
@@ -72,17 +73,12 @@ export const YoutubeAtom = ({
     width = 460,
     title = 'YouTube video player',
     duration,
+    origin,
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
-
-    // if window is undefined it is because this logic is running on the server side
-    const origin =
-        typeof window !== 'undefined' &&
-        window.location.hostname === 'localhost'
-            ? ''
-            : '&origin=https://www.theguardian.com';
-    const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${origin}&widgetid=1&modestbranding=1`;
+    const originString = origin ? `&origin=${origin}` : '';
+    const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
     return (
         <MaintainAspectRatio height={height} width={width}>
             <iframe
