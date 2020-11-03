@@ -5,6 +5,10 @@ import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
+import {
+    onConsentChange,
+    getConsentFor,
+} from '@guardian/consent-management-platform';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
@@ -208,9 +212,12 @@ export const AudioAtom = ({
     kicker,
     title,
     pillar,
+    acastEnabled,
+    adFreeUser,
 }: AudioAtomType): JSX.Element => {
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [urlToUse, setUrlToUse] = useState<string>(trackUrl);
 
     // update current time and progress bar position
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -296,6 +303,23 @@ export const AudioAtom = ({
         return () => document.removeEventListener('keydown', keyListener);
     }, [audioEl, progressBarEl]);
 
+    // *****************
+    // *     ACast     *
+    // *****************
+    useEffect(() => {
+        onConsentChange((state) => {
+            const consentGiven = getConsentFor('acast', state);
+
+            if (acastEnabled && consentGiven && !adFreeUser) {
+                // Replace the default url with an acast enabled on, causing the component to
+                // rerender with a new track url containing adverts
+                setUrlToUse(
+                    trackUrl.replace('https://', 'https://flex.acast.com/'),
+                );
+            }
+        });
+    }, [acastEnabled, adFreeUser]);
+
     return (
         <figure
             className={figureStyle}
@@ -314,7 +338,7 @@ export const AudioAtom = ({
                 <div className={audioBodyStyle}>
                     <audio
                         className={audioElementStyle}
-                        src={trackUrl}
+                        src={urlToUse}
                         ref={audioEl}
                         data-duration={durationTime}
                         data-media-id={id || '_no_ids'}

@@ -12,6 +12,8 @@ export type AudioAtomType = {
     kicker: string;
     title?: string;
     pillar: Pillar;
+    acastEnabled?: boolean;
+    adFreeUser?: boolean;
 };
 
 export type ChartAtomType = {
