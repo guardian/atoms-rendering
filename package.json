@@ -52,6 +52,7 @@
         "husky": "^4.2.5",
         "jest": "^26.5.2",
         "jest-environment-jsdom-sixteen": "^1.0.3",
+        "ts-jest": "^24.3.0",
         "microbundle": "^0.12.0",
         "prettier": "^2.0.5",
         "pretty-quick": "^2.0.1",
@@ -88,9 +89,37 @@
         "react-dom": "^16.13.1"
     },
     "jest": {
+        "preset": "ts-jest/presets/js-with-babel",
         "testEnvironment": "jest-environment-jsdom-sixteen",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "transform": {
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        },
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false,
+                "tsConfigFile": "tsconfig.json"
+            }
+        },
+        "testMatch": [
+            "**/*.test.+(ts|tsx|js)"
+        ],
+        "moduleNameMapper": {
+            "^svgs/(.*)$": "<rootDir>/__mocks__/svgMock.tsx",
+            "^(.*)\\.svg$": "<rootDir>/__mocks__/svgMock.tsx",
+            "^@root(.*)$": "<rootDir>$1",
+            "^@frontend(.*)$": "<rootDir>/src$1",
+            "^@guardian/src-foundations/(.*)(?<!cjs)$": "@guardian/src-foundations/$1/cjs"
+        },
         "transformIgnorePatterns": [
-            "node_modules/(?!(@guardian/src-foundations|@guardian/types)/)"
+            "/node_modules/(?!@guardian/).+\\.js$"
+        ],
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}"
         ]
     }
 }
