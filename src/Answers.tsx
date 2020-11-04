@@ -66,13 +66,13 @@ export const UnselectedAnswer = ({
             onKeyPress={onKeyPress}
             tabIndex={disabled ? -1 : 0}
             htmlFor={`answer-${id}`}
-            data-answerType={
+            data-answertype={
                 disabled
                     ? 'unselected-disabled-answer'
                     : 'unselected-enabled-answer'
             }
             id={id}
-            data-testId={id}
+            data-testid={id}
         >
             {answerText}
         </label>
@@ -118,8 +118,8 @@ export const CorrectSelectedAnswer = ({
         <label
             className={correctSelectedAnswerStyles}
             id={id}
-            data-testId={id}
-            data-answerType="correct-selected-answer"
+            data-testid={id}
+            data-answertype="correct-selected-answer"
         >
             <span
                 className={css`
@@ -163,8 +163,8 @@ export const NonSelectedCorrectAnswer = ({
         <label
             className={nonSelectedCorrectAnswerLabelStyles}
             id={id}
-            data-testId={id}
-            data-answerType="non-selected-correct-answer"
+            data-testid={id}
+            data-answertype="non-selected-correct-answer"
         >
             <span
                 className={css`
@@ -212,8 +212,8 @@ export const IncorrectAnswer = ({
         <label
             className={incorrectAnswerLabelStyles}
             id={id}
-            data-testId={id}
-            data-answerType="incorrect-answer"
+            data-testid={id}
+            data-answertype="incorrect-answer"
         >
             {answerText}
         </label>

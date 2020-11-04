@@ -37,7 +37,7 @@ describe('QuizAtom', () => {
             rerender(<QuizAtom id="123abc" questions={questions} />);
 
             expect(
-                getByTestId(correctAnswer.id).getAttribute('data-answerType'),
+                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
             ).toBe('correct-selected-answer');
         });
 
@@ -50,10 +50,10 @@ describe('QuizAtom', () => {
             rerender(<QuizAtom id="123abc" questions={questions} />);
 
             expect(
-                getByTestId(incorrectAnswer.id).getAttribute('data-answerType'),
+                getByTestId(incorrectAnswer.id).getAttribute('data-answertype'),
             ).toBe('incorrect-answer');
             expect(
-                getByTestId(correctAnswer.id).getAttribute('data-answerType'),
+                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
             ).toBe('non-selected-correct-answer');
         });
 
@@ -64,7 +64,7 @@ describe('QuizAtom', () => {
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
-                    'data-answerType',
+                    'data-answertype',
                 ),
             ).toBe('unselected-enabled-answer');
 
@@ -73,7 +73,7 @@ describe('QuizAtom', () => {
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
-                    'data-answerType',
+                    'data-answertype',
                 ),
             ).toBe('unselected-disabled-answer');
         });
