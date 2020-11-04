@@ -5,10 +5,6 @@ import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { Pillar } from '@guardian/types/Format';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
-import {
-    onConsentChange,
-    getConsentFor,
-} from '@guardian/consent-management-platform';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
@@ -307,16 +303,17 @@ export const AudioAtom = ({
     // *     ACast     *
     // *****************
     useEffect(() => {
-        onConsentChange((state) => {
-            const consentGiven = getConsentFor('acast', state);
-
-            if (acastEnabled && consentGiven && !adFreeUser) {
-                // Replace the default url with an acast enabled on, causing the component to
-                // rerender with a new track url containing adverts
-                setUrlToUse(
-                    trackUrl.replace('https://', 'https://flex.acast.com/'),
-                );
-            }
+        import('@guardian/consent-management-platform').then((cmp) => {
+            cmp.onConsentChange((state: any) => {
+                const consentGiven = cmp.getConsentFor('acast', state);
+                if (acastEnabled && consentGiven && !adFreeUser) {
+                    // Replace the default url with an acast enabled on, causing the component to
+                    // rerender with a new track url containing adverts
+                    setUrlToUse(
+                        trackUrl.replace('https://', 'https://flex.acast.com/'),
+                    );
+                }
+            });
         });
     }, [acastEnabled, adFreeUser]);
 
