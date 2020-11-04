@@ -382,6 +382,7 @@ export const AudioAtom = ({
                                 step="1"
                                 value={percentPlayed}
                                 onClick={updateAudioCurrentTime}
+                                readOnly={true}
                             />
                         </div>
                         <div className={timeDurationStyle}>
