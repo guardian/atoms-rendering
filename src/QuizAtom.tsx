@@ -99,7 +99,7 @@ export const Question = ({
                         position: relative;
                     `}
                 >
-                    {answers.map((answer, index) => {
+                    {answers.map((answer) => {
                         const isAnswered = selected !== undefined;
                         const isSelected = selected === answer.id;
 
@@ -108,6 +108,7 @@ export const Question = ({
                                 if (answer.isCorrect) {
                                     return (
                                         <CorrectSelectedAnswer
+                                            key={answer.id}
                                             id={answer.id}
                                             answerText={answer.text}
                                             explainerText={
@@ -120,6 +121,7 @@ export const Question = ({
                                 if (!answer.isCorrect) {
                                     return (
                                         <IncorrectAnswer
+                                            key={answer.id}
                                             id={answer.id}
                                             answerText={answer.text}
                                         />
@@ -130,6 +132,7 @@ export const Question = ({
                             if (answer.isCorrect) {
                                 return (
                                     <NonSelectedCorrectAnswer
+                                        key={answer.id}
                                         id={answer.id}
                                         answerText={answer.text}
                                         explainerText={answer.revealText || ''}
@@ -139,6 +142,7 @@ export const Question = ({
 
                             return (
                                 <UnselectedAnswer
+                                    key={answer.id}
                                     id={answer.id}
                                     disabled={true}
                                     answerText={answer.text}
@@ -148,6 +152,7 @@ export const Question = ({
 
                         return (
                             <UnselectedAnswer
+                                key={answer.id}
                                 id={answer.id}
                                 disabled={false}
                                 answerText={answer.text}
