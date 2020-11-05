@@ -208,12 +208,10 @@ export const AudioAtom = ({
     kicker,
     title,
     pillar,
-    acastEnabled,
-    adFreeUser,
+    shouldUseAcast,
 }: AudioAtomType): JSX.Element => {
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [urlToUse, setUrlToUse] = useState<string>(trackUrl);
 
     // update current time and progress bar position
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -299,23 +297,10 @@ export const AudioAtom = ({
         return () => document.removeEventListener('keydown', keyListener);
     }, [audioEl, progressBarEl]);
 
-    // *****************
-    // *     ACast     *
-    // *****************
-    useEffect(() => {
-        import('@guardian/consent-management-platform').then((cmp) => {
-            cmp.onConsentChange((state: any) => {
-                const consentGiven = cmp.getConsentFor('acast', state);
-                if (acastEnabled && consentGiven && !adFreeUser) {
-                    // Replace the default url with an acast enabled on, causing the component to
-                    // rerender with a new track url containing adverts
-                    setUrlToUse(
-                        trackUrl.replace('https://', 'https://flex.acast.com/'),
-                    );
-                }
-            });
-        });
-    }, [acastEnabled, adFreeUser]);
+    // If Acast is enabled, replace the default url with an ad enabled one
+    const urlToUse = shouldUseAcast
+        ? trackUrl.replace('https://', 'https://flex.acast.com/')
+        : trackUrl;
 
     return (
         <figure

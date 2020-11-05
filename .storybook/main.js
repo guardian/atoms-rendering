@@ -5,7 +5,7 @@ module.exports = {
     addons: ['@storybook/preset-typescript'],
     webpackFinal: async (config, { configType }) => {
         config.module.rules.push({
-            test: /(\.tsx?|\.js?)$/,
+            test: /(.tsx?$/,
             use: [
                 {
                     loader: 'babel-loader',
