@@ -10,4 +10,4 @@ jobs:
               with:
                   node-version: '10.x'
             - run: yarn
-            - run: CI=true yarn test
+            - run: CI=true yarn test:ci

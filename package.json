@@ -19,6 +19,7 @@
         "tsc": "tsc",
         "lint": "eslint . --ext .ts",
         "test": "jest --watch",
+        "test:ci": "jest",
         "chromatic": "chromatic"
     },
     "devDependencies": {
