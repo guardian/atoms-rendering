@@ -30,6 +30,7 @@
         "@guardian/src-foundations": "^2.4.0",
         "@guardian/src-icons": "^2.4.0",
         "@guardian/types": "^0.4.4",
+        "@storybook/addon-docs": "^6.0.28",
         "@storybook/addons": "^6.0.28",
         "@storybook/react": "^6.0.28",
         "@testing-library/jest-dom": "^5.8.0",
