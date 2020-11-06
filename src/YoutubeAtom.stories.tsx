@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from 'emotion';
 
 import { YoutubeAtom } from './YoutubeAtom';
-import { Pillar, Display, Design } from '@guardian/types/Format';
 
 export default {
     title: 'YoutubeAtom',

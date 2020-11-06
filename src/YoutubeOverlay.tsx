@@ -5,7 +5,7 @@ import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
 
-import { formatTime } from '../lib/formatTime';
+import { formatTime } from './lib/formatTime';
 
 declare let window: any;
 
