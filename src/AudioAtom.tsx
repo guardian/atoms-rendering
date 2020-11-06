@@ -221,14 +221,14 @@ export const AudioAtom = ({
 
     useEffect(() => {
         const updateCurrentTimeAndPosition = () => {
+            const currentTime: number | null =
+                audioEl.current && audioEl.current.currentTime;
+            const duration: number | null =
+                audioEl.current && audioEl.current.duration;
             setPercentPlayed(
-                audioEl.current
-                    ? (audioEl.current.currentTime / audioEl.current.duration) *
-                          100
-                    : 0,
+                currentTime && duration ? (currentTime / duration) * 100 : 0,
             );
-
-            setCurrentTime(audioEl.current ? audioEl.current.currentTime : 0);
+            setCurrentTime(currentTime || 0);
         };
 
         audioEl.current &&
@@ -244,7 +244,7 @@ export const AudioAtom = ({
                       updateCurrentTimeAndPosition,
                   )
                 : undefined;
-    }, [audioEl, setCurrentTime]);
+    }, [audioEl, setCurrentTime, shouldUseAcast]);
 
     // update duration time
     const [durationTime, setDurationTime] = useState<number>(0);
