@@ -202,6 +202,12 @@ const PlayButton = ({
     </button>
 );
 
+const buildUrl = (basicUrl: string, shouldUseAcast?: boolean) => {
+    return shouldUseAcast
+        ? basicUrl.replace('https://', 'https://flex.acast.com/')
+        : basicUrl;
+};
+
 export const AudioAtom = ({
     id,
     trackUrl,
@@ -217,7 +223,9 @@ export const AudioAtom = ({
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [percentPlayed, setPercentPlayed] = useState<number>(0);
     // url
-    const [urlToUse, setUrlToUse] = useState<string>(trackUrl);
+    const [urlToUse, setUrlToUse] = useState<string>(
+        buildUrl(trackUrl, shouldUseAcast),
+    );
 
     useEffect(() => {
         const updateCurrentTimeAndPosition = () => {
@@ -302,11 +310,7 @@ export const AudioAtom = ({
 
     // If Acast is enabled, replace the default url with an ad enabled one
     useEffect(() => {
-        setUrlToUse(
-            shouldUseAcast
-                ? trackUrl.replace('https://', 'https://flex.acast.com/')
-                : trackUrl,
-        );
+        setUrlToUse(buildUrl(trackUrl, shouldUseAcast));
     }, [shouldUseAcast]);
 
     return (
