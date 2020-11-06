@@ -31,7 +31,7 @@
         "@guardian/types": "^0.4.4",
         "@storybook/addons": "^5.3.19",
         "@storybook/preset-typescript": "^3.0.0",
-        "@storybook/react": "^5.3.19",
+        "@storybook/react": "^6.0.28",
         "@testing-library/jest-dom": "^5.8.0",
         "@testing-library/react": "^10.0.4",
         "@types/jest": "^26.0.14",
