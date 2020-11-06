@@ -202,12 +202,19 @@ const PlayButton = ({
     </button>
 );
 
+const buildUrl = (basicUrl: string, shouldUseAcast?: boolean) => {
+    return shouldUseAcast
+        ? basicUrl.replace('https://', 'https://flex.acast.com/')
+        : basicUrl;
+};
+
 export const AudioAtom = ({
     id,
     trackUrl,
     kicker,
     title,
     pillar,
+    shouldUseAcast,
 }: AudioAtomType): JSX.Element => {
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -215,16 +222,21 @@ export const AudioAtom = ({
     // update current time and progress bar position
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [percentPlayed, setPercentPlayed] = useState<number>(0);
+    // url
+    const [urlToUse, setUrlToUse] = useState<string>(
+        buildUrl(trackUrl, shouldUseAcast),
+    );
+
     useEffect(() => {
         const updateCurrentTimeAndPosition = () => {
+            const currentTime: number | null =
+                audioEl.current && audioEl.current.currentTime;
+            const duration: number | null =
+                audioEl.current && audioEl.current.duration;
             setPercentPlayed(
-                audioEl.current
-                    ? (audioEl.current.currentTime / audioEl.current.duration) *
-                          100
-                    : 0,
+                currentTime && duration ? (currentTime / duration) * 100 : 0,
             );
-
-            setCurrentTime(audioEl.current ? audioEl.current.currentTime : 0);
+            setCurrentTime(currentTime || 0);
         };
 
         audioEl.current &&
@@ -240,7 +252,7 @@ export const AudioAtom = ({
                       updateCurrentTimeAndPosition,
                   )
                 : undefined;
-    }, [audioEl, setCurrentTime]);
+    }, [audioEl, setCurrentTime, shouldUseAcast]);
 
     // update duration time
     const [durationTime, setDurationTime] = useState<number>(0);
@@ -296,6 +308,11 @@ export const AudioAtom = ({
         return () => document.removeEventListener('keydown', keyListener);
     }, [audioEl, progressBarEl]);
 
+    // If Acast is enabled, replace the default url with an ad enabled one
+    useEffect(() => {
+        setUrlToUse(buildUrl(trackUrl, shouldUseAcast));
+    }, [shouldUseAcast]);
+
     return (
         <figure
             className={figureStyle}
@@ -314,7 +331,7 @@ export const AudioAtom = ({
                 <div className={audioBodyStyle}>
                     <audio
                         className={audioElementStyle}
-                        src={trackUrl}
+                        src={urlToUse}
                         ref={audioEl}
                         data-duration={durationTime}
                         data-media-id={id || '_no_ids'}
@@ -361,6 +378,7 @@ export const AudioAtom = ({
                                 step="1"
                                 value={percentPlayed}
                                 onClick={updateAudioCurrentTime}
+                                readOnly={true}
                             />
                         </div>
                         <div className={timeDurationStyle}>
