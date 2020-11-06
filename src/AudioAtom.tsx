@@ -216,6 +216,9 @@ export const AudioAtom = ({
     // update current time and progress bar position
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [percentPlayed, setPercentPlayed] = useState<number>(0);
+    // url
+    const [urlToUse, setUrlToUse] = useState<string>(trackUrl);
+
     useEffect(() => {
         const updateCurrentTimeAndPosition = () => {
             setPercentPlayed(
@@ -298,9 +301,13 @@ export const AudioAtom = ({
     }, [audioEl, progressBarEl]);
 
     // If Acast is enabled, replace the default url with an ad enabled one
-    const urlToUse = shouldUseAcast
-        ? trackUrl.replace('https://', 'https://flex.acast.com/')
-        : trackUrl;
+    useEffect(() => {
+        setUrlToUse(
+            shouldUseAcast
+                ? trackUrl.replace('https://', 'https://flex.acast.com/')
+                : trackUrl,
+        );
+    }, [shouldUseAcast]);
 
     return (
         <figure
