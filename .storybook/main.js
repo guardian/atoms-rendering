@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = {
     stories: ['../**/*.stories.tsx'],
-    addons: ['@storybook/preset-typescript'],
     webpackFinal: async (config, { configType }) => {
         config.module.rules.push({
             test: /\.tsx?$/,
@@ -10,11 +9,7 @@ module.exports = {
                 {
                     loader: 'babel-loader',
                     options: {
-                        presets: [
-                            '@babel/preset-env',
-                            '@babel/preset-typescript',
-                            '@babel/preset-react',
-                        ],
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
                         plugins: [
                             'const-enum',
                             [
@@ -33,4 +28,5 @@ module.exports = {
         // Return the altered config
         return config;
     },
+    addons: ['@storybook/addon-docs'],
 };
