@@ -116,6 +116,28 @@ const progressBarInputStyle = (pillar: Pillar) => css`
     :focus {
         ${focusHalo}
     }
+    // Use the pillar to style the colour of the range thumb
+    &::-webkit-slider-thumb {
+        background: ${pillarPalette[pillar][400]};
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50px;
+    }
+    &::-moz-range-thumb {
+        background: ${pillarPalette[pillar][400]};
+        width: 14px;
+        height: 14px;
+        border: none;
+        border-radius: 50px;
+    }
+    &::-ms-thumb {
+        background: ${pillarPalette[pillar][400]};
+        width: 14px;
+        height: 14px;
+        border: none;
+        border-radius: 50px;
+    }
 `;
 
 const timeDurationStyle = css`
