@@ -6,10 +6,6 @@ import { VideoAtom } from './VideoAtom';
 export default {
     title: 'VideoAtom',
     component: VideoAtom,
-    parameters: {
-        // Allow a bit of time for the video to appear
-        chromatic: { delay: 400 },
-    },
 };
 
 export const DefaultStory = (): JSX.Element => {
