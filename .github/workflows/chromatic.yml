@@ -9,6 +9,12 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '12.16.0'
+            - name: Cache Dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ~/.npm
+                    key: node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: node-
             - run: |
                   yarn && yarn build
             - uses: chromaui/action@v1

@@ -9,5 +9,11 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: '10.x'
+            - name: Cache Dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ~/.npm
+                    key: node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: node-
             - run: yarn
             - run: CI=true yarn test:ci
