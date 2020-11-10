@@ -10,7 +10,7 @@ jobs:
               with:
                   node-version: '10.x'
             - name: Cache Dependencies
-                uses: actions/cache@v2
+              uses: actions/cache@v2
                 with:
                     path: ~/.npm
                     key: node-${{ hashFiles('**/package-lock.json') }}
