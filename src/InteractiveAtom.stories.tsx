@@ -22,3 +22,7 @@ export const DefaultStory = (): JSX.Element => {
         </div>
     );
 };
+DefaultStory.parameters = {
+    // This interactive uses animation which is causing false negatives for Chromatic
+    chromatic: { disable: true },
+};
