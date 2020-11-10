@@ -2035,10 +2035,10 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.4.0.tgz#e87d935881b5554e35c00a5b054ced948ac1b5c7"
   integrity sha512-yShUGqULr7joOxWW+sUq9uziXC9WfIv/S05Tmi8QxevYpkgrSyLK0jSUY3S2ZRg+SfXSyX1g30qvOI+NuhSKfA==
 
-"@guardian/src-icons@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-2.4.0.tgz#6560e1e0f486da8aac58b7f9da802bcf93178b89"
-  integrity sha512-un/QwSgtBpcAti3sVOo9vtTWlnWlQ8yGsw75oF2zpzyu542ZMb0AEOZnrmZ7zc/df2M6cFoUIFkQYs/alX+HVA==
+"@guardian/src-icons@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-2.5.0.tgz#a84364a9285778fd3f5b752eb96c09fe03e07678"
+  integrity sha512-8RPxI+fYLwKP5ffM2BudF2/K66aw2viOyx67buEFq/+R6aFXlJft9ImNvtDCXKZLRzki8hnLc6yRhv1SihHfkA==
 
 "@guardian/types@^0.4.4":
   version "0.4.4"
