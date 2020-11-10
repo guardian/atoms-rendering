@@ -22,7 +22,7 @@ jobs:
                   restore-keys: ${{ runner.os }}-yarn-
 
             - name: Yarn Install
-              if: steps.yarn-cache.outputs.cache-hit != 'true'
+              #   if: steps.yarn-cache.outputs.cache-hit != 'true'
               run: yarn
 
             - name: Check typescript
