@@ -4,13 +4,25 @@ on: push
 jobs:
     run:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [10.x, 12.x]
         steps:
             - uses: actions/checkout@v1
+            - name: Use Node.js ${{ matrix.node-version }}
             - uses: actions/setup-node@v1
               with:
-                  node-version: '12.16.0'
-            - run: |
-                  yarn && yarn build
+                  node-version: ${{ matrix.node-version }}
+
+            # Cache npm dependencies using https://github.com/bahmutov/npm-install
+            - uses: bahmutov/npm-install@v1
+
+            - name: Yarn Install
+              run: yarn
+
+            - name: Build
+              run: yarn build
+
             - uses: chromaui/action@v1
               with:
                   projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
