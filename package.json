@@ -45,7 +45,7 @@
         "babel-plugin-emotion": "^10.0.33",
         "chromatic": "^5.2.0",
         "emotion": "^10.0.27",
-        "eslint": "^7.1.0",
+        "eslint": "^7.13.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.3",
