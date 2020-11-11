@@ -9,7 +9,7 @@ export default {
     parameters: {
         // Chromatic ignores video elements by design so there's no point trying to snapshot here
         // https://www.chromatic.com/docs/ignoring-elements
-        chromatic: { disable: false },
+        chromatic: { disable: true },
     },
 };
 
