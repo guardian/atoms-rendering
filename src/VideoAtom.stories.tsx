@@ -6,6 +6,11 @@ import { VideoAtom } from './VideoAtom';
 export default {
     title: 'VideoAtom',
     component: VideoAtom,
+    parameters: {
+        // Chromatic ignores video elements by design so there's no point trying to snapshot here
+        // https://www.chromatic.com/docs/ignoring-elements
+        chromatic: { disable: false },
+    },
 };
 
 export const DefaultStory = (): JSX.Element => {
