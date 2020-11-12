@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from 'emotion';
 
 import { unifyPageContent } from './lib/unifyPageContent';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { InteractiveAtomType } from './types';
 
 const figureStyles = css`
