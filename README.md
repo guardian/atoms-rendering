@@ -8,7 +8,7 @@ An Atom is a self contained piece of content that can be inserted into multiple 
 
 ## Usage
 
-### import 
+### import
 
 To import an atom in your project use `yarn add @guardian/atoms-rendering` then
 
@@ -20,7 +20,7 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 ### Naming conventions
 
-There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
+There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here.
 
 ## Moving to main
 
@@ -72,11 +72,11 @@ The available yarn commands are given below:
 
 If you want to test a change before publishing to NPM, you will need to point to this repository. For instance, you might want to check in dotcom-rendering on local that a change you make in this library is correct. For this do the following
 
-- In atoms-rendering run `yarn build`,
-- In atoms-rendering run `yarn link`, then
-- In dotcom-rendering run `yarn link "@guardian/atoms-rendering"`. 
+-   In atoms-rendering run `yarn build`,
+-   In atoms-rendering run `yarn link`, then
+-   In dotcom-rendering run `yarn link "@guardian/atoms-rendering"`.
 
-Then you will notice that your 
+Then you will notice that your
 
 ```
 dotcom-rendering/node_modules/@guardian/atoms-rendering
@@ -86,14 +86,14 @@ is a symlink to the atoms-rendering repository.
 
 When you are done, you should
 
-- In dotcom-rendering run `yarn unlink "@guardian/atoms-rendering"`. 
-- In atoms-rendering run `yarn unlink`
+-   In dotcom-rendering run `yarn unlink "@guardian/atoms-rendering"`.
+-   In atoms-rendering run `yarn unlink`
 
-And in dotcom-rendering you might also want to run 
+And in dotcom-rendering you might also want to run
 
-- `yarn install --force`, to get the regular package re-installed. 
+-   `yarn install --force`, to get the regular package re-installed.
 
-## Adding a new atom 
+## Adding a new atom
 
 Adding a new atom in `atoms-rendering` involves
 
