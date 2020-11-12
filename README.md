@@ -104,14 +104,16 @@ Adding a new atom in `atoms-rendering` involves
 
 An example PR for adding the Profile Atom can be found [here](https://github.com/guardian/atoms-rendering/pull/35/files). The component is defined in [/src/ProfileAtom.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/ProfileAtom.tsx), with the supporting type ProfileAtomType in [src/types.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/types.ts). Types are transpiled when this project is built, and are made available to your rendering project when you include the published library as a dependency.
 
-## Publishing to NPM
+## Releasing a new version / Publishing to NPM
 
-Manual publishing steps:
+Pre-requisits:
 
 1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
 3. `yarn build`
-4. Create a branch, `yourname/v1.0.1`
-5. `yarn publish` (enter new version number, eg. 1.0.1)
-6. Create a PR for the version
-7. Then, in the consuming project, update the version of `@guardian/atoms-rendering` installed to see the changes
+
+Then:
+
+`yarn release --patch` or `yarn release --minor` or `yarn release --major`
+
+Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
