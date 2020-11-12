@@ -1,7 +1,7 @@
 const enforceTwoDigitString = (number: number) =>
     number >= 10 ? number : `0${number}`;
 
-export const formatTime = (videoDurationInSeconds: number) => {
+export const formatTime = (videoDurationInSeconds: number): string => {
     const hours = Math.floor(videoDurationInSeconds / 3600);
     const minutes = Math.floor((videoDurationInSeconds % 3600) / 60);
     const seconds = videoDurationInSeconds % 60;
