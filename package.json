@@ -74,7 +74,12 @@
             "plugin:prettier/recommended",
             "plugin:react/recommended",
             "plugin:@typescript-eslint/recommended"
-        ]
+        ],
+        "rules": {
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars-experimental": "error"
+        }
     },
     "husky": {
         "hooks": {
