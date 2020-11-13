@@ -1948,10 +1948,10 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-2.5.0.tgz#a84364a9285778fd3f5b752eb96c09fe03e07678"
   integrity sha512-8RPxI+fYLwKP5ffM2BudF2/K66aw2viOyx67buEFq/+R6aFXlJft9ImNvtDCXKZLRzki8hnLc6yRhv1SihHfkA==
 
-"@guardian/types@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.4.4.tgz#dba5c1ef0e95cfe9b8411c21354a528cba7b338c"
-  integrity sha512-kBnfpMouvhheuEXaWLFEDQRv2Lyx1wbrz/4IidSK04RqALAMdrsZiXRLHIApUDcgohgEGYp9Jwquml0Vvp7o5Q==
+"@guardian/types@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.5.2.tgz#edde87dde496554cbcd32cb1bffe2baada591926"
+  integrity sha512-fQ5+cyQQGhQ4qHuzMvaGLsHNxwz82dlb3nYKEahrhg5K3Hyf4jno0pPTxUVMM80uNL9xE8g7843LpkKp6YpE/w==
   dependencies:
     typescript "^3.8.3"
 
