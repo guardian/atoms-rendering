@@ -29,7 +29,7 @@
         "@babel/preset-typescript": "^7.12.1",
         "@guardian/src-foundations": "^2.5.0",
         "@guardian/src-icons": "^2.5.0",
-        "@guardian/types": "^0.4.4",
+        "@guardian/types": "^0.5.2",
         "@storybook/addon-docs": "^6.0.28",
         "@storybook/addons": "^6.0.28",
         "@storybook/react": "^6.0.28",
