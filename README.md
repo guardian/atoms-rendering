@@ -8,7 +8,7 @@ An Atom is a self contained piece of content that can be inserted into multiple 
 
 ## Usage
 
-### import 
+### import
 
 To import an atom in your project use `yarn add @guardian/atoms-rendering` then
 
@@ -20,7 +20,7 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 ### Naming conventions
 
-There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here. 
+There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here.
 
 ## Moving to main
 
@@ -72,11 +72,11 @@ The available yarn commands are given below:
 
 If you want to test a change before publishing to NPM, you will need to point to this repository. For instance, you might want to check in dotcom-rendering on local that a change you make in this library is correct. For this do the following
 
-- In atoms-rendering run `yarn build`,
-- In atoms-rendering run `yarn link`, then
-- In dotcom-rendering run `yarn link "@guardian/atoms-rendering"`. 
+-   In atoms-rendering run `yarn build`,
+-   In atoms-rendering run `yarn link`, then
+-   In dotcom-rendering run `yarn link "@guardian/atoms-rendering"`.
 
-Then you will notice that your 
+Then you will notice that your
 
 ```
 dotcom-rendering/node_modules/@guardian/atoms-rendering
@@ -86,14 +86,14 @@ is a symlink to the atoms-rendering repository.
 
 When you are done, you should
 
-- In dotcom-rendering run `yarn unlink "@guardian/atoms-rendering"`. 
-- In atoms-rendering run `yarn unlink`
+-   In dotcom-rendering run `yarn unlink "@guardian/atoms-rendering"`.
+-   In atoms-rendering run `yarn unlink`
 
-And in dotcom-rendering you might also want to run 
+And in dotcom-rendering you might also want to run
 
-- `yarn install --force`, to get the regular package re-installed. 
+-   `yarn install --force`, to get the regular package re-installed.
 
-## Adding a new atom 
+## Adding a new atom
 
 Adding a new atom in `atoms-rendering` involves
 
@@ -104,14 +104,15 @@ Adding a new atom in `atoms-rendering` involves
 
 An example PR for adding the Profile Atom can be found [here](https://github.com/guardian/atoms-rendering/pull/35/files). The component is defined in [/src/ProfileAtom.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/ProfileAtom.tsx), with the supporting type ProfileAtomType in [src/types.tsx](https://github.com/guardian/atoms-rendering/blob/main/src/types.ts). Types are transpiled when this project is built, and are made available to your rendering project when you include the published library as a dependency.
 
-## Publishing to NPM
+## Releasing a new version / Publishing to NPM
 
-Manual publishing steps:
+Pre-requisits:
 
 1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
-3. `yarn build`
-4. Create a branch, `yourname/v1.0.1`
-5. `yarn publish` (enter new version number, eg. 1.0.1)
-6. Create a PR for the version
-7. Then, in the consuming project, update the version of `@guardian/atoms-rendering` installed to see the changes
+
+Then:
+
+`yarn release --patch` or `yarn release --minor` or `yarn release --major`
+
+Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
