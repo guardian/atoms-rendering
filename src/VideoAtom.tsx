@@ -1,18 +1,7 @@
 import React from 'react';
 
+import { VideoAtomType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
-
-type AssetType = {
-    url: string;
-    mimeType: string;
-};
-
-type VideoAtomType = {
-    assets: AssetType[];
-    poster?: string;
-    height?: number;
-    width?: number;
-};
 
 export const VideoAtom = ({
     assets,

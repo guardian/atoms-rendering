@@ -8,6 +8,7 @@ import { ProfileAtom } from './ProfileAtom';
 import { QandaAtom } from './QandaAtom';
 import { QuizAtom } from './QuizAtom';
 import { TimelineAtom } from './TimelineAtom';
+import { VideoAtom } from './VideoAtom';
 
 export {
     ExplainerAtom,
@@ -20,4 +21,5 @@ export {
     QandaAtom,
     QuizAtom,
     TimelineAtom,
+    VideoAtom,
 };
