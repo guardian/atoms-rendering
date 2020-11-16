@@ -102,3 +102,14 @@ export interface TimelineEvent {
     body?: string;
     toDate?: string;
 }
+type AssetType = {
+    url: string;
+    mimeType: string;
+};
+
+export interface VideoAtomType {
+    assets: AssetType[];
+    poster?: string;
+    height?: number;
+    width?: number;
+};
