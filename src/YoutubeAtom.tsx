@@ -213,6 +213,7 @@ export const YoutubeAtom = ({
 
     useEffect(() => {
         if (player) {
+            // ts-ignore is used because onStateChange has different listener to what is actually sent
             // @ts-ignore
             const playerAnalyicsFunction = (e) =>
                 onPlayerStateChangeAnalytics({
@@ -227,7 +228,6 @@ export const YoutubeAtom = ({
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
 
-            // ts-ignore is used because onStateChange has different listener to what is actually sent
             player.addEventListener('onStateChange', playerAnalyicsFunction);
             return player.removeEventListener(
                 'onStateChange',

@@ -25,6 +25,8 @@ describe('YoutubeAtom', () => {
             jest.useFakeTimers();
         });
         it('should dispatch play event', () => {
+            // hasUserLaunchedPlay is used to get "play" event to be launched
+            // this is to ensure it is only displayed once
             const e = { data: 1 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = false;
             const setHasUserLaunchedPlay = jest.fn();
