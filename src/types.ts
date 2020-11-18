@@ -6,6 +6,8 @@ export type AdTargeting = {
     customParams: { [key: string]: any };
 };
 
+export type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
+
 export type AudioAtomType = {
     id: string;
     trackUrl: string;

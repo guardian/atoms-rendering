@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
+import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeOverlay } from './YoutubeOverlay';
 
@@ -70,9 +71,103 @@ type YoutubeAtomType = {
     ophanEventEmitter?: (event: VideoEventKey) => void;
 };
 
-type YoutubeStateChangeEvent = { data: -1 | 0 | 1 | 2 | 3 | 5 };
-
 let progressTracker: NodeJS.Timeout | null;
+
+// make sure that only 1 event has been sent per video
+let has25PercentEventBeenDispatched = false;
+let has50PercentEventBeenDispatched = false;
+let has75PercentEventBeenDispatched = false;
+export const onPlayerStateChangeAnalytics = ({
+    e,
+    hasUserLaunchedPlay,
+    setHasUserLaunchedPlay,
+    gaEventEmitter,
+    ophanEventEmitter,
+    getCurrentTime,
+    getDuration,
+}: {
+    e: YoutubeStateChangeEventType;
+    hasUserLaunchedPlay: boolean;
+    setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
+    gaEventEmitter?: (event: VideoEventKey) => void;
+    ophanEventEmitter?: (event: VideoEventKey) => void;
+    getCurrentTime: () => number;
+    getDuration: () => number;
+}) => {
+    /** YouTube API
+            -1 (unstarted)
+            0 (ended)
+            1 (playing)
+            2 (paused)
+            3 (buffering)
+            5 (video cued)
+        **/
+    switch (e.data) {
+        // playing
+        case 1: {
+            // need to make sure user is not resuming
+            if (!hasUserLaunchedPlay) {
+                gaEventEmitter && gaEventEmitter('play');
+                ophanEventEmitter && ophanEventEmitter('play');
+            }
+            setHasUserLaunchedPlay(true);
+
+            progressTracker = setInterval(() => {
+                if (!gaEventEmitter)
+                    // eslint-disable-next-line no-console
+                    console.error(`GA function is not available`);
+                if (!ophanEventEmitter)
+                    // eslint-disable-next-line no-console
+                    console.error(`Ophan function is not available`);
+
+                const currentTime = getCurrentTime();
+                const duration = getDuration();
+                const percentPlayed = Math.round(
+                    (currentTime / duration) * 100,
+                );
+
+                switch (percentPlayed) {
+                    case 25: {
+                        if (!has25PercentEventBeenDispatched) {
+                            gaEventEmitter && gaEventEmitter('25');
+                            ophanEventEmitter && ophanEventEmitter('25');
+                            has25PercentEventBeenDispatched = true;
+                        }
+                        break;
+                    }
+                    case 50: {
+                        if (!has50PercentEventBeenDispatched) {
+                            gaEventEmitter && gaEventEmitter('50');
+                            ophanEventEmitter && ophanEventEmitter('50');
+                            has50PercentEventBeenDispatched = true;
+                        }
+                        break;
+                    }
+                    case 75: {
+                        if (!has75PercentEventBeenDispatched) {
+                            gaEventEmitter && gaEventEmitter('75');
+                            ophanEventEmitter && ophanEventEmitter('75');
+                            has75PercentEventBeenDispatched = true;
+                        }
+                        break;
+                    }
+                }
+            }, 1000);
+            break;
+        }
+        // paused
+        case 2: {
+            progressTracker && clearInterval(progressTracker);
+            break;
+        }
+        // ended
+        case 0: {
+            gaEventEmitter && gaEventEmitter('end');
+            ophanEventEmitter && ophanEventEmitter('end');
+            progressTracker && clearInterval(progressTracker);
+        }
+    }
+};
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
@@ -92,85 +187,11 @@ export const YoutubeAtom = ({
     const originString = origin ? `&origin=${origin}` : '';
     const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
 
-    const [hasUserClickedPlay, setHasUserClickedPlay] = useState<boolean>(
+    const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
     const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
     const [player, setPlayer] = useState<YT.Player | null>(null);
-
-    const onPlayerStateChange = (e: YoutubeStateChangeEvent) => {
-        /** YouTube API
-            -1 (unstarted)
-            0 (ended)
-            1 (playing)
-            2 (paused)
-            3 (buffering)
-            5 (video cued)
-        **/
-        switch (e.data) {
-            // playing
-            case 1: {
-                // need to make sure user is not resuming
-                if (!hasUserClickedPlay) {
-                    gaEventEmitter && gaEventEmitter('play');
-                    ophanEventEmitter && ophanEventEmitter('play');
-                }
-                setHasUserClickedPlay(true);
-
-                progressTracker = setInterval(() => {
-                    if (!player) {
-                        // player is not yet defined
-                        // eslint-disable-next-line no-console
-                        console.error(`Youtube player object not available`);
-                        return;
-                    }
-
-                    if (!gaEventEmitter)
-                        // eslint-disable-next-line no-console
-                        console.error(`GA function is not available`);
-                    if (!ophanEventEmitter)
-                        // eslint-disable-next-line no-console
-                        console.error(`Ophan function is not available`);
-
-                    const currentTime = player.getCurrentTime();
-                    const duration = player.getDuration();
-                    const percentPlayed = Math.round(
-                        (currentTime / duration) * 100,
-                    );
-
-                    switch (percentPlayed) {
-                        case 25: {
-                            gaEventEmitter && gaEventEmitter('25');
-                            ophanEventEmitter && ophanEventEmitter('25');
-                            break;
-                        }
-                        case 50: {
-                            gaEventEmitter && gaEventEmitter('50');
-                            ophanEventEmitter && ophanEventEmitter('50');
-                            break;
-                        }
-                        case 75: {
-                            gaEventEmitter && gaEventEmitter('75');
-                            ophanEventEmitter && ophanEventEmitter('75');
-                            break;
-                        }
-                    }
-                }, 1000);
-                break;
-            }
-            // paused
-            case 2: {
-                progressTracker && clearInterval(progressTracker);
-                break;
-            }
-            // ended
-            case 0: {
-                gaEventEmitter && gaEventEmitter('end');
-                ophanEventEmitter && ophanEventEmitter('end');
-                progressTracker && clearInterval(progressTracker);
-            }
-        }
-    };
 
     const loadVideo = () => {
         setPlayer(
@@ -192,14 +213,35 @@ export const YoutubeAtom = ({
 
     useEffect(() => {
         if (player) {
+            // @ts-ignore
+            const playerAnalyicsFunction = (e) =>
+                onPlayerStateChangeAnalytics({
+                    e,
+                    hasUserLaunchedPlay,
+                    setHasUserLaunchedPlay,
+                    gaEventEmitter,
+                    ophanEventEmitter,
+                    getCurrentTime: player.getCurrentTime,
+                    getDuration: player.getDuration,
+                });
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
 
             // ts-ignore is used because onStateChange has different listener to what is actually sent
-            // @ts-ignore
-            player.addEventListener('onStateChange', onPlayerStateChange);
+            player.addEventListener('onStateChange', playerAnalyicsFunction);
+            return player.removeEventListener(
+                'onStateChange',
+                playerAnalyicsFunction,
+            );
         }
-    }, [player]);
+    }, [
+        player,
+        hasUserLaunchedPlay,
+        setHasUserLaunchedPlay,
+        gaEventEmitter,
+        ophanEventEmitter,
+        player,
+    ]);
 
     useEffect(() => {
         // if window is undefined it is because this logic is running on the server side
@@ -270,7 +312,7 @@ export const YoutubeAtom = ({
                 <YoutubeOverlay
                     image={overlayImage}
                     duration={duration}
-                    hideOverlay={hasUserClickedPlay}
+                    hideOverlay={hasUserLaunchedPlay}
                     onClickOverlay={onClickOverlay}
                     onKeyDownOverlay={onKeyDownOverlay}
                 />
