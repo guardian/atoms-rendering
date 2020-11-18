@@ -298,10 +298,6 @@ export const YoutubeAtom = ({
             // https://stackoverflow.com/a/17078152
 
             player.addEventListener('onStateChange', playerAnalyticsFunction);
-            // return player.removeEventListener(
-            //     'onStateChange',
-            //     playerAnalyticsFunction,
-            // );
         }
     }, [
         player,
