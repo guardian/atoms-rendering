@@ -120,6 +120,10 @@ export const onPlayerStateChangeAnalytics = ({
             progressTracker = setInterval(() => {
                 const currentTime = player.getCurrentTime();
                 const duration = player.getDuration();
+
+                // Note that getDuration() will return 0 until the video's metadata is loaded, which normally happens just after the video starts playing.
+                if (duration === 0) return;
+
                 const percentPlayed = Math.round(
                     (currentTime / duration) * 100,
                 );
