@@ -247,7 +247,7 @@ export const YoutubeAtom = ({
                     // onPlayerStateChange,
                 },
                 playerVars: {
-                    autoplay: 1,
+                    autoplay: 1, // Enabling autoplay because the video loads when a user clicks so when the youtube iframe loads, we want the video to load
                 },
             }),
         );
