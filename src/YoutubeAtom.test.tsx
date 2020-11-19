@@ -21,17 +21,21 @@ describe('YoutubeAtom', () => {
         expect(getByTitle('My Youtube video!')).toBeInTheDocument();
     });
     describe('onPlayerStateChangeAnalytics', () => {
+        let setHasUserLaunchedPlay;
+        let gaEventEmitter;
+        let ophanEventEmitter;
+
         beforeEach(() => {
             jest.useFakeTimers();
+            setHasUserLaunchedPlay = jest.fn();
+            gaEventEmitter = jest.fn();
+            ophanEventEmitter = jest.fn();
         });
         it('should dispatch play event', () => {
             // hasUserLaunchedPlay is used to get "play" event to be launched
             // this is to ensure it is only displayed once
             const e = { data: 1 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = false;
-            const setHasUserLaunchedPlay = jest.fn();
-            const gaEventEmitter = jest.fn();
-            const ophanEventEmitter = jest.fn();
 
             const getCurrentTime = () => 10;
             const getDuration = () => 100;
@@ -50,9 +54,6 @@ describe('YoutubeAtom', () => {
         it('should dispatch 25% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = true;
-            const setHasUserLaunchedPlay = jest.fn();
-            const gaEventEmitter = jest.fn();
-            const ophanEventEmitter = jest.fn();
 
             const getCurrentTime = () => 25;
             const getDuration = () => 100;
@@ -75,9 +76,6 @@ describe('YoutubeAtom', () => {
         it('should dispatch 50% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = true;
-            const setHasUserLaunchedPlay = jest.fn();
-            const gaEventEmitter = jest.fn();
-            const ophanEventEmitter = jest.fn();
 
             const getCurrentTime = () => 50;
             const getDuration = () => 100;
@@ -100,9 +98,6 @@ describe('YoutubeAtom', () => {
         it('should dispatch 75% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = true;
-            const setHasUserLaunchedPlay = jest.fn();
-            const gaEventEmitter = jest.fn();
-            const ophanEventEmitter = jest.fn();
 
             const getCurrentTime = () => 75;
             const getDuration = () => 100;
@@ -126,9 +121,6 @@ describe('YoutubeAtom', () => {
             // { data: 0 } is used to say video has ended
             const e = { data: 0 } as YoutubeStateChangeEventType;
             const hasUserLaunchedPlay = true;
-            const setHasUserLaunchedPlay = jest.fn();
-            const gaEventEmitter = jest.fn();
-            const ophanEventEmitter = jest.fn();
 
             const getCurrentTime = () => 100;
             const getDuration = () => 100;
