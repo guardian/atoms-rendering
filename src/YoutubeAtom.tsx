@@ -261,7 +261,6 @@ export const YoutubeAtom = ({
                     // onPlayerStateChange,
                 },
                 playerVars: {
-                    mute: 1,
                     autoplay: 1,
                 },
             }),
