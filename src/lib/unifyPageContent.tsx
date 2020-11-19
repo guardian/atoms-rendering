@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import render from 'preact-render-to-string';
 
 export const unifyPageContent = ({
     css,
@@ -10,7 +10,7 @@ export const unifyPageContent = ({
     js: string;
     html?: string;
 }) =>
-    renderToString(
+    render(
         <html>
             <head>
                 <meta charSet="utf-8" />
