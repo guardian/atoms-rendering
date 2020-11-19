@@ -78,10 +78,13 @@ type YoutubeAtomType = {
 
 let progressTracker: NodeJS.Timeout | null;
 
-// make sure that only 1 event has been sent per video
-let has25PercentEventBeenDispatched = false;
-let has50PercentEventBeenDispatched = false;
-let has75PercentEventBeenDispatched = false;
+// use booleans make sure that only 1 event has been sent per video
+const eventState: { [key: string]: boolean } = {
+    25: false,
+    50: false,
+    75: false,
+};
+
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
@@ -95,6 +98,14 @@ export const onPlayerStateChangeAnalytics = ({
     ophanEventEmitter?: (event: VideoEventKey) => void;
     player: YT.Player;
 }) => {
+    console.log(e.data);
+    if (!gaEventEmitter)
+        // eslint-disable-next-line no-console
+        console.error(`GA function is not available`);
+    if (!ophanEventEmitter)
+        // eslint-disable-next-line no-console
+        console.error(`Ophan function is not available`);
+
     /** YouTube API
             -1 (unstarted)
             0 (ended)
@@ -106,13 +117,6 @@ export const onPlayerStateChangeAnalytics = ({
     switch (e.data) {
         // playing
         case 1: {
-            if (!gaEventEmitter)
-                // eslint-disable-next-line no-console
-                console.error(`GA function is not available`);
-            if (!ophanEventEmitter)
-                // eslint-disable-next-line no-console
-                console.error(`Ophan function is not available`);
-
             setHasUserLaunchedPlay(true);
 
             // NOTE: you will not be able to set React state in setInterval
@@ -121,38 +125,21 @@ export const onPlayerStateChangeAnalytics = ({
                 const currentTime = player.getCurrentTime();
                 const duration = player.getDuration();
 
-                // Note that getDuration() will return 0 until the video's metadata is loaded, which normally happens just after the video starts playing.
+                // Note that getDuration() will return 0 until the video's metadata is loaded
+                // which normally happens just after the video starts playing.
                 if (duration === 0) return;
 
                 const percentPlayed = Math.round(
                     (currentTime / duration) * 100,
-                );
+                ) as number;
 
-                switch (percentPlayed) {
-                    case 25: {
-                        if (!has25PercentEventBeenDispatched) {
-                            gaEventEmitter && gaEventEmitter('25');
-                            ophanEventEmitter && ophanEventEmitter('25');
-                            has25PercentEventBeenDispatched = true;
-                        }
-                        break;
-                    }
-                    case 50: {
-                        if (!has50PercentEventBeenDispatched) {
-                            gaEventEmitter && gaEventEmitter('50');
-                            ophanEventEmitter && ophanEventEmitter('50');
-                            has50PercentEventBeenDispatched = true;
-                        }
-                        break;
-                    }
-                    case 75: {
-                        if (!has75PercentEventBeenDispatched) {
-                            gaEventEmitter && gaEventEmitter('75');
-                            ophanEventEmitter && ophanEventEmitter('75');
-                            has75PercentEventBeenDispatched = true;
-                        }
-                        break;
-                    }
+                // Replace the switch statement
+                if (!eventState[percentPlayed]) {
+                    gaEventEmitter &&
+                        gaEventEmitter(`${percentPlayed}` as VideoEventKey);
+                    ophanEventEmitter &&
+                        ophanEventEmitter(`${percentPlayed}` as VideoEventKey);
+                    eventState[percentPlayed] = true;
                 }
             }, 1000);
             break;
