@@ -31,40 +31,21 @@ describe('YoutubeAtom', () => {
             gaEventEmitter = jest.fn();
             ophanEventEmitter = jest.fn();
         });
-        it('should dispatch play event', () => {
-            // hasUserLaunchedPlay is used to get "play" event to be launched
-            // this is to ensure it is only displayed once
-            const e = { data: 1 } as YoutubeStateChangeEventType;
-            const hasUserLaunchedPlay = false;
-
-            const getCurrentTime = () => 10;
-            const getDuration = () => 100;
-            onPlayerStateChangeAnalytics({
-                e,
-                hasUserLaunchedPlay,
-                setHasUserLaunchedPlay,
-                gaEventEmitter,
-                ophanEventEmitter,
-                getCurrentTime,
-                getDuration,
-            });
-            expect(gaEventEmitter).toHaveBeenCalledWith('play');
-            expect(ophanEventEmitter).toHaveBeenCalledWith('play');
-        });
         it('should dispatch 25% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
-            const hasUserLaunchedPlay = true;
 
             const getCurrentTime = () => 25;
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                hasUserLaunchedPlay,
                 setHasUserLaunchedPlay,
                 gaEventEmitter,
                 ophanEventEmitter,
-                getCurrentTime,
-                getDuration,
+                // @ts-ignore
+                player: {
+                    getCurrentTime,
+                    getDuration,
+                },
             });
 
             jest.advanceTimersByTime(2000);
@@ -75,18 +56,19 @@ describe('YoutubeAtom', () => {
         });
         it('should dispatch 50% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
-            const hasUserLaunchedPlay = true;
 
             const getCurrentTime = () => 50;
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                hasUserLaunchedPlay,
                 setHasUserLaunchedPlay,
                 gaEventEmitter,
                 ophanEventEmitter,
-                getCurrentTime,
-                getDuration,
+                // @ts-ignore
+                player: {
+                    getCurrentTime,
+                    getDuration,
+                },
             });
 
             jest.advanceTimersByTime(2000);
@@ -97,18 +79,19 @@ describe('YoutubeAtom', () => {
         });
         it('should dispatch 75% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
-            const hasUserLaunchedPlay = true;
 
             const getCurrentTime = () => 75;
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                hasUserLaunchedPlay,
                 setHasUserLaunchedPlay,
                 gaEventEmitter,
                 ophanEventEmitter,
-                getCurrentTime,
-                getDuration,
+                // @ts-ignore
+                player: {
+                    getCurrentTime,
+                    getDuration,
+                },
             });
 
             jest.advanceTimersByTime(2000);
@@ -120,18 +103,19 @@ describe('YoutubeAtom', () => {
         it('should dispatch end event', () => {
             // { data: 0 } is used to say video has ended
             const e = { data: 0 } as YoutubeStateChangeEventType;
-            const hasUserLaunchedPlay = true;
 
             const getCurrentTime = () => 100;
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                hasUserLaunchedPlay,
                 setHasUserLaunchedPlay,
                 gaEventEmitter,
                 ophanEventEmitter,
-                getCurrentTime,
-                getDuration,
+                // @ts-ignore
+                player: {
+                    getCurrentTime,
+                    getDuration,
+                },
             });
             expect(gaEventEmitter).toHaveBeenCalledWith('end');
             expect(ophanEventEmitter).toHaveBeenCalledWith('end');
