@@ -282,9 +282,7 @@ export const YoutubeAtom = ({
     };
 
     useEffect(() => {
-        // need to make sure user is not resuming
         if (hasUserLaunchedPlay) {
-            console.log('play event called');
             gaEventEmitter && gaEventEmitter('play');
             ophanEventEmitter && ophanEventEmitter('play');
         }
