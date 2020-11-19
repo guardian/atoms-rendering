@@ -14,6 +14,7 @@ describe('YoutubeAtom', () => {
                     assetId: '-ZCvZmYlQD8',
                     mediaTitle: 'YoutubeAtom',
                 }}
+                eventEmitters={[]}
             />
         );
         const { getByTitle } = render(atom);
@@ -22,14 +23,12 @@ describe('YoutubeAtom', () => {
     });
     describe('onPlayerStateChangeAnalytics', () => {
         let setHasUserLaunchedPlay;
-        let gaEventEmitter;
-        let ophanEventEmitter;
+        let eventEmitters;
 
         beforeEach(() => {
             jest.useFakeTimers();
             setHasUserLaunchedPlay = jest.fn();
-            gaEventEmitter = jest.fn();
-            ophanEventEmitter = jest.fn();
+            eventEmitters = [jest.fn()];
         });
         it('should dispatch 25% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
@@ -39,8 +38,7 @@ describe('YoutubeAtom', () => {
             onPlayerStateChangeAnalytics({
                 e,
                 setHasUserLaunchedPlay,
-                gaEventEmitter,
-                ophanEventEmitter,
+                eventEmitters,
                 // @ts-ignore
                 player: {
                     getCurrentTime,
@@ -49,10 +47,8 @@ describe('YoutubeAtom', () => {
             });
 
             jest.advanceTimersByTime(2000);
-            expect(gaEventEmitter).toHaveBeenCalledTimes(1);
-            expect(gaEventEmitter).toHaveBeenCalledWith('25');
-            expect(ophanEventEmitter).toHaveBeenCalledTimes(1);
-            expect(ophanEventEmitter).toHaveBeenCalledWith('25');
+            expect(eventEmitters[0]).toHaveBeenCalledTimes(1);
+            expect(eventEmitters[0]).toHaveBeenCalledWith('25');
         });
         it('should dispatch 50% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
@@ -62,8 +58,7 @@ describe('YoutubeAtom', () => {
             onPlayerStateChangeAnalytics({
                 e,
                 setHasUserLaunchedPlay,
-                gaEventEmitter,
-                ophanEventEmitter,
+                eventEmitters,
                 // @ts-ignore
                 player: {
                     getCurrentTime,
@@ -72,10 +67,8 @@ describe('YoutubeAtom', () => {
             });
 
             jest.advanceTimersByTime(2000);
-            expect(gaEventEmitter).toHaveBeenCalledTimes(1);
-            expect(gaEventEmitter).toHaveBeenCalledWith('50');
-            expect(ophanEventEmitter).toHaveBeenCalledTimes(1);
-            expect(ophanEventEmitter).toHaveBeenCalledWith('50');
+            expect(eventEmitters[0]).toHaveBeenCalledTimes(1);
+            expect(eventEmitters[0]).toHaveBeenCalledWith('50');
         });
         it('should dispatch 75% watched event', () => {
             const e = { data: 1 } as YoutubeStateChangeEventType;
@@ -85,8 +78,7 @@ describe('YoutubeAtom', () => {
             onPlayerStateChangeAnalytics({
                 e,
                 setHasUserLaunchedPlay,
-                gaEventEmitter,
-                ophanEventEmitter,
+                eventEmitters,
                 // @ts-ignore
                 player: {
                     getCurrentTime,
@@ -95,10 +87,8 @@ describe('YoutubeAtom', () => {
             });
 
             jest.advanceTimersByTime(2000);
-            expect(gaEventEmitter).toHaveBeenCalledTimes(1);
-            expect(gaEventEmitter).toHaveBeenCalledWith('75');
-            expect(ophanEventEmitter).toHaveBeenCalledTimes(1);
-            expect(ophanEventEmitter).toHaveBeenCalledWith('75');
+            expect(eventEmitters[0]).toHaveBeenCalledTimes(1);
+            expect(eventEmitters[0]).toHaveBeenCalledWith('75');
         });
         it('should dispatch end event', () => {
             // { data: 0 } is used to say video has ended
@@ -109,16 +99,14 @@ describe('YoutubeAtom', () => {
             onPlayerStateChangeAnalytics({
                 e,
                 setHasUserLaunchedPlay,
-                gaEventEmitter,
-                ophanEventEmitter,
+                eventEmitters,
                 // @ts-ignore
                 player: {
                     getCurrentTime,
                     getDuration,
                 },
             });
-            expect(gaEventEmitter).toHaveBeenCalledWith('end');
-            expect(ophanEventEmitter).toHaveBeenCalledWith('end');
+            expect(eventEmitters[0]).toHaveBeenCalledWith('end');
         });
     });
 });

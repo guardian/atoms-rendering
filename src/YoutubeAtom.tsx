@@ -72,8 +72,7 @@ type YoutubeAtomType = {
     title?: string;
     duration?: number; // in seconds
     origin?: string;
-    gaEventEmitter?: (event: VideoEventKey) => void;
-    ophanEventEmitter?: (event: VideoEventKey) => void;
+    eventEmitters: ((event: VideoEventKey) => void)[];
 };
 
 let progressTracker: NodeJS.Timeout | null;
@@ -88,14 +87,12 @@ const eventState: { [key: string]: boolean } = {
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
-    gaEventEmitter,
-    ophanEventEmitter,
+    eventEmitters,
     player,
 }: {
     e: YoutubeStateChangeEventType;
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
-    gaEventEmitter: (event: VideoEventKey) => void;
-    ophanEventEmitter: (event: VideoEventKey) => void;
+    eventEmitters: ((event: VideoEventKey) => void)[];
     player: YT.Player;
 }) => {
     /** YouTube API
@@ -125,10 +122,11 @@ export const onPlayerStateChangeAnalytics = ({
                     (currentTime / duration) * 100,
                 ) as number;
 
-                // Replace the switch statement
+                // Used to check and dispatch event if 25/50/75% progress made on video
                 if (!eventState[percentPlayed]) {
-                    gaEventEmitter(`${percentPlayed}` as VideoEventKey);
-                    ophanEventEmitter(`${percentPlayed}` as VideoEventKey);
+                    eventEmitters.forEach((eventEmitter) =>
+                        eventEmitter(`${percentPlayed}` as VideoEventKey),
+                    );
                     eventState[percentPlayed] = true;
                 }
             }, 1000);
@@ -141,8 +139,7 @@ export const onPlayerStateChangeAnalytics = ({
         }
         // ended
         case 0: {
-            gaEventEmitter('end');
-            ophanEventEmitter('end');
+            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
             progressTracker && clearInterval(progressTracker);
         }
     }
@@ -225,8 +222,7 @@ export const YoutubeAtom = ({
     title = 'YouTube video player',
     duration,
     origin,
-    gaEventEmitter,
-    ophanEventEmitter,
+    eventEmitters,
 }: YoutubeAtomType): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
@@ -259,8 +255,7 @@ export const YoutubeAtom = ({
 
     useEffect(() => {
         if (hasUserLaunchedPlay) {
-            gaEventEmitter && gaEventEmitter('play');
-            ophanEventEmitter && ophanEventEmitter('play');
+            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
         }
     }, [hasUserLaunchedPlay]);
 
@@ -269,8 +264,7 @@ export const YoutubeAtom = ({
             player &&
             !hasAnalyticsEventListenerBeenAttached &&
             isPlayerReady &&
-            gaEventEmitter &&
-            ophanEventEmitter
+            eventEmitters.length > 0
         ) {
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
@@ -280,21 +274,14 @@ export const YoutubeAtom = ({
                     // @ts-ignore
                     e,
                     setHasUserLaunchedPlay,
-                    gaEventEmitter,
-                    ophanEventEmitter,
+                    eventEmitters,
                     player,
                 }),
             );
             // should only ever attach event listener once
             hasAnalyticsEventListenerBeenAttached = true;
         }
-    }, [
-        player,
-        setHasUserLaunchedPlay,
-        gaEventEmitter,
-        ophanEventEmitter,
-        isPlayerReady,
-    ]);
+    }, [player, setHasUserLaunchedPlay, eventEmitters, isPlayerReady]);
 
     useEffect(() => {
         // if window is undefined it is because this logic is running on the server side
