@@ -124,9 +124,10 @@ export const onPlayerStateChangeAnalytics = ({
 
                 // Used to check and dispatch event if 25/50/75% progress made on video
                 if (!eventState[percentPlayed]) {
-                    eventEmitters.forEach((eventEmitter) =>
-                        eventEmitter(`${percentPlayed}` as VideoEventKey),
-                    );
+                    eventEmitters &&
+                        eventEmitters.forEach((eventEmitter) =>
+                            eventEmitter(`${percentPlayed}` as VideoEventKey),
+                        );
                     eventState[percentPlayed] = true;
                 }
             }, 1000);
@@ -139,7 +140,8 @@ export const onPlayerStateChangeAnalytics = ({
         }
         // ended
         case 0: {
-            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+            eventEmitters &&
+                eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
             progressTracker && clearInterval(progressTracker);
         }
     }
@@ -260,12 +262,7 @@ export const YoutubeAtom = ({
     }, [hasUserLaunchedPlay]);
 
     useEffect(() => {
-        if (
-            player &&
-            !hasAnalyticsEventListenerBeenAttached &&
-            isPlayerReady &&
-            eventEmitters.length > 0
-        ) {
+        if (player && !hasAnalyticsEventListenerBeenAttached && isPlayerReady) {
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
             player.addEventListener('onStateChange', (e) =>
