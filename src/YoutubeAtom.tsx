@@ -117,6 +117,8 @@ export const onPlayerStateChangeAnalytics = ({
             }
             setHasUserLaunchedPlay(true);
 
+            // NOTE: you will not be able to set React state in setInterval
+            // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
             progressTracker = setInterval(() => {
                 if (!gaEventEmitter)
                     // eslint-disable-next-line no-console
