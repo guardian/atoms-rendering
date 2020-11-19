@@ -94,26 +94,18 @@ export const onPlayerStateChangeAnalytics = ({
 }: {
     e: YoutubeStateChangeEventType;
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
-    gaEventEmitter?: (event: VideoEventKey) => void;
-    ophanEventEmitter?: (event: VideoEventKey) => void;
+    gaEventEmitter: (event: VideoEventKey) => void;
+    ophanEventEmitter: (event: VideoEventKey) => void;
     player: YT.Player;
 }) => {
-    console.log(e.data);
-    if (!gaEventEmitter)
-        // eslint-disable-next-line no-console
-        console.error(`GA function is not available`);
-    if (!ophanEventEmitter)
-        // eslint-disable-next-line no-console
-        console.error(`Ophan function is not available`);
-
     /** YouTube API
-            -1 (unstarted)
-            0 (ended)
-            1 (playing)
-            2 (paused)
-            3 (buffering)
-            5 (video cued)
-        **/
+        -1 (unstarted)
+        0 (ended)
+        1 (playing)
+        2 (paused)
+        3 (buffering)
+        5 (video cued)
+    **/
     switch (e.data) {
         // playing
         case 1: {
@@ -135,10 +127,8 @@ export const onPlayerStateChangeAnalytics = ({
 
                 // Replace the switch statement
                 if (!eventState[percentPlayed]) {
-                    gaEventEmitter &&
-                        gaEventEmitter(`${percentPlayed}` as VideoEventKey);
-                    ophanEventEmitter &&
-                        ophanEventEmitter(`${percentPlayed}` as VideoEventKey);
+                    gaEventEmitter(`${percentPlayed}` as VideoEventKey);
+                    ophanEventEmitter(`${percentPlayed}` as VideoEventKey);
                     eventState[percentPlayed] = true;
                 }
             }, 1000);
@@ -151,8 +141,8 @@ export const onPlayerStateChangeAnalytics = ({
         }
         // ended
         case 0: {
-            gaEventEmitter && gaEventEmitter('end');
-            ophanEventEmitter && ophanEventEmitter('end');
+            gaEventEmitter('end');
+            ophanEventEmitter('end');
             progressTracker && clearInterval(progressTracker);
         }
     }
@@ -275,7 +265,13 @@ export const YoutubeAtom = ({
     }, [hasUserLaunchedPlay]);
 
     useEffect(() => {
-        if (player && !hasAnalyticsEventListenerBeenAttached && isPlayerReady) {
+        if (
+            player &&
+            !hasAnalyticsEventListenerBeenAttached &&
+            isPlayerReady &&
+            gaEventEmitter &&
+            ophanEventEmitter
+        ) {
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
             player.addEventListener('onStateChange', (e) =>
