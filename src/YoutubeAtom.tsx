@@ -84,20 +84,16 @@ let has50PercentEventBeenDispatched = false;
 let has75PercentEventBeenDispatched = false;
 export const onPlayerStateChangeAnalytics = ({
     e,
-    hasUserLaunchedPlay,
     setHasUserLaunchedPlay,
     gaEventEmitter,
     ophanEventEmitter,
-    getCurrentTime,
-    getDuration,
+    player,
 }: {
     e: YoutubeStateChangeEventType;
-    hasUserLaunchedPlay: boolean;
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
     gaEventEmitter?: (event: VideoEventKey) => void;
     ophanEventEmitter?: (event: VideoEventKey) => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
+    player: YT.Player;
 }) => {
     /** YouTube API
             -1 (unstarted)
@@ -110,25 +106,20 @@ export const onPlayerStateChangeAnalytics = ({
     switch (e.data) {
         // playing
         case 1: {
-            // need to make sure user is not resuming
-            if (!hasUserLaunchedPlay) {
-                gaEventEmitter && gaEventEmitter('play');
-                ophanEventEmitter && ophanEventEmitter('play');
-            }
+            if (!gaEventEmitter)
+                // eslint-disable-next-line no-console
+                console.error(`GA function is not available`);
+            if (!ophanEventEmitter)
+                // eslint-disable-next-line no-console
+                console.error(`Ophan function is not available`);
+
             setHasUserLaunchedPlay(true);
 
             // NOTE: you will not be able to set React state in setInterval
             // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
             progressTracker = setInterval(() => {
-                if (!gaEventEmitter)
-                    // eslint-disable-next-line no-console
-                    console.error(`GA function is not available`);
-                if (!ophanEventEmitter)
-                    // eslint-disable-next-line no-console
-                    console.error(`Ophan function is not available`);
-
-                const currentTime = getCurrentTime();
-                const duration = getDuration();
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
                 const percentPlayed = Math.round(
                     (currentTime / duration) * 100,
                 );
@@ -240,6 +231,9 @@ const videoDurationStyles = css`
     color: ${palette['news'][500]};
 `;
 
+// should only ever attach event listener once
+let hasAnalyticsEventListenerBeenAttached = false;
+
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -261,6 +255,7 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
+
     const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
     const [player, setPlayer] = useState<YT.Player | null>(null);
 
@@ -283,30 +278,38 @@ export const YoutubeAtom = ({
     };
 
     useEffect(() => {
-        if (player) {
-            // ts-ignore is used because onStateChange has different listener to what is actually sent
-            // @ts-ignore
-            const playerAnalyticsFunction = (e) =>
+        // need to make sure user is not resuming
+        if (hasUserLaunchedPlay) {
+            console.log('play event called');
+            gaEventEmitter && gaEventEmitter('play');
+            ophanEventEmitter && ophanEventEmitter('play');
+        }
+    }, [hasUserLaunchedPlay]);
+
+    useEffect(() => {
+        if (player && !hasAnalyticsEventListenerBeenAttached && isPlayerReady) {
+            // Issue with setting events on Youtube object
+            // https://stackoverflow.com/a/17078152
+            player.addEventListener('onStateChange', (e) =>
                 onPlayerStateChangeAnalytics({
+                    // ts-ignore is used because onStateChange has different listener to what is actually sent
+                    // @ts-ignore
                     e,
-                    hasUserLaunchedPlay,
                     setHasUserLaunchedPlay,
                     gaEventEmitter,
                     ophanEventEmitter,
-                    getCurrentTime: player.getCurrentTime,
-                    getDuration: player.getDuration,
-                });
-            // Issue with setting events on Youtube object
-            // https://stackoverflow.com/a/17078152
-
-            player.addEventListener('onStateChange', playerAnalyticsFunction);
+                    player,
+                }),
+            );
+            // should only ever attach event listener once
+            hasAnalyticsEventListenerBeenAttached = true;
         }
     }, [
         player,
-        hasUserLaunchedPlay,
         setHasUserLaunchedPlay,
         gaEventEmitter,
         ophanEventEmitter,
+        isPlayerReady,
     ]);
 
     useEffect(() => {
