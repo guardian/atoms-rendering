@@ -66,7 +66,7 @@ type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 
 type YoutubeAtomType = {
     videoMeta: YoutubeMeta;
-    overlayImage?: string;
+    overlayImage?: { src: string; alt: string };
     adTargeting?: AdTargeting;
     height?: number;
     width?: number;
@@ -343,7 +343,8 @@ export const YoutubeAtom = ({
                 <div className={hasUserLaunchedPlay ? hideOverlayStyling : ''}>
                     <img
                         className={overlayStyles}
-                        src={overlayImage}
+                        src={overlayImage.src}
+                        alt={overlayImage.alt}
                         onClick={onClickOverlay}
                         onKeyDown={onKeyDownOverlay}
                         tabIndex={0}
