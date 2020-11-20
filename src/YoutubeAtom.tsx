@@ -75,6 +75,7 @@ type YoutubeAtomType = {
     eventEmitters: ((event: VideoEventKey) => void)[];
 };
 
+// https://developers.google.com/youtube/iframe_api_reference#Events
 const YoutubePlayerState = {
     ENDED: 0,
     PLAYING: 1,
