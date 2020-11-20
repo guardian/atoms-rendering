@@ -75,6 +75,14 @@ type YoutubeAtomType = {
     eventEmitters: ((event: VideoEventKey) => void)[];
 };
 
+const YoutubePlayerState = {
+    ENDED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    BUFFERING: 3,
+    CUED: 5,
+};
+
 let progressTracker: NodeJS.Timeout | null;
 
 // use booleans make sure that only 1 event has been sent per video
@@ -104,8 +112,7 @@ export const onPlayerStateChangeAnalytics = ({
         5 (video cued)
     **/
     switch (e.data) {
-        // playing
-        case 1: {
+        case YoutubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
 
             // NOTE: you will not be able to set React state in setInterval
@@ -133,13 +140,12 @@ export const onPlayerStateChangeAnalytics = ({
             }, 1000);
             break;
         }
-        // paused
-        case 2: {
+        case YoutubePlayerState.PAUSED: {
             progressTracker && clearInterval(progressTracker);
             break;
         }
         // ended
-        case 0: {
+        case YoutubePlayerState.ENDED: {
             eventEmitters &&
                 eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
             progressTracker && clearInterval(progressTracker);
