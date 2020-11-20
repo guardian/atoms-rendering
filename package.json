@@ -4,7 +4,7 @@
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "2.4.1",
+    "version": "3.0.0",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
@@ -101,10 +101,10 @@
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "emotion": "^10.0.27",
+        "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "preact": "^10.5.7"
+        "react-dom": "^16.14.0"
     },
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
