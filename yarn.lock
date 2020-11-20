@@ -1907,6 +1907,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@guardian/libs@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-1.4.2.tgz#76f525cf37b37ad58d17288c85008e4ab176a929"
+  integrity sha512-ZACBS1NmAjss8Q60c3SWHZ7alsS2tvjI5rQipEidW3fvWI8kdWWXck6FSM4F42vNzLdRFjAGmzEA36rG/NsZSg==
+
 "@guardian/src-foundations@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.6.0.tgz#f81466321a125994444167eaa3928dbbbfca7a2e"

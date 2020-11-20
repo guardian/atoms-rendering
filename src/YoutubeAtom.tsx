@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { css } from 'emotion';
 
+import { loadScript } from '@guardian/libs';
 import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
@@ -104,14 +105,6 @@ export const onPlayerStateChangeAnalytics = ({
     eventEmitters: ((event: VideoEventKey) => void)[];
     player: YT.Player;
 }) => {
-    /** YouTube API
-        -1 (unstarted)
-        0 (ended)
-        1 (playing)
-        2 (paused)
-        3 (buffering)
-        5 (video cued)
-    **/
     switch (e.data) {
         case YoutubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
@@ -295,16 +288,10 @@ export const YoutubeAtom = ({
             loadVideo();
         } else {
             // If not, load the script asynchronously
-            const tag = document.createElement('script');
-            tag.src = 'https://www.youtube.com/iframe_api';
-
-            // onYouTubeIframeAPIReady will load the video after the script is loaded
-            window.onYouTubeIframeAPIReady = loadVideo;
-
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag &&
-                firstScriptTag.parentNode &&
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            loadScript('https://www.youtube.com/iframe_api').then(() => {
+                // onYouTubeIframeAPIReady will load the video after the script is loaded
+                window.onYouTubeIframeAPIReady = loadVideo;
+            });
         }
     }, []);
 
