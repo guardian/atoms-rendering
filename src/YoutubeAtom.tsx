@@ -67,6 +67,7 @@ type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 type YoutubeAtomType = {
     videoMeta: YoutubeMeta;
     overlayImage?: { src: string; alt: string };
+    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
     adTargeting?: AdTargeting;
     height?: number;
     width?: number;
@@ -224,6 +225,7 @@ const videoDurationStyles = css`
 export const YoutubeAtom = ({
     videoMeta,
     overlayImage,
+    posterImage,
     adTargeting,
     height = 259,
     width = 460,
@@ -344,12 +346,25 @@ export const YoutubeAtom = ({
                 allow="autoplay"
                 tabIndex={overlayImage ? -1 : 0}
             />
-            {overlayImage && (
+            {(overlayImage || posterImage) && (
                 <div className={hasUserLaunchedPlay ? hideOverlayStyling : ''}>
                     <img
                         className={overlayStyles}
-                        src={overlayImage.src}
-                        alt={overlayImage.alt}
+                        src={overlayImage ? overlayImage.src : ''}
+                        srcSet={
+                            // if overlayImage exists we should favor that image instead of posterImage
+                            // therefore srcSet should be empty if overlayImage exists
+                            !overlayImage && posterImage
+                                ? posterImage.srcSet
+                                      .map((set) => `${set.url} ${set.width}w`)
+                                      .join(',')
+                                : ''
+                        }
+                        alt={
+                            (overlayImage && overlayImage.alt) ||
+                            (posterImage && posterImage.alt) ||
+                            ''
+                        }
                         onClick={onClickOverlay}
                         onKeyDown={onKeyDownOverlay}
                         tabIndex={0}
