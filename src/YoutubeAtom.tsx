@@ -77,7 +77,7 @@ type YoutubeAtomType = {
 };
 
 // https://developers.google.com/youtube/iframe_api_reference#Events
-const YoutubePlayerState = {
+export const youtubePlayerState = {
     ENDED: 0,
     PLAYING: 1,
     PAUSED: 2,
@@ -109,7 +109,7 @@ export const onPlayerStateChangeAnalytics = ({
     player: YT.Player;
 }) => {
     switch (e.data) {
-        case YoutubePlayerState.PLAYING: {
+        case youtubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
 
             if (!eventState['play']) {
@@ -132,22 +132,21 @@ export const onPlayerStateChangeAnalytics = ({
                 ) as number;
 
                 // Used to check and dispatch event if 25/50/75% progress made on video
-                if (!eventState[percentPlayed]) {
-                    eventEmitters &&
-                        eventEmitters.forEach((eventEmitter) =>
-                            eventEmitter(`${percentPlayed}` as VideoEventKey),
-                        );
+                if (percentPlayed in eventState && !eventState[percentPlayed]) {
+                    eventEmitters.forEach((eventEmitter) =>
+                        eventEmitter(`${percentPlayed}` as VideoEventKey),
+                    );
                     eventState[percentPlayed] = true;
                 }
             }, 1000);
             break;
         }
-        case YoutubePlayerState.PAUSED: {
+        case youtubePlayerState.PAUSED: {
             progressTracker && clearInterval(progressTracker);
             break;
         }
         // ended
-        case YoutubePlayerState.ENDED: {
+        case youtubePlayerState.ENDED: {
             if (!eventState['end']) {
                 eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
                 eventState['end'] = true;
