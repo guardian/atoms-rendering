@@ -89,6 +89,8 @@ let progressTracker: NodeJS.Timeout | null;
 
 // use booleans make sure that only 1 event has been sent per video
 const eventState: { [key: string]: boolean } = {
+    play: false,
+    end: false,
     25: false,
     50: false,
     75: false,
@@ -109,6 +111,11 @@ export const onPlayerStateChangeAnalytics = ({
     switch (e.data) {
         case YoutubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
+
+            if (!eventState['play']) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
+                eventState['play'] = true;
+            }
 
             // NOTE: you will not be able to set React state in setInterval
             // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -141,8 +148,10 @@ export const onPlayerStateChangeAnalytics = ({
         }
         // ended
         case YoutubePlayerState.ENDED: {
-            eventEmitters &&
+            if (!eventState['end']) {
                 eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+                eventState['end'] = true;
+            }
             progressTracker && clearInterval(progressTracker);
         }
     }
@@ -252,12 +261,6 @@ export const YoutubeAtom = ({
             }),
         );
     };
-
-    useEffect(() => {
-        if (hasUserLaunchedPlay) {
-            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-        }
-    }, [hasUserLaunchedPlay]);
 
     useEffect(() => {
         if (player && isPlayerReady) {
