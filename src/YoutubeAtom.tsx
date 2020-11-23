@@ -94,6 +94,7 @@ const eventState: { [key: string]: boolean } = {
     75: false,
 };
 
+var youtubeCallback: (e: YT.PlayerEvent) => void | undefined;
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
@@ -211,9 +212,6 @@ const videoDurationStyles = css`
     color: ${palette['news'][500]};
 `;
 
-// should only ever attach event listener once
-let hasAnalyticsEventListenerBeenAttached = false;
-
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -262,10 +260,18 @@ export const YoutubeAtom = ({
     }, [hasUserLaunchedPlay]);
 
     useEffect(() => {
-        if (player && !hasAnalyticsEventListenerBeenAttached && isPlayerReady) {
+        if (player && isPlayerReady) {
             // Issue with setting events on Youtube object
             // https://stackoverflow.com/a/17078152
-            player.addEventListener('onStateChange', (e) =>
+            // @ts-ignore
+            player.addEventListener('onStateChange', youtubeCallback);
+        }
+    }, [player, isPlayerReady]);
+
+    useEffect(() => {
+        if (player) {
+            // we have to hoist Youtube onStateChange callback as there is no way to remove using player.removeEventListener
+            youtubeCallback = (e: YT.PlayerEvent) =>
                 onPlayerStateChangeAnalytics({
                     // ts-ignore is used because onStateChange has different listener to what is actually sent
                     // @ts-ignore
@@ -273,12 +279,9 @@ export const YoutubeAtom = ({
                     setHasUserLaunchedPlay,
                     eventEmitters,
                     player,
-                }),
-            );
-            // should only ever attach event listener once
-            hasAnalyticsEventListenerBeenAttached = true;
+                });
         }
-    }, [player, setHasUserLaunchedPlay, eventEmitters, isPlayerReady]);
+    }, [player, setHasUserLaunchedPlay, eventEmitters]);
 
     useEffect(() => {
         // if window is undefined it is because this logic is running on the server side
