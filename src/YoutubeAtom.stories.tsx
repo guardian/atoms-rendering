@@ -22,7 +22,9 @@ export const DefaultStory = (): JSX.Element => {
                     mediaTitle:
                         "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
                 }}
-                eventEmitters={[]}
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
                 duration={252}
             />
         </div>
@@ -43,7 +45,9 @@ export const WithOverlayImage = (): JSX.Element => {
                     mediaTitle:
                         "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
                 }}
-                eventEmitters={[]}
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
                 duration={252}
                 overlayImage={{
                     src:
@@ -69,7 +73,9 @@ export const WithPosterImage = (): JSX.Element => {
                     mediaTitle:
                         'Broken promises and alternative facts: how Donald Trump failed Ohio – video ',
                 }}
-                eventEmitters={[]}
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
                 duration={252}
                 posterImage={{
                     srcSet: [
@@ -115,7 +121,9 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                     mediaTitle:
                         'Broken promises and alternative facts: how Donald Trump failed Ohio – video ',
                 }}
-                eventEmitters={[]}
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
                 duration={252}
                 overlayImage={{
                     src:
