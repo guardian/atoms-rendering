@@ -7,18 +7,31 @@ import {
     IncorrectAnswer,
     NonSelectedCorrectAnswer,
     UnselectedAnswer,
+    SelectedAnswer,
 } from './Answers';
-import { exampleQuestions } from '../fixtures/quizAtom';
+import {
+    exampleKnowledgeQuestions,
+    examplePersonalityQuestions,
+} from '../fixtures/quizAtom';
 
 export default {
     title: 'QuizAtom',
     component: QuizAtom,
 };
 
-export const DefaultStory = (): JSX.Element => (
+export const KnowledgeQuiz = (): JSX.Element => (
     <QuizAtom
         id="2c6bf552-2827-4256-b3a0-f557d215c394"
-        questions={exampleQuestions}
+        questions={exampleKnowledgeQuestions}
+        quizType="knowledge"
+    />
+);
+
+export const PersonalityQuiz = (): JSX.Element => (
+    <QuizAtom
+        id="2c6bf552-2827-4256-b3a0-f557d215c394"
+        questions={examplePersonalityQuestions}
+        quizType="personality"
     />
 );
 
@@ -55,5 +68,6 @@ export const Answers = (): JSX.Element => (
             id="someId5"
             answerText="Correct Non Selected Answer"
         />
+        <SelectedAnswer id="someId6" answerText="Selected Answer" />
     </div>
 );

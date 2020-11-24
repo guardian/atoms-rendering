@@ -60,7 +60,7 @@ export const UnselectedAnswer = ({
     disabled: boolean;
     answerText: string;
 }): JSX.Element => (
-    <div>
+    <>
         <label
             className={unselectedAnswerLabelStyles(disabled)}
             onKeyPress={onKeyPress}
@@ -87,6 +87,36 @@ export const UnselectedAnswer = ({
                 ${visuallyHidden};
             `}
         />
+    </>
+);
+
+export const SelectedAnswer = ({
+    answerText,
+    id,
+}: {
+    answerText: string;
+    id: string;
+}): JSX.Element => (
+    <div
+        className={css`
+            ${answerWrapperStyles}
+            background-color: #ff7f0f;
+        `}
+    >
+        <label
+            className={nonSelectedCorrectAnswerLabelStyles}
+            id={id}
+            data-testid={id}
+            data-answertype="non-selected-correct-answer"
+        >
+            <span
+                className={css`
+                    ${body.medium()};
+                `}
+            >
+                {answerText}
+            </span>
+        </label>
     </div>
 );
 
