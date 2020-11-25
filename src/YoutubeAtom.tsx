@@ -10,7 +10,11 @@ import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 
-declare let window: any;
+declare global {
+    interface Window {
+        onYouTubeIframeAPIReady: unknown;
+    }
+}
 
 type EmbedConfig = {
     adsConfig: {
