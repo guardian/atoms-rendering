@@ -101,7 +101,7 @@ const eventState: { [key: string]: boolean } = {
     75: false,
 };
 
-var youtubeCallback: (e: YT.PlayerEvent) => void | undefined;
+let youtubeCallback: (e: YT.PlayerEvent) => void | undefined;
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
