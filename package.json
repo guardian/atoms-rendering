@@ -33,9 +33,12 @@
     },
     "devDependencies": {
         "@babel/core": "^7.12.3",
+        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+        "@babel/plugin-proposal-optional-chaining": "^7.12.7",
         "@babel/plugin-transform-runtime": "^7.12.1",
         "@babel/preset-react": "^7.10.4",
         "@babel/preset-typescript": "^7.12.1",
+        "@guardian/libs": "^1.4.2",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "@guardian/types": "^0.5.2",
@@ -98,6 +101,7 @@
         }
     },
     "peerDependencies": {
+        "@guardian/libs": "^1.4.2",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "emotion": "^10.0.27",
@@ -109,7 +113,7 @@
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
         "transformIgnorePatterns": [
-            "node_modules/(?!(@guardian/src-foundations|@guardian/types)/)"
+            "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
         ]
     }
 }
