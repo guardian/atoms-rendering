@@ -6,8 +6,6 @@ import { Summary } from './Summary';
 const containerStyling = css`
     display: block;
     position: relative;
-    margin-bottom: 0.75rem;
-    margin-top: 1rem;
 `;
 
 const detailStyling = css`
