@@ -67,12 +67,7 @@ describe('PersonalityQuiz', () => {
                 />,
             );
 
-            // TODO: how to detect submit prevention?
-            // expect(
-            //     getByTestId(examplePersonalityQuestions[0].id).getAttribute(
-            //         'data-answertype',
-            //     ),
-            // ).toBe('selected-answer');
+            expect(getByTestId('missing-answers')).toBeTruthy();
         });
 
         it('should display response on quiz submit', () => {

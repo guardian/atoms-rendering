@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, useEffect } from 'react';
+import React, { useState, KeyboardEvent, useEffect, MouseEvent } from 'react';
 import { css } from 'emotion';
 
 import { body } from '@guardian/src-foundations/typography';
@@ -12,7 +12,7 @@ type ResultsBucket = {
     // assets TODO:
 };
 
-export type AnswerType = {
+type AnswerType = {
     id: string;
     text: string;
     revealText?: string;
@@ -20,14 +20,14 @@ export type AnswerType = {
     answerBuckets: string[];
 };
 
-export type QuestionType = {
+type QuestionType = {
     id: string;
     text: string;
     answers: AnswerType[];
     imageUrl?: string;
 };
 
-export type QuizAtomType = {
+type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
@@ -52,6 +52,21 @@ export const PersonalityQuizAtom = ({
     const [hasSubmittedAnswers, setHasSubmittedAnswers] = useState<boolean>(
         false,
     );
+    const [hasMissingAnswers, setHasMissingAnswers] = useState<boolean>(false);
+
+    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        // check all answers have been selected
+        const missingAnswers = questions.some((question) =>
+            question.id in selectedAnswers ? false : true,
+        );
+
+        if (missingAnswers) {
+            setHasMissingAnswers(true);
+        } else {
+            setHasSubmittedAnswers(true);
+        }
+    };
 
     const [
         topSelectedResult,
@@ -130,12 +145,13 @@ export const PersonalityQuizAtom = ({
                         text={question.text}
                         imageUrl={question.imageUrl}
                         answers={question.answers}
-                        updateSelectedAnswer={(selectedAnswerId: string) =>
+                        updateSelectedAnswer={(selectedAnswerId: string) => {
+                            setHasMissingAnswers(false);
                             setSelectedAnswers({
                                 ...selectedAnswers,
                                 [question.id]: selectedAnswerId,
-                            })
-                        }
+                            });
+                        }}
                         selectedAnswer={
                             question.id in selectedAnswers
                                 ? selectedAnswers[question.id]
@@ -143,15 +159,13 @@ export const PersonalityQuizAtom = ({
                         }
                     />
                 ))}
+                {hasMissingAnswers && <MissingAnswers />}
                 <button
                     type="submit"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        setHasSubmittedAnswers(true);
-                    }}
+                    onClick={onSubmit}
                     data-testid="submit-quiz"
                 >
-                    submit
+                    Submit
                 </button>
             </form>
         </>
@@ -232,6 +246,14 @@ const PersonalityQuizAnswers = ({
             })}
         </div>
     </fieldset>
+);
+
+const missingAnswersStyles = css``;
+
+export const MissingAnswers = () => (
+    <div className={missingAnswersStyles} data-testid="missing-answers">
+        You have not answered all the questions.
+    </div>
 );
 
 const resultHeaderStyles = css``;

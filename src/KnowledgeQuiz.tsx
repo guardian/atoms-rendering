@@ -10,7 +10,7 @@ import {
     UnselectedAnswer,
 } from './Answers';
 
-export type AnswerType = {
+type AnswerType = {
     id: string;
     text: string;
     revealText?: string;
@@ -18,14 +18,14 @@ export type AnswerType = {
     answerBuckets: string[];
 };
 
-export type QuestionType = {
+type QuestionType = {
     id: string;
     text: string;
     answers: AnswerType[];
     imageUrl?: string;
 };
 
-export type QuizAtomType = {
+type QuizAtomType = {
     id: string;
     questions: QuestionType[];
 };
