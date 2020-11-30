@@ -40,7 +40,7 @@ const answersWrapperStyle = css`
     ${body.medium()};
 `;
 
-export const PersonalityQuiz = ({
+export const PersonalityQuizAtom = ({
     id,
     questions,
     resultBuckets,

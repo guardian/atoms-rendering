@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { PersonalityQuiz } from './PersonalityQuiz';
+import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
 } from '../fixtures/personalityQuizAtom';
 
 export default {
-    title: 'PersonalityQuiz',
-    component: PersonalityQuiz,
+    title: 'PersonalityQuizAtom',
+    component: PersonalityQuizAtom,
 };
 export const DefaultRendering = () => (
-    <PersonalityQuiz
+    <PersonalityQuizAtom
         id="quiz-id"
         questions={examplePersonalityQuestions}
         resultBuckets={exampleResultBuckets}

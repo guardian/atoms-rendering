@@ -7,14 +7,12 @@ import {
     exampleResultBuckets,
 } from '../fixtures/personalityQuizAtom';
 
-// const questions = [exampleQuestions[0]];
-
-import { PersonalityQuiz } from './PersonalityQuiz';
+import { PersonalityQuizAtom } from './PersonalityQuiz';
 
 describe('PersonalityQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
-            <PersonalityQuiz
+            <PersonalityQuizAtom
                 id="123abc"
                 questions={examplePersonalityQuestions}
                 resultBuckets={exampleResultBuckets}
@@ -28,7 +26,7 @@ describe('PersonalityQuiz', () => {
     describe('on answer click', () => {
         it('should change answer component when chosen', () => {
             const { getByTestId, rerender } = render(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
@@ -37,7 +35,7 @@ describe('PersonalityQuiz', () => {
 
             fireEvent.click(getByTestId(examplePersonalityQuestions[0].id));
             rerender(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
@@ -53,7 +51,7 @@ describe('PersonalityQuiz', () => {
 
         it('should prevent submit unless all answers have been selected', () => {
             const { getByTestId, rerender } = render(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
@@ -62,7 +60,7 @@ describe('PersonalityQuiz', () => {
 
             fireEvent.click(getByTestId('submit-quiz'));
             rerender(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
@@ -79,7 +77,7 @@ describe('PersonalityQuiz', () => {
 
         it('should display response on quiz submit', () => {
             const { getByTestId, rerender } = render(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
@@ -88,7 +86,7 @@ describe('PersonalityQuiz', () => {
 
             fireEvent.click(getByTestId('submit-quiz'));
             rerender(
-                <PersonalityQuiz
+                <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
