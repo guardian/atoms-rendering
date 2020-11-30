@@ -93,9 +93,11 @@ export const UnselectedAnswer = ({
 export const SelectedAnswer = ({
     answerText,
     id,
+    disabled,
 }: {
     answerText: string;
     id: string;
+    disabled?: boolean;
 }): JSX.Element => (
     <div
         className={css`
@@ -107,7 +109,7 @@ export const SelectedAnswer = ({
             className={nonSelectedCorrectAnswerLabelStyles}
             id={id}
             data-testid={id}
-            data-answertype="non-selected-correct-answer"
+            data-answertype="selected-answer"
         >
             <span
                 className={css`
@@ -117,6 +119,17 @@ export const SelectedAnswer = ({
                 {answerText}
             </span>
         </label>
+        <input
+            type="radio"
+            tabIndex={-1}
+            required
+            id={`answer-${id}`}
+            disabled={disabled}
+            className={css`
+                ${visuallyHidden};
+            `}
+            checked
+        />
     </div>
 );
 
