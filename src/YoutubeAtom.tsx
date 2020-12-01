@@ -295,19 +295,13 @@ export const YoutubeAtom = ({
         // if window is undefined it is because this logic is running on the server side
         if (typeof window === 'undefined') return;
 
-        if (window.YT) {
-            // An undocumented ready callback to handle edge cases were window.YT.Player may not be ready for init
-            // https://stackoverflow.com/a/62254596
-            // @ts-ignore
-            window.YT.ready(() => {
-                loadVideo();
-            });
+        window.onYouTubeIframeAPIReady = loadVideo;
+
+        if (window.YT && window.YT.Player) {
+            loadVideo();
         } else {
             // If not, load the script asynchronously
-            loadScript('https://www.youtube.com/iframe_api').then(() => {
-                // onYouTubeIframeAPIReady will load the video after the script is loaded
-                window.onYouTubeIframeAPIReady = loadVideo;
-            });
+            loadScript('https://www.youtube.com/iframe_api');
         }
     }, []);
 
