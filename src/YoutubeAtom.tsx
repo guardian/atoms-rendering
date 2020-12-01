@@ -296,7 +296,12 @@ export const YoutubeAtom = ({
         if (typeof window === 'undefined') return;
 
         if (window.YT) {
-            loadVideo();
+            // An undocumented ready callback to handle edge cases were window.YT.Player may not be ready for init
+            // https://stackoverflow.com/a/62254596
+            // @ts-ignore
+            window.YT.ready(() => {
+                loadVideo();
+            });
         } else {
             // If not, load the script asynchronously
             loadScript('https://www.youtube.com/iframe_api').then(() => {
