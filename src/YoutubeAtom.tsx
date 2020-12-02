@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
+import YouTubePlayer from 'youtube-player';
 
-import { loadScript } from '@guardian/libs';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
@@ -101,7 +102,6 @@ const eventState: { [key: string]: boolean } = {
     75: false,
 };
 
-let youtubeCallback: (e: YT.PlayerEvent) => void | undefined;
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
@@ -111,7 +111,7 @@ export const onPlayerStateChangeAnalytics = ({
     e: YoutubeStateChangeEventType;
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
     eventEmitters: ((event: VideoEventKey) => void)[];
-    player: YT.Player;
+    player: YoutubePlayerType;
 }) => {
     switch (e.data) {
         case youtubePlayerState.PLAYING: {
@@ -173,7 +173,13 @@ const overlayStyles = css`
     cursor: pointer;
 
     /* hard code "overlay-play-button" to be able to give play button animation on focus/hover of overlay */
-    :focus,
+    :focus {
+        ${focusHalo}
+        .overlay-play-button {
+            transform: scale(1.15);
+            transition-duration: 300ms;
+        }
+    }
     :hover {
         .overlay-play-button {
             transform: scale(1.15);
@@ -225,6 +231,20 @@ const videoDurationStyles = css`
     color: ${palette['news'][500]};
 `;
 
+type YoutubeCallback = (
+    e: YT.PlayerEvent & YoutubeStateChangeEventType,
+) => void;
+
+// youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
+type YoutubePlayerType = {
+    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
+    off: (callback: YoutubeCallback) => void;
+    loadVideoById: (videoId: string) => void;
+    playVideo: () => void;
+    getCurrentTime: () => number;
+    getDuration: () => number;
+};
+
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -246,95 +266,50 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
+    const [player, setPlayer] = useState<YoutubePlayerType | undefined>();
 
-    const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
-    const [player, setPlayer] = useState<YT.Player | null>(null);
-
-    const loadVideo = () => {
-        setPlayer(
-            new window.YT.Player(`${videoMeta.assetId}`, {
-                videoId: `${videoMeta.assetId}`,
-                events: {
-                    onReady: () => setIsPlayerReady(true),
-                    // Issue with setting events on Youtube object (refer to useEffect below)
-                    // https://stackoverflow.com/a/17078152
-                    // onPlayerStateChange,
-                },
-                playerVars: {
-                    autoplay: 1, // Enabling autoplay because the video loads when a user clicks so when the youtube iframe loads, we want the video to load
-                },
-            }),
-        );
-    };
-
-    useEffect(() => {
-        if (player && isPlayerReady) {
-            // Issue with setting events on Youtube object
-            // https://stackoverflow.com/a/17078152
-            // @ts-ignore
-            player.addEventListener('onStateChange', youtubeCallback);
-        }
-    }, [player, isPlayerReady]);
-
-    useEffect(() => {
-        if (player) {
-            // we have to hoist Youtube onStateChange callback as there is no way to remove using player.removeEventListener
-            youtubeCallback = (e: YT.PlayerEvent) =>
-                onPlayerStateChangeAnalytics({
-                    // ts-ignore is used because onStateChange has different listener to what is actually sent
-                    // @ts-ignore
-                    e,
-                    setHasUserLaunchedPlay,
-                    eventEmitters,
-                    player,
-                });
-        }
-    }, [player, setHasUserLaunchedPlay, eventEmitters]);
-
+    // Use YouTubePlayer to init video
     useEffect(() => {
         // if window is undefined it is because this logic is running on the server side
         if (typeof window === 'undefined') return;
 
-        if (window.YT) {
-            loadVideo();
-        } else {
-            // If not, load the script asynchronously
-            loadScript('https://www.youtube.com/iframe_api').then(() => {
-                // onYouTubeIframeAPIReady will load the video after the script is loaded
-                window.onYouTubeIframeAPIReady = loadVideo;
-            });
+        if (videoMeta && !player) {
+            setPlayer(YouTubePlayer(`youtube-video-${videoMeta.assetId}`));
         }
-    }, []);
+    }, [videoMeta, player]);
+
+    // Use player.on and player.off to add and remove event listeners
+    useEffect(() => {
+        if (player) {
+            const listener = player.on(
+                'stateChange',
+                (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
+                    player &&
+                        onPlayerStateChangeAnalytics({
+                            e,
+                            setHasUserLaunchedPlay,
+                            eventEmitters,
+                            player,
+                        });
+                },
+            );
+
+            return () => player.off(listener);
+        }
+    }, [player]);
 
     const onClickOverlay = useCallback(() => {
-        if (isPlayerReady && player) {
-            try {
-                player.playVideo();
-            } catch (e) {
-                // eslint-disable-next-line no-console
-                console.error(`Unable to play video due to: ${e}`);
-            }
-        }
-    }, [player, isPlayerReady]);
+        player && player.playVideo();
+    }, [player]);
 
     const onKeyDownOverlay = useCallback(
         (e) => {
             const spaceKey = 32;
             const enterKey = 13;
-            if (
-                (e.keyCode === spaceKey || e.keyCode === enterKey) &&
-                isPlayerReady &&
-                player
-            ) {
-                try {
-                    player.playVideo();
-                } catch (e) {
-                    // eslint-disable-next-line no-console
-                    console.error(`Unable to play video due to: ${e}`);
-                }
-            }
+            if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                player && player.playVideo();
         },
-        [player, isPlayerReady],
+        [player],
     );
 
     return (
@@ -343,17 +318,29 @@ export const YoutubeAtom = ({
                 title={title}
                 width={width}
                 height={height}
-                id={videoMeta.assetId}
+                id={`youtube-video-${videoMeta.assetId}`}
                 src={iframeSrc}
                 // needed in order to allow `player.playVideo();` to be able to run
                 // https://stackoverflow.com/a/53298579/7378674
                 allow="autoplay"
-                tabIndex={overlayImage ? -1 : 0}
+                tabIndex={overlayImage || posterImage ? -1 : 0}
             />
+
             {(overlayImage || posterImage) && (
-                <div className={hasUserLaunchedPlay ? hideOverlayStyling : ''}>
+                <div
+                    onClick={onClickOverlay}
+                    onKeyDown={onKeyDownOverlay}
+                    className={cx(
+                        overlayStyles,
+                        hasUserLaunchedPlay ? hideOverlayStyling : '',
+                    )}
+                    tabIndex={0}
+                >
                     <img
-                        className={overlayStyles}
+                        className={css`
+                            height: 100%;
+                            width: 100%;
+                        `}
                         src={overlayImage ? overlayImage.src : ''}
                         srcSet={
                             // if overlayImage exists we should favor that image instead of posterImage
@@ -369,9 +356,6 @@ export const YoutubeAtom = ({
                             (posterImage && posterImage.alt) ||
                             ''
                         }
-                        onClick={onClickOverlay}
-                        onKeyDown={onKeyDownOverlay}
-                        tabIndex={0}
                     />
                     <div className={overlayInfoWrapperStyles}>
                         <div
