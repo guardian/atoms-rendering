@@ -11,6 +11,18 @@ import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 
+type Props = {
+    videoMeta: YoutubeMeta;
+    overlayImage?: { src: string; alt: string };
+    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
+    adTargeting?: AdTargeting;
+    height?: number;
+    width?: number;
+    title?: string;
+    duration?: number; // in seconds
+    origin?: string;
+    eventEmitters: ((event: VideoEventKey) => void)[];
+};
 declare global {
     interface Window {
         onYouTubeIframeAPIReady: unknown;
@@ -68,19 +80,6 @@ type YoutubeMeta = {
 };
 
 type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
-
-type YoutubeAtomType = {
-    videoMeta: YoutubeMeta;
-    overlayImage?: { src: string; alt: string };
-    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
-    adTargeting?: AdTargeting;
-    height?: number;
-    width?: number;
-    title?: string;
-    duration?: number; // in seconds
-    origin?: string;
-    eventEmitters: ((event: VideoEventKey) => void)[];
-};
 
 // https://developers.google.com/youtube/iframe_api_reference#Events
 export const youtubePlayerState = {
@@ -257,7 +256,7 @@ export const YoutubeAtom = ({
     duration,
     origin,
     eventEmitters,
-}: YoutubeAtomType): JSX.Element => {
+}: Props): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
     const originString = origin ? `&origin=${origin}` : '';
