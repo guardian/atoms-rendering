@@ -55,7 +55,7 @@
         "babel-plugin-const-enum": "^1.0.1",
         "babel-plugin-emotion": "^10.0.33",
         "chromatic": "^5.3.0",
-        "emotion": "^10.0.27",
+        "emotion": "^11.0.0",
         "eslint": "^7.13.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-config-prettier": "^6.15.0",
@@ -103,7 +103,7 @@
     "peerDependencies": {
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
-        "emotion": "^10.0.27",
+        "emotion": "^11.0.0",
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",
