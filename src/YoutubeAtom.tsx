@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css, cx } from 'emotion';
 import YouTubePlayer from 'youtube-player';
 
@@ -296,21 +296,7 @@ export const YoutubeAtom = ({
 
             return () => player.off(listener);
         }
-    }, [player]);
-
-    const onClickOverlay = useCallback(() => {
-        player && player.playVideo();
-    }, [player]);
-
-    const onKeyDownOverlay = useCallback(
-        (e) => {
-            const spaceKey = 32;
-            const enterKey = 13;
-            if (e.keyCode === spaceKey || e.keyCode === enterKey)
-                player && player.playVideo();
-        },
-        [player],
-    );
+    }, [player, eventEmitters]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
@@ -328,8 +314,13 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
-                    onClick={onClickOverlay}
-                    onKeyDown={onKeyDownOverlay}
+                    onClick={() => player && player.playVideo()}
+                    onKeyDown={(e) => {
+                        const spaceKey = 32;
+                        const enterKey = 13;
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                            player && player.playVideo();
+                    }}
                     className={cx(
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
