@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { css, cx } from 'emotion';
 import YouTubePlayer from 'youtube-player';
 
@@ -112,7 +112,7 @@ export const onPlayerStateChangeAnalytics = ({
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
     eventEmitters: ((event: VideoEventKey) => void)[];
     player: YoutubePlayerType;
-}) => {
+}): void => {
     switch (e.data) {
         case youtubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
@@ -266,51 +266,30 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    const [player, setPlayer] = useState<YoutubePlayerType | undefined>();
+    const player = useRef<YoutubePlayerType>();
 
-    // Use YouTubePlayer to init video
     useEffect(() => {
-        // if window is undefined it is because this logic is running on the server side
-        if (typeof window === 'undefined') return;
-
-        if (videoMeta && !player) {
-            setPlayer(YouTubePlayer(`youtube-video-${videoMeta.assetId}`));
-        }
-    }, [videoMeta, player]);
-
-    // Use player.on and player.off to add and remove event listeners
-    useEffect(() => {
-        if (player) {
-            const listener = player.on(
-                'stateChange',
-                (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                    player &&
-                        onPlayerStateChangeAnalytics({
-                            e,
-                            setHasUserLaunchedPlay,
-                            eventEmitters,
-                            player,
-                        });
-                },
+        if (!player.current)
+            player.current = YouTubePlayer(
+                `youtube-video-${videoMeta.assetId}`,
             );
 
-            return () => player.off(listener);
-        }
-    }, [player]);
+        const listener = player?.current?.on(
+            'stateChange',
+            (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
+                if (player.current) {
+                    onPlayerStateChangeAnalytics({
+                        e,
+                        setHasUserLaunchedPlay,
+                        eventEmitters,
+                        player: player.current,
+                    });
+                }
+            },
+        );
 
-    const onClickOverlay = useCallback(() => {
-        player && player.playVideo();
-    }, [player]);
-
-    const onKeyDownOverlay = useCallback(
-        (e) => {
-            const spaceKey = 32;
-            const enterKey = 13;
-            if (e.keyCode === spaceKey || e.keyCode === enterKey)
-                player && player.playVideo();
-        },
-        [player],
-    );
+        return () => listener && player?.current?.off(listener);
+    }, [eventEmitters]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
@@ -328,8 +307,13 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
-                    onClick={onClickOverlay}
-                    onKeyDown={onKeyDownOverlay}
+                    onClick={() => player?.current?.playVideo()}
+                    onKeyDown={(e) => {
+                        const spaceKey = 32;
+                        const enterKey = 13;
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                            player?.current?.playVideo();
+                    }}
                     className={cx(
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
