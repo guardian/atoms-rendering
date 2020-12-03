@@ -112,9 +112,6 @@ export const onPlayerStateChangeAnalytics = ({
     eventEmitters: ((event: VideoEventKey) => void)[];
     player: YoutubePlayerType;
 }): void => {
-    console.log('e.data');
-    console.log(e.data);
-
     switch (e.data) {
         case youtubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
@@ -130,8 +127,6 @@ export const onPlayerStateChangeAnalytics = ({
             // NOTE: you will not be able to set React state in setInterval
             // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
             progressTracker = setInterval(async () => {
-                console.log('setInterval called');
-
                 const currentTime = await player.getCurrentTime();
                 const duration = await player.getDuration();
 
