@@ -47,10 +47,13 @@ describe('YoutubeAtom', () => {
                 e,
                 setHasUserLaunchedPlay,
                 eventEmitters,
-                // @ts-ignore
                 player: {
                     getCurrentTime,
                     getDuration,
+                    on: () => undefined,
+                    off: () => undefined,
+                    loadVideoById: () => undefined,
+                    playVideo: () => undefined,
                 },
             });
 
@@ -70,10 +73,13 @@ describe('YoutubeAtom', () => {
                 e,
                 setHasUserLaunchedPlay,
                 eventEmitters,
-                // @ts-ignore
                 player: {
                     getCurrentTime,
                     getDuration,
+                    on: () => undefined,
+                    off: () => undefined,
+                    loadVideoById: () => undefined,
+                    playVideo: () => undefined,
                 },
             });
 
