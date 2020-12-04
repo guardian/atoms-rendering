@@ -138,7 +138,6 @@ export const onPlayerStateChangeAnalytics = ({
                     (currentTime / duration) * 100,
                 ) as number;
 
-                // Used to check and dispatch event if 25/50/75% progress made on video
                 if (
                     `${percentPlayed}` in eventState &&
                     !eventState[percentPlayed]
@@ -274,11 +273,11 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    if (!player && typeof window !== 'undefined') {
-        player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
-    }
 
     useEffect(() => {
+        if (!player && typeof window !== 'undefined') {
+            player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
+        }
         const listener = player?.on(
             'stateChange',
             (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
