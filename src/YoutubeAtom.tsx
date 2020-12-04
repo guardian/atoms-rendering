@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css, cx } from 'emotion';
 import YouTubePlayer from 'youtube-player';
 
@@ -96,9 +96,9 @@ let progressTracker: NodeJS.Timeout | null;
 const eventState: { [key: string]: boolean } = {
     play: false,
     end: false,
-    25: false,
-    50: false,
-    75: false,
+    '25': false,
+    '50': false,
+    '75': false,
 };
 
 export const onPlayerStateChangeAnalytics = ({
@@ -121,11 +121,14 @@ export const onPlayerStateChangeAnalytics = ({
                 eventState['play'] = true;
             }
 
+            // Need to remove previous setInterval if already exists
+            if (progressTracker) clearInterval(progressTracker);
+
             // NOTE: you will not be able to set React state in setInterval
             // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-            progressTracker = setInterval(() => {
-                const currentTime = player.getCurrentTime();
-                const duration = player.getDuration();
+            progressTracker = setInterval(async () => {
+                const currentTime = await player.getCurrentTime();
+                const duration = await player.getDuration();
 
                 // Note that getDuration() will return 0 until the video's metadata is loaded
                 // which normally happens just after the video starts playing.
@@ -135,14 +138,16 @@ export const onPlayerStateChangeAnalytics = ({
                     (currentTime / duration) * 100,
                 ) as number;
 
-                // Used to check and dispatch event if 25/50/75% progress made on video
-                if (percentPlayed in eventState && !eventState[percentPlayed]) {
+                if (
+                    `${percentPlayed}` in eventState &&
+                    !eventState[percentPlayed]
+                ) {
                     eventEmitters.forEach((eventEmitter) =>
                         eventEmitter(`${percentPlayed}` as VideoEventKey),
                     );
                     eventState[percentPlayed] = true;
                 }
-            }, 1000);
+            }, 500);
             break;
         }
         case youtubePlayerState.PAUSED: {
@@ -155,7 +160,9 @@ export const onPlayerStateChangeAnalytics = ({
                 eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
                 eventState['end'] = true;
             }
+
             progressTracker && clearInterval(progressTracker);
+            break;
         }
     }
 };
@@ -244,6 +251,7 @@ type YoutubePlayerType = {
     getDuration: () => number;
 };
 
+let player: YoutubePlayerType | undefined;
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -265,29 +273,26 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    const player = useRef<YoutubePlayerType>();
 
     useEffect(() => {
-        if (!player.current)
-            player.current = YouTubePlayer(
-                `youtube-video-${videoMeta.assetId}`,
-            );
-
-        const listener = player?.current?.on(
+        if (!player) {
+            player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
+        }
+        const listener = player?.on(
             'stateChange',
             (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                if (player.current) {
+                if (player) {
                     onPlayerStateChangeAnalytics({
                         e,
                         setHasUserLaunchedPlay,
                         eventEmitters,
-                        player: player.current,
+                        player,
                     });
                 }
             },
         );
 
-        return () => listener && player?.current?.off(listener);
+        return () => listener && player?.off(listener);
     }, [eventEmitters]);
 
     return (
@@ -306,12 +311,12 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
-                    onClick={() => player?.current?.playVideo()}
+                    onClick={() => player?.playVideo()}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey)
-                            player?.current?.playVideo();
+                            player?.playVideo();
                     }}
                     className={cx(
                         overlayStyles,
