@@ -110,28 +110,24 @@ const intervalProgressTracker = async ({
     const percentPlayed = ((currentTime / duration) * 100) as number;
 
     if (pastProgressPercentage < 25 && 25 < percentPlayed) {
-        pastProgressPercentage = percentPlayed;
-
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('25' as VideoEventKey),
         );
     }
 
     if (pastProgressPercentage < 50 && 50 < percentPlayed) {
-        pastProgressPercentage = percentPlayed;
-
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('50' as VideoEventKey),
         );
     }
 
     if (pastProgressPercentage < 75 && 75 < percentPlayed) {
-        pastProgressPercentage = percentPlayed;
-
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('75' as VideoEventKey),
         );
     }
+
+    pastProgressPercentage = percentPlayed;
 
     // we recursively set set timeout as a way of only having one interval at a time querying
     progressTrackerTimoutId = window.setTimeout(
