@@ -147,7 +147,7 @@ export const onPlayerStateChangeAnalytics = ({
                     );
                     eventState[percentPlayed] = true;
                 }
-            }, 500);
+            }, 200);
             break;
         }
         case youtubePlayerState.PAUSED: {
