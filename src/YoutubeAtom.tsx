@@ -275,7 +275,7 @@ export const YoutubeAtom = ({
     );
 
     useEffect(() => {
-        if (!player && typeof window !== 'undefined') {
+        if (!player) {
             player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
         }
         const listener = player?.on(
