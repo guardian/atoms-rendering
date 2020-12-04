@@ -27,12 +27,10 @@ describe('YoutubeAtom', () => {
     });
 
     describe('onPlayerStateChangeAnalytics', () => {
-        let setHasUserLaunchedPlay;
         let eventEmitters;
 
         beforeEach(() => {
             jest.useFakeTimers();
-            setHasUserLaunchedPlay = jest.fn();
             eventEmitters = [jest.fn()];
         });
 
@@ -45,7 +43,6 @@ describe('YoutubeAtom', () => {
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                setHasUserLaunchedPlay,
                 eventEmitters,
                 player: {
                     getCurrentTime,
@@ -55,6 +52,12 @@ describe('YoutubeAtom', () => {
                     loadVideoById: () => undefined,
                     playVideo: () => undefined,
                 },
+                eventState: {
+                    play: false,
+                    end: false,
+                },
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                setEventState: () => {},
             });
 
             jest.advanceTimersByTime(1000);
@@ -71,7 +74,6 @@ describe('YoutubeAtom', () => {
             const getDuration = () => 100;
             onPlayerStateChangeAnalytics({
                 e,
-                setHasUserLaunchedPlay,
                 eventEmitters,
                 player: {
                     getCurrentTime,
@@ -81,6 +83,12 @@ describe('YoutubeAtom', () => {
                     loadVideoById: () => undefined,
                     playVideo: () => undefined,
                 },
+                eventState: {
+                    play: false,
+                    end: false,
+                },
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                setEventState: () => {},
             });
 
             expect(eventEmitters[0]).toHaveBeenCalledWith('end');
