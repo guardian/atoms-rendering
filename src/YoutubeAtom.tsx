@@ -345,7 +345,6 @@ export const YoutubeAtom = ({
                         player.current?.playVideo();
                     }}
                     onKeyDown={(e) => {
-                        true;
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey)
