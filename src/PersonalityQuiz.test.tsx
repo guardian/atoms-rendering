@@ -72,8 +72,8 @@ describe('PersonalityQuiz', () => {
             expect(getByTestId('missing-answers')).toBeTruthy();
         });
 
-        it('should display response on quiz submit', () => {
-            const { getByTestId, rerender } = render(
+        it('should display response on quiz submit and hide on rest', () => {
+            const { getByTestId, rerender, queryByTestId } = render(
                 <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
@@ -99,6 +99,22 @@ describe('PersonalityQuiz', () => {
             // seperatly to check correct bucket selection
             expect(getByTestId('quiz-results-block-top')).toBeTruthy();
             expect(getByTestId('quiz-results-block-bottom')).toBeTruthy();
+
+            fireEvent.click(getByTestId('reset-quiz'));
+            rerender(
+                <PersonalityQuizAtom
+                    id="123abc"
+                    questions={examplePersonalityQuestions}
+                    resultBuckets={exampleResultBuckets}
+                />,
+            );
+
+            expect(
+                queryByTestId('quiz-results-block-top'),
+            ).not.toBeInTheDocument();
+            expect(
+                queryByTestId('quiz-results-block-bottom'),
+            ).not.toBeInTheDocument();
         });
     });
 

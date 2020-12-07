@@ -206,6 +206,7 @@ export const PersonalityQuizAtom = ({
                         setHasSubmittedAnswers(false);
                         setTopSelectedResult(null);
                     }}
+                    data-testid="reset-quiz"
                 >
                     Reset
                 </Button>
