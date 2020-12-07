@@ -178,13 +178,26 @@ export const PersonalityQuizAtom = ({
                     />
                 ))}
                 {hasMissingAnswers && <MissingAnswers />}
-                <Button
-                    type="submit"
-                    onClick={onSubmit}
-                    data-testid="submit-quiz"
+                <div
+                    className={css`
+                        display: flex;
+                        flex-direction: row;
+                        button {
+                            margin-right: 10px;
+                        }
+                    `}
                 >
-                    Submit
-                </Button>
+                    <Button
+                        type="submit"
+                        onClick={onSubmit}
+                        data-testid="submit-quiz"
+                    >
+                        Submit
+                    </Button>
+                    <Button onClick={() => setSelectedAnswers({})}>
+                        Reset
+                    </Button>
+                </div>
             </form>
             {hasSubmittedAnswers && topSelectedResult && (
                 <Result resultBuckets={topSelectedResult} />
