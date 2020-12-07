@@ -1907,10 +1907,29 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@guardian/src-button@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-2.4.0.tgz#44c7300fea0c78e09ea67deae67fed56aea3b820"
+  integrity sha512-HqtrfsYlp+Cld9fH3IPO29KSfjCDTYF8Xs06LLqyEJq28Ti8nXZ457GmF9mYYV6AOPDhWDZUFjPbvSpGAKNIqw==
+  dependencies:
+    "@guardian/src-helpers" "^2.4.0"
+
 "@guardian/src-foundations@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.6.0.tgz#f81466321a125994444167eaa3928dbbbfca7a2e"
   integrity sha512-r1eUesgetq0jJc0vt1f+b07PtkQ44AzytsW1tGmdirtthF28FBWoVJ5QcFcebL/Ou47xNQi+BhqC8VKbjMFbrg==
+
+"@guardian/src-foundations@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.7.1.tgz#d245a5ebedd520bf3be1b10ff7c5a0b5962a0a03"
+  integrity sha512-U0XVJWugB6vXoORZPcfvnISAhwaIM5/Pz5uGj628+OcqF3vwm0dBUt1UTesVqOsG7tVUQvGG/n96wXWjGwmVmQ==
+
+"@guardian/src-helpers@^2.4.0":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-2.7.1.tgz#b16834473f7f89716f7d98c60f3394e4bb6a3305"
+  integrity sha512-HGc+hkBq+ltlCeRrgsJ5a+tpGnvVg8iZgzOxkzeiMTCxbR8c5vtogFx51trgvb5sH5780UoDFh0ACGY1xyMamw==
+  dependencies:
+    "@guardian/src-foundations" "^2.7.1"
 
 "@guardian/src-icons@^2.5.0":
   version "2.5.0"

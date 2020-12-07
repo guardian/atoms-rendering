@@ -1,7 +1,10 @@
 import React, { useState, KeyboardEvent, useEffect, MouseEvent } from 'react';
 import { css } from 'emotion';
 
-import { body } from '@guardian/src-foundations/typography';
+import { body, textSans } from '@guardian/src-foundations/typography';
+import { Button } from '@guardian/src-button';
+import { text } from '@guardian/src-foundations/palette';
+import { space } from '@guardian/src-foundations';
 
 import { UnselectedAnswer, SelectedAnswer } from './Answers';
 
@@ -175,13 +178,13 @@ export const PersonalityQuizAtom = ({
                     />
                 ))}
                 {hasMissingAnswers && <MissingAnswers />}
-                <button
+                <Button
                     type="submit"
                     onClick={onSubmit}
                     data-testid="submit-quiz"
                 >
                     Submit
-                </button>
+                </Button>
             </form>
         </>
     );
@@ -263,9 +266,13 @@ const PersonalityQuizAnswers = ({
     </fieldset>
 );
 
-const missingAnswersStyles = css``;
+const missingAnswersStyles = css`
+    ${textSans.medium({ fontWeight: 'bold' })}
+    padding-bottom: ${space[3]}px;
+    color: ${text.error};
+`;
 
-export const MissingAnswers = () => (
+export const MissingAnswers = (): JSX.Element => (
     <div className={missingAnswersStyles} data-testid="missing-answers">
         You have not answered all the questions.
     </div>
@@ -274,7 +281,11 @@ export const MissingAnswers = () => (
 const resultHeaderStyles = css``;
 const resultDescriptionStyles = css``;
 
-export const Result = ({ resultBuckets }: { resultBuckets: ResultsBucket }) => (
+export const Result = ({
+    resultBuckets,
+}: {
+    resultBuckets: ResultsBucket;
+}): JSX.Element => (
     <div data-testid="quiz-results-block">
         <div className={resultHeaderStyles}>{resultBuckets.title}</div>
         <div className={resultDescriptionStyles}>
