@@ -152,7 +152,9 @@ export const PersonalityQuizAtom = ({
     return (
         <form data-atom-id={id}>
             {hasSubmittedAnswers && topSelectedResult && (
-                <Result resultBuckets={topSelectedResult} />
+                <div data-testid="quiz-results-block-top">
+                    <Result resultBuckets={topSelectedResult} />
+                </div>
             )}
             {questions.map((question, idx) => (
                 <PersonalityQuizAnswers
@@ -178,7 +180,9 @@ export const PersonalityQuizAtom = ({
             ))}
             {hasMissingAnswers && <MissingAnswers />}
             {hasSubmittedAnswers && topSelectedResult && (
-                <Result resultBuckets={topSelectedResult} />
+                <div data-testid="quiz-results-block-bottom">
+                    <Result resultBuckets={topSelectedResult} />
+                </div>
             )}
             <div
                 className={css`
@@ -318,7 +322,7 @@ export const Result = ({
 }: {
     resultBuckets: ResultsBucket;
 }): JSX.Element => (
-    <div className={resultWrapperStyles} data-testid="quiz-results-block">
+    <div className={resultWrapperStyles}>
         <div className={resultHeaderStyles}>{resultBuckets.title}</div>
         <div className={resultDescriptionStyles}>
             {resultBuckets.description}

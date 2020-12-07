@@ -97,7 +97,8 @@ describe('PersonalityQuiz', () => {
             // Note are only testing if the results display on the component
             // and not if the the text is correct. We test findMostReferredToBucketId
             // seperatly to check correct bucket selection
-            expect(getByTestId('quiz-results-block')).toBeTruthy();
+            expect(getByTestId('quiz-results-block-top')).toBeTruthy();
+            expect(getByTestId('quiz-results-block-bottom')).toBeTruthy();
         });
     });
 
