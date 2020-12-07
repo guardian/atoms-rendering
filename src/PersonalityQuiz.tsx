@@ -108,6 +108,11 @@ export const PersonalityQuizAtom = ({
     );
     const [hasMissingAnswers, setHasMissingAnswers] = useState<boolean>(false);
 
+    const [
+        topSelectedResult,
+        setTopSelectedResult,
+    ] = useState<ResultsBucket | null>();
+
     const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         // check all answers have been selected
@@ -121,11 +126,6 @@ export const PersonalityQuizAtom = ({
             setHasSubmittedAnswers(true);
         }
     };
-
-    const [
-        topSelectedResult,
-        setTopSelectedResult,
-    ] = useState<ResultsBucket | null>();
 
     useEffect(() => {
         if (hasSubmittedAnswers) {
@@ -186,6 +186,9 @@ export const PersonalityQuizAtom = ({
                     Submit
                 </Button>
             </form>
+            {hasSubmittedAnswers && topSelectedResult && (
+                <Result resultBuckets={topSelectedResult} />
+            )}
         </>
     );
 };
@@ -278,15 +281,25 @@ export const MissingAnswers = (): JSX.Element => (
     </div>
 );
 
-const resultHeaderStyles = css``;
-const resultDescriptionStyles = css``;
+const resultWrapperStyles = css`
+    padding-top: ${space[3]}px;
+    padding-bottom: ${space[3]}px;
+`;
+const resultHeaderStyles = css`
+    ${textSans.medium({ fontWeight: 'bold' })}
+    padding-bottom: ${space[1]}px;
+`;
+
+const resultDescriptionStyles = css`
+    ${textSans.medium()}
+`;
 
 export const Result = ({
     resultBuckets,
 }: {
     resultBuckets: ResultsBucket;
 }): JSX.Element => (
-    <div data-testid="quiz-results-block">
+    <div className={resultWrapperStyles} data-testid="quiz-results-block">
         <div className={resultHeaderStyles}>{resultBuckets.title}</div>
         <div className={resultDescriptionStyles}>
             {resultBuckets.description}
