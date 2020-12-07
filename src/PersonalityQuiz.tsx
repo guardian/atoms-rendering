@@ -128,7 +128,7 @@ export const PersonalityQuizAtom = ({
     };
 
     useEffect(() => {
-        if (hasSubmittedAnswers) {
+        if (hasSubmittedAnswers && Object.keys(selectedAnswers).length) {
             const bucketIdWithHighestCount = findMostReferredToBucketId({
                 selectedAnswers,
                 questions,
@@ -196,7 +196,15 @@ export const PersonalityQuizAtom = ({
                 >
                     Submit
                 </Button>
-                <Button onClick={() => setSelectedAnswers({})}>Reset</Button>
+                <Button
+                    onClick={() => {
+                        setSelectedAnswers({});
+                        setHasSubmittedAnswers(false);
+                        setTopSelectedResult(null);
+                    }}
+                >
+                    Reset
+                </Button>
             </div>
         </form>
     );
