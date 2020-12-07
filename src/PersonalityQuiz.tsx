@@ -150,59 +150,55 @@ export const PersonalityQuizAtom = ({
     ]);
 
     return (
-        <>
+        <form data-atom-id={id}>
             {hasSubmittedAnswers && topSelectedResult && (
                 <Result resultBuckets={topSelectedResult} />
             )}
-            <form data-atom-id={id}>
-                {questions.map((question, idx) => (
-                    <PersonalityQuizAnswers
-                        key={question.id}
-                        id={question.id}
-                        number={idx + 1}
-                        text={question.text}
-                        imageUrl={question.imageUrl}
-                        answers={question.answers}
-                        updateSelectedAnswer={(selectedAnswerId: string) => {
-                            setHasMissingAnswers(false);
-                            setSelectedAnswers({
-                                ...selectedAnswers,
-                                [question.id]: selectedAnswerId,
-                            });
-                        }}
-                        selectedAnswer={
-                            question.id in selectedAnswers
-                                ? selectedAnswers[question.id]
-                                : undefined
-                        }
-                    />
-                ))}
-                {hasMissingAnswers && <MissingAnswers />}
-                <div
-                    className={css`
-                        display: flex;
-                        flex-direction: row;
-                        button {
-                            margin-right: 10px;
-                        }
-                    `}
+            {questions.map((question, idx) => (
+                <PersonalityQuizAnswers
+                    key={question.id}
+                    id={question.id}
+                    number={idx + 1}
+                    text={question.text}
+                    imageUrl={question.imageUrl}
+                    answers={question.answers}
+                    updateSelectedAnswer={(selectedAnswerId: string) => {
+                        setHasMissingAnswers(false);
+                        setSelectedAnswers({
+                            ...selectedAnswers,
+                            [question.id]: selectedAnswerId,
+                        });
+                    }}
+                    selectedAnswer={
+                        question.id in selectedAnswers
+                            ? selectedAnswers[question.id]
+                            : undefined
+                    }
+                />
+            ))}
+            {hasMissingAnswers && <MissingAnswers />}
+            {hasSubmittedAnswers && topSelectedResult && (
+                <Result resultBuckets={topSelectedResult} />
+            )}
+            <div
+                className={css`
+                    display: flex;
+                    flex-direction: row;
+                    button {
+                        margin-right: 10px;
+                    }
+                `}
+            >
+                <Button
+                    type="submit"
+                    onClick={onSubmit}
+                    data-testid="submit-quiz"
                 >
-                    <Button
-                        type="submit"
-                        onClick={onSubmit}
-                        data-testid="submit-quiz"
-                    >
-                        Submit
-                    </Button>
-                    <Button onClick={() => setSelectedAnswers({})}>
-                        Reset
-                    </Button>
-                </div>
-            </form>
-            {hasSubmittedAnswers && topSelectedResult && (
-                <Result resultBuckets={topSelectedResult} />
-            )}
-        </>
+                    Submit
+                </Button>
+                <Button onClick={() => setSelectedAnswers({})}>Reset</Button>
+            </div>
+        </form>
     );
 };
 
