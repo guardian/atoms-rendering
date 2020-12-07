@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
-import { text } from '@guardian/src-foundations/palette';
+import { text, brand } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 
 import { UnselectedAnswer, SelectedAnswer } from './Answers';
@@ -291,8 +291,10 @@ export const MissingAnswers = (): JSX.Element => (
 );
 
 const resultWrapperStyles = css`
-    padding-top: ${space[3]}px;
-    padding-bottom: ${space[3]}px;
+    background-color: ${brand[800]};
+    margin-top: ${space[3]}px;
+    margin-bottom: ${space[3]}px;
+    padding: ${space[2]}px;
 `;
 const resultHeaderStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}
