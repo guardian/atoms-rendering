@@ -90,15 +90,29 @@ export const youtubePlayerState = {
     CUED: 5,
 };
 
-let progressTrackerTimoutId: number | undefined;
-let pastProgressPercentage = 0;
+type sharedYTDataType = {
+    progressTrackerTimoutId: number | undefined;
+    pastProgressPercentage: number;
+    hasPlayEventBeenFired: boolean;
+};
+const initSharedYTData: sharedYTDataType = {
+    progressTrackerTimoutId: undefined,
+    pastProgressPercentage: 0,
+    hasPlayEventBeenFired: false,
+};
+
+let sharedYTData: {
+    [key: string]: sharedYTDataType;
+} = {};
 
 const intervalProgressTracker = async ({
     player,
     eventEmitters,
+    assetId,
 }: {
     eventEmitters: ((event: VideoEventKey) => void)[];
     player: YoutubePlayerType;
+    assetId: string;
 }) => {
     const currentTime = await player.getCurrentTime();
     const duration = await player.getDuration();
@@ -109,29 +123,38 @@ const intervalProgressTracker = async ({
 
     const percentPlayed = ((currentTime / duration) * 100) as number;
 
-    if (pastProgressPercentage < 25 && 25 < percentPlayed) {
+    if (
+        sharedYTData[assetId].pastProgressPercentage < 25 &&
+        25 < percentPlayed
+    ) {
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('25' as VideoEventKey),
         );
     }
 
-    if (pastProgressPercentage < 50 && 50 < percentPlayed) {
+    if (
+        sharedYTData[assetId].pastProgressPercentage < 50 &&
+        50 < percentPlayed
+    ) {
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('50' as VideoEventKey),
         );
     }
 
-    if (pastProgressPercentage < 75 && 75 < percentPlayed) {
+    if (
+        sharedYTData[assetId].pastProgressPercentage < 75 &&
+        75 < percentPlayed
+    ) {
         eventEmitters.forEach((eventEmitter) =>
             eventEmitter('75' as VideoEventKey),
         );
     }
 
-    pastProgressPercentage = percentPlayed;
+    sharedYTData[assetId].pastProgressPercentage = percentPlayed;
 
     // we recursively set set timeout as a way of only having one interval at a time querying
-    progressTrackerTimoutId = window.setTimeout(
-        () => intervalProgressTracker({ eventEmitters, player }),
+    sharedYTData[assetId].progressTrackerTimoutId = window.setTimeout(
+        () => intervalProgressTracker({ eventEmitters, player, assetId }),
         3000,
     );
 };
@@ -140,47 +163,48 @@ export const onPlayerStateChangeAnalytics = ({
     e,
     eventEmitters,
     player,
-    eventState,
-    setEventState,
+    assetId,
 }: {
     e: YoutubeStateChangeEventType;
     eventEmitters: ((event: VideoEventKey) => void)[];
     player: YoutubePlayerType;
-    eventState: { [key: string]: boolean };
-    setEventState: (newState: { [key: string]: boolean }) => void;
+    assetId: string;
 }): void => {
     switch (e.data) {
         case youtubePlayerState.PLAYING: {
-            if (!eventState['play']) {
+            if (!sharedYTData[assetId].hasPlayEventBeenFired) {
                 eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-                setEventState({ ...eventState, play: true });
+                sharedYTData[assetId].hasPlayEventBeenFired = true;
             }
 
             // Need to remove previous setInterval if already exists
-            if (progressTrackerTimoutId) {
-                clearTimeout(progressTrackerTimoutId);
-                progressTrackerTimoutId = undefined;
+            if (sharedYTData[assetId].progressTrackerTimoutId) {
+                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
+                sharedYTData[assetId].progressTrackerTimoutId = undefined;
             }
 
-            intervalProgressTracker({ eventEmitters, player });
+            intervalProgressTracker({ eventEmitters, player, assetId });
             break;
         }
         case youtubePlayerState.PAUSED: {
-            if (progressTrackerTimoutId) {
-                clearTimeout(progressTrackerTimoutId);
-                progressTrackerTimoutId = undefined;
+            if (sharedYTData[assetId].progressTrackerTimoutId) {
+                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
+                sharedYTData[assetId].progressTrackerTimoutId = undefined;
             }
             break;
         }
         // ended
         case youtubePlayerState.ENDED: {
-            if (!eventState['end']) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-                setEventState({ ...eventState, end: true });
+            if (sharedYTData[assetId].progressTrackerTimoutId) {
+                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
+                sharedYTData[assetId].progressTrackerTimoutId = undefined;
             }
-            pastProgressPercentage = 0;
 
-            progressTrackerTimoutId && clearTimeout(progressTrackerTimoutId);
+            // reset data
+            sharedYTData = {
+                ...sharedYTData,
+                [assetId]: initSharedYTData,
+            };
             break;
         }
     }
@@ -292,11 +316,15 @@ export const YoutubeAtom = ({
         false,
     );
 
-    // use booleans make sure that only 1 event has been sent per video
-    const [eventState, setEventState] = useState<{ [key: string]: boolean }>({
-        play: false,
-        end: false,
-    });
+    // to avoid rerenders we use an object outside of React compont's scope
+    // to make sure data is unique to this video and not overriding other youtube
+    // video's data, we key all the data based on videoMeta.assetId
+    if (!sharedYTData[videoMeta.assetId]) {
+        sharedYTData = {
+            ...sharedYTData,
+            [videoMeta.assetId]: initSharedYTData,
+        };
+    }
 
     const player = useRef<YoutubePlayerType>();
 
@@ -314,15 +342,14 @@ export const YoutubeAtom = ({
                         e,
                         eventEmitters,
                         player: player.current,
-                        eventState,
-                        setEventState,
+                        assetId: videoMeta.assetId,
                     });
                 }
             },
         );
 
         return () => listener && player.current?.off(listener);
-    }, [player, eventEmitters, eventState, setEventState]);
+    }, [player, eventEmitters]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
