@@ -7,15 +7,22 @@ import {
     YoutubeAtom,
     onPlayerStateChangeAnalytics,
     youtubePlayerState,
+    initSharedYTData,
+    sharedYTData,
 } from './YoutubeAtom';
 
+const assetId = '-ZCvZmYlQD8';
 describe('YoutubeAtom', () => {
+    beforeAll(() => {
+        sharedYTData[assetId] = initSharedYTData;
+    });
+
     it('should render', () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
                 videoMeta={{
-                    assetId: '-ZCvZmYlQD8',
+                    assetId,
                     mediaTitle: 'YoutubeAtom',
                 }}
                 eventEmitters={[]}
@@ -52,12 +59,7 @@ describe('YoutubeAtom', () => {
                     loadVideoById: () => undefined,
                     playVideo: () => undefined,
                 },
-                eventState: {
-                    play: false,
-                    end: false,
-                },
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                setEventState: () => {},
+                assetId,
             });
 
             jest.advanceTimersByTime(1000);
@@ -83,12 +85,7 @@ describe('YoutubeAtom', () => {
                     loadVideoById: () => undefined,
                     playVideo: () => undefined,
                 },
-                eventState: {
-                    play: false,
-                    end: false,
-                },
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                setEventState: () => {},
+                assetId,
             });
 
             expect(eventEmitters[0]).toHaveBeenCalledWith('end');

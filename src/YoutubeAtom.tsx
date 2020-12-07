@@ -95,13 +95,13 @@ type sharedYTDataType = {
     pastProgressPercentage: number;
     hasPlayEventBeenFired: boolean;
 };
-const initSharedYTData: sharedYTDataType = {
+export const initSharedYTData: sharedYTDataType = {
     progressTrackerTimoutId: undefined,
     pastProgressPercentage: 0,
     hasPlayEventBeenFired: false,
 };
 
-let sharedYTData: {
+export let sharedYTData: {
     [key: string]: sharedYTDataType;
 } = {};
 
@@ -199,6 +199,8 @@ export const onPlayerStateChangeAnalytics = ({
                 clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
                 sharedYTData[assetId].progressTrackerTimoutId = undefined;
             }
+
+            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
 
             // reset data
             sharedYTData = {
