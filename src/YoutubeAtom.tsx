@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { css } from 'emotion';
+import React, { useEffect, useState } from 'react';
+import { css, cx } from 'emotion';
+import YouTubePlayer from 'youtube-player';
 
-import { loadScript } from '@guardian/libs';
+import { focusHalo } from '@guardian/src-foundations/accessibility';
 import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
@@ -10,6 +11,18 @@ import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 
+type Props = {
+    videoMeta: YoutubeMeta;
+    overlayImage?: { src: string; alt: string };
+    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
+    adTargeting?: AdTargeting;
+    height?: number;
+    width?: number;
+    title?: string;
+    duration?: number; // in seconds
+    origin?: string;
+    eventEmitters: ((event: VideoEventKey) => void)[];
+};
 declare global {
     interface Window {
         onYouTubeIframeAPIReady: unknown;
@@ -68,19 +81,6 @@ type YoutubeMeta = {
 
 type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 
-type YoutubeAtomType = {
-    videoMeta: YoutubeMeta;
-    overlayImage?: { src: string; alt: string };
-    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
-    adTargeting?: AdTargeting;
-    height?: number;
-    width?: number;
-    title?: string;
-    duration?: number; // in seconds
-    origin?: string;
-    eventEmitters: ((event: VideoEventKey) => void)[];
-};
-
 // https://developers.google.com/youtube/iframe_api_reference#Events
 export const youtubePlayerState = {
     ENDED: 0,
@@ -96,12 +96,11 @@ let progressTracker: NodeJS.Timeout | null;
 const eventState: { [key: string]: boolean } = {
     play: false,
     end: false,
-    25: false,
-    50: false,
-    75: false,
+    '25': false,
+    '50': false,
+    '75': false,
 };
 
-let youtubeCallback: (e: YT.PlayerEvent) => void | undefined;
 export const onPlayerStateChangeAnalytics = ({
     e,
     setHasUserLaunchedPlay,
@@ -111,8 +110,8 @@ export const onPlayerStateChangeAnalytics = ({
     e: YoutubeStateChangeEventType;
     setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
     eventEmitters: ((event: VideoEventKey) => void)[];
-    player: YT.Player;
-}) => {
+    player: YoutubePlayerType;
+}): void => {
     switch (e.data) {
         case youtubePlayerState.PLAYING: {
             setHasUserLaunchedPlay(true);
@@ -122,11 +121,14 @@ export const onPlayerStateChangeAnalytics = ({
                 eventState['play'] = true;
             }
 
+            // Need to remove previous setInterval if already exists
+            if (progressTracker) clearInterval(progressTracker);
+
             // NOTE: you will not be able to set React state in setInterval
             // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-            progressTracker = setInterval(() => {
-                const currentTime = player.getCurrentTime();
-                const duration = player.getDuration();
+            progressTracker = setInterval(async () => {
+                const currentTime = await player.getCurrentTime();
+                const duration = await player.getDuration();
 
                 // Note that getDuration() will return 0 until the video's metadata is loaded
                 // which normally happens just after the video starts playing.
@@ -136,14 +138,16 @@ export const onPlayerStateChangeAnalytics = ({
                     (currentTime / duration) * 100,
                 ) as number;
 
-                // Used to check and dispatch event if 25/50/75% progress made on video
-                if (percentPlayed in eventState && !eventState[percentPlayed]) {
+                if (
+                    `${percentPlayed}` in eventState &&
+                    !eventState[percentPlayed]
+                ) {
                     eventEmitters.forEach((eventEmitter) =>
                         eventEmitter(`${percentPlayed}` as VideoEventKey),
                     );
                     eventState[percentPlayed] = true;
                 }
-            }, 1000);
+            }, 500);
             break;
         }
         case youtubePlayerState.PAUSED: {
@@ -156,7 +160,9 @@ export const onPlayerStateChangeAnalytics = ({
                 eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
                 eventState['end'] = true;
             }
+
             progressTracker && clearInterval(progressTracker);
+            break;
         }
     }
 };
@@ -173,7 +179,13 @@ const overlayStyles = css`
     cursor: pointer;
 
     /* hard code "overlay-play-button" to be able to give play button animation on focus/hover of overlay */
-    :focus,
+    :focus {
+        ${focusHalo}
+        .overlay-play-button {
+            transform: scale(1.15);
+            transition-duration: 300ms;
+        }
+    }
     :hover {
         .overlay-play-button {
             transform: scale(1.15);
@@ -225,6 +237,21 @@ const videoDurationStyles = css`
     color: ${palette['news'][500]};
 `;
 
+type YoutubeCallback = (
+    e: YT.PlayerEvent & YoutubeStateChangeEventType,
+) => void;
+
+// youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
+type YoutubePlayerType = {
+    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
+    off: (callback: YoutubeCallback) => void;
+    loadVideoById: (videoId: string) => void;
+    playVideo: () => void;
+    getCurrentTime: () => number;
+    getDuration: () => number;
+};
+
+let player: YoutubePlayerType | undefined;
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -237,7 +264,7 @@ export const YoutubeAtom = ({
     duration,
     origin,
     eventEmitters,
-}: YoutubeAtomType): JSX.Element => {
+}: Props): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
     const originString = origin ? `&origin=${origin}` : '';
@@ -247,95 +274,26 @@ export const YoutubeAtom = ({
         false,
     );
 
-    const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
-    const [player, setPlayer] = useState<YT.Player | null>(null);
-
-    const loadVideo = () => {
-        setPlayer(
-            new window.YT.Player(`${videoMeta.assetId}`, {
-                videoId: `${videoMeta.assetId}`,
-                events: {
-                    onReady: () => setIsPlayerReady(true),
-                    // Issue with setting events on Youtube object (refer to useEffect below)
-                    // https://stackoverflow.com/a/17078152
-                    // onPlayerStateChange,
-                },
-                playerVars: {
-                    autoplay: 1, // Enabling autoplay because the video loads when a user clicks so when the youtube iframe loads, we want the video to load
-                },
-            }),
-        );
-    };
-
     useEffect(() => {
-        if (player && isPlayerReady) {
-            // Issue with setting events on Youtube object
-            // https://stackoverflow.com/a/17078152
-            // @ts-ignore
-            player.addEventListener('onStateChange', youtubeCallback);
+        if (!player) {
+            player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
         }
-    }, [player, isPlayerReady]);
-
-    useEffect(() => {
-        if (player) {
-            // we have to hoist Youtube onStateChange callback as there is no way to remove using player.removeEventListener
-            youtubeCallback = (e: YT.PlayerEvent) =>
-                onPlayerStateChangeAnalytics({
-                    // ts-ignore is used because onStateChange has different listener to what is actually sent
-                    // @ts-ignore
-                    e,
-                    setHasUserLaunchedPlay,
-                    eventEmitters,
-                    player,
-                });
-        }
-    }, [player, setHasUserLaunchedPlay, eventEmitters]);
-
-    useEffect(() => {
-        // if window is undefined it is because this logic is running on the server side
-        if (typeof window === 'undefined') return;
-
-        if (window.YT) {
-            loadVideo();
-        } else {
-            // If not, load the script asynchronously
-            loadScript('https://www.youtube.com/iframe_api').then(() => {
-                // onYouTubeIframeAPIReady will load the video after the script is loaded
-                window.onYouTubeIframeAPIReady = loadVideo;
-            });
-        }
-    }, []);
-
-    const onClickOverlay = useCallback(() => {
-        if (isPlayerReady && player) {
-            try {
-                player.playVideo();
-            } catch (e) {
-                // eslint-disable-next-line no-console
-                console.error(`Unable to play video due to: ${e}`);
-            }
-        }
-    }, [player, isPlayerReady]);
-
-    const onKeyDownOverlay = useCallback(
-        (e) => {
-            const spaceKey = 32;
-            const enterKey = 13;
-            if (
-                (e.keyCode === spaceKey || e.keyCode === enterKey) &&
-                isPlayerReady &&
-                player
-            ) {
-                try {
-                    player.playVideo();
-                } catch (e) {
-                    // eslint-disable-next-line no-console
-                    console.error(`Unable to play video due to: ${e}`);
+        const listener = player?.on(
+            'stateChange',
+            (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
+                if (player) {
+                    onPlayerStateChangeAnalytics({
+                        e,
+                        setHasUserLaunchedPlay,
+                        eventEmitters,
+                        player,
+                    });
                 }
-            }
-        },
-        [player, isPlayerReady],
-    );
+            },
+        );
+
+        return () => listener && player?.off(listener);
+    }, [eventEmitters]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
@@ -343,17 +301,34 @@ export const YoutubeAtom = ({
                 title={title}
                 width={width}
                 height={height}
-                id={videoMeta.assetId}
+                id={`youtube-video-${videoMeta.assetId}`}
                 src={iframeSrc}
                 // needed in order to allow `player.playVideo();` to be able to run
                 // https://stackoverflow.com/a/53298579/7378674
                 allow="autoplay"
-                tabIndex={overlayImage ? -1 : 0}
+                tabIndex={overlayImage || posterImage ? -1 : 0}
             />
+
             {(overlayImage || posterImage) && (
-                <div className={hasUserLaunchedPlay ? hideOverlayStyling : ''}>
+                <div
+                    onClick={() => player?.playVideo()}
+                    onKeyDown={(e) => {
+                        const spaceKey = 32;
+                        const enterKey = 13;
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                            player?.playVideo();
+                    }}
+                    className={cx(
+                        overlayStyles,
+                        hasUserLaunchedPlay ? hideOverlayStyling : '',
+                    )}
+                    tabIndex={0}
+                >
                     <img
-                        className={overlayStyles}
+                        className={css`
+                            height: 100%;
+                            width: 100%;
+                        `}
                         src={overlayImage ? overlayImage.src : ''}
                         srcSet={
                             // if overlayImage exists we should favor that image instead of posterImage
@@ -369,9 +344,6 @@ export const YoutubeAtom = ({
                             (posterImage && posterImage.alt) ||
                             ''
                         }
-                        onClick={onClickOverlay}
-                        onKeyDown={onKeyDownOverlay}
-                        tabIndex={0}
                     />
                     <div className={overlayInfoWrapperStyles}>
                         <div

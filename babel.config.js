@@ -7,6 +7,7 @@ module.exports = {
     plugins: [
         // this is needed to support `const enum`s - see https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats
         'const-enum',
+        '@babel/plugin-proposal-optional-chaining',
         [
             'emotion',
             {
@@ -16,11 +17,7 @@ module.exports = {
     ],
     env: {
         test: {
-            plugins: [
-                '@babel/plugin-transform-runtime',
-                '@babel/plugin-proposal-optional-chaining',
-                '@babel/plugin-proposal-nullish-coalescing-operator',
-            ],
+            plugins: ['@babel/plugin-transform-runtime'],
         },
     },
 };

@@ -4,7 +4,7 @@
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "3.0.1",
+    "version": "4.0.1",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
@@ -38,7 +38,6 @@
         "@babel/plugin-transform-runtime": "^7.12.1",
         "@babel/preset-react": "^7.10.4",
         "@babel/preset-typescript": "^7.12.1",
-        "@guardian/libs": "^1.4.2",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "@guardian/types": "^0.5.2",
@@ -51,16 +50,16 @@
         "@types/react-dom": "^16.9.9",
         "@types/youtube": "^0.0.39",
         "@typescript-eslint/eslint-plugin": "^4.0.0",
-        "@typescript-eslint/parser": "^3.0.1",
+        "@typescript-eslint/parser": "^3.10.1",
         "babel-loader": "^8.2.1",
         "babel-plugin-const-enum": "^1.0.1",
         "babel-plugin-emotion": "^10.0.33",
-        "chromatic": "^5.3.0",
+        "chromatic": "^5.4.0",
         "emotion": "^10.0.27",
         "eslint": "^7.13.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-config-prettier": "^6.15.0",
-        "eslint-plugin-prettier": "^3.1.3",
+        "eslint-plugin-prettier": "^3.2.0",
         "eslint-plugin-react": "^7.21.5",
         "husky": "^4.3.0",
         "jest": "^26.6.3",
@@ -72,7 +71,8 @@
         "pretty-quick": "^3.1.0",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
-        "ts-jest": "^24.3.0"
+        "ts-jest": "^24.3.0",
+        "youtube-player": "^5.5.2"
     },
     "eslintConfig": {
         "root": true,
@@ -101,14 +101,14 @@
         }
     },
     "peerDependencies": {
-        "@guardian/libs": "^1.4.2",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "emotion": "^10.0.27",
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",
-        "react-dom": "^16.14.0"
+        "react-dom": "^16.14.0",
+        "youtube-player": "^5.5.2"
     },
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
