@@ -238,21 +238,21 @@ export const YoutubeAtom = ({
 
                         if (!hasSent25Event && 25 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('25' as VideoEventKey),
+                                eventEmitter('25'),
                             );
                             hasSent25Event = true;
                         }
 
                         if (!hasSent50Event && 50 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('50' as VideoEventKey),
+                                eventEmitter('50'),
                             );
                             hasSent50Event = true;
                         }
 
                         if (!hasSent75Event && 75 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('75' as VideoEventKey),
+                                eventEmitter('75'),
                             );
                             hasSent75Event = true;
                         }
