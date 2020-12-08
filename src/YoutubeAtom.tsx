@@ -260,7 +260,7 @@ export const YoutubeAtom = ({
                         const currentPlayerState = await player.current?.getPlayerState();
 
                         if (currentPlayerState !== youtubePlayerState.ENDED) {
-                            // we recursively set set timeout as a way of only having one interval at a time querying
+                            // Set a timeout to check progress again in the future
                             window.setTimeout(() => checkProgress(), 3000);
                         }
                     };
