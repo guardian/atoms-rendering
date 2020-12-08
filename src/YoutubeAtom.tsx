@@ -9,6 +9,7 @@ import { SvgPlay } from '@guardian/src-icons';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
+import { YoutubeStateChangeEventType } from './types';
 
 type Props = {
     videoMeta: YoutubeMeta;
@@ -174,13 +175,6 @@ type YoutubePlayerType = {
     getPlayerState: () => number;
 };
 
-const defaultEventChecker = {
-    play: false,
-    '25': false,
-    '50': false,
-    '75': false,
-};
-
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -202,7 +196,6 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    const [eventChecker, setEventChecker] = useState(defaultEventChecker);
 
     const player = useRef<YoutubePlayerType>();
 
@@ -213,24 +206,28 @@ export const YoutubeAtom = ({
             );
         }
 
-        let progressTrackerTimoutId: number | undefined;
+        let hasSentPlayEvent = false;
+        let hasSent25Event = false;
+        let hasSent50Event = false;
+        let hasSent75Event = false;
 
         const listener = player.current?.on(
             'stateChange',
             (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
                 if (e.data === youtubePlayerState.PLAYING) {
-                    // console.log('eventChecker');
-                    // console.log(eventChecker);
-                    if (!eventChecker.play) {
+                    if (!hasSentPlayEvent) {
                         eventEmitters.forEach((eventEmitter) =>
                             eventEmitter('play'),
                         );
-                        setEventChecker({ ...eventChecker, play: true });
+                        hasSentPlayEvent = true;
+
+                        setTimeout(() => {
+                            checkProgress();
+                        }, 3000);
                     }
 
-                    const intervalProgressTracker = async () => {
-                        // console.log('heheheh');
-                        // console.log(eventChecker);
+                    const checkProgress = async () => {
+                        if (!player || !player.current) return null;
                         const currentTime = await player.current?.getCurrentTime();
                         const duration = await player.current?.getDuration();
 
@@ -239,58 +236,48 @@ export const YoutubeAtom = ({
                         const percentPlayed = ((currentTime / duration) *
                             100) as number;
 
-                        if (!eventChecker['25'] && 25 < percentPlayed) {
+                        if (!hasSent25Event && 25 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
                                 eventEmitter('25' as VideoEventKey),
                             );
-                            console.log('OMG');
-                            console.log(eventChecker);
-                            setEventChecker({ ...eventChecker, '25': true });
+                            hasSent25Event = true;
                         }
 
-                        if (!eventChecker['50'] && 50 < percentPlayed) {
+                        if (!hasSent50Event && 50 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
                                 eventEmitter('50' as VideoEventKey),
                             );
-                            setEventChecker({ ...eventChecker, '50': true });
+                            hasSent50Event = true;
                         }
 
-                        if (!eventChecker['75'] && 75 < percentPlayed) {
+                        if (!hasSent75Event && 75 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
                                 eventEmitter('75' as VideoEventKey),
                             );
-                            setEventChecker({ ...eventChecker, '75': true });
+                            hasSent75Event = true;
                         }
 
                         const currentPlayerState = await player.current?.getPlayerState();
 
-                        if (currentPlayerState === youtubePlayerState.PLAYING) {
+                        if (currentPlayerState !== youtubePlayerState.ENDED) {
                             // we recursively set set timeout as a way of only having one interval at a time querying
-                            progressTrackerTimoutId = window.setTimeout(
-                                () => intervalProgressTracker(),
-                                3000,
-                            );
+                            window.setTimeout(() => checkProgress(), 3000);
                         }
                     };
-
-                    intervalProgressTracker();
                 }
 
                 if (e.data === youtubePlayerState.ENDED) {
                     eventEmitters.forEach((eventEmitter) =>
                         eventEmitter('end'),
                     );
-                    // reset event checker
-                    setEventChecker(defaultEventChecker);
                 }
             },
         );
 
         return () => {
             listener && player.current?.off(listener);
-            progressTrackerTimoutId && clearTimeout(progressTrackerTimoutId);
         };
-    }, [player, eventEmitters, eventChecker, setEventChecker]);
+    }, [eventEmitters]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
