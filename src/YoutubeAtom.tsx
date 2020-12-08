@@ -233,8 +233,7 @@ export const YoutubeAtom = ({
 
                         if (!duration || !currentTime) return;
 
-                        const percentPlayed = ((currentTime / duration) *
-                            100) as number;
+                        const percentPlayed = (currentTime / duration) * 100;
 
                         if (!hasSent25Event && 25 < percentPlayed) {
                             eventEmitters.forEach((eventEmitter) =>
