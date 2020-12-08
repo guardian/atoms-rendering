@@ -302,8 +302,10 @@ export const YoutubeAtom = ({
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                            setHasUserLaunchedPlay(true);
                             player.current?.playVideo();
+                        }
                     }}
                     className={cx(
                         overlayStyles,
