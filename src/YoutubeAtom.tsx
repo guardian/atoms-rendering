@@ -9,7 +9,6 @@ import { SvgPlay } from '@guardian/src-icons';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
-import { YoutubeStateChangeEventType } from './types';
 
 type Props = {
     videoMeta: YoutubeMeta;
@@ -28,6 +27,8 @@ declare global {
         onYouTubeIframeAPIReady: unknown;
     }
 }
+
+type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
 
 type EmbedConfig = {
     adsConfig: {
