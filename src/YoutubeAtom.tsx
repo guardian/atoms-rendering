@@ -7,7 +7,6 @@ import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
 
-import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 
@@ -88,128 +87,6 @@ export const youtubePlayerState = {
     PAUSED: 2,
     BUFFERING: 3,
     CUED: 5,
-};
-
-type sharedYTDataType = {
-    progressTrackerTimoutId: number | undefined;
-    pastProgressPercentage: number;
-    hasPlayEventBeenFired: boolean;
-};
-export const initSharedYTData: sharedYTDataType = {
-    progressTrackerTimoutId: undefined,
-    pastProgressPercentage: 0,
-    hasPlayEventBeenFired: false,
-};
-
-export let sharedYTData: {
-    [key: string]: sharedYTDataType;
-} = {};
-
-const intervalProgressTracker = async ({
-    player,
-    eventEmitters,
-    assetId,
-}: {
-    eventEmitters: ((event: VideoEventKey) => void)[];
-    player: YoutubePlayerType;
-    assetId: string;
-}) => {
-    const currentTime = await player.getCurrentTime();
-    const duration = await player.getDuration();
-
-    // Note that getDuration() will return 0 until the video's metadata is loaded
-    // which normally happens just after the video starts playing.
-    if (duration === 0) return;
-
-    const percentPlayed = ((currentTime / duration) * 100) as number;
-
-    if (
-        sharedYTData[assetId].pastProgressPercentage < 25 &&
-        25 < percentPlayed
-    ) {
-        eventEmitters.forEach((eventEmitter) =>
-            eventEmitter('25' as VideoEventKey),
-        );
-    }
-
-    if (
-        sharedYTData[assetId].pastProgressPercentage < 50 &&
-        50 < percentPlayed
-    ) {
-        eventEmitters.forEach((eventEmitter) =>
-            eventEmitter('50' as VideoEventKey),
-        );
-    }
-
-    if (
-        sharedYTData[assetId].pastProgressPercentage < 75 &&
-        75 < percentPlayed
-    ) {
-        eventEmitters.forEach((eventEmitter) =>
-            eventEmitter('75' as VideoEventKey),
-        );
-    }
-
-    sharedYTData[assetId].pastProgressPercentage = percentPlayed;
-
-    // we recursively set set timeout as a way of only having one interval at a time querying
-    sharedYTData[assetId].progressTrackerTimoutId = window.setTimeout(
-        () => intervalProgressTracker({ eventEmitters, player, assetId }),
-        3000,
-    );
-};
-
-export const onPlayerStateChangeAnalytics = ({
-    e,
-    eventEmitters,
-    player,
-    assetId,
-}: {
-    e: YoutubeStateChangeEventType;
-    eventEmitters: ((event: VideoEventKey) => void)[];
-    player: YoutubePlayerType;
-    assetId: string;
-}): void => {
-    switch (e.data) {
-        case youtubePlayerState.PLAYING: {
-            if (!sharedYTData[assetId].hasPlayEventBeenFired) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-                sharedYTData[assetId].hasPlayEventBeenFired = true;
-            }
-
-            // Need to remove previous setInterval if already exists
-            if (sharedYTData[assetId].progressTrackerTimoutId) {
-                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
-                sharedYTData[assetId].progressTrackerTimoutId = undefined;
-            }
-
-            intervalProgressTracker({ eventEmitters, player, assetId });
-            break;
-        }
-        case youtubePlayerState.PAUSED: {
-            if (sharedYTData[assetId].progressTrackerTimoutId) {
-                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
-                sharedYTData[assetId].progressTrackerTimoutId = undefined;
-            }
-            break;
-        }
-        // ended
-        case youtubePlayerState.ENDED: {
-            if (sharedYTData[assetId].progressTrackerTimoutId) {
-                clearTimeout(sharedYTData[assetId].progressTrackerTimoutId);
-                sharedYTData[assetId].progressTrackerTimoutId = undefined;
-            }
-
-            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-
-            // reset data
-            sharedYTData = {
-                ...sharedYTData,
-                [assetId]: initSharedYTData,
-            };
-            break;
-        }
-    }
 };
 
 const overlayStyles = css`
@@ -294,6 +171,14 @@ type YoutubePlayerType = {
     playVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
+    getPlayerState: () => number;
+};
+
+const defaultEventChecker = {
+    play: false,
+    '25': false,
+    '50': false,
+    '75': false,
 };
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
@@ -317,16 +202,7 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-
-    // to avoid rerenders we use an object outside of React compont's scope
-    // to make sure data is unique to this video and not overriding other youtube
-    // video's data, we key all the data based on videoMeta.assetId
-    if (!sharedYTData[videoMeta.assetId]) {
-        sharedYTData = {
-            ...sharedYTData,
-            [videoMeta.assetId]: initSharedYTData,
-        };
-    }
+    const [eventChecker, setEventChecker] = useState(defaultEventChecker);
 
     const player = useRef<YoutubePlayerType>();
 
@@ -336,22 +212,85 @@ export const YoutubeAtom = ({
                 `youtube-video-${videoMeta.assetId}`,
             );
         }
+
+        let progressTrackerTimoutId: number | undefined;
+
         const listener = player.current?.on(
             'stateChange',
             (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                if (player.current) {
-                    onPlayerStateChangeAnalytics({
-                        e,
-                        eventEmitters,
-                        player: player.current,
-                        assetId: videoMeta.assetId,
-                    });
+                if (e.data === youtubePlayerState.PLAYING) {
+                    // console.log('eventChecker');
+                    // console.log(eventChecker);
+                    if (!eventChecker.play) {
+                        eventEmitters.forEach((eventEmitter) =>
+                            eventEmitter('play'),
+                        );
+                        setEventChecker({ ...eventChecker, play: true });
+                    }
+
+                    const intervalProgressTracker = async () => {
+                        // console.log('heheheh');
+                        // console.log(eventChecker);
+                        const currentTime = await player.current?.getCurrentTime();
+                        const duration = await player.current?.getDuration();
+
+                        if (!duration || !currentTime) return;
+
+                        const percentPlayed = ((currentTime / duration) *
+                            100) as number;
+
+                        if (!eventChecker['25'] && 25 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('25' as VideoEventKey),
+                            );
+                            console.log('OMG');
+                            console.log(eventChecker);
+                            setEventChecker({ ...eventChecker, '25': true });
+                        }
+
+                        if (!eventChecker['50'] && 50 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('50' as VideoEventKey),
+                            );
+                            setEventChecker({ ...eventChecker, '50': true });
+                        }
+
+                        if (!eventChecker['75'] && 75 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('75' as VideoEventKey),
+                            );
+                            setEventChecker({ ...eventChecker, '75': true });
+                        }
+
+                        const currentPlayerState = await player.current?.getPlayerState();
+
+                        if (currentPlayerState === youtubePlayerState.PLAYING) {
+                            // we recursively set set timeout as a way of only having one interval at a time querying
+                            progressTrackerTimoutId = window.setTimeout(
+                                () => intervalProgressTracker(),
+                                3000,
+                            );
+                        }
+                    };
+
+                    intervalProgressTracker();
+                }
+
+                if (e.data === youtubePlayerState.ENDED) {
+                    eventEmitters.forEach((eventEmitter) =>
+                        eventEmitter('end'),
+                    );
+                    // reset event checker
+                    setEventChecker(defaultEventChecker);
                 }
             },
         );
 
-        return () => listener && player.current?.off(listener);
-    }, [player, eventEmitters]);
+        return () => {
+            listener && player.current?.off(listener);
+            progressTrackerTimoutId && clearTimeout(progressTrackerTimoutId);
+        };
+    }, [player, eventEmitters, eventChecker, setEventChecker]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
