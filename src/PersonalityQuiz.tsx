@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
-import { text, brand } from '@guardian/src-foundations/palette';
+import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 
 import { UnselectedAnswer, SelectedAnswer } from './Answers';
@@ -34,6 +34,7 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
+    sharingIcons?: JSX.Element;
 };
 
 const answersWrapperStyle = css`
@@ -98,6 +99,7 @@ export const PersonalityQuizAtom = ({
     id,
     questions,
     resultBuckets,
+    sharingIcons,
 }: QuizAtomType): JSX.Element => {
     const [selectedAnswers, setSelectedAnswers] = useState<{
         [key: string]: string;
@@ -153,7 +155,10 @@ export const PersonalityQuizAtom = ({
         <form data-atom-id={id}>
             {hasSubmittedAnswers && topSelectedResult && (
                 <div data-testid="quiz-results-block-top">
-                    <Result resultBuckets={topSelectedResult} />
+                    <Result
+                        resultBuckets={topSelectedResult}
+                        sharingIcons={sharingIcons}
+                    />
                 </div>
             )}
             {questions.map((question, idx) => (
@@ -181,7 +186,10 @@ export const PersonalityQuizAtom = ({
             {hasMissingAnswers && <MissingAnswers />}
             {hasSubmittedAnswers && topSelectedResult && (
                 <div data-testid="quiz-results-block-bottom">
-                    <Result resultBuckets={topSelectedResult} />
+                    <Result
+                        resultBuckets={topSelectedResult}
+                        sharingIcons={sharingIcons}
+                    />
                 </div>
             )}
             <div
@@ -304,29 +312,40 @@ export const MissingAnswers = (): JSX.Element => (
 );
 
 const resultWrapperStyles = css`
-    background-color: ${brand[800]};
+    background-color: ${neutral[93]};
     margin-top: ${space[3]}px;
     margin-bottom: ${space[3]}px;
     padding: ${space[2]}px;
 `;
 const resultHeaderStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}
+    color: ${neutral[20]};
     padding-bottom: ${space[1]}px;
 `;
 
 const resultDescriptionStyles = css`
     ${textSans.medium()}
+    color: ${neutral[46]};
 `;
 
 export const Result = ({
     resultBuckets,
+    sharingIcons,
 }: {
     resultBuckets: ResultsBucket;
+    sharingIcons?: JSX.Element;
 }): JSX.Element => (
     <div className={resultWrapperStyles}>
         <div className={resultHeaderStyles}>{resultBuckets.title}</div>
         <div className={resultDescriptionStyles}>
             {resultBuckets.description}
         </div>
+        {sharingIcons && (
+            <>
+                <hr />
+                <div className={resultHeaderStyles}>Challenge your friends</div>
+                {sharingIcons}
+            </>
+        )}
     </div>
 );
