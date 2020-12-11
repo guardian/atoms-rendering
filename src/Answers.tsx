@@ -6,31 +6,41 @@ import { neutral, news } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
+import { space } from '@guardian/src-foundations';
 
 const iconStyle = css`
-    height: 26px;
+    height: ${space[6]}px;
     svg {
         fill: ${neutral[100]};
-        height: 26px;
-        width: 26px;
+        height: ${space[6]}px;
+        width: ${space[6]}px;
     }
 `;
 
-const answerWrapperStyles = css`
-    display: flex;
-    flex-direction: row;
-
-    margin-bottom: 6px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-`;
-
 const selectableAnswerStyles = css`
+    /* used to aligne radioButtonStyle */
+    position: relative;
+    ::before {
+        content: '';
+        height: ${space[4]}px;
+        width: ${space[4]}px;
+        border-radius: ${space[4]}px;
+        display: inline-block;
+        position: absolute;
+        left: ${space[4]}px;
+        top: ${space[4]}px;
+        box-shadow: 0 0 0 1px ${neutral[86]};
+        transition: background-color 100ms, box-shadow 50ms;
+    }
+
     :hover {
         background-color: ${neutral[86]};
         cursor: pointer;
+
+        ::before {
+            background-color: ${neutral[46]};
+            box-shadow: 0 0 0 1px ${neutral[46]}, inset 0 0 0 3px ${neutral[86]};
+        }
     }
     :focus {
         background-color: ${neutral[86]};
@@ -43,8 +53,15 @@ const unselectedAnswerLabelStyles = (disabled: boolean) => css`
     background-color: ${neutral[97]};
     ${!disabled ? selectableAnswerStyles : ''}
 
-    ${answerWrapperStyles}
-    padding-left: 28px;
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: ${space[2]}px;
+
+    padding-top: ${space[3]}px;
+    padding-bottom: ${space[3]}px;
+    padding-right: ${space[4]}px;
+    padding-left: ${space[12]}px;
 `;
 
 export const UnselectedAnswer = ({
@@ -101,7 +118,15 @@ export const SelectedAnswer = ({
 }): JSX.Element => (
     <div
         className={css`
-            ${answerWrapperStyles}
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[4]}px;
+            padding-left: ${space[12]}px;
             background-color: #ff7f0f;
         `}
     >
@@ -135,7 +160,7 @@ export const SelectedAnswer = ({
 
 const correctSelectedAnswerStyles = css`
     color: ${neutral[100]};
-    padding-left: 8px;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
 `;
@@ -151,7 +176,15 @@ export const CorrectSelectedAnswer = ({
 }): JSX.Element => (
     <div
         className={css`
-            ${answerWrapperStyles}
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[4]}px;
+            padding-left: ${space[3]}px;
             background-color: rgb(61, 181, 64);
         `}
     >
@@ -184,10 +217,10 @@ export const CorrectSelectedAnswer = ({
 
 const nonSelectedCorrectAnswerLabelStyles = css`
     color: ${neutral[0]};
-    padding-left: 8px;
     display: flex;
     flex-direction: column;
 `;
+
 export const NonSelectedCorrectAnswer = ({
     answerText,
     explainerText,
@@ -199,7 +232,16 @@ export const NonSelectedCorrectAnswer = ({
 }): JSX.Element => (
     <div
         className={css`
-            ${answerWrapperStyles}
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[4]}px;
+            padding-left: ${space[12]}px;
+
             background-color: rgb(61, 181, 64, 0.6);
         `}
     >
@@ -229,7 +271,7 @@ export const NonSelectedCorrectAnswer = ({
 
 const incorrectAnswerLabelStyles = css`
     color: ${neutral[100]};
-    padding-left: 8px;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
 
@@ -245,7 +287,15 @@ export const IncorrectAnswer = ({
 }): JSX.Element => (
     <div
         className={css`
-            ${answerWrapperStyles}
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[4]}px;
+            padding-left: ${space[3]}px;
             background-color: ${news[400]};
         `}
     >

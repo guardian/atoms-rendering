@@ -9,6 +9,10 @@ import {
     SelectedAnswer,
 } from './Answers';
 
+export default {
+    title: 'Answers',
+};
+
 export const Answers = (): JSX.Element => (
     <div
         className={css`
