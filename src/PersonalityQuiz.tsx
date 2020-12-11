@@ -181,6 +181,7 @@ export const PersonalityQuizAtom = ({
                             ? selectedAnswers[question.id]
                             : undefined
                     }
+                    hasSubmittedAnswers={hasSubmittedAnswers}
                 />
             ))}
             {hasMissingAnswers && <MissingAnswers />}
@@ -231,6 +232,7 @@ type PersonalityQuizAnswersProps = {
     answers: AnswerType[];
     updateSelectedAnswer: (selectedAnswerId: string) => void;
     selectedAnswer?: string;
+    hasSubmittedAnswers: boolean;
 };
 
 const PersonalityQuizAnswers = ({
@@ -240,6 +242,7 @@ const PersonalityQuizAnswers = ({
     answers,
     updateSelectedAnswer,
     selectedAnswer,
+    hasSubmittedAnswers,
 }: PersonalityQuizAnswersProps) => (
     <fieldset className={answersWrapperStyle}>
         <div>
@@ -284,7 +287,7 @@ const PersonalityQuizAnswers = ({
                     <UnselectedAnswer
                         key={answer.id}
                         id={answer.id}
-                        disabled={false}
+                        disabled={hasSubmittedAnswers}
                         answerText={answer.text}
                         onClick={() => updateSelectedAnswer(answer.id)}
                         onKeyPress={(e: KeyboardEvent) => {
