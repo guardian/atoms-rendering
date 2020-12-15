@@ -55,6 +55,7 @@ export const KnowledgeQuizAtom = ({
 );
 
 export const Question = ({
+    id,
     text,
     imageUrl,
     answers,
@@ -96,13 +97,19 @@ export const Question = ({
                     position: relative;
                 `}
             >
-                <Answers answers={answers} />
+                <Answers answers={answers} id={id} />
             </div>
         </fieldset>
     </div>
 );
 
-const Answers = ({ answers }: { answers: AnswerType[] }) => {
+const Answers = ({
+    answers,
+    id: questionId,
+}: {
+    answers: AnswerType[];
+    id: string;
+}) => {
     const [selected, setSelected] = useState<string | undefined>(undefined);
     return (
         <>
@@ -147,6 +154,7 @@ const Answers = ({ answers }: { answers: AnswerType[] }) => {
 
                     return (
                         <UnselectedAnswer
+                            questionId={questionId}
                             key={answer.id}
                             id={answer.id}
                             disabled={true}
@@ -157,6 +165,7 @@ const Answers = ({ answers }: { answers: AnswerType[] }) => {
 
                 return (
                     <UnselectedAnswer
+                        questionId={questionId}
                         key={answer.id}
                         id={answer.id}
                         disabled={false}
