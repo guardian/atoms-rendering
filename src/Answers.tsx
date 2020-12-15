@@ -118,6 +118,25 @@ export const UnselectedAnswer = ({
     </div>
 );
 
+const selectedAnswerStyles = css`
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: ${space[2]}px;
+
+    padding-top: ${space[3]}px;
+    padding-bottom: ${space[3]}px;
+    padding-right: ${space[4]}px;
+    padding-left: ${space[12]}px;
+    background-color: ${opinion[500]};
+
+    ${selectableAnswerStyles}
+    ::before {
+        background-color: ${neutral[20]};
+        box-shadow: 0 0 0 1px ${neutral[20]}, inset 0 0 0 3px ${opinion[500]};
+    }
+`;
+
 export const SelectedAnswer = ({
     questionId,
     id,
@@ -129,20 +148,7 @@ export const SelectedAnswer = ({
     answerText: string;
     disabled?: boolean;
 }): JSX.Element => (
-    <div
-        className={css`
-            display: flex;
-            flex-direction: row;
-
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[3]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[4]}px;
-            padding-left: ${space[12]}px;
-            background-color: ${opinion[500]};
-        `}
-    >
+    <div>
         <input
             type="radio"
             id={`answer-${id}`}
@@ -155,8 +161,8 @@ export const SelectedAnswer = ({
             checked
         />
         <label
-            className={nonSelectedCorrectAnswerLabelStyles}
             id={id}
+            className={selectedAnswerStyles}
             data-testid={id}
             data-answertype="selected-answer"
         >
