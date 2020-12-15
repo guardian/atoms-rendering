@@ -115,7 +115,8 @@ export const PersonalityQuizAtom = ({
         setTopSelectedResult,
     ] = useState<ResultsBucket | null>();
 
-    const onSubmit = () => {
+    const onSubmit = (e: MouseEvent | KeyboardEvent) => {
+        e.preventDefault();
         // check all answers have been selected
         const missingAnswers = questions.some((question) =>
             question.id in selectedAnswers ? false : true,
@@ -204,6 +205,12 @@ export const PersonalityQuizAtom = ({
                 <Button
                     type="submit"
                     onClick={onSubmit}
+                    onKeyDown={(e) => {
+                        const spaceKey = 32;
+                        const enterKey = 13;
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                            onSubmit(e);
+                    }}
                     data-testid="submit-quiz"
                 >
                     Submit
