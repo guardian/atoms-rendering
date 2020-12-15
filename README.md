@@ -22,17 +22,6 @@ import { TheAtomYouWant } from '@guardian/atoms-rendering';
 
 There is mostly a one to one correspondance between atoms as named by CAPI/frontend and their names in atoms-rendering, with the notable exception that the Media atom is named YoutubeAtom here.
 
-## Moving to main
-
-The `master` branch in the atoms-rendering repository has now been renamed to `main`. If you have been working with this repository before the change, then run the following sequence of commands.
-
-```
-git fetch --all
-git remote set-head origin -a
-git branch master --set-upstream-to origin/main
-git branch -m master main
-```
-
 ## Running locally
 
 ```

@@ -4,7 +4,7 @@ module.exports = {
     stories: ['../**/*.stories.tsx'],
     webpackFinal: async (config, { configType }) => {
         config.module.rules.push({
-            test: /\.tsx?$/,
+            test: /\.[jt]sx?$/,
             use: [
                 {
                     loader: 'babel-loader',
@@ -18,6 +18,8 @@ module.exports = {
                                     sourceMap: false,
                                 },
                             ],
+                            '@babel/plugin-proposal-optional-chaining',
+                            '@babel/plugin-proposal-nullish-coalescing-operator',
                         ],
                     },
                 },
