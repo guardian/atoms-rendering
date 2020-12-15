@@ -1,5 +1,5 @@
 import React, { KeyboardEvent } from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import {
@@ -37,20 +37,6 @@ const selectableAnswerStyles = css`
         box-shadow: 0 0 0 1px ${neutral[86]};
         transition: background-color 100ms, box-shadow 50ms;
     }
-
-    :hover {
-        background-color: ${neutral[86]};
-        cursor: pointer;
-
-        ::before {
-            background-color: ${neutral[46]};
-            box-shadow: 0 0 0 1px ${neutral[46]}, inset 0 0 0 3px ${neutral[86]};
-        }
-    }
-    :focus {
-        background-color: ${neutral[86]};
-        ${focusHalo}
-    }
 `;
 
 const unselectedAnswerLabelStyles = (disabled: boolean) => css`
@@ -69,24 +55,55 @@ const unselectedAnswerLabelStyles = (disabled: boolean) => css`
     padding-left: ${space[12]}px;
 `;
 
+const unselectedAnswerInputStyles = css`
+    :hover ~ label {
+        background-color: ${neutral[86]};
+        cursor: pointer;
+
+        ::before {
+            background-color: ${neutral[46]};
+            box-shadow: 0 0 0 1px ${neutral[46]}, inset 0 0 0 3px ${neutral[86]};
+        }
+    }
+    :focus ~ label {
+        background-color: ${neutral[86]};
+        ${focusHalo}
+    }
+`;
+
 export const UnselectedAnswer = ({
+    questionId,
     id,
     onClick,
     disabled,
     answerText,
     onKeyPress,
 }: {
+    questionId: string;
     id: string;
     onClick?: () => void;
     onKeyPress?: (e: KeyboardEvent<Element>) => void;
     disabled: boolean;
     answerText: string;
 }): JSX.Element => (
-    <>
+    <div>
+        <input
+            type="radio"
+            id={`answer-${id}`}
+            name={questionId}
+            onClick={onClick}
+            onKeyPress={onKeyPress}
+            disabled={disabled}
+            className={cx(
+                css`
+                    ${visuallyHidden}
+                `,
+                disabled ? '' : unselectedAnswerInputStyles,
+            )}
+            required
+        />
         <label
             className={unselectedAnswerLabelStyles(disabled)}
-            onKeyPress={onKeyPress}
-            tabIndex={disabled ? -1 : 0}
             htmlFor={`answer-${id}`}
             data-answertype={
                 disabled
@@ -98,27 +115,18 @@ export const UnselectedAnswer = ({
         >
             {answerText}
         </label>
-        <input
-            type="radio"
-            tabIndex={-1}
-            required
-            id={`answer-${id}`}
-            onClick={onClick}
-            disabled={disabled}
-            className={css`
-                ${visuallyHidden};
-            `}
-        />
-    </>
+    </div>
 );
 
 export const SelectedAnswer = ({
-    answerText,
+    questionId,
     id,
+    answerText,
     disabled,
 }: {
-    answerText: string;
+    questionId: string;
     id: string;
+    answerText: string;
     disabled?: boolean;
 }): JSX.Element => (
     <div
@@ -135,6 +143,17 @@ export const SelectedAnswer = ({
             background-color: ${opinion[500]};
         `}
     >
+        <input
+            type="radio"
+            id={`answer-${id}`}
+            name={questionId}
+            disabled={disabled}
+            className={css`
+                ${visuallyHidden};
+            `}
+            required
+            checked
+        />
         <label
             className={nonSelectedCorrectAnswerLabelStyles}
             id={id}
@@ -149,17 +168,6 @@ export const SelectedAnswer = ({
                 {answerText}
             </span>
         </label>
-        <input
-            type="radio"
-            tabIndex={-1}
-            required
-            id={`answer-${id}`}
-            disabled={disabled}
-            className={css`
-                ${visuallyHidden};
-            `}
-            checked
-        />
     </div>
 );
 
