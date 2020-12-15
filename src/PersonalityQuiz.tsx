@@ -115,8 +115,7 @@ export const PersonalityQuizAtom = ({
         setTopSelectedResult,
     ] = useState<ResultsBucket | null>();
 
-    const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const onSubmit = () => {
         // check all answers have been selected
         const missingAnswers = questions.some((question) =>
             question.id in selectedAnswers ? false : true,
@@ -236,6 +235,7 @@ type PersonalityQuizAnswersProps = {
 };
 
 const PersonalityQuizAnswers = ({
+    id: questionId,
     number,
     text,
     imageUrl,
@@ -279,12 +279,14 @@ const PersonalityQuizAnswers = ({
                 const isSelected = selectedAnswer === answer.id;
                 return isSelected ? (
                     <SelectedAnswer
+                        questionId={questionId}
                         key={answer.id}
                         id={answer.id}
                         answerText={answer.text}
                     />
                 ) : (
                     <UnselectedAnswer
+                        questionId={questionId}
                         key={answer.id}
                         id={answer.id}
                         disabled={hasSubmittedAnswers}
