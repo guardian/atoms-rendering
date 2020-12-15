@@ -118,7 +118,15 @@ export const UnselectedAnswer = ({
     </div>
 );
 
-const selectedAnswerStyles = css`
+const bulletpointStyles = css`
+    ${selectableAnswerStyles}
+    ::before {
+        background-color: ${neutral[20]};
+        box-shadow: 0 0 0 1px ${neutral[20]}, inset 0 0 0 3px ${opinion[500]};
+    }
+`;
+
+const selectedAnswerStyles = (disabled: boolean) => css`
     display: flex;
     flex-direction: row;
 
@@ -130,11 +138,7 @@ const selectedAnswerStyles = css`
     padding-left: ${space[12]}px;
     background-color: ${opinion[500]};
 
-    ${selectableAnswerStyles}
-    ::before {
-        background-color: ${neutral[20]};
-        box-shadow: 0 0 0 1px ${neutral[20]}, inset 0 0 0 3px ${opinion[500]};
-    }
+    ${disabled ? '' : bulletpointStyles}
 `;
 
 export const SelectedAnswer = ({
@@ -146,7 +150,7 @@ export const SelectedAnswer = ({
     questionId: string;
     id: string;
     answerText: string;
-    disabled?: boolean;
+    disabled: boolean;
 }): JSX.Element => (
     <div>
         <input
@@ -162,7 +166,7 @@ export const SelectedAnswer = ({
         />
         <label
             id={id}
-            className={selectedAnswerStyles}
+            className={selectedAnswerStyles(disabled)}
             data-testid={id}
             data-answertype="selected-answer"
         >

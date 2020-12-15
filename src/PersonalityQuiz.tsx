@@ -290,6 +290,7 @@ const PersonalityQuizAnswers = ({
                         key={answer.id}
                         id={answer.id}
                         answerText={answer.text}
+                        disabled={hasSubmittedAnswers}
                     />
                 ) : (
                     <UnselectedAnswer
