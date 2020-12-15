@@ -2,7 +2,12 @@ import React, { KeyboardEvent } from 'react';
 import { css } from 'emotion';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
-import { neutral, news } from '@guardian/src-foundations/palette';
+import {
+    neutral,
+    news,
+    opinion,
+    success,
+} from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
@@ -127,7 +132,7 @@ export const SelectedAnswer = ({
             padding-bottom: ${space[3]}px;
             padding-right: ${space[4]}px;
             padding-left: ${space[12]}px;
-            background-color: #ff7f0f;
+            background-color: ${opinion[500]};
         `}
     >
         <label
@@ -185,7 +190,7 @@ export const CorrectSelectedAnswer = ({
             padding-bottom: ${space[3]}px;
             padding-right: ${space[4]}px;
             padding-left: ${space[3]}px;
-            background-color: rgb(61, 181, 64);
+            background-color: ${success[500]};
         `}
     >
         <div className={iconStyle}>
@@ -242,7 +247,7 @@ export const NonSelectedCorrectAnswer = ({
             padding-right: ${space[4]}px;
             padding-left: ${space[12]}px;
 
-            background-color: rgb(61, 181, 64, 0.6);
+            background-color: ${success[400]};
         `}
     >
         <label
