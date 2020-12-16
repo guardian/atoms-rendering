@@ -220,6 +220,15 @@ export const PersonalityQuizAtom = ({
                         setHasSubmittedAnswers(false);
                         setTopSelectedResult(null);
                     }}
+                    onKeyDown={(e) => {
+                        const spaceKey = 32;
+                        const enterKey = 13;
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                            setSelectedAnswers({});
+                            setHasSubmittedAnswers(false);
+                            setTopSelectedResult(null);
+                        }
+                    }}
                     data-testid="reset-quiz"
                 >
                     Reset
