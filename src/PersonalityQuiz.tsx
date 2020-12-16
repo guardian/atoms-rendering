@@ -5,8 +5,7 @@ import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
 import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
-
-import { UnselectedAnswer, SelectedAnswer } from './Answers';
+import { RadioGroup, Radio } from '@guardian/src-radio';
 
 type ResultsBucket = {
     id: string;
@@ -278,36 +277,35 @@ const PersonalityQuizAnswers = ({
         )}
         <div
             className={css`
-                /* fix for chrome jumping to top of page */
-                position: relative;
+                label {
+                    padding-top: ${space[3]}px;
+                    padding-bottom: ${space[3]}px;
+                    padding-left: ${space[2]}px;
+                    padding-right: ${space[2]}px;
+
+                    margin-bottom: ${space[2]}px;
+
+                    background-color: ${neutral[97]};
+
+                    :hover {
+                        background-color: ${neutral[86]};
+                    }
+                    /* TODO: apply same styles on focus (requires source update) */
+                }
             `}
         >
-            {answers.map((answer) => {
-                const isSelected = selectedAnswer === answer.id;
-                return isSelected ? (
-                    <SelectedAnswer
-                        questionId={questionId}
+            <RadioGroup name={questionId}>
+                {answers.map((answer) => (
+                    <Radio
                         key={answer.id}
-                        id={answer.id}
-                        answerText={answer.text}
+                        value={answer.text}
+                        label={answer.text}
                         disabled={hasSubmittedAnswers}
+                        onChange={() => updateSelectedAnswer(answer.id)}
+                        checked={selectedAnswer === answer.id}
                     />
-                ) : (
-                    <UnselectedAnswer
-                        questionId={questionId}
-                        key={answer.id}
-                        id={answer.id}
-                        disabled={hasSubmittedAnswers}
-                        answerText={answer.text}
-                        onClick={() => updateSelectedAnswer(answer.id)}
-                        onKeyPress={(e: KeyboardEvent) => {
-                            if (e.key === 'Enter') {
-                                updateSelectedAnswer(answer.id);
-                            }
-                        }}
-                    />
-                );
-            })}
+                ))}
+            </RadioGroup>
         </div>
     </fieldset>
 );
