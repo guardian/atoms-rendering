@@ -1,11 +1,13 @@
 import React, { useState, KeyboardEvent, useEffect, MouseEvent } from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
 import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
+
+import { radioButtonWrapperStyles } from './Answers';
 
 type ResultsBucket = {
     id: string;
@@ -285,23 +287,19 @@ const PersonalityQuizAnswers = ({
             />
         )}
         <div
-            className={css`
-                label {
-                    padding-top: ${space[3]}px;
-                    padding-bottom: ${space[3]}px;
-                    padding-left: ${space[2]}px;
-                    padding-right: ${space[2]}px;
-
-                    margin-bottom: ${space[2]}px;
-
-                    background-color: ${neutral[97]};
-
-                    :hover {
-                        background-color: ${neutral[86]};
+            className={cx(
+                radioButtonWrapperStyles,
+                css`
+                    label {
+                        :hover {
+                            background-color: ${hasSubmittedAnswers
+                                ? neutral[97]
+                                : neutral[86]};
+                        }
+                        /* TODO: apply same styles on focus (requires source update) */
                     }
-                    /* TODO: apply same styles on focus (requires source update) */
-                }
-            `}
+                `,
+            )}
         >
             <RadioGroup name={questionId}>
                 {answers.map((answer) => (
