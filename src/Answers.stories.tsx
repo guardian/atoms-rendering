@@ -1,12 +1,13 @@
 import React from 'react';
 import { css } from 'emotion';
 
+import { Radio } from '@guardian/src-radio';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
     NonSelectedCorrectAnswer,
     UnselectedAnswer,
-    SelectedAnswer,
+    radioButtonWrapperStyles,
 } from './Answers';
 
 export default {
@@ -20,32 +21,41 @@ export const Answers = (): JSX.Element => (
             flex-direction: column;
         `}
     >
-        <UnselectedAnswer
-            id="someId1"
-            onClick={() => console.log('unselected answer was clicked')}
-            onKeyPress={() => console.log('unselected answer was key pressed')}
-            disabled={false}
-            answerText="Selectable unanswered answer"
-        />
-        <UnselectedAnswer
-            id="someId2"
-            disabled={true}
-            answerText="Unselectable unanswered answer"
-        />
         <CorrectSelectedAnswer
             id="someId3"
+            name="someName"
             answerText="Correct Selected Answer"
             explainerText="this is such a cool answer"
         />
         <NonSelectedCorrectAnswer
             id="someId4"
+            name="someName"
             answerText="Correct Non Selected Answer"
             explainerText="this is such a cool answer"
         />
         <IncorrectAnswer
             id="someId5"
-            answerText="Correct Non Selected Answer"
+            name="someName"
+            answerText="Incorrect Answer"
         />
-        <SelectedAnswer id="someId6" answerText="Selected Answer" />
+        <UnselectedAnswer
+            id="someId1"
+            name="someName"
+            answerText="Unselectable unanswered answer"
+        />
+        <div className={radioButtonWrapperStyles}>
+            <Radio
+                value={'answer.text'}
+                label="Selectable unanswered answer"
+                onChange={(e) => console.log(e.target.value)}
+                checked={true}
+            />
+            <Radio
+                value={'answer.text'}
+                label="Selectable unanswered answer"
+                onChange={(e) => console.log(e.target.value)}
+                checked={false}
+            />
+        </div>
     </div>
 );

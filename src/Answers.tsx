@@ -1,337 +1,246 @@
-import React, { KeyboardEvent } from 'react';
+import React from 'react';
 import { css, cx } from 'emotion';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
-import {
-    neutral,
-    news,
-    opinion,
-    success,
-} from '@guardian/src-foundations/palette';
+import { neutral, news, success } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
-import { focusHalo } from '@guardian/src-foundations/accessibility';
 import { space } from '@guardian/src-foundations';
 
-const iconStyle = css`
-    height: ${space[6]}px;
-    svg {
-        fill: ${neutral[100]};
-        height: ${space[6]}px;
-        width: ${space[6]}px;
-    }
-`;
+// We export Radio wrapper styles to override Source Radio buttons to align
+// with our custom answers for the quiz
+export const radioButtonWrapperStyles = css`
+    label {
+        padding-top: ${space[3]}px;
+        padding-bottom: ${space[3]}px;
+        padding-left: ${space[2]}px;
+        padding-right: ${space[2]}px;
 
-const selectableAnswerStyles = css`
-    /* used to aligne radioButtonStyle */
-    position: relative;
-    ::before {
-        content: '';
-        height: ${space[4]}px;
-        width: ${space[4]}px;
-        border-radius: ${space[4]}px;
-        display: inline-block;
-        position: absolute;
-        left: ${space[4]}px;
-        top: ${space[4]}px;
-        box-shadow: 0 0 0 1px ${neutral[86]};
-        transition: background-color 100ms, box-shadow 50ms;
-    }
-`;
+        margin-bottom: ${space[2]}px;
 
-const unselectedAnswerLabelStyles = (disabled: boolean) => css`
-    ${body.medium()};
-    background-color: ${neutral[97]};
-    ${!disabled ? selectableAnswerStyles : ''}
+        background-color: ${neutral[97]};
 
-    display: flex;
-    flex-direction: row;
+        :hover {
+            background-color: ${neutral[86]};
+        }
+        /* TODO: apply same styles on focus (requires source update) */
 
-    margin-bottom: ${space[2]}px;
-
-    padding-top: ${space[3]}px;
-    padding-bottom: ${space[3]}px;
-    padding-right: ${space[4]}px;
-    padding-left: ${space[12]}px;
-`;
-
-const unselectedAnswerInputStyles = css`
-    :hover ~ label {
-        background-color: ${neutral[86]};
-        cursor: pointer;
-
-        ::before {
-            background-color: ${neutral[46]};
-            box-shadow: 0 0 0 1px ${neutral[46]}, inset 0 0 0 3px ${neutral[86]};
+        span {
+            ${body.medium()};
         }
     }
-    :focus ~ label {
-        background-color: ${neutral[86]};
-        ${focusHalo}
-    }
 `;
 
-export const UnselectedAnswer = ({
-    questionId,
+const AnswerWithSVG = ({
     id,
-    onClick,
-    disabled,
-    answerText,
-    onKeyPress,
+    text,
+    supplementText,
+    name,
+    isCorrect,
 }: {
-    questionId: string;
     id: string;
-    onClick?: () => void;
-    onKeyPress?: (e: KeyboardEvent<Element>) => void;
-    disabled: boolean;
-    answerText: string;
+    text: string;
+    supplementText?: string;
+    name: string;
+    isCorrect: boolean;
 }): JSX.Element => (
-    <div>
+    <div
+        className={css`
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[4]}px;
+            padding-left: ${space[3]}px;
+
+            background-color: ${isCorrect ? success[400] : news[400]};
+        `}
+    >
+        <div
+            className={css`
+                margin-right: ${space[1]}px;
+
+                height: ${space[6]}px;
+                svg {
+                    fill: ${neutral[100]};
+                    height: ${space[6]}px;
+                    width: ${space[6]}px;
+                }
+            `}
+        >
+            {isCorrect ? <SvgCheckmark /> : <SvgCross />}
+        </div>
         <input
             type="radio"
-            id={`answer-${id}`}
-            name={questionId}
-            onClick={onClick}
-            onKeyPress={onKeyPress}
-            disabled={disabled}
+            id={id}
+            name={name}
+            data-testid={id}
             className={cx(
                 css`
                     ${visuallyHidden}
                 `,
-                disabled ? '' : unselectedAnswerInputStyles,
             )}
             required
         />
         <label
-            className={unselectedAnswerLabelStyles(disabled)}
-            htmlFor={`answer-${id}`}
-            data-answertype={
-                disabled
-                    ? 'unselected-disabled-answer'
-                    : 'unselected-enabled-answer'
-            }
-            id={id}
-            data-testid={id}
-        >
-            {answerText}
-        </label>
-    </div>
-);
-
-const bulletpointStyles = css`
-    ${selectableAnswerStyles}
-    ::before {
-        background-color: ${neutral[20]};
-        box-shadow: 0 0 0 1px ${neutral[20]}, inset 0 0 0 3px ${opinion[500]};
-    }
-`;
-
-const selectedAnswerStyles = (disabled: boolean) => css`
-    display: flex;
-    flex-direction: row;
-
-    margin-bottom: ${space[2]}px;
-
-    padding-top: ${space[3]}px;
-    padding-bottom: ${space[3]}px;
-    padding-right: ${space[4]}px;
-    padding-left: ${space[12]}px;
-    background-color: ${opinion[500]};
-
-    ${disabled ? '' : bulletpointStyles}
-`;
-
-export const SelectedAnswer = ({
-    questionId,
-    id,
-    answerText,
-    disabled,
-}: {
-    questionId: string;
-    id: string;
-    answerText: string;
-    disabled: boolean;
-}): JSX.Element => (
-    <div>
-        <input
-            type="radio"
-            id={`answer-${id}`}
-            name={questionId}
-            disabled={disabled}
             className={css`
-                ${visuallyHidden};
+                color: ${neutral[100]};
+                display: flex;
+                flex-direction: column;
+
+                ${body.medium()};
             `}
-            required
-            checked
-        />
-        <label
-            id={id}
-            className={selectedAnswerStyles(disabled)}
-            data-testid={id}
-            data-answertype="selected-answer"
+            data-answertype="with logo"
         >
             <span
                 className={css`
                     ${body.medium()};
                 `}
             >
-                {answerText}
+                {text}
             </span>
+            {supplementText && (
+                <span
+                    className={css`
+                        ${textSans.xsmall()}
+                    `}
+                >
+                    {supplementText}
+                </span>
+            )}
         </label>
     </div>
 );
 
-const correctSelectedAnswerStyles = css`
-    color: ${neutral[100]};
-    padding-left: 10px;
-    display: flex;
-    flex-direction: column;
-`;
+const AnswerWithoutSVG = ({
+    id,
+    text,
+    supplementText,
+    name,
+    isCorrect,
+}: {
+    id: string;
+    text: string;
+    supplementText?: string;
+    name: string;
+    isCorrect?: boolean;
+}): JSX.Element => (
+    <div
+        className={css`
+            ${body.medium()};
+            background-color: ${isCorrect ? success[500] : neutral[97]};
+
+            display: flex;
+            flex-direction: row;
+
+            margin-bottom: ${space[2]}px;
+
+            padding-top: ${space[3]}px;
+            padding-bottom: ${space[3]}px;
+            padding-right: ${space[2]}px;
+            padding-left: ${space[9]}px;
+        `}
+    >
+        <input
+            type="radio"
+            id={id}
+            name={name}
+            data-testid={id}
+            className={cx(
+                css`
+                    ${visuallyHidden}
+                `,
+            )}
+            required
+        />
+        <label
+            className={css`
+                margin-left: ${space[1]}px;
+                display: flex;
+                flex-direction: column;
+            `}
+        >
+            <span
+                className={css`
+                    ${body.medium()};
+                `}
+            >
+                {text}
+            </span>
+            {supplementText && (
+                <span
+                    className={css`
+                        ${textSans.xsmall()}
+                    `}
+                >
+                    {supplementText}
+                </span>
+            )}
+        </label>
+    </div>
+);
 
 export const CorrectSelectedAnswer = ({
     answerText,
     explainerText,
     id,
+    name,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
+    name: string;
 }): JSX.Element => (
-    <div
-        className={css`
-            display: flex;
-            flex-direction: row;
-
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[3]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[4]}px;
-            padding-left: ${space[3]}px;
-            background-color: ${success[500]};
-        `}
-    >
-        <div className={iconStyle}>
-            <SvgCheckmark />
-        </div>
-        <label
-            className={correctSelectedAnswerStyles}
-            id={id}
-            data-testid={id}
-            data-answertype="correct-selected-answer"
-        >
-            <span
-                className={css`
-                    ${body.medium()};
-                `}
-            >
-                {answerText}
-            </span>
-            <span
-                className={css`
-                    ${textSans.xsmall()}
-                `}
-            >
-                {explainerText}
-            </span>
-        </label>
-    </div>
+    <AnswerWithoutSVG
+        id={id}
+        name={name}
+        text={answerText}
+        supplementText={explainerText}
+        isCorrect={true}
+    />
 );
 
-const nonSelectedCorrectAnswerLabelStyles = css`
-    color: ${neutral[0]};
-    display: flex;
-    flex-direction: column;
-`;
+export const IncorrectAnswer = ({
+    answerText,
+    id,
+    name,
+}: {
+    answerText: string;
+    id: string;
+    name: string;
+}): JSX.Element => (
+    <AnswerWithSVG id={id} name={name} text={answerText} isCorrect={false} />
+);
 
 export const NonSelectedCorrectAnswer = ({
     answerText,
     explainerText,
     id,
+    name,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
+    name: string;
 }): JSX.Element => (
-    <div
-        className={css`
-            display: flex;
-            flex-direction: row;
-
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[3]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[4]}px;
-            padding-left: ${space[12]}px;
-
-            background-color: ${success[400]};
-        `}
-    >
-        <label
-            className={nonSelectedCorrectAnswerLabelStyles}
-            id={id}
-            data-testid={id}
-            data-answertype="non-selected-correct-answer"
-        >
-            <span
-                className={css`
-                    ${body.medium()};
-                `}
-            >
-                {answerText}
-            </span>
-            <span
-                className={css`
-                    ${textSans.xsmall()}
-                `}
-            >
-                {explainerText}
-            </span>
-        </label>
-    </div>
+    <AnswerWithSVG
+        id={id}
+        name={name}
+        text={answerText}
+        supplementText={explainerText}
+        isCorrect={true}
+    />
 );
 
-const incorrectAnswerLabelStyles = css`
-    color: ${neutral[100]};
-    padding-left: 10px;
-    display: flex;
-    flex-direction: column;
-
-    ${body.medium()};
-`;
-
-export const IncorrectAnswer = ({
+export const UnselectedAnswer = ({
     answerText,
     id,
+    name,
 }: {
     answerText: string;
     id: string;
-}): JSX.Element => (
-    <div
-        className={css`
-            display: flex;
-            flex-direction: row;
-
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[3]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[4]}px;
-            padding-left: ${space[3]}px;
-            background-color: ${news[400]};
-        `}
-    >
-        <div className={iconStyle}>
-            <SvgCross />
-        </div>
-        <label
-            className={incorrectAnswerLabelStyles}
-            id={id}
-            data-testid={id}
-            data-answertype="incorrect-answer"
-        >
-            {answerText}
-        </label>
-    </div>
-);
+    name: string;
+}): JSX.Element => <AnswerWithoutSVG id={id} name={name} text={answerText} />;
