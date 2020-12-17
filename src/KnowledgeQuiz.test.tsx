@@ -28,12 +28,26 @@ describe('KnowledgeQuiz', () => {
                 !answers.isCorrect && answers.id !== incorrectAnswer.id,
         );
 
+        it('should change answer component when chosen', () => {
+            const { getByTestId, rerender } = render(
+                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+            );
+
+            fireEvent.click(getByTestId(correctAnswer.id));
+            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+
+            expect(
+                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
+            ).toBe('selected-enabled-answer');
+        });
+
         it('should display correct answer when chosen', () => {
             const { getByTestId, rerender } = render(
                 <KnowledgeQuizAtom id="123abc" questions={questions} />,
             );
 
             fireEvent.click(getByTestId(correctAnswer.id));
+            fireEvent.click(getByTestId('submit-quiz'));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
@@ -47,6 +61,7 @@ describe('KnowledgeQuiz', () => {
             );
 
             fireEvent.click(getByTestId(incorrectAnswer.id));
+            fireEvent.click(getByTestId('submit-quiz'));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
@@ -69,6 +84,7 @@ describe('KnowledgeQuiz', () => {
             ).toBe('unselected-enabled-answer');
 
             fireEvent.click(getByTestId(correctAnswer.id));
+            fireEvent.click(getByTestId('submit-quiz'));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(

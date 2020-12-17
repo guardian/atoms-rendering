@@ -148,8 +148,8 @@ export const Question = ({
                 `}
             >
                 <Answers
-                    answers={answers}
                     id={id}
+                    answers={answers}
                     hasSubmittedAnswers={hasSubmittedAnswers}
                 />
             </div>
@@ -231,6 +231,12 @@ const Answers = ({
                     <Radio
                         key={answer.id}
                         value={answer.text}
+                        data-testid={answer.id}
+                        data-answertype={
+                            selected === answer.id
+                                ? 'selected-enabled-answer'
+                                : 'unselected-enabled-answer'
+                        }
                         name={questionId}
                         label={answer.text}
                         onChange={() => setSelected(answer.id)}

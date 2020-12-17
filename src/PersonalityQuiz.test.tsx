@@ -48,7 +48,7 @@ describe('PersonalityQuiz', () => {
 
             expect(
                 getByTestId(selectedAnswer.id).getAttribute('data-answertype'),
-            ).toBe('selected-answer');
+            ).toBe('selected-enabled-answer');
         });
 
         it('should prevent submit unless all answers have been selected', () => {

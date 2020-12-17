@@ -37,12 +37,14 @@ const AnswerWithSVG = ({
     supplementText,
     name,
     isCorrect,
+    answertype,
 }: {
     id: string;
     text: string;
     supplementText?: string;
     name: string;
     isCorrect: boolean;
+    answertype: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -83,6 +85,7 @@ const AnswerWithSVG = ({
                     ${visuallyHidden}
                 `,
             )}
+            data-answertype={answertype}
             required
         />
         <label
@@ -93,7 +96,6 @@ const AnswerWithSVG = ({
 
                 ${body.medium()};
             `}
-            data-answertype="with logo"
         >
             <span
                 className={css`
@@ -121,12 +123,14 @@ const AnswerWithoutSVG = ({
     supplementText,
     name,
     isCorrect,
+    answertype,
 }: {
     id: string;
     text: string;
     supplementText?: string;
     name: string;
     isCorrect?: boolean;
+    answertype: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -154,6 +158,7 @@ const AnswerWithoutSVG = ({
                     ${visuallyHidden}
                 `,
             )}
+            data-answertype={answertype}
             required
         />
         <label
@@ -200,6 +205,7 @@ export const CorrectSelectedAnswer = ({
         text={answerText}
         supplementText={explainerText}
         isCorrect={true}
+        answertype="correct-selected-answer"
     />
 );
 
@@ -212,7 +218,13 @@ export const IncorrectAnswer = ({
     id: string;
     name: string;
 }): JSX.Element => (
-    <AnswerWithSVG id={id} name={name} text={answerText} isCorrect={false} />
+    <AnswerWithSVG
+        id={id}
+        name={name}
+        text={answerText}
+        isCorrect={false}
+        answertype="incorrect-answer"
+    />
 );
 
 export const NonSelectedCorrectAnswer = ({
@@ -232,6 +244,7 @@ export const NonSelectedCorrectAnswer = ({
         text={answerText}
         supplementText={explainerText}
         isCorrect={true}
+        answertype="non-selected-correct-answer"
     />
 );
 
@@ -243,4 +256,11 @@ export const UnselectedAnswer = ({
     answerText: string;
     id: string;
     name: string;
-}): JSX.Element => <AnswerWithoutSVG id={id} name={name} text={answerText} />;
+}): JSX.Element => (
+    <AnswerWithoutSVG
+        id={id}
+        name={name}
+        text={answerText}
+        answertype="unselected-disabled-answer"
+    />
+);

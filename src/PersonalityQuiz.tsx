@@ -307,6 +307,12 @@ const PersonalityQuizAnswers = ({
                         key={answer.id}
                         value={answer.text}
                         label={answer.text}
+                        data-testid={answer.id}
+                        data-answertype={
+                            selectedAnswer === answer.id
+                                ? 'selected-enabled-answer'
+                                : 'unselected-enabled-answer'
+                        }
                         disabled={hasSubmittedAnswers}
                         onChange={() => updateSelectedAnswer(answer.id)}
                         checked={selectedAnswer === answer.id}
