@@ -1,4 +1,10 @@
-import React, { useState, KeyboardEvent, useEffect, MouseEvent } from 'react';
+import React, {
+    useState,
+    KeyboardEvent,
+    useEffect,
+    MouseEvent,
+    Fragment,
+} from 'react';
 import { css, cx } from 'emotion';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
@@ -365,11 +371,11 @@ export const Result = ({
             {resultBuckets.description}
         </div>
         {sharingIcons && (
-            <>
+            <Fragment>
                 <hr />
                 <div className={resultHeaderStyles}>Challenge your friends</div>
                 {sharingIcons}
-            </>
+            </Fragment>
         )}
     </div>
 );

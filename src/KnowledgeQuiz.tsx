@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { css } from 'emotion';
 
 import { body } from '@guardian/src-foundations/typography';
@@ -47,7 +47,7 @@ export const KnowledgeQuizAtom = ({
         false,
     );
     return (
-        <>
+        <Fragment>
             <form data-atom-id={id}>
                 {questions.map((question, idx) => (
                     <Question
@@ -96,7 +96,7 @@ export const KnowledgeQuizAtom = ({
                     Reset
                 </Button>
             </div>
-        </>
+        </Fragment>
     );
 };
 
@@ -170,7 +170,7 @@ const Answers = ({
 
     if (hasSubmittedAnswers) {
         return (
-            <>
+            <Fragment>
                 {answers.map((answer) => {
                     const isSelected = selected === answer.id;
 
@@ -220,7 +220,7 @@ const Answers = ({
                         />
                     );
                 })}
-            </>
+            </Fragment>
         );
     }
 
