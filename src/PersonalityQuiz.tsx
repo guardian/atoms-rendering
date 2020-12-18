@@ -60,46 +60,49 @@ export const findMostReferredToBucketId = ({
     };
     questions: QuestionType[];
 }): string => {
-    // convert { [questionId]: answerId } to { [bucketId]: numberOfTimesSelected }
-    const bucketCounter = Object.keys(selectedAnswers).reduce(
-        (
-            acc: { [key: string]: number },
-            questionId: string,
-        ): { [key: string]: number } => {
+    const bucketCounter: { [key: string]: number } = {};
+
+    const answersFromQuestion: AnswerType[] = Object.keys(selectedAnswers)
+        .map((questionId: string): AnswerType | undefined => {
             const selectedQuestion = questions.find(
                 (question) => question.id === questionId,
             );
-
             const answerId = selectedAnswers[questionId];
             const selectedAnswer =
                 selectedQuestion &&
                 selectedQuestion.answers.find(
                     (answer) => answer.id === answerId,
                 );
+            return selectedAnswer;
+        })
+        .filter(
+            (selectedAnswer): boolean => selectedAnswer !== undefined,
+        ) as AnswerType[];
 
-            selectedAnswer &&
-                selectedAnswer.answerBuckets.forEach((answerBucket) => {
-                    if (answerBucket in acc) {
-                        acc[answerBucket] = acc[answerBucket] + 1;
-                    } else {
-                        acc[answerBucket] = 1;
-                    }
-                });
+    answersFromQuestion.forEach((answerFromQuestion) => {
+        answerFromQuestion.answerBuckets.forEach((answerBucket) => {
+            if (answerBucket in bucketCounter) {
+                bucketCounter[answerBucket] = bucketCounter[answerBucket] + 1;
+            } else {
+                bucketCounter[answerBucket] = 1;
+            }
+        });
+    });
 
-            return acc;
-        },
-        {},
-    );
+    let bucketIdWithHighestCount: string | undefined;
+    Object.keys(bucketCounter).forEach((bucketId) => {
+        if (!bucketIdWithHighestCount) {
+            bucketIdWithHighestCount = bucketId;
+            return;
+        }
 
-    // use bucketCounter to select bucket with highest number of times selected
-    const bucketIdWithHighestCount = Object.keys(bucketCounter).reduce(
-        (acc, cur) => {
-            if (!acc) return cur;
+        bucketIdWithHighestCount =
+            bucketCounter[bucketId] > bucketCounter[bucketIdWithHighestCount]
+                ? bucketId
+                : bucketIdWithHighestCount;
+    });
 
-            return bucketCounter[cur] > bucketCounter[acc] ? cur : acc;
-        },
-    );
-    return bucketIdWithHighestCount;
+    return bucketIdWithHighestCount as string;
 };
 
 export const PersonalityQuizAtom = ({
