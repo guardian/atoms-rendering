@@ -2,16 +2,16 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
-import { exampleQuestions } from '../fixtures/quizAtom';
+import { exampleKnowledgeQuestions } from '../fixtures/knowledgeQuizAtom';
 
-const questions = [exampleQuestions[0]];
+const questions = [exampleKnowledgeQuestions[0]];
 
-import { QuizAtom } from './QuizAtom';
+import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
-describe('QuizAtom', () => {
+describe('KnowledgeQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
-            <QuizAtom id="123abc" questions={questions} />,
+            <KnowledgeQuizAtom id="123abc" questions={questions} />,
         );
         expect(getByText(questions[0].text)).toBeInTheDocument();
     });
@@ -28,13 +28,27 @@ describe('QuizAtom', () => {
                 !answers.isCorrect && answers.id !== incorrectAnswer.id,
         );
 
-        it('should display correct answer when chosen', () => {
+        it('should change answer component when chosen', () => {
             const { getByTestId, rerender } = render(
-                <QuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom id="123abc" questions={questions} />,
             );
 
             fireEvent.click(getByTestId(correctAnswer.id));
-            rerender(<QuizAtom id="123abc" questions={questions} />);
+            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+
+            expect(
+                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
+            ).toBe('selected-enabled-answer');
+        });
+
+        it('should display correct answer when chosen', () => {
+            const { getByTestId, rerender } = render(
+                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+            );
+
+            fireEvent.click(getByTestId(correctAnswer.id));
+            fireEvent.click(getByTestId('submit-quiz'));
+            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
                 getByTestId(correctAnswer.id).getAttribute('data-answertype'),
@@ -43,11 +57,12 @@ describe('QuizAtom', () => {
 
         it('should correct user when incorrect answer chosen', () => {
             const { getByTestId, rerender } = render(
-                <QuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom id="123abc" questions={questions} />,
             );
 
             fireEvent.click(getByTestId(incorrectAnswer.id));
-            rerender(<QuizAtom id="123abc" questions={questions} />);
+            fireEvent.click(getByTestId('submit-quiz'));
+            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
                 getByTestId(incorrectAnswer.id).getAttribute('data-answertype'),
@@ -59,7 +74,7 @@ describe('QuizAtom', () => {
 
         it('should disable selection when answer has been selected', () => {
             const { getByTestId, rerender } = render(
-                <QuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom id="123abc" questions={questions} />,
             );
 
             expect(
@@ -69,7 +84,8 @@ describe('QuizAtom', () => {
             ).toBe('unselected-enabled-answer');
 
             fireEvent.click(getByTestId(correctAnswer.id));
-            rerender(<QuizAtom id="123abc" questions={questions} />);
+            fireEvent.click(getByTestId('submit-quiz'));
+            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
