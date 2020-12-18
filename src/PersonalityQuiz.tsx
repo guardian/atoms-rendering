@@ -19,7 +19,6 @@ type ResultsBucket = {
     id: string;
     title: string;
     description: string;
-    // assets TODO:
 };
 
 type AnswerType = {
@@ -175,7 +174,7 @@ export const PersonalityQuizAtom = ({
                 <PersonalityQuizAnswers
                     key={question.id}
                     id={question.id}
-                    number={idx + 1}
+                    questionNumber={idx + 1}
                     text={question.text}
                     imageUrl={question.imageUrl}
                     answers={question.answers}
@@ -251,7 +250,7 @@ export const PersonalityQuizAtom = ({
 
 type PersonalityQuizAnswersProps = {
     id: string;
-    number: number;
+    questionNumber: number;
     text: string;
     imageUrl?: string;
     answers: AnswerType[];
@@ -262,7 +261,7 @@ type PersonalityQuizAnswersProps = {
 
 const PersonalityQuizAnswers = ({
     id: questionId,
-    number,
+    questionNumber,
     text,
     imageUrl,
     answers,
@@ -282,7 +281,7 @@ const PersonalityQuizAnswers = ({
                         padding-right: 12px;
                     `}
                 >
-                    {number + '.'}
+                    {questionNumber + '.'}
                 </span>
                 {text}
             </legend>
