@@ -225,6 +225,7 @@ export const PersonalityQuizAtom = ({
                     Submit
                 </Button>
                 <Button
+                    priority="secondary"
                     onClick={() => {
                         setSelectedAnswers({});
                         setHasSubmittedAnswers(false);

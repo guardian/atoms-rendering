@@ -84,6 +84,7 @@ export const KnowledgeQuizAtom = ({
                     Submit
                 </Button>
                 <Button
+                    priority="secondary"
                     onClick={() => setHasSubmittedAnswers(false)}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
