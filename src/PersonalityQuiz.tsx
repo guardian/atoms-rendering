@@ -339,7 +339,7 @@ const missingAnswersStyles = css`
 `;
 
 export const MissingAnswers = (): JSX.Element => (
-    <div className={missingAnswersStyles} data-testid="missing-answers">
+    <div className={missingAnswersStyles}>
         You have not answered all the questions.
     </div>
 );

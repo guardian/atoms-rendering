@@ -52,7 +52,7 @@ describe('PersonalityQuiz', () => {
         });
 
         it('should prevent submit unless all answers have been selected', () => {
-            const { getByTestId, rerender } = render(
+            const { getByTestId, getByText, rerender } = render(
                 <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
@@ -69,7 +69,9 @@ describe('PersonalityQuiz', () => {
                 />,
             );
 
-            expect(getByTestId('missing-answers')).toBeTruthy();
+            expect(
+                getByText('You have not answered all the questions.'),
+            ).toBeTruthy();
         });
 
         it('should display response on quiz submit and hide on rest', () => {
