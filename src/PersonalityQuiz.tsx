@@ -204,6 +204,7 @@ export const PersonalityQuizAtom = ({
             )}
             <div
                 className={css`
+                    padding-bottom: ${space[2]}px;
                     display: flex;
                     flex-direction: row;
                     button {
