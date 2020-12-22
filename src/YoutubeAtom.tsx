@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { css, cx } from 'emotion';
 import YouTubePlayer from 'youtube-player';
 
@@ -7,7 +7,6 @@ import { palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { SvgPlay } from '@guardian/src-icons';
 
-import { YoutubeStateChangeEventType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 
@@ -28,6 +27,8 @@ declare global {
         onYouTubeIframeAPIReady: unknown;
     }
 }
+
+type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
 
 type EmbedConfig = {
     adsConfig: {
@@ -88,83 +89,6 @@ export const youtubePlayerState = {
     PAUSED: 2,
     BUFFERING: 3,
     CUED: 5,
-};
-
-let progressTracker: NodeJS.Timeout | null;
-
-// use booleans make sure that only 1 event has been sent per video
-const eventState: { [key: string]: boolean } = {
-    play: false,
-    end: false,
-    '25': false,
-    '50': false,
-    '75': false,
-};
-
-export const onPlayerStateChangeAnalytics = ({
-    e,
-    setHasUserLaunchedPlay,
-    eventEmitters,
-    player,
-}: {
-    e: YoutubeStateChangeEventType;
-    setHasUserLaunchedPlay: (userLaunchEvent: boolean) => void;
-    eventEmitters: ((event: VideoEventKey) => void)[];
-    player: YoutubePlayerType;
-}): void => {
-    switch (e.data) {
-        case youtubePlayerState.PLAYING: {
-            setHasUserLaunchedPlay(true);
-
-            if (!eventState['play']) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-                eventState['play'] = true;
-            }
-
-            // Need to remove previous setInterval if already exists
-            if (progressTracker) clearInterval(progressTracker);
-
-            // NOTE: you will not be able to set React state in setInterval
-            // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-            progressTracker = setInterval(async () => {
-                const currentTime = await player.getCurrentTime();
-                const duration = await player.getDuration();
-
-                // Note that getDuration() will return 0 until the video's metadata is loaded
-                // which normally happens just after the video starts playing.
-                if (duration === 0) return;
-
-                const percentPlayed = Math.round(
-                    (currentTime / duration) * 100,
-                ) as number;
-
-                if (
-                    `${percentPlayed}` in eventState &&
-                    !eventState[percentPlayed]
-                ) {
-                    eventEmitters.forEach((eventEmitter) =>
-                        eventEmitter(`${percentPlayed}` as VideoEventKey),
-                    );
-                    eventState[percentPlayed] = true;
-                }
-            }, 500);
-            break;
-        }
-        case youtubePlayerState.PAUSED: {
-            progressTracker && clearInterval(progressTracker);
-            break;
-        }
-        // ended
-        case youtubePlayerState.ENDED: {
-            if (!eventState['end']) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-                eventState['end'] = true;
-            }
-
-            progressTracker && clearInterval(progressTracker);
-            break;
-        }
-    }
 };
 
 const overlayStyles = css`
@@ -249,9 +173,9 @@ type YoutubePlayerType = {
     playVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
+    getPlayerState: () => number;
 };
 
-let player: YoutubePlayerType | undefined;
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     videoMeta,
@@ -274,25 +198,85 @@ export const YoutubeAtom = ({
         false,
     );
 
+    const player = useRef<YoutubePlayerType>();
+
     useEffect(() => {
-        if (!player) {
-            player = YouTubePlayer(`youtube-video-${videoMeta.assetId}`);
+        if (!player.current) {
+            player.current = YouTubePlayer(
+                `youtube-video-${videoMeta.assetId}`,
+            );
         }
-        const listener = player?.on(
+
+        let hasSentPlayEvent = false;
+        let hasSent25Event = false;
+        let hasSent50Event = false;
+        let hasSent75Event = false;
+
+        const listener = player.current?.on(
             'stateChange',
             (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                if (player) {
-                    onPlayerStateChangeAnalytics({
-                        e,
-                        setHasUserLaunchedPlay,
-                        eventEmitters,
-                        player,
-                    });
+                if (e.data === youtubePlayerState.PLAYING) {
+                    if (!hasSentPlayEvent) {
+                        eventEmitters.forEach((eventEmitter) =>
+                            eventEmitter('play'),
+                        );
+                        hasSentPlayEvent = true;
+
+                        setTimeout(() => {
+                            checkProgress();
+                        }, 3000);
+                    }
+
+                    const checkProgress = async () => {
+                        if (!player || !player.current) return null;
+                        const currentTime = await player.current?.getCurrentTime();
+                        const duration = await player.current?.getDuration();
+
+                        if (!duration || !currentTime) return;
+
+                        const percentPlayed = (currentTime / duration) * 100;
+
+                        if (!hasSent25Event && 25 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('25'),
+                            );
+                            hasSent25Event = true;
+                        }
+
+                        if (!hasSent50Event && 50 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('50'),
+                            );
+                            hasSent50Event = true;
+                        }
+
+                        if (!hasSent75Event && 75 < percentPlayed) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('75'),
+                            );
+                            hasSent75Event = true;
+                        }
+
+                        const currentPlayerState = await player.current?.getPlayerState();
+
+                        if (currentPlayerState !== youtubePlayerState.ENDED) {
+                            // Set a timeout to check progress again in the future
+                            window.setTimeout(() => checkProgress(), 3000);
+                        }
+                    };
+                }
+
+                if (e.data === youtubePlayerState.ENDED) {
+                    eventEmitters.forEach((eventEmitter) =>
+                        eventEmitter('end'),
+                    );
                 }
             },
         );
 
-        return () => listener && player?.off(listener);
+        return () => {
+            listener && player.current?.off(listener);
+        };
     }, [eventEmitters]);
 
     return (
@@ -311,12 +295,17 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
-                    onClick={() => player?.playVideo()}
+                    onClick={() => {
+                        setHasUserLaunchedPlay(true);
+                        player.current?.playVideo();
+                    }}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
-                            player?.playVideo();
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                            setHasUserLaunchedPlay(true);
+                            player.current?.playVideo();
+                        }
                     }}
                     className={cx(
                         overlayStyles,
