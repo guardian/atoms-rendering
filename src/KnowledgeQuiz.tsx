@@ -2,7 +2,6 @@ import React, { useState, Fragment } from 'react';
 import { css } from 'emotion';
 
 import { body } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 import { Button } from '@guardian/src-button';
 
@@ -64,7 +63,6 @@ export const KnowledgeQuizAtom = ({
             </form>
             <div
                 className={css`
-                    padding-bottom: ${space[2]}px;
                     display: flex;
                     flex-direction: row;
                     button {
