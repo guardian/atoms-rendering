@@ -215,6 +215,7 @@ export const PersonalityQuizAtom = ({
                     type="submit"
                     onClick={onSubmit}
                     onKeyDown={(e) => {
+                        e.preventDefault();
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey)
