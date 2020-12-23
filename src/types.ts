@@ -114,3 +114,29 @@ export type VideoAtomType = {
     height?: number;
     width?: number;
 };
+
+type Weighting =
+    | 'inline'
+    | 'thumbnail'
+    | 'supporting'
+    | 'showcase'
+    | 'halfwidth'
+    | 'immersive';
+
+export type SrcSetItem = { src: string; width: number };
+
+export type ImageSource = {
+    weighting: Weighting;
+    srcSet: SrcSetItem[];
+};
+
+// aka weighting. RoleType affects how an image is placed. It is called weighting
+// in Composer but role in CAPI. We respect CAPI so we maintain this nomenclature
+// in DCR
+export type RoleType =
+    | 'immersive'
+    | 'supporting'
+    | 'showcase'
+    | 'inline'
+    | 'thumbnail'
+    | 'halfWidth';
