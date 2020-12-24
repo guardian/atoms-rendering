@@ -301,6 +301,7 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
+                    id={`youtube-overlay-${videoMeta.assetId}`}
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
                         player.current?.playVideo();
