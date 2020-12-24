@@ -126,7 +126,6 @@ export const Picture = ({
     height,
     width,
     isMainMedia = false,
-    isLazy = true,
 }: Props): JSX.Element => {
     const hdpiSources = getSources(role, 'hdpi', imageSources);
     const mdpiSources = getSources(role, 'mdpi', imageSources);
