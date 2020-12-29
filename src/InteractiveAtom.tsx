@@ -4,7 +4,7 @@ import { css } from 'emotion';
 import { unifyPageContent } from './lib/unifyPageContent';
 import { InteractiveAtomType } from './types';
 
-const figureStyles = css`
+const containerStyles = css`
     margin: 0;
 `;
 
@@ -18,8 +18,8 @@ export const InteractiveAtom = ({
     js,
     css,
 }: InteractiveAtomType): JSX.Element => (
-    <figure
-        className={figureStyles}
+    <div
+        className={containerStyles}
         data-atom-id={id}
         data-atom-type="interactive"
     >
@@ -28,5 +28,5 @@ export const InteractiveAtom = ({
             srcDoc={unifyPageContent({ js, css, html })}
             frameBorder="0"
         />
-    </figure>
+    </div>
 );
