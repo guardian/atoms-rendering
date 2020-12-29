@@ -357,7 +357,9 @@ export const AudioAtom = ({
                     </audio>
                     <div className={audioControlsStyle}>
                         <button
-                            data-testid="play-button"
+                            data-testid={
+                                isPlaying ? 'pause-button' : 'play-button'
+                            }
                             onClick={() =>
                                 isPlaying ? pauseAudio() : playAudio()
                             }
