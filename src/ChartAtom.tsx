@@ -13,7 +13,6 @@ export const ChartAtom = ({ id, html }: ChartAtomType): JSX.Element => {
             data-snippet-type="chart"
             className={css`
                 padding-bottom: ${space[1]}px;
-                margin-bottom: ${space[2]}px;
             `}
         >
             <iframe

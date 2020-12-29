@@ -10,6 +10,7 @@ import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
 
 const wrapperStyles = css`
+    width: 100%;
     border-image: repeating-linear-gradient(
             to bottom,
             ${palette.neutral[86]},
@@ -25,10 +26,6 @@ const wrapperStyles = css`
     padding-right: 5px;
     padding-bottom: 1px;
     margin: 16px 0 36px;
-`;
-
-const figureStyle = css`
-    width: 100%;
 `;
 
 const kickerStyle = (pillar: Pillar) => css`
@@ -55,7 +52,7 @@ const audioControlsStyle = css`
     box-sizing: content-box;
     padding: 5px;
     width: 50px;
-    height: 55px;
+    height: 50px;
 `;
 
 const buttonStyle = css`
@@ -67,6 +64,7 @@ const buttonStyle = css`
     :focus {
         ${focusHalo}
     }
+    height: 50px;
 `;
 
 const svgPlayStyle = css`
@@ -326,79 +324,69 @@ export const AudioAtom = ({
     };
 
     return (
-        <figure
-            className={figureStyle}
-            data-atom-id={id}
-            data-atom-type="audio"
-        >
-            <div className={wrapperStyles}>
-                <div
-                    className={css`
-                        padding-left: 5px;
-                    `}
+        <div className={wrapperStyles} data-atom-id={id} data-atom-type="audio">
+            <div
+                className={css`
+                    padding-left: 5px;
+                `}
+            >
+                <span className={kickerStyle(pillar)}>{kicker}</span>
+                <h4 className={titleStyle}>{title}</h4>
+            </div>
+            <div className={audioBodyStyle}>
+                <audio
+                    className={audioElementStyle}
+                    src={urlToUse}
+                    ref={audioEl}
+                    data-duration={durationTime}
+                    data-media-id={id || '_no_ids'}
+                    data-title={titleStyle}
                 >
-                    <span className={kickerStyle(pillar)}>{kicker}</span>
-                    <h4 className={titleStyle}>{title}</h4>
-                </div>
-                <div className={audioBodyStyle}>
-                    <audio
-                        className={audioElementStyle}
-                        src={urlToUse}
-                        ref={audioEl}
-                        data-duration={durationTime}
-                        data-media-id={id || '_no_ids'}
-                        data-title={titleStyle}
+                    <p>
+                        Sorry your browser does not support audio - but you can
+                        download here and listen
+                        https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3
+                    </p>
+                </audio>
+                <div className={audioControlsStyle}>
+                    <button
+                        data-testid={isPlaying ? 'pause-button' : 'play-button'}
+                        onClick={() => (isPlaying ? pauseAudio() : playAudio())}
+                        className={buttonStyle}
                     >
-                        <p>
-                            Sorry your browser does not support audio - but you
-                            can download here and listen
-                            https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3
-                        </p>
-                    </audio>
-                    <div className={audioControlsStyle}>
-                        <button
-                            data-testid={
-                                isPlaying ? 'pause-button' : 'play-button'
-                            }
-                            onClick={() =>
-                                isPlaying ? pauseAudio() : playAudio()
-                            }
-                            className={buttonStyle}
-                        >
-                            {isPlaying ? (
-                                <PauseSVG pillar={pillar} />
-                            ) : (
-                                <PlaySVG pillar={pillar} />
-                            )}
-                        </button>
+                        {isPlaying ? (
+                            <PauseSVG pillar={pillar} />
+                        ) : (
+                            <PlaySVG pillar={pillar} />
+                        )}
+                    </button>
+                </div>
+                <div className={timingStyle}>
+                    <div className={timePlayedStyle}>
+                        <span className={timeStyles}>
+                            {formatTime(currentTime)}
+                        </span>
                     </div>
-                    <div className={timingStyle}>
-                        <div className={timePlayedStyle}>
-                            <span className={timeStyles}>
-                                {formatTime(currentTime)}
-                            </span>
-                        </div>
-                        <div className={progressBarStyle}>
-                            <input
-                                className={progressBarInputStyle(pillar)}
-                                ref={progressBarEl}
-                                type="range"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value={percentPlayed}
-                                onClick={updateAudioCurrentTime}
-                                readOnly={true}
-                            />
-                        </div>
-                        <div className={timeDurationStyle}>
-                            <span className={timeStyles}>
-                                {formatTime(durationTime)}
-                            </span>
-                        </div>
+                    <div className={progressBarStyle}>
+                        <input
+                            className={progressBarInputStyle(pillar)}
+                            ref={progressBarEl}
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value={percentPlayed}
+                            onClick={updateAudioCurrentTime}
+                            readOnly={true}
+                        />
+                    </div>
+                    <div className={timeDurationStyle}>
+                        <span className={timeStyles}>
+                            {formatTime(durationTime)}
+                        </span>
                     </div>
                 </div>
             </div>
-        </figure>
+        </div>
     );
 };
