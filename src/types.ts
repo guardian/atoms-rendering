@@ -6,8 +6,6 @@ export type AdTargeting = {
     customParams: { [key: string]: any };
 };
 
-export type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
-
 export type AudioAtomType = {
     id: string;
     trackUrl: string;
@@ -116,3 +114,20 @@ export type VideoAtomType = {
     height?: number;
     width?: number;
 };
+
+export type SrcSetItem = { src: string; width: number };
+
+export type ImageSource = {
+    srcSet: SrcSetItem[];
+};
+
+// aka weighting. RoleType affects how an image is placed. It is called weighting
+// in Composer but role in CAPI. We respect CAPI so we maintain this nomenclature
+// in DCR
+export type RoleType =
+    | 'immersive'
+    | 'supporting'
+    | 'showcase'
+    | 'inline'
+    | 'thumbnail'
+    | 'halfWidth';
