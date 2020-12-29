@@ -14,6 +14,8 @@ describe('YoutubeAtom', () => {
                     assetId,
                     mediaTitle: 'YoutubeAtom',
                 }}
+                alt=""
+                role="inline"
                 eventEmitters={[]}
             />
         );

@@ -9,15 +9,19 @@ import { SvgPlay } from '@guardian/src-icons';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
+import { Picture } from './Picture';
+import { ImageSource, RoleType } from './types';
 
 type Props = {
     videoMeta: YoutubeMeta;
-    overlayImage?: { src: string; alt: string };
-    posterImage?: { srcSet: { url: string; width: number }[]; alt: string };
+    overlayImage?: ImageSource[];
+    posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
     height?: number;
     width?: number;
     title?: string;
+    alt: string;
+    role: RoleType;
     duration?: number; // in seconds
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
@@ -184,6 +188,8 @@ export const YoutubeAtom = ({
     adTargeting,
     height = 259,
     width = 460,
+    alt,
+    role,
     title = 'YouTube video player',
     duration,
     origin,
@@ -295,6 +301,7 @@ export const YoutubeAtom = ({
 
             {(overlayImage || posterImage) && (
                 <div
+                    id={`youtube-overlay-${videoMeta.assetId}`}
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
                         player.current?.playVideo();
@@ -310,29 +317,21 @@ export const YoutubeAtom = ({
                     className={cx(
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
+                        css`
+                            img {
+                                height: 100%;
+                                width: 100%;
+                            }
+                        `,
                     )}
                     tabIndex={0}
                 >
-                    <img
-                        className={css`
-                            height: 100%;
-                            width: 100%;
-                        `}
-                        src={overlayImage ? overlayImage.src : ''}
-                        srcSet={
-                            // if overlayImage exists we should favor that image instead of posterImage
-                            // therefore srcSet should be empty if overlayImage exists
-                            !overlayImage && posterImage
-                                ? posterImage.srcSet
-                                      .map((set) => `${set.url} ${set.width}w`)
-                                      .join(',')
-                                : ''
-                        }
-                        alt={
-                            (overlayImage && overlayImage.alt) ||
-                            (posterImage && posterImage.alt) ||
-                            ''
-                        }
+                    <Picture
+                        imageSources={overlayImage || posterImage || []}
+                        role={role}
+                        alt={alt}
+                        height={`${height}`}
+                        width={`${width}`}
                     />
                     <div className={overlayInfoWrapperStyles}>
                         <div
