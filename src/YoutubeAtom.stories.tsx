@@ -17,11 +17,7 @@ export const DefaultStory = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                videoMeta={{
-                    assetId: '-ZCvZmYlQD8',
-                    mediaTitle:
-                        "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
-                }}
+                assetId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -33,7 +29,7 @@ export const DefaultStory = (): JSX.Element => {
     );
 };
 
-export const WithOverlayImage = (): JSX.Element => {
+export const WithOverrideImage = (): JSX.Element => {
     return (
         <div
             className={css`
@@ -42,18 +38,14 @@ export const WithOverlayImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                videoMeta={{
-                    assetId: '3jpXAMwRSu4',
-                    mediaTitle:
-                        "Rayshard Brooks says US justice system treats people 'like animals' in interview before his death",
-                }}
+                assetId="3jpXAMwRSu4"
                 alt="Microscopic image of COVID"
                 role="inline"
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                overlayImage={[
+                overrideImage={[
                     {
                         srcSet: [
                             {
@@ -78,11 +70,7 @@ export const WithPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                videoMeta={{
-                    assetId: 'N9Cgy-ke5-s',
-                    mediaTitle:
-                        'Broken promises and alternative facts: how Donald Trump failed Ohio – video ',
-                }}
+                assetId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -129,18 +117,14 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                videoMeta={{
-                    assetId: 'N9Cgy-ke5-s',
-                    mediaTitle:
-                        'Broken promises and alternative facts: how Donald Trump failed Ohio – video ',
-                }}
+                assetId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                overlayImage={[
+                overrideImage={[
                     {
                         srcSet: [
                             {
