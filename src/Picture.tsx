@@ -32,29 +32,20 @@ const getClosestSetForWidth = (
 
 const getSourcesForRoleAndResolution = (
     imageSources: ImageSource[],
-    role: RoleType,
     resolution: ResolutionType,
 ) => {
-    const setsForRole = imageSources.filter(
-        ({ weighting }) =>
-            // Use toLowerCase to handle cases where we have halfWidth comparing to halfwidth
-            weighting.toLowerCase() === role.toLowerCase(),
-    )[0].srcSet;
-
     return resolution === 'hdpi'
-        ? setsForRole.filter((set) => set.src.includes('dpr=2'))
-        : setsForRole.filter((set) => !set.src.includes('dpr=2'));
+        ? imageSources[0].srcSet.filter((set) => set.src.includes('dpr=2'))
+        : imageSources[0].srcSet.filter((set) => !set.src.includes('dpr=2'));
 };
 
 const getFallback = (
-    role: RoleType,
     resolution: ResolutionType,
     imageSources: ImageSource[],
 ): string | undefined => {
     // Get the sources for this role and resolution
     const sources: SrcSetItem[] = getSourcesForRoleAndResolution(
         imageSources,
-        role,
         resolution,
     );
     if (sources.length === 0) return undefined;
@@ -64,14 +55,12 @@ const getFallback = (
 };
 
 const getSources = (
-    role: RoleType,
     resolution: ResolutionType,
     imageSources: ImageSource[],
 ): string => {
     // Get the sources for this role and resolution
     const sources: SrcSetItem[] = getSourcesForRoleAndResolution(
         imageSources,
-        role,
         resolution,
     );
 
@@ -127,9 +116,9 @@ export const Picture = ({
     width,
     isMainMedia = false,
 }: Props): JSX.Element => {
-    const hdpiSources = getSources(role, 'hdpi', imageSources);
-    const mdpiSources = getSources(role, 'mdpi', imageSources);
-    const fallbackSrc = getFallback(role, 'hdpi', imageSources);
+    const hdpiSources = getSources('hdpi', imageSources);
+    const mdpiSources = getSources('mdpi', imageSources);
+    const fallbackSrc = getFallback('hdpi', imageSources);
     const sizes = getSizes(role, isMainMedia);
 
     return (

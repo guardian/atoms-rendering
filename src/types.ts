@@ -115,18 +115,9 @@ export type VideoAtomType = {
     width?: number;
 };
 
-type Weighting =
-    | 'inline'
-    | 'thumbnail'
-    | 'supporting'
-    | 'showcase'
-    | 'halfwidth'
-    | 'immersive';
-
 export type SrcSetItem = { src: string; width: number };
 
 export type ImageSource = {
-    weighting: Weighting;
     srcSet: SrcSetItem[];
 };
 

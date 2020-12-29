@@ -55,7 +55,6 @@ export const WithOverlayImage = (): JSX.Element => {
                 duration={252}
                 overlayImage={[
                     {
-                        weighting: 'inline',
                         srcSet: [
                             {
                                 width: 500,
@@ -92,7 +91,6 @@ export const WithPosterImage = (): JSX.Element => {
                 duration={252}
                 posterImage={[
                     {
-                        weighting: 'inline',
                         srcSet: [
                             {
                                 src:
@@ -144,7 +142,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 duration={252}
                 overlayImage={[
                     {
-                        weighting: 'inline',
                         srcSet: [
                             {
                                 src:
@@ -156,7 +153,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 posterImage={[
                     {
-                        weighting: 'inline',
                         srcSet: [
                             {
                                 src:
