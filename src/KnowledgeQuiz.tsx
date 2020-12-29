@@ -43,6 +43,10 @@ export const KnowledgeQuizAtom = ({
     id,
     questions,
 }: QuizAtomType): JSX.Element => {
+    const [selectedAnswers, setSelectedAnswers] = useState<{
+        [key: string]: string;
+    }>({});
+
     const [hasSubmittedAnswers, setHasSubmittedAnswers] = useState<boolean>(
         false,
     );
@@ -58,6 +62,13 @@ export const KnowledgeQuizAtom = ({
                         imageUrl={question.imageUrl}
                         answers={question.answers}
                         hasSubmittedAnswers={hasSubmittedAnswers}
+                        selectedAnswers={selectedAnswers}
+                        updateSelectedAnswer={(selectedAnswerId: string) => {
+                            setSelectedAnswers({
+                                ...selectedAnswers,
+                                [question.id]: selectedAnswerId,
+                            });
+                        }}
                     />
                 ))}
             </form>
@@ -85,12 +96,17 @@ export const KnowledgeQuizAtom = ({
                 </Button>
                 <Button
                     priority="secondary"
-                    onClick={() => setHasSubmittedAnswers(false)}
+                    onClick={() => {
+                        setHasSubmittedAnswers(false);
+                        setSelectedAnswers({});
+                    }}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
+                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
                             setHasSubmittedAnswers(false);
+                            setSelectedAnswers({});
+                        }
                     }}
                     data-testid="reset-quiz"
                 >
@@ -108,9 +124,15 @@ export const Question = ({
     answers,
     number,
     hasSubmittedAnswers,
+    selectedAnswers,
+    updateSelectedAnswer,
 }: QuestionType & {
     number: number;
     hasSubmittedAnswers: boolean;
+    selectedAnswers: {
+        [key: string]: string;
+    };
+    updateSelectedAnswer: (selectedAnswerId: string) => void;
 }): JSX.Element => (
     <div
         className={css`
@@ -152,6 +174,8 @@ export const Question = ({
                     id={id}
                     answers={answers}
                     hasSubmittedAnswers={hasSubmittedAnswers}
+                    selectedAnswers={selectedAnswers}
+                    updateSelectedAnswer={updateSelectedAnswer}
                 />
             </div>
         </fieldset>
@@ -162,18 +186,23 @@ const Answers = ({
     answers,
     id: questionId,
     hasSubmittedAnswers,
+    selectedAnswers,
+    updateSelectedAnswer,
 }: {
     answers: AnswerType[];
     id: string;
     hasSubmittedAnswers: boolean;
+    selectedAnswers: {
+        [key: string]: string;
+    };
+    updateSelectedAnswer: (selectedAnswerId: string) => void;
 }) => {
-    const [selected, setSelected] = useState<string | undefined>(undefined);
-
     if (hasSubmittedAnswers) {
         return (
             <Fragment>
                 {answers.map((answer) => {
-                    const isSelected = selected === answer.id;
+                    const isSelected =
+                        selectedAnswers[questionId] === answer.id;
 
                     if (isSelected) {
                         if (answer.isCorrect) {
@@ -234,14 +263,14 @@ const Answers = ({
                         value={answer.text}
                         data-testid={answer.id}
                         data-answertype={
-                            selected === answer.id
+                            selectedAnswers[questionId] === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
                         }
                         name={questionId}
                         label={answer.text}
-                        onChange={() => setSelected(answer.id)}
-                        checked={selected === answer.id}
+                        onChange={() => updateSelectedAnswer(answer.id)}
+                        checked={selectedAnswers[questionId] === answer.id}
                     />
                 ))}
             </RadioGroup>

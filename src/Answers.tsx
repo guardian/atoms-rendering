@@ -87,6 +87,7 @@ const AnswerWithSVG = ({
             )}
             data-answertype={answertype}
             required
+            tabIndex={-1}
         />
         <label
             className={css`
@@ -124,6 +125,7 @@ const AnswerWithoutSVG = ({
     name,
     isCorrect,
     answertype,
+    hasBeenAnswered,
 }: {
     id: string;
     text: string;
@@ -131,6 +133,7 @@ const AnswerWithoutSVG = ({
     name: string;
     isCorrect?: boolean;
     answertype: string;
+    hasBeenAnswered: boolean;
 }): JSX.Element => (
     <div
         className={css`
@@ -160,6 +163,7 @@ const AnswerWithoutSVG = ({
             )}
             data-answertype={answertype}
             required
+            tabIndex={hasBeenAnswered ? -1 : 0}
         />
         <label
             className={css`
@@ -206,6 +210,7 @@ export const CorrectSelectedAnswer = ({
         supplementText={explainerText}
         isCorrect={true}
         answertype="correct-selected-answer"
+        hasBeenAnswered={true}
     />
 );
 
@@ -262,5 +267,6 @@ export const UnselectedAnswer = ({
         name={name}
         text={answerText}
         answertype="unselected-disabled-answer"
+        hasBeenAnswered={false}
     />
 );
