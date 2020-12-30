@@ -4,16 +4,12 @@ import { render } from '@testing-library/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 
-const assetId = '-ZCvZmYlQD8';
 describe('YoutubeAtom', () => {
     it('should render', () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                videoMeta={{
-                    assetId,
-                    mediaTitle: 'YoutubeAtom',
-                }}
+                assetId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}

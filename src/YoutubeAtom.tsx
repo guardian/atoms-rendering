@@ -13,8 +13,8 @@ import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
 
 type Props = {
-    videoMeta: YoutubeMeta;
-    overlayImage?: ImageSource[];
+    assetId: string;
+    overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
     height?: number;
@@ -72,17 +72,6 @@ const constructQuery = (query: { [key: string]: any }): string =>
             return `${param}=${queryValue}`;
         })
         .join('&');
-
-type YoutubeMeta = {
-    assetId: string;
-    mediaTitle: string;
-    id?: string;
-    channelId?: string;
-    duration?: number;
-    posterSrc?: string;
-    height?: string;
-    width?: string;
-};
 
 type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 
@@ -182,15 +171,15 @@ type YoutubePlayerType = {
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
-    videoMeta,
-    overlayImage,
+    assetId,
+    overrideImage,
     posterImage,
     adTargeting,
     height = 259,
     width = 460,
     alt,
     role,
-    title = 'YouTube video player',
+    title,
     duration,
     origin,
     eventEmitters,
@@ -198,7 +187,7 @@ export const YoutubeAtom = ({
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
     const originString = origin ? `&origin=${origin}` : '';
-    const iframeSrc = `https://www.youtube.com/embed/${videoMeta.assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
+    const iframeSrc = `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
 
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
@@ -208,9 +197,7 @@ export const YoutubeAtom = ({
 
     useEffect(() => {
         if (!player.current) {
-            player.current = YouTubePlayer(
-                `youtube-video-${videoMeta.assetId}`,
-            );
+            player.current = YouTubePlayer(`youtube-video-${assetId}`);
         }
 
         let hasSentPlayEvent = false;
@@ -291,17 +278,17 @@ export const YoutubeAtom = ({
                 title={title}
                 width={width}
                 height={height}
-                id={`youtube-video-${videoMeta.assetId}`}
+                id={`youtube-video-${assetId}`}
                 src={iframeSrc}
                 // needed in order to allow `player.playVideo();` to be able to run
                 // https://stackoverflow.com/a/53298579/7378674
                 allow="autoplay"
-                tabIndex={overlayImage || posterImage ? -1 : 0}
+                tabIndex={overrideImage || posterImage ? -1 : 0}
             />
 
-            {(overlayImage || posterImage) && (
+            {(overrideImage || posterImage) && (
                 <div
-                    id={`youtube-overlay-${videoMeta.assetId}`}
+                    id={`youtube-overlay-${assetId}`}
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
                         player.current?.playVideo();
@@ -327,7 +314,7 @@ export const YoutubeAtom = ({
                     tabIndex={0}
                 >
                     <Picture
-                        imageSources={overlayImage || posterImage || []}
+                        imageSources={overrideImage || posterImage || []}
                         role={role}
                         alt={alt}
                         height={`${height}`}
