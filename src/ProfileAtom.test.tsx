@@ -1,7 +1,9 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
 
+import '@testing-library/jest-dom/extend-expect';
+import { render, fireEvent, screen } from '@testing-library/react';
+
+import { Pillar } from './types';
 import { ProfileAtom } from './ProfileAtom';
 
 describe('ProfileAtom', () => {
@@ -13,7 +15,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar="sport"
+                pillar={Pillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}
@@ -46,7 +48,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar="sport"
+                pillar={Pillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}
@@ -66,7 +68,7 @@ describe('ProfileAtom', () => {
         expect(queryByText('Thank you for your feedback.')).not.toBeVisible();
 
         // Fire like event
-        fireEvent.click(queryByTestId('like'));
+        fireEvent.click(queryByTestId('like') as HTMLElement);
         // Feedback should be visible, like button should be hidden
         expect(queryByText('Thank you for your feedback.')).toBeVisible();
         expect(queryByTestId('like')).not.toBeVisible();
@@ -80,7 +82,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar="sport"
+                pillar={Pillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}
@@ -100,7 +102,7 @@ describe('ProfileAtom', () => {
         expect(queryByText('Thank you for your feedback.')).not.toBeVisible();
 
         // Fire dislike event
-        fireEvent.click(queryByTestId('dislike'));
+        fireEvent.click(queryByTestId('dislike') as HTMLElement);
         // Feedback should be visible, like button should be hidden
         expect(queryByText('Thank you for your feedback.')).toBeVisible();
         expect(queryByTestId('dislike')).not.toBeVisible();

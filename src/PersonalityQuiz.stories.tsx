@@ -5,7 +5,7 @@ import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
-} from '../fixtures/personalityQuizAtom';
+} from './fixtures/personalityQuizAtom';
 
 export default {
     title: 'PersonalityQuizAtom',

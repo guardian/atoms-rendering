@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
 import { QandaAtom } from './QandaAtom';
-import { imageStory } from '../fixtures/qandaAtom';
+import { imageStory } from './fixtures/qandaAtom';
 
 describe('QandaAtom', () => {
     it('should render & expand works', () => {
@@ -35,7 +35,7 @@ describe('QandaAtom', () => {
         expect(queryByText('Thank you for your feedback.')).not.toBeVisible();
 
         // Fire like event
-        fireEvent.click(queryByTestId('like'));
+        fireEvent.click(queryByTestId('like') as HTMLElement);
         // Feedback should be visible, like button should be hidden
         expect(queryByText('Thank you for your feedback.')).toBeVisible();
         expect(queryByTestId('like')).not.toBeVisible();
@@ -53,7 +53,7 @@ describe('QandaAtom', () => {
         expect(queryByText('Thank you for your feedback.')).not.toBeVisible();
 
         // Fire dislike event
-        fireEvent.click(queryByTestId('dislike'));
+        fireEvent.click(queryByTestId('dislike') as HTMLElement);
         // Feedback should be visible, like button should be hidden
         expect(queryByText('Thank you for your feedback.')).toBeVisible();
         expect(queryByTestId('dislike')).not.toBeVisible();

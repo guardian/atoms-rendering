@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { ChartAtom } from './ChartAtom';
-import { html } from '../fixtures/chartAtoms';
+import { html } from './fixtures/chartAtoms';
 
 import { atomResizer, atomGuScriptSwap } from './lib/platformExampleScripts';
 
