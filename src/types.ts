@@ -1,4 +1,11 @@
-import { Pillar } from '@guardian/types/Format';
+export const enum Pillar {
+    News = 0,
+    Opinion = 1,
+    Sport = 2,
+    Culture = 3,
+    Lifestyle = 4,
+    Labs = 5,
+}
 
 export type AdTargeting = {
     adUnit: string;

@@ -1,4 +1,3 @@
-import { Pillar } from '@guardian/types/Format';
 import {
     news,
     opinion,
@@ -6,6 +5,8 @@ import {
     culture,
     lifestyle,
 } from '@guardian/src-foundations/palette';
+
+import { Pillar } from '../types';
 
 type colour = string;
 
@@ -23,4 +24,5 @@ export const pillarPalette: Record<Pillar, PillarColours> = {
     [Pillar.Sport]: sport,
     [Pillar.Culture]: culture,
     [Pillar.Lifestyle]: lifestyle,
+    [Pillar.Labs]: lifestyle, // TODO: Get editorial palette from Source
 };
