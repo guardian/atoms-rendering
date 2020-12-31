@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Pillar } from './types';
+import { Pillar } from '@guardian/types/Format';
 import { ProfileAtom } from './ProfileAtom';
 
 export default {

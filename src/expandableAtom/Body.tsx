@@ -5,7 +5,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { SvgInfo } from '@guardian/src-icons';
 
-import { Pillar } from '../types';
+import { Pillar } from '@guardian/types/Format';
 import { pillarPalette } from '../lib/pillarPalette';
 
 // .forceHeightAndWidth needed at the moment to override global image sizing

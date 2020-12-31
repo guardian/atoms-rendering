@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { neutral, text } from '@guardian/src-foundations/palette';
 
-import { Pillar } from '../types';
+import { Pillar } from '@guardian/types/Format';
 import { Summary } from './Summary';
 
 const containerStyling = css`
