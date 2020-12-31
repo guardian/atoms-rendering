@@ -1,6 +1,9 @@
 import React from 'react';
 import { css } from 'emotion';
+
 import { neutral, text } from '@guardian/src-foundations/palette';
+
+import { Pillar } from '../types';
 import { Summary } from './Summary';
 
 const containerStyling = css`
@@ -50,7 +53,7 @@ export const Container = ({
 }: {
     id: string;
     title: string;
-    pillar: string;
+    pillar: Pillar;
     expandForStorybook?: boolean;
     atomType: string;
     atomTypeTitle: string;

@@ -5,7 +5,7 @@ import {
     imageStoryExpanded,
     listStoryExpanded,
     imageStoryWithCreditExpanded,
-} from '../fixtures/qandaAtom';
+} from './fixtures/qandaAtom';
 
 export default {
     title: 'QandaAtom',

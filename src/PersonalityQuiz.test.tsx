@@ -5,7 +5,7 @@ import { render, fireEvent } from '@testing-library/react';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
-} from '../fixtures/personalityQuizAtom';
+} from './fixtures/personalityQuizAtom';
 
 import {
     PersonalityQuizAtom,

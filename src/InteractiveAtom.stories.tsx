@@ -1,7 +1,7 @@
 import React from 'react';
 import { css as emotionCSS } from 'emotion';
 
-import { InteractiveAtomBlockElement } from '../fixtures/InteractiveAtomBlockElement';
+import { InteractiveAtomBlockElement } from './fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
 
 export default {
