@@ -1,4 +1,4 @@
-import { Pillar } from '../types';
+import { Pillar } from '@guardian/types/Format';
 
 const NewsEvents = [
     {

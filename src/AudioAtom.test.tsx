@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { screen, fireEvent } from '@testing-library/dom';
 
-import { Pillar } from './types';
+import { Pillar } from '@guardian/types/Format';
 
 import { AudioAtom } from './AudioAtom';
 

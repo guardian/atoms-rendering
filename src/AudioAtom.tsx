@@ -4,9 +4,10 @@ import { css } from 'emotion';
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
+import { Pillar } from '@guardian/types/Format';
 
 import { pillarPalette } from './lib/pillarPalette';
-import { AudioAtomType, Pillar } from './types';
+import { AudioAtomType } from './types';
 
 const wrapperStyles = css`
     width: 100%;
