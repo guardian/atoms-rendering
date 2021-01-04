@@ -1,4 +1,4 @@
-import { InteractiveAtomBlockElementType } from '../src/types';
+import { InteractiveAtomBlockElementType } from '../types';
 
 export const InteractiveAtomBlockElement: InteractiveAtomBlockElementType = {
     css:

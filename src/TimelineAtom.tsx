@@ -1,13 +1,15 @@
 import React from 'react';
+import { css } from 'emotion';
+
+import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
+import { body } from '@guardian/src-foundations/typography';
+import { Pillar } from '@guardian/types/Format';
+
+import { TimelineEvent, TimelineAtomType } from './types';
+
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { Body } from './expandableAtom/Body';
-import { TimelineEvent } from './types';
-import { css } from 'emotion';
-import { body } from '@guardian/src-foundations/typography';
-
-import { TimelineAtomType } from './types';
-import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
 
 const Snippet = css`
     :not(:last-child) {
@@ -61,7 +63,7 @@ const TimelineContents = ({
     pillar,
 }: {
     events: TimelineEvent[];
-    pillar: string;
+    pillar: Pillar;
 }): JSX.Element => {
     return (
         <div>

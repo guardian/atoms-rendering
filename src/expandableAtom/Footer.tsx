@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { css, cx } from 'emotion';
+
 import { textSans } from '@guardian/src-foundations/typography';
-import { GetPillarColour } from '../lib/PillarColours';
+
+import { Pillar } from '@guardian/types/Format';
+import { pillarPalette } from '../lib/pillarPalette';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
 const footerStyling = css`
@@ -34,7 +37,7 @@ export const Footer = ({
     likeHandler,
     dislikeHandler,
 }: {
-    pillar: string;
+    pillar: Pillar;
     likeHandler: () => void;
     dislikeHandler: () => void;
 }): JSX.Element => {
@@ -53,7 +56,7 @@ export const Footer = ({
         width: 28px;
         height: 28px;
         :hover {
-            background: ${GetPillarColour(pillar, 400)};
+            background: ${pillarPalette[pillar][400]};
         }
         :focus {
             border: none;

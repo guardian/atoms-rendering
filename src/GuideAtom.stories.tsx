@@ -7,7 +7,7 @@ import {
     orderedListStoryExpanded,
     imageStoryExpanded,
     lifestylePillarStoryExpanded,
-} from '../fixtures/guideAtom';
+} from './fixtures/guideAtom';
 
 export default {
     title: 'GuideAtom',

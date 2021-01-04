@@ -15,7 +15,7 @@ const Container = ({
     children: React.ReactNode;
 }) => {
     return (
-        <figure
+        <div
             data-atom-id={id}
             data-atom-type="explainer"
             className={css`
@@ -33,7 +33,7 @@ const Container = ({
             `}
         >
             {children}
-        </figure>
+        </div>
     );
 };
 

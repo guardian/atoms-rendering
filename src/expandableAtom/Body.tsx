@@ -1,9 +1,12 @@
 import React from 'react';
 import { css, cx } from 'emotion';
+
 import { neutral } from '@guardian/src-foundations/palette';
-import { GetPillarColour } from '../lib/PillarColours';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { SvgInfo } from '@guardian/src-icons';
+
+import { Pillar } from '@guardian/types/Format';
+import { pillarPalette } from '../lib/pillarPalette';
 
 // .forceHeightAndWidth needed at the moment to override global image sizing
 // which forces images to 100%
@@ -77,16 +80,16 @@ const bodyStyling = css`
     }
 `;
 
-const linkStyling = (pillar: string) => css`
+const linkStyling = (pillar: Pillar) => css`
     a {
-        color: ${GetPillarColour(pillar, 300)};
+        color: ${pillarPalette[pillar][300]};
         text-decoration: none;
         border-bottom: 0.0625rem solid ${neutral[86]};
         transition: border-color 0.15s ease-out;
     }
 
     a:hover {
-        border-bottom: solid 0.0625rem ${GetPillarColour(pillar, 400)};
+        border-bottom: solid 0.0625rem ${pillarPalette[pillar][400]};
     }
 `;
 
@@ -99,7 +102,7 @@ export const Body = ({
     html: string;
     image?: string;
     credit?: string;
-    pillar: string;
+    pillar: Pillar;
 }): JSX.Element => {
     return (
         <div>

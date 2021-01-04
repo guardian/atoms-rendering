@@ -6,7 +6,8 @@ import { InteractiveAtom } from './InteractiveAtom';
 import { YoutubeAtom } from './YoutubeAtom';
 import { ProfileAtom } from './ProfileAtom';
 import { QandaAtom } from './QandaAtom';
-import { QuizAtom } from './QuizAtom';
+import { PersonalityQuizAtom } from './PersonalityQuiz';
+import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 import { TimelineAtom } from './TimelineAtom';
 import { VideoAtom } from './VideoAtom';
 
@@ -19,7 +20,8 @@ export {
     YoutubeAtom,
     ProfileAtom,
     QandaAtom,
-    QuizAtom,
+    PersonalityQuizAtom,
+    KnowledgeQuizAtom,
     TimelineAtom,
     VideoAtom,
 };

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { css } from 'emotion';
+
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
-import { GetPillarColour } from '../lib/PillarColours';
+
+import { Pillar } from '@guardian/types/Format';
+import { pillarPalette } from '../lib/pillarPalette';
 
 /// SUMMARY ELEMENT
 
@@ -44,7 +47,7 @@ export const Summary = ({
     pillar,
     expandCallback,
 }: {
-    pillar: string;
+    pillar: Pillar;
     sectionTitle: string;
     title: string;
     expandCallback: () => void;
@@ -55,7 +58,7 @@ export const Summary = ({
             lineHeight: 'tight',
             fontWeight: 'bold',
         })};
-        color: ${GetPillarColour(pillar, 400)};
+        color: ${pillarPalette[pillar][400]};
     `;
 
     const showHideStyling = css`
@@ -73,7 +76,7 @@ export const Summary = ({
         border: 0;
         margin: 0;
         :hover {
-            background: ${GetPillarColour(pillar, 400)};
+            background: ${pillarPalette[pillar][400]};
         }
     `;
     const [hasBeenExpanded, setHasBeenExpanded] = useState(false);

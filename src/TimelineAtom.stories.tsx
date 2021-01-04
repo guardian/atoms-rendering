@@ -6,7 +6,7 @@ import {
     newsTimelineStoryNoDescriptionExpanded,
     sportTimelineStoryWithDescriptionAndEventsExpanded,
     newsStoryWithDatesToExpanded,
-} from '../fixtures/timelineAtom';
+} from './fixtures/timelineAtom';
 
 export default {
     title: 'TimelineAtom',

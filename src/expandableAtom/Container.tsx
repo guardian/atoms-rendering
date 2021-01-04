@@ -1,13 +1,14 @@
 import React from 'react';
 import { css } from 'emotion';
+
 import { neutral, text } from '@guardian/src-foundations/palette';
+
+import { Pillar } from '@guardian/types/Format';
 import { Summary } from './Summary';
 
 const containerStyling = css`
     display: block;
     position: relative;
-    margin-bottom: 0.75rem;
-    margin-top: 1rem;
 `;
 
 const detailStyling = css`
@@ -52,7 +53,7 @@ export const Container = ({
 }: {
     id: string;
     title: string;
-    pillar: string;
+    pillar: Pillar;
     expandForStorybook?: boolean;
     atomType: string;
     atomTypeTitle: string;
