@@ -187,7 +187,7 @@ export const YoutubeAtom = ({
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
     const originString = origin ? `&origin=${origin}` : '';
-    const iframeSrc = `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
+    const iframeSrc = `https://www.youtube-nocookie.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
 
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
