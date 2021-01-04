@@ -288,7 +288,7 @@ export const YoutubeAtom = ({
 
             {(overrideImage || posterImage) && (
                 <div
-                    id={`youtube-overlay-${assetId}`}
+                    daya-cy="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
                         player.current?.playVideo();
