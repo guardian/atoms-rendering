@@ -42,80 +42,20 @@ const fieldsetStyle = css`
 export const KnowledgeQuizAtom = ({
     id,
     questions,
-}: QuizAtomType): JSX.Element => {
-    const [selectedAnswers, setSelectedAnswers] = useState<{
-        [key: string]: string;
-    }>({});
-
-    const [hasSubmittedAnswers, setHasSubmittedAnswers] = useState<boolean>(
-        false,
-    );
-    return (
-        <Fragment>
-            <form data-atom-id={id}>
-                {questions.map((question, idx) => (
-                    <Question
-                        key={question.id}
-                        id={question.id}
-                        number={idx + 1}
-                        text={question.text}
-                        imageUrl={question.imageUrl}
-                        answers={question.answers}
-                        hasSubmittedAnswers={hasSubmittedAnswers}
-                        selectedAnswers={selectedAnswers}
-                        updateSelectedAnswer={(selectedAnswerId: string) => {
-                            setSelectedAnswers({
-                                ...selectedAnswers,
-                                [question.id]: selectedAnswerId,
-                            });
-                        }}
-                    />
-                ))}
-            </form>
-            <div
-                className={css`
-                    display: flex;
-                    flex-direction: row;
-                    button {
-                        margin-right: 10px;
-                    }
-                `}
-            >
-                <Button
-                    type="submit"
-                    onClick={() => setHasSubmittedAnswers(true)}
-                    onKeyDown={(e) => {
-                        const spaceKey = 32;
-                        const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey)
-                            setHasSubmittedAnswers(true);
-                    }}
-                    data-testid="submit-quiz"
-                >
-                    Submit
-                </Button>
-                <Button
-                    priority="secondary"
-                    onClick={() => {
-                        setHasSubmittedAnswers(false);
-                        setSelectedAnswers({});
-                    }}
-                    onKeyDown={(e) => {
-                        const spaceKey = 32;
-                        const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
-                            setHasSubmittedAnswers(false);
-                            setSelectedAnswers({});
-                        }
-                    }}
-                    data-testid="reset-quiz"
-                >
-                    Reset
-                </Button>
-            </div>
-        </Fragment>
-    );
-};
+}: QuizAtomType): JSX.Element => (
+    <form data-atom-id={id}>
+        {questions.map((question, idx) => (
+            <Question
+                key={question.id}
+                id={question.id}
+                number={idx + 1}
+                text={question.text}
+                imageUrl={question.imageUrl}
+                answers={question.answers}
+            />
+        ))}
+    </form>
+);
 
 export const Question = ({
     id,
@@ -123,86 +63,136 @@ export const Question = ({
     imageUrl,
     answers,
     number,
-    hasSubmittedAnswers,
-    selectedAnswers,
-    updateSelectedAnswer,
 }: QuestionType & {
     number: number;
-    hasSubmittedAnswers: boolean;
-    selectedAnswers: {
-        [key: string]: string;
-    };
-    updateSelectedAnswer: (selectedAnswerId: string) => void;
-}): JSX.Element => (
-    <div
-        className={css`
-            ${body.medium()};
-        `}
-    >
-        <fieldset className={fieldsetStyle}>
-            <div>
-                <legend
-                    className={css`
-                        margin-bottom: 12px;
-                    `}
-                >
-                    <span
+}): JSX.Element => {
+    const [selectedAnswer, setSelectedAnswer] = useState<string>('');
+    const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
+
+    const updateSelectedAnswer = (selectedAnswerId: string) =>
+        setSelectedAnswer(selectedAnswerId);
+
+    return (
+        <div
+            className={css`
+                ${body.medium()};
+            `}
+        >
+            <fieldset className={fieldsetStyle}>
+                <div>
+                    <legend
                         className={css`
-                            padding-right: 12px;
+                            margin-bottom: 12px;
                         `}
                     >
-                        {number + '.'}
-                    </span>
-                    {text}
-                </legend>
-            </div>
-            {imageUrl && (
-                <img
+                        <span
+                            className={css`
+                                padding-right: 12px;
+                            `}
+                        >
+                            {number + '.'}
+                        </span>
+                        {text}
+                    </legend>
+                </div>
+                {imageUrl && (
+                    <img
+                        className={css`
+                            width: 100%;
+                        `}
+                        src={imageUrl}
+                    />
+                )}
+                <div
                     className={css`
-                        width: 100%;
+                        /* fix for chrome jumping to top of page */
+                        position: relative;
                     `}
-                    src={imageUrl}
-                />
-            )}
-            <div
-                className={css`
-                    /* fix for chrome jumping to top of page */
-                    position: relative;
-                `}
-            >
-                <Answers
-                    id={id}
-                    answers={answers}
-                    hasSubmittedAnswers={hasSubmittedAnswers}
-                    selectedAnswers={selectedAnswers}
-                    updateSelectedAnswer={updateSelectedAnswer}
-                />
-            </div>
-        </fieldset>
-    </div>
-);
+                >
+                    <Answers
+                        id={id}
+                        answers={answers}
+                        hasSubmitted={hasSubmitted}
+                        selectedAnswer={selectedAnswer}
+                        updateSelectedAnswer={updateSelectedAnswer}
+                    />
+                </div>
+                <div
+                    className={css`
+                        display: flex;
+                        flex-direction: row;
+                        button {
+                            margin-right: 10px;
+                        }
+                    `}
+                >
+                    <Button
+                        type="submit"
+                        data-testid={`submit-question-${id}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setHasSubmitted(true);
+                        }}
+                        onKeyDown={(e) => {
+                            const spaceKey = 32;
+                            const enterKey = 13;
+                            if (
+                                e.keyCode === spaceKey ||
+                                e.keyCode === enterKey
+                            ) {
+                                // prevent submit
+                                e.preventDefault();
+                                setHasSubmitted(true);
+                            }
+                        }}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        priority="secondary"
+                        data-testid={`reset-question-${id}`}
+                        onClick={() => {
+                            setHasSubmitted(false);
+                            setSelectedAnswer('');
+                        }}
+                        onKeyDown={(e) => {
+                            const spaceKey = 32;
+                            const enterKey = 13;
+                            if (
+                                e.keyCode === spaceKey ||
+                                e.keyCode === enterKey
+                            ) {
+                                setHasSubmitted(false);
+                                setSelectedAnswer('');
+                            }
+                        }}
+                    >
+                        Reset
+                    </Button>
+                </div>
+            </fieldset>
+        </div>
+    );
+};
 
 const Answers = ({
     answers,
     id: questionId,
-    hasSubmittedAnswers,
-    selectedAnswers,
+    hasSubmitted,
+    selectedAnswer,
     updateSelectedAnswer,
 }: {
     answers: AnswerType[];
     id: string;
-    hasSubmittedAnswers: boolean;
-    selectedAnswers: {
-        [key: string]: string;
-    };
+    hasSubmitted: boolean;
+    selectedAnswer?: string;
     updateSelectedAnswer: (selectedAnswerId: string) => void;
 }) => {
-    if (hasSubmittedAnswers) {
+    if (hasSubmitted) {
         return (
             <Fragment>
                 {answers.map((answer) => {
-                    const isSelected =
-                        selectedAnswers[questionId] === answer.id;
+                    const isSelected = selectedAnswer === answer.id;
 
                     if (isSelected) {
                         if (answer.isCorrect) {
@@ -210,7 +200,6 @@ const Answers = ({
                                 <CorrectSelectedAnswer
                                     key={answer.id}
                                     id={answer.id}
-                                    name={questionId}
                                     answerText={answer.text}
                                     explainerText={answer.revealText || ''}
                                 />
@@ -222,7 +211,6 @@ const Answers = ({
                                 <IncorrectAnswer
                                     key={answer.id}
                                     id={answer.id}
-                                    name={questionId}
                                     answerText={answer.text}
                                 />
                             );
@@ -233,7 +221,6 @@ const Answers = ({
                         return (
                             <NonSelectedCorrectAnswer
                                 key={answer.id}
-                                name={questionId}
                                 id={answer.id}
                                 answerText={answer.text}
                                 explainerText={answer.revealText || ''}
@@ -243,7 +230,6 @@ const Answers = ({
 
                     return (
                         <UnselectedAnswer
-                            name={questionId}
                             key={answer.id}
                             id={answer.id}
                             answerText={answer.text}
@@ -263,14 +249,14 @@ const Answers = ({
                         value={answer.text}
                         data-testid={answer.id}
                         data-answertype={
-                            selectedAnswers[questionId] === answer.id
+                            selectedAnswer === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
                         }
                         name={questionId}
                         label={answer.text}
                         onChange={() => updateSelectedAnswer(answer.id)}
-                        checked={selectedAnswers[questionId] === answer.id}
+                        checked={selectedAnswer === answer.id}
                     />
                 ))}
             </RadioGroup>

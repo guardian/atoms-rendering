@@ -16,6 +16,7 @@ describe('KnowledgeQuiz', () => {
         expect(getByText(questions[0].text)).toBeInTheDocument();
     });
     describe('on answer click', () => {
+        const questionId = 'b0342160-7678-417d-85c6-67a60ec4994b';
         const correctAnswer = {
             id: 'c5c49561-d9df-4fd4-a7bb-47e7e0a88240',
             text: 'Dino Zoff',
@@ -47,7 +48,7 @@ describe('KnowledgeQuiz', () => {
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
-                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
+                getByTestId(correctAnswer.id).getAttribute('data-answer-type'),
             ).toBe('selected-enabled-answer');
         });
 
@@ -57,11 +58,11 @@ describe('KnowledgeQuiz', () => {
             );
 
             fireEvent.click(getByTestId(correctAnswer.id));
-            fireEvent.click(getByTestId('submit-quiz'));
+            fireEvent.click(getByTestId(`submit-question-${questionId}`));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
-                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
+                getByTestId(correctAnswer.id).getAttribute('data-answer-type'),
             ).toBe('correct-selected-answer');
         });
 
@@ -71,14 +72,16 @@ describe('KnowledgeQuiz', () => {
             );
 
             fireEvent.click(getByTestId(incorrectAnswer.id));
-            fireEvent.click(getByTestId('submit-quiz'));
+            fireEvent.click(getByTestId(`submit-question-${questionId}`));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
-                getByTestId(incorrectAnswer.id).getAttribute('data-answertype'),
+                getByTestId(incorrectAnswer.id).getAttribute(
+                    'data-answer-type',
+                ),
             ).toBe('incorrect-answer');
             expect(
-                getByTestId(correctAnswer.id).getAttribute('data-answertype'),
+                getByTestId(correctAnswer.id).getAttribute('data-answer-type'),
             ).toBe('non-selected-correct-answer');
         });
 
@@ -89,17 +92,17 @@ describe('KnowledgeQuiz', () => {
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
-                    'data-answertype',
+                    'data-answer-type',
                 ),
             ).toBe('unselected-enabled-answer');
 
             fireEvent.click(getByTestId(correctAnswer.id));
-            fireEvent.click(getByTestId('submit-quiz'));
+            fireEvent.click(getByTestId(`submit-question-${questionId}`));
             rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
-                    'data-answertype',
+                    'data-answer-type',
                 ),
             ).toBe('unselected-disabled-answer');
         });

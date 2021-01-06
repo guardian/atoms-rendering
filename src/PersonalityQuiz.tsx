@@ -317,7 +317,7 @@ const PersonalityQuizAnswers = ({
                         value={answer.text}
                         label={answer.text}
                         data-testid={answer.id}
-                        data-answertype={
+                        data-answer-type={
                             selectedAnswer === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'

@@ -47,7 +47,7 @@ describe('PersonalityQuiz', () => {
             );
 
             expect(
-                getByTestId(selectedAnswer.id).getAttribute('data-answertype'),
+                getByTestId(selectedAnswer.id).getAttribute('data-answer-type'),
             ).toBe('selected-enabled-answer');
         });
 

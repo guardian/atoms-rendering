@@ -1,10 +1,9 @@
 import React from 'react';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news, success } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
-import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { space } from '@guardian/src-foundations';
 
 // We export Radio wrapper styles to override Source Radio buttons to align
@@ -35,16 +34,14 @@ const AnswerWithSVG = ({
     id,
     text,
     supplementText,
-    name,
     isCorrect,
-    answertype,
+    answerType,
 }: {
     id: string;
     text: string;
     supplementText?: string;
-    name: string;
     isCorrect: boolean;
-    answertype: string;
+    answerType: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -75,20 +72,6 @@ const AnswerWithSVG = ({
         >
             {isCorrect ? <SvgCheckmark /> : <SvgCross />}
         </div>
-        <input
-            type="radio"
-            id={id}
-            name={name}
-            data-testid={id}
-            className={cx(
-                css`
-                    ${visuallyHidden}
-                `,
-            )}
-            data-answertype={answertype}
-            required
-            tabIndex={-1}
-        />
         <label
             className={css`
                 color: ${neutral[100]};
@@ -97,6 +80,8 @@ const AnswerWithSVG = ({
 
                 ${body.medium()};
             `}
+            id={id}
+            data-answer-type={answerType}
         >
             <span
                 className={css`
@@ -122,18 +107,14 @@ const AnswerWithoutSVG = ({
     id,
     text,
     supplementText,
-    name,
     isCorrect,
-    answertype,
-    hasBeenAnswered,
+    answerType,
 }: {
     id: string;
     text: string;
     supplementText?: string;
-    name: string;
     isCorrect?: boolean;
-    answertype: string;
-    hasBeenAnswered: boolean;
+    answerType: string;
 }): JSX.Element => (
     <div
         className={css`
@@ -151,26 +132,14 @@ const AnswerWithoutSVG = ({
             padding-left: ${space[9]}px;
         `}
     >
-        <input
-            type="radio"
-            id={id}
-            name={name}
-            data-testid={id}
-            className={cx(
-                css`
-                    ${visuallyHidden}
-                `,
-            )}
-            data-answertype={answertype}
-            required
-            tabIndex={hasBeenAnswered ? -1 : 0}
-        />
         <label
             className={css`
                 margin-left: ${space[1]}px;
                 display: flex;
                 flex-direction: column;
             `}
+            id={id}
+            data-answer-type={answerType}
         >
             <span
                 className={css`
@@ -196,39 +165,32 @@ export const CorrectSelectedAnswer = ({
     answerText,
     explainerText,
     id,
-    name,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
-    name: string;
 }): JSX.Element => (
     <AnswerWithoutSVG
         id={id}
-        name={name}
         text={answerText}
         supplementText={explainerText}
         isCorrect={true}
-        answertype="correct-selected-answer"
-        hasBeenAnswered={true}
+        answerType="correct-selected-answer"
     />
 );
 
 export const IncorrectAnswer = ({
     answerText,
     id,
-    name,
 }: {
     answerText: string;
     id: string;
-    name: string;
 }): JSX.Element => (
     <AnswerWithSVG
         id={id}
-        name={name}
         text={answerText}
         isCorrect={false}
-        answertype="incorrect-answer"
+        answerType="incorrect-answer"
     />
 );
 
@@ -236,37 +198,30 @@ export const NonSelectedCorrectAnswer = ({
     answerText,
     explainerText,
     id,
-    name,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
-    name: string;
 }): JSX.Element => (
     <AnswerWithSVG
         id={id}
-        name={name}
         text={answerText}
         supplementText={explainerText}
         isCorrect={true}
-        answertype="non-selected-correct-answer"
+        answerType="non-selected-correct-answer"
     />
 );
 
 export const UnselectedAnswer = ({
-    answerText,
     id,
-    name,
+    answerText,
 }: {
     answerText: string;
     id: string;
-    name: string;
 }): JSX.Element => (
     <AnswerWithoutSVG
         id={id}
-        name={name}
         text={answerText}
-        answertype="unselected-disabled-answer"
-        hasBeenAnswered={false}
+        answerType="unselected-disabled-answer"
     />
 );
