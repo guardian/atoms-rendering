@@ -80,7 +80,7 @@ const AnswerWithSVG = ({
 
                 ${body.medium()};
             `}
-            id={id}
+            data-testid={id}
             data-answer-type={answerType}
         >
             <span
@@ -138,7 +138,7 @@ const AnswerWithoutSVG = ({
                 display: flex;
                 flex-direction: column;
             `}
-            id={id}
+            data-testid={id}
             data-answer-type={answerType}
         >
             <span

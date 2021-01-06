@@ -248,7 +248,7 @@ const Answers = ({
                         key={answer.id}
                         value={answer.text}
                         data-testid={answer.id}
-                        data-answertype={
+                        data-answer-type={
                             selectedAnswer === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
