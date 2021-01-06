@@ -23,24 +23,17 @@ export const Answers = (): JSX.Element => (
     >
         <CorrectSelectedAnswer
             id="someId3"
-            name="someName"
             answerText="Correct Selected Answer"
             explainerText="this is such a cool answer"
         />
         <NonSelectedCorrectAnswer
             id="someId4"
-            name="someName"
             answerText="Correct Non Selected Answer"
             explainerText="this is such a cool answer"
         />
-        <IncorrectAnswer
-            id="someId5"
-            name="someName"
-            answerText="Incorrect Answer"
-        />
+        <IncorrectAnswer id="someId5" answerText="Incorrect Answer" />
         <UnselectedAnswer
             id="someId1"
-            name="someName"
             answerText="Unselectable unanswered answer"
         />
         <div className={radioButtonWrapperStyles}>
