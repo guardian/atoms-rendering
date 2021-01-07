@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 
 import { YoutubeAtom } from './YoutubeAtom';
+import { Pillar } from '@guardian/types/Format';
 import { sport } from '@guardian/src-foundations';
 
 export default {
@@ -25,7 +26,7 @@ export const DefaultStory = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                pillar={2} // Sport
+                pillar={Pillar.Culture}
             />
         </div>
     );
@@ -47,7 +48,7 @@ export const WithOverrideImage = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                pillar={0} // News
+                pillar={Pillar.News}
                 overrideImage={[
                     {
                         srcSet: [
@@ -79,7 +80,7 @@ export const WithPosterImage = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                pillar={2}
+                pillar={Pillar.Sport}
                 duration={252}
                 posterImage={[
                     {
@@ -128,7 +129,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                pillar={0}
+                pillar={Pillar.Opinion}
                 overrideImage={[
                     {
                         srcSet: [
