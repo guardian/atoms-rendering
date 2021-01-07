@@ -90,7 +90,7 @@ export const Question = ({
                                 padding-right: 12px;
                             `}
                         >
-                            {number + '.'}
+                            {`${number}.`}
                         </span>
                         {text}
                     </legend>
