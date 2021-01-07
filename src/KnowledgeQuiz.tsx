@@ -120,6 +120,7 @@ export const Question = ({
                     `}
                 >
                     <Button
+                        size="small"
                         data-testid={`submit-question-${id}`}
                         onClick={() => {
                             setHasSubmitted(true);
