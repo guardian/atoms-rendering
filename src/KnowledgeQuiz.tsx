@@ -66,7 +66,7 @@ export const Question = ({
 }: QuestionType & {
     number: number;
 }): JSX.Element => {
-    const [selectedAnswer, setSelectedAnswer] = useState<string>('');
+    const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
 
     const updateSelectedAnswer = (selectedAnswerId: string) =>
