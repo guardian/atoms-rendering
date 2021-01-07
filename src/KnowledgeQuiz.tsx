@@ -120,10 +120,8 @@ export const Question = ({
                     `}
                 >
                     <Button
-                        type="submit"
                         data-testid={`submit-question-${id}`}
-                        onClick={(e) => {
-                            e.preventDefault();
+                        onClick={() => {
                             setHasSubmitted(true);
                         }}
                         onKeyDown={(e) => {
@@ -133,13 +131,11 @@ export const Question = ({
                                 e.keyCode === spaceKey ||
                                 e.keyCode === enterKey
                             ) {
-                                // prevent submit
-                                e.preventDefault();
                                 setHasSubmitted(true);
                             }
                         }}
                     >
-                        Submit
+                        Reveal
                     </Button>
                 </div>
             </fieldset>
