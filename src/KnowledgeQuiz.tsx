@@ -148,27 +148,6 @@ export const Question = ({
                     >
                         Submit
                     </Button>
-                    <Button
-                        priority="secondary"
-                        data-testid={`reset-question-${id}`}
-                        onClick={() => {
-                            setHasSubmitted(false);
-                            setSelectedAnswer('');
-                        }}
-                        onKeyDown={(e) => {
-                            const spaceKey = 32;
-                            const enterKey = 13;
-                            if (
-                                e.keyCode === spaceKey ||
-                                e.keyCode === enterKey
-                            ) {
-                                setHasSubmitted(false);
-                                setSelectedAnswer('');
-                            }
-                        }}
-                    >
-                        Reset
-                    </Button>
                 </div>
             </fieldset>
         </div>
