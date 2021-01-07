@@ -103,20 +103,13 @@ export const Question = ({
                         src={imageUrl}
                     />
                 )}
-                <div
-                    className={css`
-                        /* fix for chrome jumping to top of page */
-                        position: relative;
-                    `}
-                >
-                    <Answers
-                        id={id}
-                        answers={answers}
-                        hasSubmitted={hasSubmitted}
-                        selectedAnswer={selectedAnswer}
-                        updateSelectedAnswer={updateSelectedAnswer}
-                    />
-                </div>
+                <Answers
+                    id={id}
+                    answers={answers}
+                    hasSubmitted={hasSubmitted}
+                    selectedAnswer={selectedAnswer}
+                    updateSelectedAnswer={updateSelectedAnswer}
+                />
                 <div
                     className={css`
                         display: flex;
