@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { css, cx } from 'emotion';
 import YouTubePlayer from 'youtube-player';
+import { pillarPalette } from './lib/pillarPalette';
 
 import { focusHalo } from '@guardian/src-foundations/accessibility';
 import { palette, space } from '@guardian/src-foundations';
@@ -11,6 +12,7 @@ import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
+import { Pillar } from '@guardian/types/Format';
 
 type Props = {
     assetId: string;
@@ -25,6 +27,7 @@ type Props = {
     duration?: number; // in seconds
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
+    pillar: Pillar;
 };
 declare global {
     interface Window {
@@ -120,8 +123,8 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
-const playButtonStyling = css`
-    background-color: ${palette['news'][500]};
+const playButtonStyling = (pillar: Pillar) => css`
+    background-color: ${pillarPalette[pillar][500]};
     border-radius: 100%;
     height: 60px;
     width: 60px;
@@ -148,10 +151,10 @@ const overlayInfoWrapperStyles = css`
     left: ${space[4]}px;
 `;
 
-const videoDurationStyles = css`
+const videoDurationStyles = (pillar: Pillar) => css`
     ${textSans.medium({ fontWeight: 'bold' })};
     padding-left: ${space[3]}px;
-    color: ${palette['news'][500]};
+    color: ${pillarPalette[pillar][500]};
 `;
 
 type YoutubeCallback = (
@@ -183,6 +186,7 @@ export const YoutubeAtom = ({
     duration,
     origin,
     eventEmitters,
+    pillar,
 }: Props): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
@@ -322,12 +326,14 @@ export const YoutubeAtom = ({
                     />
                     <div className={overlayInfoWrapperStyles}>
                         <div
-                            className={`${playButtonStyling} overlay-play-button`}
+                            className={`${playButtonStyling(
+                                pillar,
+                            )} overlay-play-button`}
                         >
                             <SvgPlay />
                         </div>
                         {duration && (
-                            <div className={videoDurationStyles}>
+                            <div className={videoDurationStyles(pillar)}>
                                 {formatTime(duration)}
                             </div>
                         )}

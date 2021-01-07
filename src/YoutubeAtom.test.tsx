@@ -13,12 +13,17 @@ describe('YoutubeAtom', () => {
                 alt=""
                 role="inline"
                 eventEmitters={[]}
+                pillar={0}
             />
         );
         const { getByTitle } = render(atom);
 
         expect(getByTitle('My Youtube video!')).toBeInTheDocument();
-        expect(getByTitle('My Youtube video!'))
-            .toHaveAttribute('src', expect.stringMatching(/https:\/\/www.youtube-nocookie.com\/embed.*/))
+        expect(getByTitle('My Youtube video!')).toHaveAttribute(
+            'src',
+            expect.stringMatching(
+                /https:\/\/www.youtube-nocookie.com\/embed.*/,
+            ),
+        );
     });
 });
