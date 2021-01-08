@@ -5,7 +5,7 @@ import {
     culture,
     lifestyle,
 } from '@guardian/src-foundations/palette';
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 
 type colour = string;
 

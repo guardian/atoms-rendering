@@ -5,7 +5,7 @@ import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
 
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// SUMMARY ELEMENT

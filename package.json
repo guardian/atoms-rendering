@@ -42,7 +42,6 @@
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "@guardian/src-radio": "^2.7.1",
-        "@guardian/types": "^0.5.2",
         "@storybook/addon-docs": "^6.1.11",
         "@storybook/addons": "^6.1.11",
         "@storybook/react": "^6.1.11",
@@ -119,5 +118,8 @@
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
         ]
+    },
+    "dependencies": {
+        "@guardian/types": "^1.1.0"
     }
 }

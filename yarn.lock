@@ -2047,12 +2047,10 @@
     "@guardian/src-helpers" "^2.7.1"
     "@guardian/src-icons" "^2.7.1"
 
-"@guardian/types@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-0.5.2.tgz#edde87dde496554cbcd32cb1bffe2baada591926"
-  integrity sha512-fQ5+cyQQGhQ4qHuzMvaGLsHNxwz82dlb3nYKEahrhg5K3Hyf4jno0pPTxUVMM80uNL9xE8g7843LpkKp6YpE/w==
-  dependencies:
-    typescript "^3.8.3"
+"@guardian/types@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-1.1.0.tgz#5fa64d2156b4927d22a4b32c3503e493cd4aec53"
+  integrity sha512-NpYEHHfHyg/QpaAVdWHWVLlWmnowyZwa5/0Kkqk4xN+dMzLjrWL3CQfrBxVFILZgtz1IcMirMUHQb2zOjF3HBg==
 
 "@icons/material@^0.2.4":
   version "0.2.4"

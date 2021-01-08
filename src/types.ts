@@ -1,4 +1,4 @@
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 
 export type AdTargeting = {
     adUnit: string;

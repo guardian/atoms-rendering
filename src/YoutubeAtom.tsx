@@ -12,7 +12,7 @@ import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 
 type Props = {
     assetId: string;

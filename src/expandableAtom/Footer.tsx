@@ -3,7 +3,7 @@ import { css, cx } from 'emotion';
 
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
