@@ -3,7 +3,6 @@ import { css } from 'emotion';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { Pillar } from '@guardian/types/Format';
-import { sport } from '@guardian/src-foundations';
 
 export default {
     title: 'YoutubeAtom',
@@ -27,6 +26,7 @@ export const DefaultStory = (): JSX.Element => {
                 ]}
                 duration={252}
                 pillar={Pillar.Culture}
+                origin="https://www.theguardian.com"
             />
         </div>
     );
@@ -60,6 +60,7 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                origin="https://www.theguardian.com"
             />
         </div>
     );
@@ -108,6 +109,7 @@ export const WithPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                origin="https://www.theguardian.com"
             />
         </div>
     );
@@ -167,6 +169,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                origin="https://www.theguardian.com"
             />
         </div>
     );
