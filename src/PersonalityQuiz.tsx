@@ -4,6 +4,7 @@ import React, {
     useEffect,
     MouseEvent,
     Fragment,
+    memo,
 } from 'react';
 import { css, cx } from 'emotion';
 
@@ -269,32 +270,74 @@ const PersonalityQuizAnswers = ({
     updateSelectedAnswer,
     selectedAnswer,
     hasSubmittedAnswers,
-}: PersonalityQuizAnswersProps) => (
-    <fieldset className={answersWrapperStyle}>
-        <div>
-            <legend
-                className={css`
-                    margin-bottom: 12px;
-                `}
-            >
-                <span
+}: PersonalityQuizAnswersProps) => {
+    // use local state to avoid rerenders of AnswersGroup from updates due to: updateSelectedAnswer & selectedAnswer
+    const [selected, setSelected] = useState<string | undefined>();
+
+    useEffect(() => {
+        if (selected && selected !== selectedAnswer) {
+            updateSelectedAnswer(selected);
+        }
+    }, [updateSelectedAnswer, selected]);
+
+    // in order to reset selection
+    useEffect(() => {
+        if (!selectedAnswer) setSelected(undefined);
+    }, [selectedAnswer, setSelected]);
+
+    return (
+        <fieldset className={answersWrapperStyle}>
+            <div>
+                <legend
                     className={css`
-                        padding-right: 12px;
+                        margin-bottom: 12px;
                     `}
                 >
-                    {questionNumber + '.'}
-                </span>
-                {text}
-            </legend>
-        </div>
-        {imageUrl && (
-            <img
-                className={css`
-                    width: 100%;
-                `}
-                src={imageUrl}
+                    <span
+                        className={css`
+                            padding-right: 12px;
+                        `}
+                    >
+                        {questionNumber + '.'}
+                    </span>
+                    {text}
+                </legend>
+            </div>
+            {imageUrl && (
+                <img
+                    className={css`
+                        width: 100%;
+                    `}
+                    src={imageUrl}
+                />
+            )}
+            <AnswersGroup
+                hasSubmittedAnswers={hasSubmittedAnswers}
+                questionId={questionId}
+                answers={answers}
+                selected={selected}
+                setSelected={setSelected}
             />
-        )}
+        </fieldset>
+    );
+};
+
+type AnswersGroupProp = {
+    hasSubmittedAnswers: boolean;
+    questionId: string;
+    answers: AnswerType[];
+    selected: string | undefined;
+    setSelected: (selectedAnswerId: string) => void;
+};
+
+const AnswersGroup = memo(
+    ({
+        hasSubmittedAnswers,
+        questionId,
+        answers,
+        selected,
+        setSelected,
+    }: AnswersGroupProp) => (
         <div
             className={cx(
                 radioButtonWrapperStyles,
@@ -318,19 +361,20 @@ const PersonalityQuizAnswers = ({
                         label={answer.text}
                         data-testid={answer.id}
                         data-answer-type={
-                            selectedAnswer === answer.id
+                            selected === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
                         }
                         disabled={hasSubmittedAnswers}
-                        onChange={() => updateSelectedAnswer(answer.id)}
-                        checked={selectedAnswer === answer.id}
+                        onChange={() => setSelected(answer.id)}
+                        checked={selected === answer.id}
                     />
                 ))}
             </RadioGroup>
         </div>
-    </fieldset>
+    ),
 );
+AnswersGroup.displayName = 'AnswersGroup';
 
 const missingAnswersStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}
