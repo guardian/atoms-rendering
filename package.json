@@ -74,6 +74,7 @@
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
         "ts-jest": "^24.3.0",
+        "ts-loader": "^8.0.14",
         "youtube-player": "^5.5.2"
     },
     "eslintConfig": {
@@ -119,6 +120,34 @@
         "testEnvironment": "jest-environment-jsdom-sixteen",
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
+        ],
+        "preset": "ts-jest/presets/js-with-babel",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "transform": {
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        },
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false,
+                "tsConfigFile": "tsconfig.json"
+            }
+        },
+        "testMatch": [
+            "**/*.test.+(ts|tsx|js)"
+        ],
+        "moduleNameMapper": {
+            "^svgs/(.*)$": "<rootDir>/__mocks__/svgMock.tsx",
+            "^(.*)\\.svg$": "<rootDir>/__mocks__/svgMock.tsx",
+            "^@root(.*)$": "<rootDir>$1",
+            "^@frontend(.*)$": "<rootDir>/src$1",
+            "^@guardian/src-foundations/(.*)(?<!cjs)$": "@guardian/src-foundations/$1/cjs"
+        },
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}"
         ]
     }
 }

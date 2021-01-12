@@ -125,7 +125,9 @@ export const Question = ({
                         onClick={() => {
                             setHasSubmitted(true);
                         }}
-                        onKeyDown={(e) => {
+                        // I want to type this as React.KeyboardEventHandler or KeyboardEvent but this caused errors
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onKeyDown={(e: any) => {
                             const spaceKey = 32;
                             const enterKey = 13;
                             if (
