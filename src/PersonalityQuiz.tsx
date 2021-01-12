@@ -231,7 +231,7 @@ export const PersonalityQuizAtom = ({
                         setHasSubmittedAnswers(false);
                         setTopSelectedResult(null);
                     }}
-                    onKeyDown={(e: any) => {
+                    onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => {
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey) {
