@@ -17,7 +17,7 @@
         "isolatedModules": false,
         "noEmit": false,
     },
-    "files": ["src/types.ts", "src/index.d.ts"],
+    "files": ["src/types.ts", "src/youtube.d.ts"],
     "include": ["src/"],
     "exclude": []
 }
