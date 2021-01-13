@@ -1,4 +1,4 @@
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 
 export const imageStoryExpanded = {
     id: '78014307-ca67-47dc-b524-d5f24f3dbcd8',

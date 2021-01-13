@@ -125,7 +125,9 @@ export const Question = ({
                         onClick={() => {
                             setHasSubmitted(true);
                         }}
-                        onKeyDown={(e) => {
+                        onKeyDown={(
+                            e: React.KeyboardEvent<HTMLButtonElement>,
+                        ) => {
                             const spaceKey = 32;
                             const enterKey = 13;
                             if (

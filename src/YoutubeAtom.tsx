@@ -12,7 +12,7 @@ import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 
 type Props = {
     assetId: string;
@@ -209,70 +209,81 @@ export const YoutubeAtom = ({
         let hasSent50Event = false;
         let hasSent75Event = false;
 
-        const listener = player.current?.on(
-            'stateChange',
-            (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                if (e.data === youtubePlayerState.PLAYING) {
-                    if (!hasSentPlayEvent) {
-                        eventEmitters.forEach((eventEmitter) =>
-                            eventEmitter('play'),
-                        );
-                        hasSentPlayEvent = true;
+        const listener =
+            player.current &&
+            player.current.on(
+                'stateChange',
+                (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
+                    if (e.data === youtubePlayerState.PLAYING) {
+                        if (!hasSentPlayEvent) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('play'),
+                            );
+                            hasSentPlayEvent = true;
 
-                        setTimeout(() => {
-                            checkProgress();
-                        }, 3000);
+                            setTimeout(() => {
+                                checkProgress();
+                            }, 3000);
+                        }
+
+                        const checkProgress = async () => {
+                            if (!player || !player.current) return null;
+                            const currentTime =
+                                player.current &&
+                                (await player.current.getCurrentTime());
+                            const duration =
+                                player.current &&
+                                (await player.current.getDuration());
+
+                            if (!duration || !currentTime) return;
+
+                            const percentPlayed =
+                                (currentTime / duration) * 100;
+
+                            if (!hasSent25Event && 25 < percentPlayed) {
+                                eventEmitters.forEach((eventEmitter) =>
+                                    eventEmitter('25'),
+                                );
+                                hasSent25Event = true;
+                            }
+
+                            if (!hasSent50Event && 50 < percentPlayed) {
+                                eventEmitters.forEach((eventEmitter) =>
+                                    eventEmitter('50'),
+                                );
+                                hasSent50Event = true;
+                            }
+
+                            if (!hasSent75Event && 75 < percentPlayed) {
+                                eventEmitters.forEach((eventEmitter) =>
+                                    eventEmitter('75'),
+                                );
+                                hasSent75Event = true;
+                            }
+
+                            const currentPlayerState =
+                                player.current &&
+                                (await player.current.getPlayerState());
+
+                            if (
+                                currentPlayerState !== youtubePlayerState.ENDED
+                            ) {
+                                // Set a timeout to check progress again in the future
+                                window.setTimeout(() => checkProgress(), 3000);
+                            }
+                        };
                     }
 
-                    const checkProgress = async () => {
-                        if (!player || !player.current) return null;
-                        const currentTime = await player.current?.getCurrentTime();
-                        const duration = await player.current?.getDuration();
-
-                        if (!duration || !currentTime) return;
-
-                        const percentPlayed = (currentTime / duration) * 100;
-
-                        if (!hasSent25Event && 25 < percentPlayed) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('25'),
-                            );
-                            hasSent25Event = true;
-                        }
-
-                        if (!hasSent50Event && 50 < percentPlayed) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('50'),
-                            );
-                            hasSent50Event = true;
-                        }
-
-                        if (!hasSent75Event && 75 < percentPlayed) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('75'),
-                            );
-                            hasSent75Event = true;
-                        }
-
-                        const currentPlayerState = await player.current?.getPlayerState();
-
-                        if (currentPlayerState !== youtubePlayerState.ENDED) {
-                            // Set a timeout to check progress again in the future
-                            window.setTimeout(() => checkProgress(), 3000);
-                        }
-                    };
-                }
-
-                if (e.data === youtubePlayerState.ENDED) {
-                    eventEmitters.forEach((eventEmitter) =>
-                        eventEmitter('end'),
-                    );
-                }
-            },
-        );
+                    if (e.data === youtubePlayerState.ENDED) {
+                        eventEmitters.forEach((eventEmitter) =>
+                            eventEmitter('end'),
+                        );
+                    }
+                },
+            );
 
         return () => {
-            listener && player.current?.off(listener);
+            listener && player.current && player.current.off(listener);
         };
     }, [eventEmitters]);
 
@@ -295,14 +306,14 @@ export const YoutubeAtom = ({
                     daya-cy="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
-                        player.current?.playVideo();
+                        player.current && player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey) {
                             setHasUserLaunchedPlay(true);
-                            player.current?.playVideo();
+                            player.current && player.current.playVideo();
                         }
                     }}
                     className={cx(
