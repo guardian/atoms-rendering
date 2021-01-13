@@ -122,7 +122,7 @@ describe('PersonalityQuiz', () => {
 
     describe('findMostReferredToBucketId', () => {
         it('should return bucket most commonly found in answers', () => {
-            const selectedAnswers = {
+            const selectedGlobalAnswers = {
                 '7fd34318-d273-4399-8fce-c9dc8af01995':
                     'c48aa7d4-f87b-4bef-96f1-fd9458e3e145',
                 'd776cb0a-e10a-4ea7-a720-4769958cabc5':
@@ -132,7 +132,7 @@ describe('PersonalityQuiz', () => {
             };
 
             const bucketId = findMostReferredToBucketId({
-                selectedAnswers,
+                selectedGlobalAnswers,
                 questions: examplePersonalityQuestions,
             });
 

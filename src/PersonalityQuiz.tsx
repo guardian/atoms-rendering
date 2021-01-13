@@ -4,6 +4,7 @@ import React, {
     useEffect,
     MouseEvent,
     Fragment,
+    memo,
 } from 'react';
 import { css, cx } from 'emotion';
 
@@ -51,22 +52,22 @@ const answersWrapperStyle = css`
 `;
 
 export const findMostReferredToBucketId = ({
-    selectedAnswers,
+    selectedGlobalAnswers,
     questions,
 }: {
-    selectedAnswers: {
+    selectedGlobalAnswers: {
         [key: string]: string;
     };
     questions: QuestionType[];
 }): string => {
     const bucketCounter: { [key: string]: number } = {};
 
-    const answersFromQuestion: AnswerType[] = Object.keys(selectedAnswers)
+    const answersFromQuestion: AnswerType[] = Object.keys(selectedGlobalAnswers)
         .map((questionId: string): AnswerType | undefined => {
             const selectedQuestion = questions.find(
                 (question) => question.id === questionId,
             );
-            const answerId = selectedAnswers[questionId];
+            const answerId = selectedGlobalAnswers[questionId];
             const selectedAnswer =
                 selectedQuestion &&
                 selectedQuestion.answers.find(
@@ -110,7 +111,7 @@ export const PersonalityQuizAtom = ({
     resultBuckets,
     sharingIcons,
 }: QuizAtomType): JSX.Element => {
-    const [selectedAnswers, setSelectedAnswers] = useState<{
+    const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
         [key: string]: string;
     }>({});
 
@@ -128,7 +129,7 @@ export const PersonalityQuizAtom = ({
         e.preventDefault();
         // check all answers have been selected
         const missingAnswers = questions.some((question) =>
-            question.id in selectedAnswers ? false : true,
+            question.id in selectedGlobalAnswers ? false : true,
         );
 
         if (missingAnswers) {
@@ -139,9 +140,9 @@ export const PersonalityQuizAtom = ({
     };
 
     useEffect(() => {
-        if (hasSubmittedAnswers && Object.keys(selectedAnswers).length) {
+        if (hasSubmittedAnswers && Object.keys(selectedGlobalAnswers).length) {
             const bucketIdWithHighestCount = findMostReferredToBucketId({
-                selectedAnswers,
+                selectedGlobalAnswers,
                 questions,
             });
             setTopSelectedResult(
@@ -155,7 +156,7 @@ export const PersonalityQuizAtom = ({
         }
     }, [
         hasSubmittedAnswers,
-        selectedAnswers,
+        selectedGlobalAnswers,
         setTopSelectedResult,
         resultBuckets,
     ]);
@@ -180,14 +181,14 @@ export const PersonalityQuizAtom = ({
                     answers={question.answers}
                     updateSelectedAnswer={(selectedAnswerId: string) => {
                         setHasMissingAnswers(false);
-                        setSelectedAnswers({
-                            ...selectedAnswers,
+                        setSelectedGlobalAnswers({
+                            ...selectedGlobalAnswers,
                             [question.id]: selectedAnswerId,
                         });
                     }}
-                    selectedAnswer={
-                        question.id in selectedAnswers
-                            ? selectedAnswers[question.id]
+                    globallySelectedAnswer={
+                        question.id in selectedGlobalAnswers
+                            ? selectedGlobalAnswers[question.id]
                             : undefined
                     }
                     hasSubmittedAnswers={hasSubmittedAnswers}
@@ -227,7 +228,7 @@ export const PersonalityQuizAtom = ({
                 <Button
                     priority="secondary"
                     onClick={() => {
-                        setSelectedAnswers({});
+                        setSelectedGlobalAnswers({});
                         setHasSubmittedAnswers(false);
                         setTopSelectedResult(null);
                     }}
@@ -235,7 +236,7 @@ export const PersonalityQuizAtom = ({
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey) {
-                            setSelectedAnswers({});
+                            setSelectedGlobalAnswers({});
                             setHasSubmittedAnswers(false);
                             setTopSelectedResult(null);
                         }
@@ -256,7 +257,7 @@ type PersonalityQuizAnswersProps = {
     imageUrl?: string;
     answers: AnswerType[];
     updateSelectedAnswer: (selectedAnswerId: string) => void;
-    selectedAnswer?: string;
+    globallySelectedAnswer?: string;
     hasSubmittedAnswers: boolean;
 };
 
@@ -267,34 +268,76 @@ const PersonalityQuizAnswers = ({
     imageUrl,
     answers,
     updateSelectedAnswer,
-    selectedAnswer,
+    globallySelectedAnswer,
     hasSubmittedAnswers,
-}: PersonalityQuizAnswersProps) => (
-    <fieldset className={answersWrapperStyle}>
-        <div>
-            <legend
-                className={css`
-                    margin-bottom: 12px;
-                `}
-            >
-                <span
+}: PersonalityQuizAnswersProps) => {
+    // use local state to avoid re-renders of AnswersGroup from updates due to: updateSelectedAnswer & selectedAnswer
+    const [selectedAnswer, setSelectedAnswers] = useState<string | undefined>();
+
+    useEffect(() => {
+        if (selectedAnswer && selectedAnswer !== globallySelectedAnswer) {
+            updateSelectedAnswer(selectedAnswer);
+        }
+    }, [updateSelectedAnswer, selectedAnswer]);
+
+    // in order to reset selection
+    useEffect(() => {
+        if (!globallySelectedAnswer) setSelectedAnswers(undefined);
+    }, [globallySelectedAnswer, setSelectedAnswers]);
+
+    return (
+        <fieldset className={answersWrapperStyle}>
+            <div>
+                <legend
                     className={css`
-                        padding-right: 12px;
+                        margin-bottom: 12px;
                     `}
                 >
-                    {questionNumber + '.'}
-                </span>
-                {text}
-            </legend>
-        </div>
-        {imageUrl && (
-            <img
-                className={css`
-                    width: 100%;
-                `}
-                src={imageUrl}
+                    <span
+                        className={css`
+                            padding-right: 12px;
+                        `}
+                    >
+                        {questionNumber + '.'}
+                    </span>
+                    {text}
+                </legend>
+            </div>
+            {imageUrl && (
+                <img
+                    className={css`
+                        width: 100%;
+                    `}
+                    src={imageUrl}
+                />
+            )}
+            <AnswersGroup
+                hasSubmittedAnswers={hasSubmittedAnswers}
+                questionId={questionId}
+                answers={answers}
+                selectedAnswer={selectedAnswer}
+                setSelectedAnswers={setSelectedAnswers}
             />
-        )}
+        </fieldset>
+    );
+};
+
+type AnswersGroupProp = {
+    hasSubmittedAnswers: boolean;
+    questionId: string;
+    answers: AnswerType[];
+    selectedAnswer: string | undefined;
+    setSelectedAnswers: (selectedAnswerId: string) => void;
+};
+
+const AnswersGroup = memo(
+    ({
+        hasSubmittedAnswers,
+        questionId,
+        answers,
+        selectedAnswer,
+        setSelectedAnswers,
+    }: AnswersGroupProp) => (
         <div
             className={cx(
                 radioButtonWrapperStyles,
@@ -323,14 +366,15 @@ const PersonalityQuizAnswers = ({
                                 : 'unselected-enabled-answer'
                         }
                         disabled={hasSubmittedAnswers}
-                        onChange={() => updateSelectedAnswer(answer.id)}
+                        onChange={() => setSelectedAnswers(answer.id)}
                         checked={selectedAnswer === answer.id}
                     />
                 ))}
             </RadioGroup>
         </div>
-    </fieldset>
+    ),
 );
+AnswersGroup.displayName = 'AnswersGroup';
 
 const missingAnswersStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}
