@@ -1,7 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { css } from 'emotion';
 
-import { body } from '@guardian/src-foundations/typography';
+import { body, textSans } from '@guardian/src-foundations/typography';
+import { neutral, sport } from '@guardian/src-foundations/palette';
+import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 import { Button } from '@guardian/src-button';
 
@@ -31,6 +33,15 @@ type QuestionType = {
 type QuizAtomType = {
     id: string;
     questions: QuestionType[];
+    resultGroups: ResultGroupsType[];
+    sharingIcons?: JSX.Element;
+};
+
+type ResultGroupsType = {
+    title: string;
+    shareText: string;
+    minScore: number;
+    id: string;
 };
 
 const fieldsetStyle = css`
@@ -42,20 +53,72 @@ const fieldsetStyle = css`
 export const KnowledgeQuizAtom = ({
     id,
     questions,
-}: QuizAtomType): JSX.Element => (
-    <form data-atom-id={id}>
-        {questions.map((question, idx) => (
-            <Question
-                key={question.id}
-                id={question.id}
-                number={idx + 1}
-                text={question.text}
-                imageUrl={question.imageUrl}
-                answers={question.answers}
-            />
-        ))}
-    </form>
-);
+    resultGroups,
+    sharingIcons,
+}: QuizAtomType): JSX.Element => {
+    const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
+        [questionId: string]: AnswerType;
+    }>({});
+
+    const [
+        haveAllQuestionsBeenAnswered,
+        setHaveAllQuestionsBeenAnswered,
+    ] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (Object.keys(selectedGlobalAnswers).length === questions.length) {
+            setHaveAllQuestionsBeenAnswered(true);
+        }
+    }, [selectedGlobalAnswers, setHaveAllQuestionsBeenAnswered, questions]);
+
+    console.log('selectedGlobalAnswers');
+    console.log(selectedGlobalAnswers);
+
+    return (
+        <form data-atom-id={id}>
+            {haveAllQuestionsBeenAnswered && (
+                <div data-testid="quiz-results-block-top">
+                    <Result
+                        selectedGlobalAnswers={selectedGlobalAnswers}
+                        resultGroups={resultGroups}
+                        sharingIcons={sharingIcons}
+                    />
+                </div>
+            )}
+            {questions.map((question, idx) => (
+                <Question
+                    key={question.id}
+                    id={question.id}
+                    number={idx + 1}
+                    text={question.text}
+                    imageUrl={question.imageUrl}
+                    answers={question.answers}
+                    setSelectedGlobalAnswers={({
+                        answer,
+                        questionId,
+                    }: {
+                        answer: AnswerType;
+                        questionId: string;
+                    }) =>
+                        setSelectedGlobalAnswers({
+                            ...selectedGlobalAnswers,
+                            [questionId]: answer,
+                        })
+                    }
+                />
+            ))}
+            {haveAllQuestionsBeenAnswered && (
+                <div data-testid="quiz-results-block-top">
+                    <Result
+                        selectedGlobalAnswers={selectedGlobalAnswers}
+                        resultGroups={resultGroups}
+                        sharingIcons={sharingIcons}
+                    />
+                </div>
+            )}
+        </form>
+    );
+};
 
 export const Question = ({
     id,
@@ -63,14 +126,34 @@ export const Question = ({
     imageUrl,
     answers,
     number,
+    setSelectedGlobalAnswers,
 }: QuestionType & {
     number: number;
+    setSelectedGlobalAnswers: ({
+        answer,
+        questionId,
+    }: {
+        answer: AnswerType;
+        questionId: string;
+    }) => void;
 }): JSX.Element => {
-    const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
+    const [selectedAnswerId, setSelectedAnswerId] = useState<
+        string | undefined
+    >();
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
 
-    const updateSelectedAnswer = (selectedAnswerId: string) =>
-        setSelectedAnswer(selectedAnswerId);
+    useEffect(() => {
+        if (selectedAnswerId && hasSubmitted) {
+            const selectedAnswer = answers.find(
+                (answer) => answer.id === selectedAnswerId,
+            );
+            selectedAnswer &&
+                setSelectedGlobalAnswers({
+                    questionId: id,
+                    answer: selectedAnswer,
+                });
+        }
+    }, [selectedAnswerId, hasSubmitted, answers]);
 
     return (
         <div
@@ -107,8 +190,8 @@ export const Question = ({
                     id={id}
                     answers={answers}
                     hasSubmitted={hasSubmitted}
-                    selectedAnswer={selectedAnswer}
-                    updateSelectedAnswer={updateSelectedAnswer}
+                    selectedAnswerId={selectedAnswerId}
+                    setSelectedAnswerId={setSelectedAnswerId}
                 />
                 <div
                     className={css`
@@ -148,20 +231,20 @@ const Answers = ({
     answers,
     id: questionId,
     hasSubmitted,
-    selectedAnswer,
-    updateSelectedAnswer,
+    selectedAnswerId,
+    setSelectedAnswerId,
 }: {
     answers: AnswerType[];
     id: string;
     hasSubmitted: boolean;
-    selectedAnswer?: string;
-    updateSelectedAnswer: (selectedAnswerId: string) => void;
+    selectedAnswerId?: string;
+    setSelectedAnswerId: (selectedAnswerId: string) => void;
 }) => {
     if (hasSubmitted) {
         return (
             <Fragment>
                 {answers.map((answer) => {
-                    const isSelected = selectedAnswer === answer.id;
+                    const isSelected = selectedAnswerId === answer.id;
 
                     if (isSelected) {
                         if (answer.isCorrect) {
@@ -218,17 +301,97 @@ const Answers = ({
                         value={answer.text}
                         data-testid={answer.id}
                         data-answer-type={
-                            selectedAnswer === answer.id
+                            selectedAnswerId === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
                         }
                         name={questionId}
                         label={answer.text}
-                        onChange={() => updateSelectedAnswer(answer.id)}
-                        checked={selectedAnswer === answer.id}
+                        onChange={() => setSelectedAnswerId(answer.id)}
+                        checked={selectedAnswerId === answer.id}
                     />
                 ))}
             </RadioGroup>
+        </div>
+    );
+};
+
+const resultWrapperStyles = css`
+    background-color: ${neutral[93]};
+    margin-top: ${space[3]}px;
+    margin-bottom: ${space[3]}px;
+    padding: ${space[2]}px;
+`;
+const resultHeaderStyles = css`
+    ${textSans.medium({ fontWeight: 'bold' })}
+    color: ${neutral[20]};
+    padding-bottom: ${space[1]}px;
+`;
+
+const resultDescriptionStyles = css`
+    ${textSans.medium()}
+    color: ${neutral[46]};
+    display: flex;
+    flex-direction: column;
+`;
+
+const resultsNumberStyles = css`
+    ${textSans.xxxlarge({ fontWeight: 'bold' })}
+    color: ${sport[200]};
+`;
+
+export const Result = ({
+    selectedGlobalAnswers,
+    resultGroups,
+    sharingIcons,
+}: {
+    selectedGlobalAnswers: {
+        [questionId: string]: AnswerType;
+    };
+    resultGroups: ResultGroupsType[];
+    sharingIcons?: JSX.Element;
+}): JSX.Element => {
+    const totalNumberOfQuestions = Object.keys(selectedGlobalAnswers).length;
+    const numberOfCorrectAnswers = Object.keys(selectedGlobalAnswers).filter(
+        (questionId) => selectedGlobalAnswers[questionId].isCorrect,
+    ).length;
+    const resultGroup = resultGroups.reduce(
+        (acc: null | ResultGroupsType, cur: ResultGroupsType) => {
+            if (!acc) return cur;
+
+            // In the case we have the exact numberOfCorrectAnswers
+            if (acc.minScore === numberOfCorrectAnswers) return acc;
+            if (cur.minScore === numberOfCorrectAnswers) return cur;
+
+            // if `cur` has a closer score than `acc`
+            if (
+                acc.minScore < cur.minScore &&
+                cur.minScore < numberOfCorrectAnswers
+            )
+                return cur;
+
+            return acc;
+        },
+        null,
+    );
+    return (
+        <div className={resultWrapperStyles}>
+            <p className={resultDescriptionStyles}>
+                <span>You got...</span>
+                <span
+                    className={resultsNumberStyles}
+                >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
+                {resultGroup && <span>{resultGroup.title}</span>}
+            </p>
+            {sharingIcons && (
+                <Fragment>
+                    <hr />
+                    <div className={resultHeaderStyles}>
+                        Challenge your friends
+                    </div>
+                    {sharingIcons}
+                </Fragment>
+            )}
         </div>
     );
 };
