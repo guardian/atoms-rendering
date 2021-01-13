@@ -44,6 +44,10 @@ type ResultGroupsType = {
     id: string;
 };
 
+type QuizSelectionType = {
+    [questionId: string]: AnswerType;
+};
+
 const fieldsetStyle = css`
     margin-bottom: 12px;
     border: 0px;
@@ -56,19 +60,17 @@ export const KnowledgeQuizAtom = ({
     resultGroups,
     sharingIcons,
 }: QuizAtomType): JSX.Element => {
-    const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
-        [questionId: string]: AnswerType;
-    }>({});
+    const [quizSelection, setQuizSelection] = useState<QuizSelectionType>({});
 
     const haveAllQuestionsBeenAnswered =
-        Object.keys(selectedGlobalAnswers).length === questions.length;
+        Object.keys(quizSelection).length === questions.length;
 
     return (
         <form data-atom-id={id}>
             {haveAllQuestionsBeenAnswered && (
                 <div data-testid="quiz-results-block-top">
                     <Result
-                        selectedGlobalAnswers={selectedGlobalAnswers}
+                        quizSelection={quizSelection}
                         resultGroups={resultGroups}
                         sharingIcons={sharingIcons}
                     />
@@ -82,24 +84,14 @@ export const KnowledgeQuizAtom = ({
                     text={question.text}
                     imageUrl={question.imageUrl}
                     answers={question.answers}
-                    setSelectedGlobalAnswers={({
-                        answer,
-                        questionId,
-                    }: {
-                        answer: AnswerType;
-                        questionId: string;
-                    }) =>
-                        setSelectedGlobalAnswers({
-                            ...selectedGlobalAnswers,
-                            [questionId]: answer,
-                        })
-                    }
+                    quizSelection={quizSelection}
+                    setQuizSelection={setQuizSelection}
                 />
             ))}
             {haveAllQuestionsBeenAnswered && (
                 <div data-testid="quiz-results-block-top">
                     <Result
-                        selectedGlobalAnswers={selectedGlobalAnswers}
+                        quizSelection={quizSelection}
                         resultGroups={resultGroups}
                         sharingIcons={sharingIcons}
                     />
@@ -115,16 +107,12 @@ export const Question = ({
     imageUrl,
     answers,
     number,
-    setSelectedGlobalAnswers,
+    quizSelection,
+    setQuizSelection,
 }: QuestionType & {
     number: number;
-    setSelectedGlobalAnswers: ({
-        answer,
-        questionId,
-    }: {
-        answer: AnswerType;
-        questionId: string;
-    }) => void;
+    quizSelection: QuizSelectionType;
+    setQuizSelection: (quizSelection: QuizSelectionType) => void;
 }): JSX.Element => {
     const [selectedAnswerId, setSelectedAnswerId] = useState<
         string | undefined
@@ -137,9 +125,9 @@ export const Question = ({
                 (answer) => answer.id === selectedAnswerId,
             );
             selectedAnswer &&
-                setSelectedGlobalAnswers({
-                    questionId: id,
-                    answer: selectedAnswer,
+                setQuizSelection({
+                    ...quizSelection,
+                    [id]: selectedAnswer,
                 });
         }
     }, [selectedAnswerId, hasSubmitted, answers]);
@@ -330,19 +318,19 @@ const resultsNumberStyles = css`
 `;
 
 export const Result = ({
-    selectedGlobalAnswers,
+    quizSelection,
     resultGroups,
     sharingIcons,
 }: {
-    selectedGlobalAnswers: {
+    quizSelection: {
         [questionId: string]: AnswerType;
     };
     resultGroups: ResultGroupsType[];
     sharingIcons?: JSX.Element;
 }): JSX.Element => {
-    const totalNumberOfQuestions = Object.keys(selectedGlobalAnswers).length;
-    const numberOfCorrectAnswers = Object.keys(selectedGlobalAnswers).filter(
-        (questionId) => selectedGlobalAnswers[questionId].isCorrect,
+    const totalNumberOfQuestions = Object.keys(quizSelection).length;
+    const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
+        (questionId) => quizSelection[questionId].isCorrect,
     ).length;
     const resultGroup = resultGroups.reduce(
         (acc: null | ResultGroupsType, cur: ResultGroupsType) => {
