@@ -71,9 +71,6 @@ export const KnowledgeQuizAtom = ({
         }
     }, [selectedGlobalAnswers, setHaveAllQuestionsBeenAnswered, questions]);
 
-    console.log('selectedGlobalAnswers');
-    console.log(selectedGlobalAnswers);
-
     return (
         <form data-atom-id={id}>
             {haveAllQuestionsBeenAnswered && (
