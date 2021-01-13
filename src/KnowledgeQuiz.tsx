@@ -130,7 +130,7 @@ export const Question = ({
                     [id]: selectedAnswer,
                 });
         }
-    }, [selectedAnswerId, hasSubmitted, answers]);
+    }, [selectedAnswerId, setQuizSelection, hasSubmitted, answers]);
 
     return (
         <div
