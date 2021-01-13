@@ -60,16 +60,8 @@ export const KnowledgeQuizAtom = ({
         [questionId: string]: AnswerType;
     }>({});
 
-    const [
-        haveAllQuestionsBeenAnswered,
-        setHaveAllQuestionsBeenAnswered,
-    ] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (Object.keys(selectedGlobalAnswers).length === questions.length) {
-            setHaveAllQuestionsBeenAnswered(true);
-        }
-    }, [selectedGlobalAnswers, setHaveAllQuestionsBeenAnswered, questions]);
+    const haveAllQuestionsBeenAnswered =
+        Object.keys(selectedGlobalAnswers).length === questions.length;
 
     return (
         <form data-atom-id={id}>
