@@ -2,7 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
-import { exampleKnowledgeQuestions } from './fixtures/knowledgeQuizAtom';
+import {
+    exampleKnowledgeQuestions,
+    resultGroups,
+} from './fixtures/knowledgeQuizAtom';
 
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
@@ -11,7 +14,11 @@ const questions = [exampleKnowledgeQuestions[0]];
 describe('KnowledgeQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
-            <KnowledgeQuizAtom id="123abc" questions={questions} />,
+            <KnowledgeQuizAtom
+                id="123abc"
+                questions={questions}
+                resultGroups={resultGroups}
+            />,
         );
         expect(getByText(questions[0].text)).toBeInTheDocument();
     });
@@ -41,11 +48,21 @@ describe('KnowledgeQuiz', () => {
 
         it('should change answer component when chosen', () => {
             const { getByTestId, rerender } = render(
-                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
             );
 
             fireEvent.click(getByTestId(correctAnswer.id));
-            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+            rerender(
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
+            );
 
             expect(
                 getByTestId(correctAnswer.id).getAttribute('data-answer-type'),
@@ -54,12 +71,22 @@ describe('KnowledgeQuiz', () => {
 
         it('should display correct answer when chosen', () => {
             const { getByTestId, rerender } = render(
-                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
             );
 
             fireEvent.click(getByTestId(correctAnswer.id));
             fireEvent.click(getByTestId(`submit-question-${questionId}`));
-            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+            rerender(
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
+            );
 
             expect(
                 getByTestId(correctAnswer.id).getAttribute('data-answer-type'),
@@ -68,12 +95,22 @@ describe('KnowledgeQuiz', () => {
 
         it('should correct user when incorrect answer chosen', () => {
             const { getByTestId, rerender } = render(
-                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
             );
 
             fireEvent.click(getByTestId(incorrectAnswer.id));
             fireEvent.click(getByTestId(`submit-question-${questionId}`));
-            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+            rerender(
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
+            );
 
             expect(
                 getByTestId(incorrectAnswer.id).getAttribute(
@@ -87,7 +124,11 @@ describe('KnowledgeQuiz', () => {
 
         it('should disable selection when answer has been selected', () => {
             const { getByTestId, rerender } = render(
-                <KnowledgeQuizAtom id="123abc" questions={questions} />,
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
             );
 
             expect(
@@ -98,7 +139,13 @@ describe('KnowledgeQuiz', () => {
 
             fireEvent.click(getByTestId(correctAnswer.id));
             fireEvent.click(getByTestId(`submit-question-${questionId}`));
-            rerender(<KnowledgeQuizAtom id="123abc" questions={questions} />);
+            rerender(
+                <KnowledgeQuizAtom
+                    id="123abc"
+                    questions={questions}
+                    resultGroups={resultGroups}
+                />,
+            );
 
             expect(
                 getByTestId(incorrectUnselectedAnswer.id).getAttribute(
