@@ -3,7 +3,6 @@ import React, {
     KeyboardEvent,
     useEffect,
     MouseEvent,
-    Fragment,
     memo,
 } from 'react';
 import { css, cx } from 'emotion';
@@ -13,8 +12,11 @@ import { Button } from '@guardian/src-button';
 import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
+import { Pillar } from '@guardian/types';
 
+import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';
+import { SharingIcons } from './SharingIcons';
 
 type ResultsBucket = {
     id: string;
@@ -41,7 +43,8 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
-    sharingIcons?: JSX.Element;
+    pillar: Pillar;
+    sharingUrls: SharingUrlsType;
 };
 
 const answersWrapperStyle = css`
@@ -109,7 +112,8 @@ export const PersonalityQuizAtom = ({
     id,
     questions,
     resultBuckets,
-    sharingIcons,
+    pillar,
+    sharingUrls,
 }: QuizAtomType): JSX.Element => {
     const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
         [key: string]: string;
@@ -167,7 +171,8 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-top">
                     <Result
                         resultBuckets={topSelectedResult}
-                        sharingIcons={sharingIcons}
+                        pillar={pillar}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -199,7 +204,8 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-bottom">
                     <Result
                         resultBuckets={topSelectedResult}
-                        sharingIcons={sharingIcons}
+                        pillar={pillar}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -407,22 +413,30 @@ const resultDescriptionStyles = css`
 
 export const Result = ({
     resultBuckets,
-    sharingIcons,
+    pillar,
+    sharingUrls,
 }: {
     resultBuckets: ResultsBucket;
-    sharingIcons?: JSX.Element;
+    pillar: Pillar;
+    sharingUrls: SharingUrlsType;
 }): JSX.Element => (
     <div className={resultWrapperStyles}>
         <div className={resultHeaderStyles}>{resultBuckets.title}</div>
         <div className={resultDescriptionStyles}>
             {resultBuckets.description}
         </div>
-        {sharingIcons && (
-            <Fragment>
-                <hr />
-                <div className={resultHeaderStyles}>Challenge your friends</div>
-                {sharingIcons}
-            </Fragment>
-        )}
+        <hr />
+        <div className={resultHeaderStyles}>Challenge your friends</div>
+        <SharingIcons
+            sharingUrls={sharingUrls}
+            pillar={pillar}
+            displayIcons={[
+                'facebook',
+                'twitter',
+                'email',
+                'whatsApp',
+                'messenger',
+            ]}
+        />
     </div>
 );

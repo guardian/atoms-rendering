@@ -131,3 +131,17 @@ export type RoleType =
     | 'inline'
     | 'thumbnail'
     | 'halfWidth';
+
+export type SharePlatformType =
+    | 'facebook'
+    | 'twitter'
+    | 'email'
+    | 'whatsApp'
+    | 'messenger';
+
+export type SharingUrlsType = {
+    [K in SharePlatformType]?: {
+        url: string;
+        userMessage: string;
+    };
+};
