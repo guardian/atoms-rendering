@@ -140,7 +140,8 @@
             "**/*.test.+(ts|tsx|js)"
         ],
         "moduleNameMapper": {
-            "^@guardian/src-foundations/(.*)(?<!cjs)$": "@guardian/src-foundations/$1/cjs"
+            "^@guardian/src-foundations/(.*)(?<!cjs)$": "@guardian/src-foundations/$1/cjs",
+            "^(.*)\\.svg$": "<rootDir>/__mocks__/svgMock.tsx"
         },
         "collectCoverageFrom": [
             "src/**/*.{ts,tsx}"
