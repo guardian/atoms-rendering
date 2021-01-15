@@ -12,16 +12,11 @@ import WhatsAppIcon from './icons/whatsapp.svg';
 import MessengerIcon from './icons/messenger.svg';
 
 import { pillarPalette } from './lib/pillarPalette';
-
-type SharePlatform =
-    | 'facebook'
-    | 'twitter'
-    | 'email'
-    | 'whatsApp'
-    | 'messenger';
+import { SharePlatformType } from './types';
 
 const shareIconList = css`
-    float: left;
+    display: flex;
+    flex-direction: row;
     ${from.wide} {
         flex: auto;
     }
@@ -29,7 +24,6 @@ const shareIconList = css`
 
 const shareIconsListItem = css`
     padding: 0 3px 6px 0;
-    float: left;
     min-width: 32px;
     cursor: pointer;
 `;
@@ -50,8 +44,6 @@ const shareIcon = (colour: string) => css`
     box-sizing: content-box;
 
     svg {
-        height: 88%;
-        width: 88%;
         top: 0;
         bottom: 0;
         right: 0;
@@ -74,7 +66,7 @@ const mobileOnlyShareIconsListItem = css`
 `;
 
 interface ShareListItemType {
-    id: SharePlatform;
+    id: SharePlatformType;
     Icon: React.ComponentType;
     url: string;
     userMessage: string;
@@ -88,16 +80,16 @@ export const SharingIcons = ({
     className,
 }: {
     sharingUrls: {
-        [K in SharePlatform]?: {
+        [K in SharePlatformType]?: {
             url: string;
             userMessage: string;
         };
     };
-    displayIcons: SharePlatform[];
+    displayIcons: SharePlatformType[];
     pillar: Pillar;
     className?: string;
 }): JSX.Element => {
-    const icons: { [K in SharePlatform]?: React.ComponentType } = {
+    const icons: { [K in SharePlatformType]?: React.ComponentType } = {
         facebook: FacebookIcon,
         twitter: TwitterIcon,
         email: EmailIcon,
@@ -105,7 +97,7 @@ export const SharingIcons = ({
         messenger: MessengerIcon,
     };
 
-    const mobileOnlyIcons: SharePlatform[] = ['whatsApp', 'messenger'];
+    const mobileOnlyIcons: SharePlatformType[] = ['whatsApp', 'messenger'];
 
     const shareList = displayIcons.reduce((list: ShareListItemType[], id) => {
         const icon = icons[id];
@@ -147,6 +139,7 @@ export const SharingIcons = ({
                             role="button"
                             aria-label={userMessage}
                             target="_blank"
+                            rel="noreferrer"
                         >
                             <span
                                 className={cx(
