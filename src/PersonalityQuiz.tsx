@@ -12,7 +12,6 @@ import { Button } from '@guardian/src-button';
 import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
-import { Pillar } from '@guardian/types';
 
 import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';
@@ -43,7 +42,6 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
-    pillar: Pillar;
     sharingUrls: SharingUrlsType;
 };
 
@@ -112,7 +110,6 @@ export const PersonalityQuizAtom = ({
     id,
     questions,
     resultBuckets,
-    pillar,
     sharingUrls,
 }: QuizAtomType): JSX.Element => {
     const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
@@ -171,7 +168,6 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-top">
                     <Result
                         resultBuckets={topSelectedResult}
-                        pillar={pillar}
                         sharingUrls={sharingUrls}
                     />
                 </div>
@@ -204,7 +200,6 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-bottom">
                     <Result
                         resultBuckets={topSelectedResult}
-                        pillar={pillar}
                         sharingUrls={sharingUrls}
                     />
                 </div>
@@ -413,11 +408,9 @@ const resultDescriptionStyles = css`
 
 export const Result = ({
     resultBuckets,
-    pillar,
     sharingUrls,
 }: {
     resultBuckets: ResultsBucket;
-    pillar: Pillar;
     sharingUrls: SharingUrlsType;
 }): JSX.Element => (
     <div className={resultWrapperStyles}>
@@ -429,13 +422,14 @@ export const Result = ({
         <div className={resultHeaderStyles}>Challenge your friends</div>
         <SharingIcons
             sharingUrls={sharingUrls}
-            pillar={pillar}
             displayIcons={[
                 'facebook',
                 'twitter',
                 'email',
                 'whatsApp',
                 'messenger',
+                'linkedIn',
+                'pinterest',
             ]}
         />
     </div>

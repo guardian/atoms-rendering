@@ -2,8 +2,6 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
-import { Pillar } from '@guardian/types';
-
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
@@ -22,7 +20,6 @@ describe('PersonalityQuiz', () => {
                 id="123abc"
                 questions={examplePersonalityQuestions}
                 resultBuckets={exampleResultBuckets}
-                pillar={Pillar.Sport}
                 sharingUrls={sharingUrls}
             />,
         );
@@ -39,7 +36,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -50,7 +46,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -66,7 +61,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -77,7 +71,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -93,7 +86,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -108,7 +100,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
@@ -125,7 +116,6 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
-                    pillar={Pillar.Sport}
                     sharingUrls={sharingUrls}
                 />,
             );
