@@ -136,6 +136,8 @@ export type SharePlatformType =
     | 'facebook'
     | 'twitter'
     | 'email'
+    | 'linkedIn'
+    | 'pinterest'
     | 'whatsApp'
     | 'messenger';
 
