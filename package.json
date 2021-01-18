@@ -73,8 +73,7 @@
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
         "ts-jest": "^24.3.0",
-        "ts-loader": "^8.0.14",
-        "youtube-player": "^5.5.2"
+        "ts-loader": "^8.0.14"
     },
     "eslintConfig": {
         "root": true,
@@ -112,8 +111,7 @@
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "youtube-player": "^5.5.2"
+        "react-dom": "^16.14.0"
     },
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
@@ -144,5 +142,8 @@
         "collectCoverageFrom": [
             "src/**/*.{ts,tsx}"
         ]
+    },
+    "dependencies": {
+        "youtube-player": "^5.5.2"
     }
 }
