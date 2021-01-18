@@ -106,6 +106,7 @@ export const SharingIcons = ({
                             rel="noreferrer"
                             icon={<Icon />}
                             priority="tertiary"
+                            size="small"
                         >
                             {userMessage}
                         </LinkButton>
