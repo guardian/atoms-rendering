@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Pillar } from '@guardian/types';
-
 import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
     examplePersonalityQuestions,
@@ -19,7 +17,6 @@ export const DefaultRendering = () => (
         id="quiz-id"
         questions={examplePersonalityQuestions}
         resultBuckets={exampleResultBuckets}
-        pillar={Pillar.Sport}
         sharingUrls={sharingUrls}
     />
 );
