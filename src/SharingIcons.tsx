@@ -1,17 +1,15 @@
 import React from 'react';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 
-import { border } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
-import { Pillar } from '@guardian/types';
+import { LinkButton } from '@guardian/src-button';
 
-import TwitterIcon from './icons/twitter.svg';
-import FacebookIcon from './icons/facebook.svg';
-import EmailIcon from './icons/email.svg';
+import { SvgTwitter, SvgFacebook, SvgEnvelope } from '@guardian/src-icons';
 import WhatsAppIcon from './icons/whatsapp.svg';
 import MessengerIcon from './icons/messenger.svg';
+import LinkedInIcon from './icons/linked-in.svg';
+import PinterestIcon from './icons/pinterest.svg';
 
-import { pillarPalette } from './lib/pillarPalette';
 import { SharePlatformType } from './types';
 
 const shareIconList = css`
@@ -20,42 +18,9 @@ const shareIconList = css`
     ${from.wide} {
         flex: auto;
     }
-`;
 
-const shareIconsListItem = css`
-    padding: 0 3px 6px 0;
-    min-width: 32px;
-    cursor: pointer;
-`;
-
-const shareIcon = (colour: string) => css`
-    border: 1px solid ${border.secondary};
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 32px;
-    max-width: 100%;
-    width: auto;
-    height: 32px;
-    border-radius: 50%;
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    box-sizing: content-box;
-
-    svg {
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
-        position: absolute;
-    }
-
-    :hover {
-        background-color: ${colour};
-        border-color: ${colour};
-        fill: white;
+    a {
+        margin-right: 5px;
     }
 `;
 
@@ -76,8 +41,6 @@ interface ShareListItemType {
 export const SharingIcons = ({
     sharingUrls,
     displayIcons,
-    pillar,
-    className,
 }: {
     sharingUrls: {
         [K in SharePlatformType]?: {
@@ -86,15 +49,15 @@ export const SharingIcons = ({
         };
     };
     displayIcons: SharePlatformType[];
-    pillar: Pillar;
-    className?: string;
 }): JSX.Element => {
     const icons: { [K in SharePlatformType]?: React.ComponentType } = {
-        facebook: FacebookIcon,
-        twitter: TwitterIcon,
-        email: EmailIcon,
+        facebook: SvgFacebook,
+        twitter: SvgTwitter,
+        email: SvgEnvelope,
         whatsApp: WhatsAppIcon,
         messenger: MessengerIcon,
+        linkedIn: LinkedInIcon,
+        pinterest: PinterestIcon,
     };
 
     const mobileOnlyIcons: SharePlatformType[] = ['whatsApp', 'messenger'];
@@ -117,7 +80,7 @@ export const SharingIcons = ({
     }, []);
 
     return (
-        <ul className={cx(shareIconList, [className])}>
+        <div className={shareIconList}>
             {shareList.map((shareListItem) => {
                 const {
                     Icon,
@@ -128,33 +91,27 @@ export const SharingIcons = ({
                 } = shareListItem;
 
                 return (
-                    <li
-                        className={cx(shareIconsListItem, {
-                            [mobileOnlyShareIconsListItem]: mobileOnly,
-                        })}
+                    <div
+                        className={
+                            mobileOnly ? mobileOnlyShareIconsListItem : ''
+                        }
                         key={`${id}Share`}
                     >
-                        <a
+                        <LinkButton
+                            hideLabel={true}
                             href={url}
                             role="button"
                             aria-label={userMessage}
                             target="_blank"
                             rel="noreferrer"
+                            icon={<Icon />}
+                            priority="tertiary"
                         >
-                            <span
-                                className={cx(
-                                    shareIcon(pillarPalette[pillar][400]),
-                                    css`
-                                        fill: ${pillarPalette[pillar][400]};
-                                    `,
-                                )}
-                            >
-                                <Icon />
-                            </span>
-                        </a>
-                    </li>
+                            {userMessage}
+                        </LinkButton>
+                    </div>
                 );
             })}
-        </ul>
+        </div>
     );
 };
