@@ -27,4 +27,22 @@ export const sharingUrls = {
             `"${title}" ${articleUrl}?CMP=share_btn_wa`,
         )}`,
     },
+    messenger: {
+        userMessage: 'Share on Messanger',
+        url: `fb-messenger://share?link=${encodeURIComponent(
+            `${articleUrl}?CMP=share_btn_wa`,
+        )}&app_id=180444840287`,
+    },
+    linkedIn: {
+        userMessage: 'Share on LinkedIn',
+        url: `http://www.linkedin.com/shareArticle?mini=true&title=${encodeURIComponent(
+            title,
+        )}&url=${encodeURIComponent(`${articleUrl}?CMP=share_btn_wa`)}`,
+    },
+    pinterest: {
+        userMessage: 'Share on Pinterest',
+        url: `http://www.pinterest.com/pin/find/?url=${encodeURIComponent(
+            `${articleUrl}?CMP=share_btn_wa`,
+        )}`,
+    },
 };
