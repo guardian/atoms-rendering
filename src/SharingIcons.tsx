@@ -5,10 +5,10 @@ import { from } from '@guardian/src-foundations/mq';
 import { LinkButton } from '@guardian/src-button';
 
 import { SvgTwitter, SvgFacebook, SvgEnvelope } from '@guardian/src-icons';
-import WhatsAppIcon from './icons/whatsapp.svg';
-import MessengerIcon from './icons/messenger.svg';
-import LinkedInIcon from './icons/linked-in.svg';
-import PinterestIcon from './icons/pinterest.svg';
+import { WhatsappIcon } from './icons/whatsapp';
+import { MessengerIcon } from './icons/messenger';
+import { LinkedInIcon } from './icons/linked-in';
+import { PinterestIcon } from './icons/pinterest';
 
 import { SharePlatformType } from './types';
 
@@ -54,7 +54,7 @@ export const SharingIcons = ({
         facebook: SvgFacebook,
         twitter: SvgTwitter,
         email: SvgEnvelope,
-        whatsApp: WhatsAppIcon,
+        whatsApp: WhatsappIcon,
         messenger: MessengerIcon,
         linkedIn: LinkedInIcon,
         pinterest: PinterestIcon,
