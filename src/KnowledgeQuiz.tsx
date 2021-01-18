@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { css } from 'emotion';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
-import { neutral, sport } from '@guardian/src-foundations/palette';
+import { neutral, brand } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 import { Button } from '@guardian/src-button';
@@ -174,6 +174,7 @@ export const Question = ({
                     className={css`
                         display: flex;
                         flex-direction: row;
+                        margin-bottom: 8px;
                         button {
                             margin-right: 10px;
                         }
@@ -314,7 +315,7 @@ const resultDescriptionStyles = css`
 
 const resultsNumberStyles = css`
     ${textSans.xxxlarge({ fontWeight: 'bold' })}
-    color: ${sport[200]};
+    color: ${brand[400]};
 `;
 
 export const Result = ({
