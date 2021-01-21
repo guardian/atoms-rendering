@@ -5,7 +5,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { SvgInfo } from '@guardian/src-icons';
 
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 // .forceHeightAndWidth needed at the moment to override global image sizing
@@ -80,7 +80,7 @@ const bodyStyling = css`
     }
 `;
 
-const linkStyling = (pillar: Pillar) => css`
+const linkStyling = (pillar: Theme) => css`
     a {
         color: ${pillarPalette[pillar][300]};
         text-decoration: none;
@@ -102,7 +102,7 @@ export const Body = ({
     html: string;
     image?: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: Theme;
 }): JSX.Element => {
     return (
         <div>
