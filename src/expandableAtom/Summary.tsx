@@ -5,7 +5,7 @@ import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
 
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// SUMMARY ELEMENT
@@ -47,7 +47,7 @@ export const Summary = ({
     pillar,
     expandCallback,
 }: {
-    pillar: Pillar;
+    pillar: Theme;
     sectionTitle: string;
     title: string;
     expandCallback: () => void;
