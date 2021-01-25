@@ -299,6 +299,7 @@ export const YoutubeAtom = ({
                 // https://stackoverflow.com/a/53298579/7378674
                 allow="autoplay"
                 tabIndex={overrideImage || posterImage ? -1 : 0}
+                allowFullScreen
             />
 
             {(overrideImage || posterImage) && (
