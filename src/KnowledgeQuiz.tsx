@@ -34,7 +34,6 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultGroups: ResultGroupsType[];
-    sharingIcons?: JSX.Element;
 };
 
 type ResultGroupsType = {
@@ -58,7 +57,6 @@ export const KnowledgeQuizAtom = ({
     id,
     questions,
     resultGroups,
-    sharingIcons,
 }: QuizAtomType): JSX.Element => {
     const [quizSelection, setQuizSelection] = useState<QuizSelectionType>({});
 
@@ -72,7 +70,6 @@ export const KnowledgeQuizAtom = ({
                     <Result
                         quizSelection={quizSelection}
                         resultGroups={resultGroups}
-                        sharingIcons={sharingIcons}
                     />
                 </div>
             )}
@@ -93,7 +90,6 @@ export const KnowledgeQuizAtom = ({
                     <Result
                         quizSelection={quizSelection}
                         resultGroups={resultGroups}
-                        sharingIcons={sharingIcons}
                     />
                 </div>
             )}
@@ -300,11 +296,6 @@ const resultWrapperStyles = css`
     margin-bottom: ${space[3]}px;
     padding: ${space[2]}px;
 `;
-const resultHeaderStyles = css`
-    ${textSans.medium({ fontWeight: 'bold' })}
-    color: ${neutral[20]};
-    padding-bottom: ${space[1]}px;
-`;
 
 const resultDescriptionStyles = css`
     ${textSans.medium()}
@@ -321,13 +312,11 @@ const resultsNumberStyles = css`
 export const Result = ({
     quizSelection,
     resultGroups,
-    sharingIcons,
 }: {
     quizSelection: {
         [questionId: string]: AnswerType;
     };
     resultGroups: ResultGroupsType[];
-    sharingIcons?: JSX.Element;
 }): JSX.Element => {
     const totalNumberOfQuestions = Object.keys(quizSelection).length;
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
@@ -360,15 +349,6 @@ export const Result = ({
                 >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
                 {bestResultGroup && <span>{bestResultGroup.title}</span>}
             </p>
-            {sharingIcons && (
-                <Fragment>
-                    <hr />
-                    <div className={resultHeaderStyles}>
-                        Challenge your friends
-                    </div>
-                    {sharingIcons}
-                </Fragment>
-            )}
         </div>
     );
 };
