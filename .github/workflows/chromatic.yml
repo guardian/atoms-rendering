@@ -4,15 +4,12 @@ on: push
 jobs:
     run:
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [10.x, 12.x]
         steps:
             - uses: actions/checkout@v1
-            - name: Use Node.js ${{ matrix.node-version }}
+            - name: Use Node.js 14.15
               uses: actions/setup-node@v1
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: '14.15'
 
             # Cache npm dependencies using https://github.com/bahmutov/npm-install
             - uses: bahmutov/npm-install@v1
