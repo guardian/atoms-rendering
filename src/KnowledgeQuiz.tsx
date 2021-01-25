@@ -333,25 +333,24 @@ export const Result = ({
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
         (questionId) => quizSelection[questionId].isCorrect,
     ).length;
-    const resultGroup = resultGroups.reduce(
-        (acc: null | ResultGroupsType, cur: ResultGroupsType) => {
-            if (!acc) return cur;
 
-            // In the case we have the exact numberOfCorrectAnswers
-            if (acc.minScore === numberOfCorrectAnswers) return acc;
-            if (cur.minScore === numberOfCorrectAnswers) return cur;
+    let bestResultGroup: ResultGroupsType | undefined;
+    resultGroups.forEach((resultGroup) => {
+        if (!bestResultGroup) bestResultGroup = resultGroup;
 
-            // if `cur` has a closer score than `acc`
-            if (
-                acc.minScore < cur.minScore &&
-                cur.minScore < numberOfCorrectAnswers
-            )
-                return cur;
+        // In the case we have the exact numberOfCorrectAnswers
+        if (resultGroup.minScore === numberOfCorrectAnswers)
+            bestResultGroup = resultGroup;
+        if (bestResultGroup.minScore === numberOfCorrectAnswers) return; // do nothing
 
-            return acc;
-        },
-        null,
-    );
+        // if `cur` has a closer score than `acc`
+        if (
+            bestResultGroup.minScore < resultGroup.minScore &&
+            resultGroup.minScore < numberOfCorrectAnswers
+        )
+            return resultGroup;
+    });
+
     return (
         <div className={resultWrapperStyles}>
             <p className={resultDescriptionStyles}>
@@ -359,7 +358,7 @@ export const Result = ({
                 <span
                     className={resultsNumberStyles}
                 >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
-                {resultGroup && <span>{resultGroup.title}</span>}
+                {bestResultGroup && <span>{bestResultGroup.title}</span>}
             </p>
             {sharingIcons && (
                 <Fragment>
