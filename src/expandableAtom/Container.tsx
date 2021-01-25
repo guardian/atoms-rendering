@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { neutral, text } from '@guardian/src-foundations/palette';
 
-import { Pillar } from '@guardian/types/Format';
+import { Theme } from '@guardian/types';
 import { Summary } from './Summary';
 
 const containerStyling = css`
@@ -53,7 +53,7 @@ export const Container = ({
 }: {
     id: string;
     title: string;
-    pillar: Pillar;
+    pillar: Theme;
     expandForStorybook?: boolean;
     atomType: string;
     atomTypeTitle: string;

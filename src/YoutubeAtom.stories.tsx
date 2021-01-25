@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 
 import { YoutubeAtom } from './YoutubeAtom';
-import { Pillar } from '@guardian/types/Format';
+import { Pillar } from '@guardian/types';
 import { sport } from '@guardian/src-foundations';
 
 export default {

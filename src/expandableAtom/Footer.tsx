@@ -3,7 +3,7 @@ import { css, cx } from 'emotion';
 
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { Pillar } from '@guardian/types/Format';
+import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
@@ -37,7 +37,7 @@ export const Footer = ({
     likeHandler,
     dislikeHandler,
 }: {
-    pillar: Pillar;
+    pillar: Theme;
     likeHandler: () => void;
     dislikeHandler: () => void;
 }): JSX.Element => {

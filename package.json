@@ -4,7 +4,7 @@
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "8.0.2",
+    "version": "10.0.2",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
@@ -26,13 +26,11 @@
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",
         "chromatic": "chromatic",
-        "release": "yarn build && yarn version",
-        "preversion": "yarn validate",
-        "postversion": "HUSKY_SKIP_HOOKS=1 git push --tags && HUSKY_SKIP_HOOKS=1 git push && yarn publish --new-version $npm_package_version && echo \"Successfully released version $npm_package_version!\" && echo \"$npm_package_repository_url/releases\" && yarn open-releases",
-        "open-releases": "open \"$(node -e 'console.log(`${require(\"./package.json\").repository.url}/releases`)')\""
+        "release": "yarn validate && yarn build && np --no-tests"
     },
     "devDependencies": {
         "@babel/core": "^7.12.3",
+        "@babel/helper-builder-react-jsx": "^7.10.4",
         "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
         "@babel/plugin-proposal-optional-chaining": "^7.12.7",
         "@babel/plugin-transform-runtime": "^7.12.1",
@@ -42,7 +40,7 @@
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "@guardian/src-radio": "^2.7.1",
-        "@guardian/types": "^0.5.2",
+        "@guardian/types": "^3.0.0",
         "@storybook/addon-docs": "^6.1.11",
         "@storybook/addons": "^6.1.11",
         "@storybook/react": "^6.1.11",
@@ -67,6 +65,7 @@
         "jest": "^26.6.3",
         "jest-environment-jsdom-sixteen": "^1.0.3",
         "microbundle": "^0.12.0",
+        "np": "^7.2.0",
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "prettier": "^2.1.2",
@@ -74,7 +73,7 @@
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
         "ts-jest": "^24.3.0",
-        "youtube-player": "^5.5.2"
+        "ts-loader": "^8.0.14"
     },
     "eslintConfig": {
         "root": true,
@@ -107,17 +106,44 @@
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
         "@guardian/src-radio": "^2.7.1",
+        "@guardian/types": "^3.0.0",
         "emotion": "^10.0.27",
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",
-        "react-dom": "^16.14.0",
-        "youtube-player": "^5.5.2"
+        "react-dom": "^16.14.0"
     },
     "jest": {
         "testEnvironment": "jest-environment-jsdom-sixteen",
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
+        ],
+        "preset": "ts-jest/presets/js-with-babel",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "transform": {
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        },
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false,
+                "tsConfigFile": "tsconfig.json"
+            }
+        },
+        "testMatch": [
+            "**/*.test.+(ts|tsx|js)"
+        ],
+        "moduleNameMapper": {
+            "^@guardian/src-foundations/(.*)(?<!cjs)$": "@guardian/src-foundations/$1/cjs"
+        },
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}"
         ]
+    },
+    "dependencies": {
+        "youtube-player": "^5.5.2"
     }
 }

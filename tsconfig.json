@@ -9,15 +9,14 @@
         "jsx": "react",
         "moduleResolution": "node",
         "allowJs": true,
-        "rootDir": "src/",
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "isolatedModules": false,
-        "noEmit": true
+        "noEmit": false,
     },
-    "files": ["src/types.ts", "src/index.d.ts"],
+    "files": ["src/types.ts", "src/content.d.ts"],
     "include": ["src/"],
     "exclude": []
 }

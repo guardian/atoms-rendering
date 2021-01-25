@@ -22,7 +22,7 @@ describe('YoutubeAtom', () => {
         expect(getByTitle('My Youtube video!')).toHaveAttribute(
             'src',
             expect.stringMatching(
-                /https:\/\/www.youtube-nocookie.com\/embed.*/,
+                /https:\/\/www.youtube.com\/embed.*/,
             ),
         );
     });
