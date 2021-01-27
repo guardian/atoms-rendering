@@ -300,6 +300,8 @@ export const YoutubeAtom = ({
                 allow="autoplay"
                 tabIndex={overrideImage || posterImage ? -1 : 0}
                 allowFullScreen
+                data-atom-id={`youtube-video-${assetId}`}
+                data-atom-type="youtube"
             />
 
             {(overrideImage || posterImage) && (

@@ -43,7 +43,7 @@ export const KnowledgeQuizAtom = ({
     id,
     questions,
 }: QuizAtomType): JSX.Element => (
-    <form data-atom-id={id}>
+    <form data-atom-id={id} data-atom-type="knowledgequiz">
         {questions.map((question, idx) => (
             <Question
                 key={question.id}
