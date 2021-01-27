@@ -87,30 +87,35 @@ const SportEvents = [
         date: 'September 2011',
         body:
             '<p>Froome outshines his team leader, Bradley Wiggins, to finish second at the 2011 Vuelta. He is later upgraded to first place after the original winner, Juan José Cobo, was disqualified for drug offences</p>',
+        unixDate: 1315526400000,
     },
     {
         title: ' Tour de France breakthrough',
         date: 'July 2013',
         body:
             '<p>Froome came second to Wiggins at the 2012 Tour but was the team leader at the next edition, where a memorable surge up Mont Ventoux leads him to his first Tour de France title</p>',
+        unixDate: 1373155200000,
     },
     {
         title: 'Hat-trick of Tour titles',
         date: 'July 2016',
         body:
             '<p>After crashing out early in 2014, Froome bounces back to win the 2015 edition after a battle through the mountains with Nairo Quintana. Froome defends his title in all-action style in 2016, even running a few yards up Ventoux when his bike is damaged</p>',
+        unixDate: 1467849600000,
     },
     {
         title: 'Tour-Vuelta double',
         date: 'September 2017',
         body:
             '<p>Froome wins his fourth Tour de France, and third in succession, in 2017 and follows it up with a second Vuelta title. He becomes the first rider from outside France to win the Tour and Vuelta back-to-back</p>',
+        unixDate: 1504915200000,
     },
     {
         title: ' Giro win completes collection',
         date: 'June 2018',
         body:
             '<p>Froome gets the better of Simon Yates in a spectacular ride on the Colle delle Finestre to win his first Giro and complete his Grand Tour collection. At the 2018 Tour, he ends up working to lead his teammate, Geraint Thomas, to overall victory</p>',
+        unixDate: 1528243200000,
     },
 ];
 
