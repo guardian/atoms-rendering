@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { unifyPageContent } from './lib/unifyPageContent';
 import { InteractiveAtomType } from './types';
@@ -16,16 +16,12 @@ export const InteractiveAtom = ({
     id,
     html,
     js,
-    css,
+    atomCss,
 }: InteractiveAtomType): JSX.Element => (
-    <div
-        className={containerStyles}
-        data-atom-id={id}
-        data-atom-type="interactive"
-    >
+    <div css={containerStyles} data-atom-id={id} data-atom-type="interactive">
         <iframe
-            className={fullWidthStyles}
-            srcDoc={unifyPageContent({ js, css, html })}
+            css={fullWidthStyles}
+            srcDoc={unifyPageContent({ js, css: atomCss, html })}
             frameBorder="0"
         />
     </div>

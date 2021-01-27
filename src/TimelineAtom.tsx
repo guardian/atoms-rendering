@@ -1,9 +1,9 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
 import { body } from '@guardian/src-foundations/typography';
-import { Pillar, Theme } from '@guardian/types';
+import { Theme } from '@guardian/types';
 
 import { TimelineEvent, TimelineAtomType } from './types';
 
@@ -73,30 +73,23 @@ const TimelineContents = ({
                     ? new Date(Date.parse(event.toDate)).toISOString()
                     : '';
                 return (
-                    <div
-                        key={index}
-                        data-type="event-snippet"
-                        className={Snippet}
-                    >
+                    <div key={index} data-type="event-snippet" css={Snippet}>
                         <div>
-                            <time dateTime={time} className={EventDate}>
+                            <time dateTime={time} css={EventDate}>
                                 {event.date}
                             </time>
                             {event.toDate && (
                                 <span>
                                     {' '}
                                     -{' '}
-                                    <time
-                                        dateTime={toTime}
-                                        className={EventToDate}
-                                    >
+                                    <time dateTime={toTime} css={EventToDate}>
                                         {event.toDate}
                                     </time>
                                 </span>
                             )}
                         </div>
                         {event.title && (
-                            <div className={EventTitle}>{event.title}</div>
+                            <div css={EventTitle}>{event.title}</div>
                         )}
                         {event.body && (
                             <Body html={event.body} pillar={pillar} />

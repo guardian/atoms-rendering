@@ -21,7 +21,7 @@
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
         "tsc": "tsc",
-        "lint": "eslint . --ext .ts",
+        "lint": "eslint . --ext .ts,.tsx",
         "test": "jest --watch",
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",
@@ -36,6 +36,8 @@
         "@babel/plugin-transform-runtime": "^7.12.1",
         "@babel/preset-react": "^7.12.10",
         "@babel/preset-typescript": "^7.12.1",
+        "@emotion/babel-preset-css-prop": "10.0.27",
+        "@emotion/core": "10.0.35",
         "@guardian/src-button": "2.4.0",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
@@ -53,12 +55,11 @@
         "@typescript-eslint/parser": "^3.10.1",
         "babel-loader": "^8.2.2",
         "babel-plugin-const-enum": "^1.0.1",
-        "babel-plugin-emotion": "^10.0.33",
         "chromatic": "^5.4.0",
-        "emotion": "^10.0.27",
         "eslint": "^7.13.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-config-prettier": "^6.15.0",
+        "eslint-plugin-emotion": "^10.0.0",
         "eslint-plugin-prettier": "^3.2.0",
         "eslint-plugin-react": "^7.21.5",
         "husky": "^4.3.0",
@@ -72,8 +73,7 @@
         "pretty-quick": "^3.1.0",
         "react": "^16.14.0",
         "react-dom": "^16.14.0",
-        "ts-jest": "^24.3.0",
-        "ts-loader": "^8.0.14"
+        "ts-jest": "^24.3.0"
     },
     "eslintConfig": {
         "root": true,
@@ -82,6 +82,7 @@
         ],
         "parser": "@typescript-eslint/parser",
         "plugins": [
+            "emotion",
             "@typescript-eslint"
         ],
         "extends": [
@@ -91,6 +92,9 @@
             "plugin:@typescript-eslint/recommended"
         ],
         "rules": {
+            "emotion/no-vanilla": "error",
+            "emotion/import-from-emotion": "error",
+            "emotion/styled-import": "error",
             "no-unused-vars": "off",
             "@typescript-eslint/no-unused-vars": "off",
             "@typescript-eslint/no-unused-vars-experimental": "error"
@@ -107,7 +111,7 @@
         "@guardian/src-icons": "^2.5.0",
         "@guardian/src-radio": "^2.7.1",
         "@guardian/types": "^3.0.0",
-        "emotion": "^10.0.27",
+        "@emotion/core": "10.0.35",
         "preact": "^10.5.7",
         "preact-render-to-string": "^5.1.12",
         "react": "^16.14.0",

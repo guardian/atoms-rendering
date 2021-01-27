@@ -54,7 +54,7 @@ export type InteractiveAtomType = {
     url?: string;
     html?: string;
     js: string;
-    css?: string;
+    atomCss?: string; // using css as a props confuses Emotion
 };
 
 export type ProfileAtomType = {

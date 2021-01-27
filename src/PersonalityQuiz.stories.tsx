@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
@@ -31,7 +31,7 @@ const PinterestSVG = () => (
 
 const SVGWrapper = ({ children }: { children: JSX.Element }) => (
     <a
-        className={css`
+        css={css`
             margin-right: 10px;
         `}
     >
@@ -46,7 +46,7 @@ export const DefaultRendering = () => (
         resultBuckets={exampleResultBuckets}
         sharingIcons={
             <div
-                className={css`
+                css={css`
                     display: flex;
                     flex-direction: row;
                 `}

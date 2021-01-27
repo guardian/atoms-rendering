@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/core';
 
 import { neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
@@ -107,18 +107,18 @@ export const Body = ({
     return (
         <div>
             {image && (
-                <span className={'forceHeightAndWidth'}>
-                    <img className={imageStyling} src={image} alt="" />
+                <span className="forceHeightAndWidth">
+                    <img css={imageStyling} src={image} alt="" />
                 </span>
             )}
             <div
-                className={cx(bodyStyling, linkStyling(pillar))}
+                css={[bodyStyling, linkStyling(pillar)]}
                 dangerouslySetInnerHTML={{
                     __html: html,
                 }}
             />
             {credit && (
-                <div className={creditStyling}>
+                <div css={creditStyling}>
                     <SvgInfo />
                     {credit}
                 </div>

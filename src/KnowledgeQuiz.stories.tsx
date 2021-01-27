@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 import { exampleKnowledgeQuestions } from './fixtures/knowledgeQuizAtom';
