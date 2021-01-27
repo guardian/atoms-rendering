@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
 import { body } from '@guardian/src-foundations/typography';
-import { Pillar, Theme } from '@guardian/types';
+import { Theme } from '@guardian/types';
 
 import { TimelineEvent, TimelineAtomType } from './types';
 

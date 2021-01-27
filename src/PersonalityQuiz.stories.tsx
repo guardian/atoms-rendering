@@ -39,7 +39,7 @@ const SVGWrapper = ({ children }: { children: JSX.Element }) => (
     </a>
 );
 
-export const DefaultRendering = () => (
+export const DefaultRendering = (): React.ReactNode => (
     <PersonalityQuizAtom
         id="quiz-id"
         questions={examplePersonalityQuestions}

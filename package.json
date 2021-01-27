@@ -21,7 +21,7 @@
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
         "tsc": "tsc",
-        "lint": "eslint . --ext .ts",
+        "lint": "eslint . --ext .ts,.tsx",
         "test": "jest --watch",
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",

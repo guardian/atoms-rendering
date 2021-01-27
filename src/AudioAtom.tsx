@@ -4,7 +4,7 @@ import { css } from 'emotion';
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
-import { Pillar, Theme } from '@guardian/types';
+import { Theme } from '@guardian/types';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
