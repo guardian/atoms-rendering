@@ -49,14 +49,6 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
-export type InteractiveAtomType = {
-    id: string;
-    url?: string;
-    html?: string;
-    js: string;
-    atomCss?: string; // using css as a props confuses Emotion
-};
-
 export type ProfileAtomType = {
     id: string;
     label?: string;

@@ -18,7 +18,12 @@ export const DefaultStory = (): JSX.Element => {
                 height: 500px;
             `}
         >
-            <InteractiveAtom id={id} html={html} js={js} atomCss={atomCss} />
+            <InteractiveAtom
+                id={id}
+                elementHtml={html}
+                elementJs={js}
+                elementCss={atomCss}
+            />
         </div>
     );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/core';
 
 import { unifyPageContent } from './lib/unifyPageContent';
-import { InteractiveAtomType } from './types';
 
 const containerStyles = css`
     margin: 0;
@@ -12,16 +11,25 @@ const fullWidthStyles = css`
     width: 100%;
 `;
 
+type InteractiveAtomType = {
+    id: string;
+    elementUrl?: string;
+    elementHtml: string;
+    elementJs: string;
+    elementCss: string;
+    atomCss?: string; // using css as a props confuses Emotion
+};
+
 export const InteractiveAtom = ({
     id,
-    html,
-    js,
-    atomCss,
+    elementHtml,
+    elementJs,
+    elementCss,
 }: InteractiveAtomType): JSX.Element => (
     <div css={containerStyles} data-atom-id={id} data-atom-type="interactive">
         <iframe
             css={fullWidthStyles}
-            srcDoc={unifyPageContent({ js, css: atomCss, html })}
+            srcDoc={unifyPageContent({ elementJs, elementCss, elementHtml })}
             frameBorder="0"
         />
     </div>
