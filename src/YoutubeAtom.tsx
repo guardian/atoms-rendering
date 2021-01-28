@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/core';
 import YouTubePlayer from 'youtube-player';
 import { pillarPalette } from './lib/pillarPalette';
 
@@ -319,7 +319,7 @@ export const YoutubeAtom = ({
                             player.current && player.current.playVideo();
                         }
                     }}
-                    className={cx(
+                    css={[
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
                         css`
@@ -328,7 +328,7 @@ export const YoutubeAtom = ({
                                 width: 100%;
                             }
                         `,
-                    )}
+                    ]}
                     tabIndex={0}
                 >
                     <Picture
@@ -338,16 +338,17 @@ export const YoutubeAtom = ({
                         height={`${height}`}
                         width={`${width}`}
                     />
-                    <div className={overlayInfoWrapperStyles}>
+                    <div css={overlayInfoWrapperStyles}>
                         <div
-                            className={`${playButtonStyling(
-                                pillar,
-                            )} overlay-play-button`}
+                            className="overlay-play-button"
+                            css={css`
+                                ${playButtonStyling(pillar)}
+                            `}
                         >
                             <SvgPlay />
                         </div>
                         {duration && (
-                            <div className={videoDurationStyles(pillar)}>
+                            <div css={videoDurationStyles(pillar)}>
                                 {formatTime(duration)}
                             </div>
                         )}

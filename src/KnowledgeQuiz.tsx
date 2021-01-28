@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { body } from '@guardian/src-foundations/typography';
 import { RadioGroup, Radio } from '@guardian/src-radio';
@@ -74,19 +74,19 @@ export const Question = ({
 
     return (
         <div
-            className={css`
+            css={css`
                 ${body.medium()};
             `}
         >
-            <fieldset className={fieldsetStyle}>
+            <fieldset css={fieldsetStyle}>
                 <div>
                     <legend
-                        className={css`
+                        css={css`
                             margin-bottom: 12px;
                         `}
                     >
                         <span
-                            className={css`
+                            css={css`
                                 padding-right: 12px;
                             `}
                         >
@@ -97,7 +97,7 @@ export const Question = ({
                 </div>
                 {imageUrl && (
                     <img
-                        className={css`
+                        css={css`
                             width: 100%;
                         `}
                         src={imageUrl}
@@ -111,7 +111,7 @@ export const Question = ({
                     updateSelectedAnswer={updateSelectedAnswer}
                 />
                 <div
-                    className={css`
+                    css={css`
                         display: flex;
                         flex-direction: row;
                         button {
@@ -212,7 +212,7 @@ const Answers = ({
     }
 
     return (
-        <div className={radioButtonWrapperStyles}>
+        <div css={radioButtonWrapperStyles}>
             <RadioGroup name={questionId}>
                 {answers.map((answer) => (
                     <Radio

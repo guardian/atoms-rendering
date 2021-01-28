@@ -49,14 +49,6 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
-export type InteractiveAtomType = {
-    id: string;
-    url?: string;
-    html?: string;
-    js: string;
-    css?: string;
-};
-
 export type ProfileAtomType = {
     id: string;
     label?: string;

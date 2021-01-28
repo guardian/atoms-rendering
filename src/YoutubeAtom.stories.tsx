@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { Pillar } from '@guardian/types';
@@ -12,7 +12,7 @@ export default {
 export const DefaultStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}
@@ -34,7 +34,7 @@ export const DefaultStory = (): JSX.Element => {
 export const WithOverrideImage = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}
@@ -67,7 +67,7 @@ export const WithOverrideImage = (): JSX.Element => {
 export const WithPosterImage = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}
@@ -115,7 +115,7 @@ export const WithPosterImage = (): JSX.Element => {
 export const WithOverlayAndPosterImage = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}

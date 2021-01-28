@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news, success } from '@guardian/src-foundations/palette';
@@ -44,7 +44,7 @@ const AnswerWithSVG = ({
     answerType: string;
 }): JSX.Element => (
     <div
-        className={css`
+        css={css`
             display: flex;
             flex-direction: row;
 
@@ -59,7 +59,7 @@ const AnswerWithSVG = ({
         `}
     >
         <div
-            className={css`
+            css={css`
                 margin-right: ${space[1]}px;
 
                 height: ${space[6]}px;
@@ -73,7 +73,7 @@ const AnswerWithSVG = ({
             {isCorrect ? <SvgCheckmark /> : <SvgCross />}
         </div>
         <label
-            className={css`
+            css={css`
                 color: ${neutral[100]};
                 display: flex;
                 flex-direction: column;
@@ -84,7 +84,7 @@ const AnswerWithSVG = ({
             data-answer-type={answerType}
         >
             <span
-                className={css`
+                css={css`
                     ${body.medium()};
                 `}
             >
@@ -92,7 +92,7 @@ const AnswerWithSVG = ({
             </span>
             {supplementText && (
                 <span
-                    className={css`
+                    css={css`
                         ${textSans.xsmall()}
                     `}
                 >
@@ -117,7 +117,7 @@ const AnswerWithoutSVG = ({
     answerType: string;
 }): JSX.Element => (
     <div
-        className={css`
+        css={css`
             ${body.medium()};
             background-color: ${isCorrect ? success[500] : neutral[97]};
 
@@ -133,7 +133,7 @@ const AnswerWithoutSVG = ({
         `}
     >
         <label
-            className={css`
+            css={css`
                 margin-left: ${space[1]}px;
                 display: flex;
                 flex-direction: column;
@@ -142,7 +142,7 @@ const AnswerWithoutSVG = ({
             data-answer-type={answerType}
         >
             <span
-                className={css`
+                css={css`
                     ${body.medium()};
                 `}
             >
@@ -150,7 +150,7 @@ const AnswerWithoutSVG = ({
             </span>
             {supplementText && (
                 <span
-                    className={css`
+                    css={css`
                         ${textSans.xsmall()}
                     `}
                 >
