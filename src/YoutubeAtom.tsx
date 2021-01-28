@@ -340,8 +340,9 @@ export const YoutubeAtom = ({
                     />
                     <div css={overlayInfoWrapperStyles}>
                         <div
-                            css={`
-                                ${playButtonStyling(pillar)} overlay-play-button
+                            className="overlay-play-button"
+                            css={css`
+                                ${playButtonStyling(pillar)}
                             `}
                         >
                             <SvgPlay />
