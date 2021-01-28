@@ -9,7 +9,7 @@ export const unifyPageContent = ({
     css?: string;
     js: string;
     html?: string;
-}) =>
+}): string =>
     render(
         <html>
             <head>

@@ -162,7 +162,7 @@ export const PersonalityQuizAtom = ({
     ]);
 
     return (
-        <form data-atom-id={id}>
+        <form data-atom-id={id} data-atom-type="personalityquiz">
             {hasSubmittedAnswers && topSelectedResult && (
                 <div data-testid="quiz-results-block-top">
                     <Result

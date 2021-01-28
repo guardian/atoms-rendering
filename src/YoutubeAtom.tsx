@@ -65,9 +65,9 @@ const buildEmbedConfig = (adTargeting: AdTargeting): EmbedConfig => {
     };
 };
 
-const constructQuery = (query: { [key: string]: any }): string =>
+const constructQuery = (query: { [key: string]: string }): string =>
     Object.keys(query)
-        .map((param: any) => {
+        .map((param: string) => {
             const value = query[param];
             const queryValue = Array.isArray(value)
                 ? value.map((v) => encodeURIComponent(v)).join(',')
@@ -300,6 +300,8 @@ export const YoutubeAtom = ({
                 allow="autoplay"
                 tabIndex={overrideImage || posterImage ? -1 : 0}
                 allowFullScreen
+                data-atom-id={`youtube-video-${assetId}`}
+                data-atom-type="youtube"
             />
 
             {(overrideImage || posterImage) && (
