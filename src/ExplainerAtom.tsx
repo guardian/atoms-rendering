@@ -30,6 +30,9 @@ const Container = ({
                     margin-top: ${space[3]}px;
                     margin-bottom: ${space[3]}px;
                 }
+                i {
+                    font-style: italic;
+                }
             `}
         >
             {children}
@@ -48,16 +51,22 @@ const Title = ({ title }: { title: string }) => (
     </h3>
 );
 
-const Body = ({ html }: { html: string }) => (
-    <div
-        css={css`
-            ${textSans.small({ fontWeight: 'light', lineHeight: 'tight' })}
-        `}
-        dangerouslySetInnerHTML={{
-            __html: html,
-        }}
-    />
-);
+const Body = ({ html }: { html: string }) => {
+    console.log(html);
+    return (
+        <div
+            css={css`
+                ${textSans.small({
+                    fontWeight: 'light',
+                    lineHeight: 'tight',
+                })}
+            `}
+            dangerouslySetInnerHTML={{
+                __html: html,
+            }}
+        />
+    );
+};
 
 export const ExplainerAtom = ({
     id,
