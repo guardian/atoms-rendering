@@ -14,10 +14,9 @@ const fullWidthStyles = css`
 type InteractiveAtomType = {
     id: string;
     elementUrl?: string;
-    elementHtml: string;
+    elementHtml?: string;
     elementJs: string;
-    elementCss: string;
-    atomCss?: string; // using css as a props confuses Emotion
+    elementCss?: string;
 };
 
 export const InteractiveAtom = ({
