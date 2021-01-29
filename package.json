@@ -4,7 +4,7 @@
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "11.0.0-0",
+    "version": "10.0.2",
     "source": "src/index.ts",
     "main": "dist/index.js",
     "module": "dist/index.modern.js",
