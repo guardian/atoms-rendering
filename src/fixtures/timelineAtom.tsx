@@ -147,139 +147,179 @@ const DateToEvents = [
         date: 'November 2010',
         body:
             '<p>A Swedish prosecutor issues a European arrest warrant for Assange over sexual assault allegations involving two Swedish women. Assange denies the claims.</p>',
+        toDate: 'December 2010',
         unixDate: 1288569600000,
+        toUnixDate: 1291680000000,
     },
     {
         title: ' ',
         date: 'December 2010',
         body:
             '<p><a href="https://www.theguardian.com/news/blog/2010/dec/07/wikileaks-us-embassy-cables-live-updates">He turns himself in to police in London</a> and is placed in custody. He is later released on bail and calls the Swedish allegations a smear campaign.</p>',
+        toDate: 'February 2011',
         unixDate: 1291680000000,
+        toUnixDate: 1296518400000,
     },
     {
         title: ' ',
         date: 'February 2011',
         body:
             '<p>A British judge rules that Assange can be extradited to Sweden. Assange fears Sweden will hand him over to US authorities who could prosecute him.</p>',
+        toDate: 'June 2012',
         unixDate: 1296518400000,
+        toUnixDate: 1340064000000,
     },
     {
         title: ' ',
         date: 'June 2012',
         body:
             '<p><a href="https://www.theguardian.com/media/2012/jun/19/julian-assange-wikileaks-asylum-ecuador">He takes refuge in the Ecuadorian embassy</a> in London. He requests, and is later granted, political asylum.</p>',
+        toDate: 'November 2016',
         unixDate: 1340064000000,
+        toUnixDate: 1479081600000,
     },
     {
         title: ' ',
         date: 'November 2016',
         body:
             '<p>Assange&nbsp;<a href="https://www.theguardian.com/media/2016/nov/14/julian-assange-to-face-swedish-prosecutors-over-accusation">is questioned</a>&nbsp;in a two-day interview over the allegations at the Ecuadorian embassy by Swedish authorities.</p>',
+        toDate: 'January 2017',
         unixDate: 1479081600000,
+        toUnixDate: 1479081600000,
     },
     {
         title: ' ',
         date: 'January 2017',
         body:
             "<p>WikiLeaks says <a href=\"https://www.theguardian.com/media/2017/jan/19/julian-assange-confirms-he-is-willing-to-travel-to-us-after-manning-decision\">Assange could travel to the United States to face investigation</a> if his rights are 'guaranteed'. It comes after one of the site's main sources of leaked documents, Chelsea Manning, is given clemency.</p>",
+        toDate: 'May 2017',
         unixDate: 1484784000000,
+        toUnixDate: 1495152000000,
     },
     {
         title: ' ',
         date: 'May 2017',
         body:
             '<p>Swedish prosecutors say they have <a href="https://www.theguardian.com/media/2017/may/19/julian-assange-signals-he-will-stay-in-ecuadorian-embassy">closed their seven-year sex assault investigation into Assange</a>. British police say they would still arrest him if he leaves the embassy as he breached the terms of his bail in 2012.</p>',
+        toDate: 'January 2018',
         unixDate: 1495152000000,
+        toUnixDate: 1515628800000,
     },
     {
         title: ' ',
         date: 'January 2018',
         body:
             "<p>Britain refuses Ecuador's request to accord Assange diplomatic status, which would allow him to leave the embassy without being arrested.</p>",
+        toDate: 'February 2018',
         unixDate: 1515628800000,
+        toUnixDate: 1518480000000,
     },
     {
         title: ' ',
         date: 'February 2018',
         body:
             '<p><a href="https://www.theguardian.com/media/2018/feb/13/judge-refuses-to-withdraw-julian-assange-arrest-warrant">He loses a bid to have his British arrest warrant cancelled</a> on health grounds.</p>',
+        toDate: 'March 2018',
         unixDate: 1518480000000,
+        toUnixDate: 1522195200000,
     },
     {
         title: ' ',
         date: 'March 2018',
         body:
             '<p><a href="https://www.theguardian.com/media/2018/mar/28/julian-assange-internet-connection-ecuador-embassy-cut-off-wikileaks">Ecuador cuts off Assange\'s internet access</a> alleging he broke an agreement on interfering in other countries\' affairs.</p>',
+        toDate: 'November 2018',
         unixDate: 1522195200000,
+        toUnixDate: 1542326400000,
     },
     {
         title: ' ',
         date: 'November 2018',
         body:
             '<p>US prosecutors inadvertently disclose <a href="https://www.theguardian.com/media/2018/nov/16/julian-assange-charged-in-secret-mistake-on-us-court-filing-suggests">the existence of a sealed indictment against Assange</a>.</p>',
+        toDate: '2 April 2019',
         unixDate: 1542326400000,
+        toUnixDate: 1554163200000,
     },
     {
         title: ' ',
         date: '2 April 2019',
         body:
             "<p>Ecuador's President Lenin Moreno says Assange has <a href=\"https://www.theguardian.com/world/2019/apr/02/julian-assange-wikileaks-asylum-ecuador-violated\">'repeatedly violated' the conditions of his asylum</a> at the embassy.</p>",
+        toDate: '11 April 2019',
         unixDate: 1554163200000,
+        toUnixDate: 1554977694000,
     },
     {
         title: ' ',
         date: '11 April 2019',
         body:
             '<p><a href="https://www.theguardian.com/uk-news/2019/apr/11/julian-assange-arrested-at-ecuadorian-embassy-wikileaks">Police arrest Assange at the embassy</a>&nbsp;on behalf of the US after his asylum was withdrawn. He is charged by the US with \'a federal charge of conspiracy to commit computer intrusion for agreeing to break a password to a classified U.S. government computer.\'</p>',
+        toDate: '1 May 2019',
         unixDate: 1554977694000,
+        toUnixDate: 1556717256000,
     },
     {
         title: ' ',
         date: '1 May 2019',
         body:
             '<p><a href="https://www.theguardian.com/media/2019/may/01/julian-assange-jailed-for-50-weeks-for-breaching-bail-in-2012">He is jailed for 50 weeks</a>&nbsp;in the UK for breaching his bail conditions back in 2012. An apology letter from Assange is read out in court, but the judge rules that he had engaged in a \'deliberate attempt to evade justice\'. On the following day <a href="https://www.theguardian.com/media/2019/may/02/us-begins-extradition-case-against-julian-assange-in-london">the US extradition proceedings were formally started</a>.&nbsp;</p>',
+        toDate: '13 May 2019',
         unixDate: 1556717256000,
+        toUnixDate: 1557738992000,
     },
     {
         title: ' ',
         date: '13 May 2019',
         body:
             '<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
+        toDate: '13 June 2019',
         unixDate: 1557738992000,
+        toUnixDate: 1560414280000,
     },
     {
         title: ' ',
         date: '13 June 2019',
         body:
             '<p>Home secretary Sajid Javid reveals he has <a href="https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order">signed the US extradition order for Assange</a> paving the way for it to be heard in court.</p>',
+        toDate: '24 February 2020',
         unixDate: 1560414280000,
+        toUnixDate: 1582502400000,
     },
     {
         title: ' ',
         date: '24 February 2020',
         body:
             '<p>Assange\'s <a href="https://www.theguardian.com/uk-news/2020/feb/24/julian-assange-hearing-journalism-is-no-excuse-for-breaking-law">extradition hearing begins</a> at Woolwich crown court in south-east London. After a week of opening arguments, the extradition case is to \nbe adjourned until May. Further delays are caused by the coronavirus outbreak.</p>',
+        toDate: '15 September 2020',
         unixDate: 1582502400000,
+        toUnixDate: 1600150732000,
     },
     {
         title: ' ',
         date: '15 September 2020',
         body:
             '<p>A hearing scheduled for four weeks <a href="https://www.theguardian.com/media/2020/sep/07/julian-assange-due-court-latest-stage-fight-against-us-extradition">begins at the Old Bailey</a> with the US government expected to make their case that Assange tried to recruit hackers to find classified government information. If the courts approve extradition, the British government will still have the final say.</p>',
-        unixDate: 1600150732000,
+        toDate: '1 October 2020',
+        unixDate: 160150732000,
+        toUnixDate: 1601510400000,
     },
     {
         title: ' ',
         date: '1 October 2020',
         body: '<p>Judge Vanessa Baraitser adjourns the case.</p>',
+        toDate: '26 November 2020',
         unixDate: 1601510400000,
+        toUnixDate: 1606348800000,
     },
     {
         title: ' ',
         date: '26 November 2020',
         body:
             '<p>Stella Moris urges Donald Trump to pardon Assange before he leaves office.</p>',
+        toDate: '4 January 2020',
         unixDate: 1606348800000,
+        toUnixDate: 1609718400000,
     },
     {
         title: ' ',
