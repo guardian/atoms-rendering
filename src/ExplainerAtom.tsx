@@ -30,6 +30,9 @@ const Container = ({
                     margin-top: ${space[3]}px;
                     margin-bottom: ${space[3]}px;
                 }
+                i {
+                    font-style: italic;
+                }
             `}
         >
             {children}
@@ -51,7 +54,10 @@ const Title = ({ title }: { title: string }) => (
 const Body = ({ html }: { html: string }) => (
     <div
         css={css`
-            ${textSans.small({ fontWeight: 'light', lineHeight: 'tight' })}
+            ${textSans.small({
+                fontWeight: 'light',
+                lineHeight: 'tight',
+            })}
         `}
         dangerouslySetInnerHTML={{
             __html: html,
