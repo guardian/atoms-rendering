@@ -68,9 +68,9 @@ const TimelineContents = ({
     return (
         <div>
             {events.map((event, index) => {
-                const time = new Date(Date.parse(event.date)).toISOString();
-                const toTime = event.toDate
-                    ? new Date(Date.parse(event.toDate)).toISOString()
+                const time = new Date(event.unixDate).toISOString();
+                const toTime = event.toUnixDate
+                    ? new Date(event.toUnixDate).toISOString()
                     : '';
                 return (
                     <div key={index} data-type="event-snippet" css={Snippet}>

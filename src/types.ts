@@ -91,8 +91,10 @@ export type TimelineAtomType = {
 export interface TimelineEvent {
     title: string;
     date: string;
+    unixDate: number;
     body?: string;
     toDate?: string;
+    toUnixDate?: number;
 }
 
 type AssetType = {
