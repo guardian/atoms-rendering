@@ -1,7 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { css } from '@emotion/core';
 
-import { body } from '@guardian/src-foundations/typography';
+import { body, textSans } from '@guardian/src-foundations/typography';
+import { neutral, brand } from '@guardian/src-foundations/palette';
+import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 import { Button } from '@guardian/src-button';
 
@@ -31,6 +33,18 @@ type QuestionType = {
 type QuizAtomType = {
     id: string;
     questions: QuestionType[];
+    resultGroups: ResultGroupsType[];
+};
+
+type ResultGroupsType = {
+    title: string;
+    shareText: string;
+    minScore: number;
+    id: string;
+};
+
+type QuizSelectionType = {
+    [questionId: string]: AnswerType;
 };
 
 const fieldsetStyle = css`
@@ -42,20 +56,46 @@ const fieldsetStyle = css`
 export const KnowledgeQuizAtom = ({
     id,
     questions,
-}: QuizAtomType): JSX.Element => (
-    <form data-atom-id={id} data-atom-type="knowledgequiz">
-        {questions.map((question, idx) => (
-            <Question
-                key={question.id}
-                id={question.id}
-                number={idx + 1}
-                text={question.text}
-                imageUrl={question.imageUrl}
-                answers={question.answers}
-            />
-        ))}
-    </form>
-);
+    resultGroups,
+}: QuizAtomType): JSX.Element => {
+    const [quizSelection, setQuizSelection] = useState<QuizSelectionType>({});
+
+    const haveAllQuestionsBeenAnswered =
+        Object.keys(quizSelection).length === questions.length;
+
+    return (
+        <form data-atom-id={id} data-atom-type="knowledgequiz">
+            {haveAllQuestionsBeenAnswered && (
+                <div data-testid="quiz-results-block-top">
+                    <Result
+                        quizSelection={quizSelection}
+                        resultGroups={resultGroups}
+                    />
+                </div>
+            )}
+            {questions.map((question, idx) => (
+                <Question
+                    key={question.id}
+                    id={question.id}
+                    number={idx + 1}
+                    text={question.text}
+                    imageUrl={question.imageUrl}
+                    answers={question.answers}
+                    quizSelection={quizSelection}
+                    setQuizSelection={setQuizSelection}
+                />
+            ))}
+            {haveAllQuestionsBeenAnswered && (
+                <div data-testid="quiz-results-block-top">
+                    <Result
+                        quizSelection={quizSelection}
+                        resultGroups={resultGroups}
+                    />
+                </div>
+            )}
+        </form>
+    );
+};
 
 export const Question = ({
     id,
@@ -63,14 +103,30 @@ export const Question = ({
     imageUrl,
     answers,
     number,
+    quizSelection,
+    setQuizSelection,
 }: QuestionType & {
     number: number;
+    quizSelection: QuizSelectionType;
+    setQuizSelection: (quizSelection: QuizSelectionType) => void;
 }): JSX.Element => {
-    const [selectedAnswer, setSelectedAnswer] = useState<string | undefined>();
+    const [selectedAnswerId, setSelectedAnswerId] = useState<
+        string | undefined
+    >();
     const [hasSubmitted, setHasSubmitted] = useState<boolean>(false);
 
-    const updateSelectedAnswer = (selectedAnswerId: string) =>
-        setSelectedAnswer(selectedAnswerId);
+    useEffect(() => {
+        if (selectedAnswerId && hasSubmitted) {
+            const selectedAnswer = answers.find(
+                (answer) => answer.id === selectedAnswerId,
+            );
+            selectedAnswer &&
+                setQuizSelection({
+                    ...quizSelection,
+                    [id]: selectedAnswer,
+                });
+        }
+    }, [selectedAnswerId, setQuizSelection, hasSubmitted, answers]);
 
     return (
         <div
@@ -107,13 +163,14 @@ export const Question = ({
                     id={id}
                     answers={answers}
                     hasSubmitted={hasSubmitted}
-                    selectedAnswer={selectedAnswer}
-                    updateSelectedAnswer={updateSelectedAnswer}
+                    selectedAnswerId={selectedAnswerId}
+                    setSelectedAnswerId={setSelectedAnswerId}
                 />
                 <div
                     css={css`
                         display: flex;
                         flex-direction: row;
+                        margin-bottom: 8px;
                         button {
                             margin-right: 10px;
                         }
@@ -150,20 +207,20 @@ const Answers = ({
     answers,
     id: questionId,
     hasSubmitted,
-    selectedAnswer,
-    updateSelectedAnswer,
+    selectedAnswerId,
+    setSelectedAnswerId,
 }: {
     answers: AnswerType[];
     id: string;
     hasSubmitted: boolean;
-    selectedAnswer?: string;
-    updateSelectedAnswer: (selectedAnswerId: string) => void;
+    selectedAnswerId?: string;
+    setSelectedAnswerId: (selectedAnswerId: string) => void;
 }) => {
     if (hasSubmitted) {
         return (
             <Fragment>
                 {answers.map((answer) => {
-                    const isSelected = selectedAnswer === answer.id;
+                    const isSelected = selectedAnswerId === answer.id;
 
                     if (isSelected) {
                         if (answer.isCorrect) {
@@ -220,17 +277,80 @@ const Answers = ({
                         value={answer.text}
                         data-testid={answer.id}
                         data-answer-type={
-                            selectedAnswer === answer.id
+                            selectedAnswerId === answer.id
                                 ? 'selected-enabled-answer'
                                 : 'unselected-enabled-answer'
                         }
                         name={questionId}
                         label={answer.text}
-                        onChange={() => updateSelectedAnswer(answer.id)}
-                        checked={selectedAnswer === answer.id}
+                        onChange={() => setSelectedAnswerId(answer.id)}
+                        checked={selectedAnswerId === answer.id}
                     />
                 ))}
             </RadioGroup>
+        </div>
+    );
+};
+
+const resultWrapperStyles = css`
+    background-color: ${neutral[93]};
+    margin-top: ${space[3]}px;
+    margin-bottom: ${space[3]}px;
+    padding: ${space[2]}px;
+`;
+
+const resultDescriptionStyles = css`
+    ${textSans.medium()}
+    color: ${neutral[46]};
+    display: flex;
+    flex-direction: column;
+`;
+
+const resultsNumberStyles = css`
+    ${textSans.xxxlarge({ fontWeight: 'bold' })}
+    color: ${brand[400]};
+`;
+
+export const Result = ({
+    quizSelection,
+    resultGroups,
+}: {
+    quizSelection: {
+        [questionId: string]: AnswerType;
+    };
+    resultGroups: ResultGroupsType[];
+}): JSX.Element => {
+    const totalNumberOfQuestions = Object.keys(quizSelection).length;
+    const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
+        (questionId) => quizSelection[questionId].isCorrect,
+    ).length;
+
+    let bestResultGroup: ResultGroupsType | undefined;
+    resultGroups.forEach((resultGroup) => {
+        if (!bestResultGroup) bestResultGroup = resultGroup;
+
+        // In the case we have the exact numberOfCorrectAnswers
+        if (resultGroup.minScore === numberOfCorrectAnswers)
+            bestResultGroup = resultGroup;
+        if (bestResultGroup.minScore === numberOfCorrectAnswers) return; // do nothing
+
+        // if `cur` has a closer score than `acc`
+        if (
+            bestResultGroup.minScore < resultGroup.minScore &&
+            resultGroup.minScore < numberOfCorrectAnswers
+        )
+            return resultGroup;
+    });
+
+    return (
+        <div css={resultWrapperStyles}>
+            <p css={resultDescriptionStyles}>
+                <span>You got...</span>
+                <span
+                    css={resultsNumberStyles}
+                >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
+                {bestResultGroup && <span>{bestResultGroup.title}</span>}
+            </p>
         </div>
     );
 };
