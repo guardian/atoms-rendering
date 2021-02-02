@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, Fragment, useEffect } from 'react';
-import { css } from 'emotion';
-=======
-import React, { useState, Fragment } from 'react';
 import { css } from '@emotion/core';
->>>>>>> 70e3757f4145ef537d2a72df0f71c223ba10c09b
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { neutral, brand } from '@guardian/src-foundations/palette';
@@ -348,11 +343,11 @@ export const Result = ({
     });
 
     return (
-        <div className={resultWrapperStyles}>
-            <p className={resultDescriptionStyles}>
+        <div css={resultWrapperStyles}>
+            <p css={resultDescriptionStyles}>
                 <span>You got...</span>
                 <span
-                    className={resultsNumberStyles}
+                    css={resultsNumberStyles}
                 >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
                 {bestResultGroup && <span>{bestResultGroup.title}</span>}
             </p>
