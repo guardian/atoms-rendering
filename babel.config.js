@@ -1,20 +1,18 @@
 module.exports = {
     presets: [
-        '@babel/preset-env',
         '@babel/preset-typescript',
-        '@babel/preset-react',
-    ],
-    plugins: [
-        // this is needed to support `const enum`s - see https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats
-        'const-enum',
-        '@babel/plugin-proposal-optional-chaining',
+        ['@babel/preset-react', { pragma: 'h', pragmaFrag: 'Fragment' }],
+        '@emotion/babel-preset-css-prop',
         [
-            'emotion',
+            '@babel/preset-env',
             {
-                sourceMap: false,
+                targets: {
+                    ie: '11',
+                },
             },
         ],
     ],
+    plugins: ['@babel/plugin-proposal-optional-chaining'],
     env: {
         test: {
             plugins: ['@babel/plugin-transform-runtime'],

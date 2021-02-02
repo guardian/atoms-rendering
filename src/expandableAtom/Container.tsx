@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { neutral, text } from '@guardian/src-foundations/palette';
 
@@ -60,13 +60,9 @@ export const Container = ({
     children: React.ReactNode;
     expandCallback: () => void;
 }): JSX.Element => (
-    <div
-        className={containerStyling}
-        data-atom-id={id}
-        data-atom-type={atomType}
-    >
+    <div css={containerStyling} data-atom-id={id} data-atom-type={atomType}>
         <details
-            className={detailStyling}
+            css={detailStyling}
             data-atom-id={id}
             data-snippet-type={atomType}
             open={expandForStorybook}

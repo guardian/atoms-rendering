@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { VideoAtom } from './VideoAtom';
 
@@ -16,7 +16,7 @@ export default {
 export const DefaultStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}
@@ -38,7 +38,7 @@ export const DefaultStory = (): JSX.Element => {
 export const LargeStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}
@@ -62,7 +62,7 @@ export const LargeStory = (): JSX.Element => {
 export const NoPosterStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 800px;
                 margin: 25px;
             `}

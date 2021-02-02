@@ -21,9 +21,7 @@ describe('YoutubeAtom', () => {
         expect(getByTitle('My Youtube video!')).toBeInTheDocument();
         expect(getByTitle('My Youtube video!')).toHaveAttribute(
             'src',
-            expect.stringMatching(
-                /https:\/\/www.youtube.com\/embed.*/,
-            ),
+            expect.stringMatching(/https:\/\/www.youtube.com\/embed.*/),
         );
     });
 });

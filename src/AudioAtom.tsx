@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
-import { Pillar, Theme } from '@guardian/types';
+import { Theme } from '@guardian/types';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
@@ -159,12 +159,7 @@ const formatTime = (t: number) => {
 };
 
 const PauseSVG = ({ pillar }: { pillar: Theme }) => (
-    <svg
-        className={svgPauseStyle}
-        width="30px"
-        height="30px"
-        viewBox="0 0 30 30"
-    >
+    <svg css={svgPauseStyle} width="30px" height="30px" viewBox="0 0 30 30">
         <g fill="none" fillRule="evenodd">
             <circle
                 fill={pillarPalette[pillar][400]}
@@ -181,12 +176,7 @@ const PauseSVG = ({ pillar }: { pillar: Theme }) => (
 );
 
 const PlaySVG = ({ pillar }: { pillar: Theme }) => (
-    <svg
-        className={svgPlayStyle}
-        width="30px"
-        height="30px"
-        viewBox="0 0 30 30"
-    >
+    <svg css={svgPlayStyle} width="30px" height="30px" viewBox="0 0 30 30">
         <g fill="none" fillRule="evenodd">
             <circle
                 fill={pillarPalette[pillar][400]}
@@ -324,18 +314,18 @@ export const AudioAtom = ({
     };
 
     return (
-        <div className={wrapperStyles} data-atom-id={id} data-atom-type="audio">
+        <div css={wrapperStyles} data-atom-id={id} data-atom-type="audio">
             <div
-                className={css`
+                css={css`
                     padding-left: 5px;
                 `}
             >
-                <span className={kickerStyle(pillar)}>{kicker}</span>
-                <h4 className={titleStyle}>{title}</h4>
+                <span css={kickerStyle(pillar)}>{kicker}</span>
+                <h4 css={titleStyle}>{title}</h4>
             </div>
-            <div className={audioBodyStyle}>
+            <div css={audioBodyStyle}>
                 <audio
-                    className={audioElementStyle}
+                    css={audioElementStyle}
                     src={urlToUse}
                     ref={audioEl}
                     data-duration={durationTime}
@@ -348,11 +338,11 @@ export const AudioAtom = ({
                         https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3
                     </p>
                 </audio>
-                <div className={audioControlsStyle}>
+                <div css={audioControlsStyle}>
                     <button
                         data-testid={isPlaying ? 'pause-button' : 'play-button'}
                         onClick={() => (isPlaying ? pauseAudio() : playAudio())}
-                        className={buttonStyle}
+                        css={buttonStyle}
                     >
                         {isPlaying ? (
                             <PauseSVG pillar={pillar} />
@@ -361,15 +351,13 @@ export const AudioAtom = ({
                         )}
                     </button>
                 </div>
-                <div className={timingStyle}>
-                    <div className={timePlayedStyle}>
-                        <span className={timeStyles}>
-                            {formatTime(currentTime)}
-                        </span>
+                <div css={timingStyle}>
+                    <div css={timePlayedStyle}>
+                        <span css={timeStyles}>{formatTime(currentTime)}</span>
                     </div>
-                    <div className={progressBarStyle}>
+                    <div css={progressBarStyle}>
                         <input
-                            className={progressBarInputStyle(pillar)}
+                            css={progressBarInputStyle(pillar)}
                             ref={progressBarEl}
                             type="range"
                             min="0"
@@ -380,10 +368,8 @@ export const AudioAtom = ({
                             readOnly={true}
                         />
                     </div>
-                    <div className={timeDurationStyle}>
-                        <span className={timeStyles}>
-                            {formatTime(durationTime)}
-                        </span>
+                    <div css={timeDurationStyle}>
+                        <span css={timeStyles}>{formatTime(durationTime)}</span>
                     </div>
                 </div>
             </div>

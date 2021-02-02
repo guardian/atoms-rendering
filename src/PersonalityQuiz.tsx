@@ -6,7 +6,7 @@ import React, {
     Fragment,
     memo,
 } from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/core';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
@@ -162,7 +162,7 @@ export const PersonalityQuizAtom = ({
     ]);
 
     return (
-        <form data-atom-id={id}>
+        <form data-atom-id={id} data-atom-type="personalityquiz">
             {hasSubmittedAnswers && topSelectedResult && (
                 <div data-testid="quiz-results-block-top">
                     <Result
@@ -204,7 +204,7 @@ export const PersonalityQuizAtom = ({
                 </div>
             )}
             <div
-                className={css`
+                css={css`
                     display: flex;
                     flex-direction: row;
                     button {
@@ -286,15 +286,15 @@ const PersonalityQuizAnswers = ({
     }, [globallySelectedAnswer, setSelectedAnswers]);
 
     return (
-        <fieldset className={answersWrapperStyle}>
+        <fieldset css={answersWrapperStyle}>
             <div>
                 <legend
-                    className={css`
+                    css={css`
                         margin-bottom: 12px;
                     `}
                 >
                     <span
-                        className={css`
+                        css={css`
                             padding-right: 12px;
                         `}
                     >
@@ -305,7 +305,7 @@ const PersonalityQuizAnswers = ({
             </div>
             {imageUrl && (
                 <img
-                    className={css`
+                    css={css`
                         width: 100%;
                     `}
                     src={imageUrl}
@@ -339,7 +339,7 @@ const AnswersGroup = memo(
         setSelectedAnswers,
     }: AnswersGroupProp) => (
         <div
-            className={cx(
+            css={[
                 radioButtonWrapperStyles,
                 css`
                     label {
@@ -351,7 +351,7 @@ const AnswersGroup = memo(
                         /* TODO: apply same styles on focus (requires source update) */
                     }
                 `,
-            )}
+            ]}
         >
             <RadioGroup name={questionId}>
                 {answers.map((answer) => (
@@ -383,7 +383,7 @@ const missingAnswersStyles = css`
 `;
 
 export const MissingAnswers = (): JSX.Element => (
-    <div className={missingAnswersStyles}>
+    <div css={missingAnswersStyles}>
         You have not answered all the questions.
     </div>
 );
@@ -412,15 +412,13 @@ export const Result = ({
     resultBuckets: ResultsBucket;
     sharingIcons?: JSX.Element;
 }): JSX.Element => (
-    <div className={resultWrapperStyles}>
-        <div className={resultHeaderStyles}>{resultBuckets.title}</div>
-        <div className={resultDescriptionStyles}>
-            {resultBuckets.description}
-        </div>
+    <div css={resultWrapperStyles}>
+        <div css={resultHeaderStyles}>{resultBuckets.title}</div>
+        <div css={resultDescriptionStyles}>{resultBuckets.description}</div>
         {sharingIcons && (
             <Fragment>
                 <hr />
-                <div className={resultHeaderStyles}>Challenge your friends</div>
+                <div css={resultHeaderStyles}>Challenge your friends</div>
                 {sharingIcons}
             </Fragment>
         )}

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState, Fragment, useEffect } from 'react';
 import { css } from 'emotion';
+=======
+import React, { useState, Fragment } from 'react';
+import { css } from '@emotion/core';
+>>>>>>> 70e3757f4145ef537d2a72df0f71c223ba10c09b
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { neutral, brand } from '@guardian/src-foundations/palette';
@@ -64,7 +69,7 @@ export const KnowledgeQuizAtom = ({
         Object.keys(quizSelection).length === questions.length;
 
     return (
-        <form data-atom-id={id}>
+        <form data-atom-id={id} data-atom-type="knowledgequiz">
             {haveAllQuestionsBeenAnswered && (
                 <div data-testid="quiz-results-block-top">
                     <Result
@@ -130,19 +135,19 @@ export const Question = ({
 
     return (
         <div
-            className={css`
+            css={css`
                 ${body.medium()};
             `}
         >
-            <fieldset className={fieldsetStyle}>
+            <fieldset css={fieldsetStyle}>
                 <div>
                     <legend
-                        className={css`
+                        css={css`
                             margin-bottom: 12px;
                         `}
                     >
                         <span
-                            className={css`
+                            css={css`
                                 padding-right: 12px;
                             `}
                         >
@@ -153,7 +158,7 @@ export const Question = ({
                 </div>
                 {imageUrl && (
                     <img
-                        className={css`
+                        css={css`
                             width: 100%;
                         `}
                         src={imageUrl}
@@ -167,7 +172,7 @@ export const Question = ({
                     setSelectedAnswerId={setSelectedAnswerId}
                 />
                 <div
-                    className={css`
+                    css={css`
                         display: flex;
                         flex-direction: row;
                         margin-bottom: 8px;
@@ -269,7 +274,7 @@ const Answers = ({
     }
 
     return (
-        <div className={radioButtonWrapperStyles}>
+        <div css={radioButtonWrapperStyles}>
             <RadioGroup name={questionId}>
                 {answers.map((answer) => (
                     <Radio

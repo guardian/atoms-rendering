@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { Pillar } from '@guardian/types';
 
@@ -13,7 +13,7 @@ export default {
 export const DefaultStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}
@@ -32,7 +32,7 @@ export const DefaultStory = (): JSX.Element => {
 export const NewsStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}
@@ -51,7 +51,7 @@ export const NewsStory = (): JSX.Element => {
 export const CultureStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}

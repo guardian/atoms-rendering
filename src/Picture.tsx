@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { breakpoints } from '@guardian/src-foundations/mq';
 import { ImageSource, RoleType, SrcSetItem } from './types';
@@ -138,7 +138,7 @@ export const Picture = ({
                 width={width}
                 // https://stackoverflow.com/questions/10844205/html-5-strange-img-always-adds-3px-margin-at-bottom
                 // why did we add the css `vertical-align: middle;` to the img tag
-                className={css`
+                css={css`
                     vertical-align: middle;
                 `}
             />

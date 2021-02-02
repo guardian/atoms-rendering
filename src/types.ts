@@ -49,14 +49,6 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
-export type InteractiveAtomType = {
-    id: string;
-    url?: string;
-    html?: string;
-    js: string;
-    css?: string;
-};
-
 export type ProfileAtomType = {
     id: string;
     label?: string;
@@ -99,8 +91,10 @@ export type TimelineAtomType = {
 export interface TimelineEvent {
     title: string;
     date: string;
+    unixDate: number;
     body?: string;
     toDate?: string;
+    toUnixDate?: number;
 }
 
 type AssetType = {

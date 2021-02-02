@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/core';
 
 import { neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
@@ -8,13 +8,7 @@ import { SvgInfo } from '@guardian/src-icons';
 import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
-// .forceHeightAndWidth needed at the moment to override global image sizing
-// which forces images to 100%
 const imageStyling = css`
-    .forceHeightAndWidth & {
-        width: 100px;
-        height: 100px;
-    }
     float: left;
     margin-right: 16px;
     margin-bottom: 6px;
@@ -22,6 +16,8 @@ const imageStyling = css`
     border-radius: 50%;
     display: block;
     border: 0px;
+    width: 100px;
+    height: 100px;
 `;
 
 const creditStyling = css`
@@ -106,19 +102,15 @@ export const Body = ({
 }): JSX.Element => {
     return (
         <div>
-            {image && (
-                <span className={'forceHeightAndWidth'}>
-                    <img className={imageStyling} src={image} alt="" />
-                </span>
-            )}
+            {image && <img css={imageStyling} src={image} alt="" />}
             <div
-                className={cx(bodyStyling, linkStyling(pillar))}
+                css={[bodyStyling, linkStyling(pillar)]}
                 dangerouslySetInnerHTML={{
                     __html: html,
                 }}
             />
             {credit && (
-                <div className={creditStyling}>
+                <div css={creditStyling}>
                     <SvgInfo />
                     {credit}
                 </div>
