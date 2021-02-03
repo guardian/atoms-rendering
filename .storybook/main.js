@@ -7,15 +7,22 @@ module.exports = {
             options: {
                 presets: [
                     '@babel/preset-typescript',
-                    '@emotion/babel-preset-css-prop',
+                    [
+                        '@babel/preset-react',
+                        {
+                            runtime: 'automatic',
+                            importSource: '@emotion/core',
+                        },
+                    ],
                     [
                         '@babel/preset-env',
                         {
                             targets: {
-                                esmodules: true,
+                                ie: '11',
                             },
                         },
                     ],
+                    '@emotion/babel-preset-css-prop',
                 ],
             },
         });
