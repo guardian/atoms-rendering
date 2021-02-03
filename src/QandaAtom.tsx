@@ -1,4 +1,3 @@
-import React from 'react';
 import { QandaAtomType } from './types';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';

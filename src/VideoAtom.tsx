@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { VideoAtomType } from './types';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 

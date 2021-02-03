@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GuideAtomType } from './types';
 import { Footer } from './expandableAtom/Footer';
 import { Container } from './expandableAtom/Container';

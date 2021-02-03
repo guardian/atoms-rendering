@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { QandaAtom } from './QandaAtom';
 import {
     imageStoryExpanded,

@@ -1,4 +1,3 @@
-import React from 'react';
 import render from 'preact-render-to-string';
 
 export const unifyPageContent = ({

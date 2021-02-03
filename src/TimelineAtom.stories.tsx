@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { TimelineAtom } from './TimelineAtom';
 import {
     noTimelineEventsStoryExpanded,

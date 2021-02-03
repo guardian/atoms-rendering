@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
@@ -218,7 +218,7 @@ const Answers = ({
 }) => {
     if (hasSubmitted) {
         return (
-            <Fragment>
+            <>
                 {answers.map((answer) => {
                     const isSelected = selectedAnswerId === answer.id;
 
@@ -264,7 +264,7 @@ const Answers = ({
                         />
                     );
                 })}
-            </Fragment>
+            </>
         );
     }
 

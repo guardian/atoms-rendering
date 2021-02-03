@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ProfileAtomType } from './types';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
