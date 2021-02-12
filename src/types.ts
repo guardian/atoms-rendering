@@ -1,11 +1,5 @@
 import { Theme } from '@guardian/types';
 
-export type AdTargeting = {
-    adUnit: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    customParams: { [key: string]: any };
-};
-
 export type AudioAtomType = {
     id: string;
     trackUrl: string;

@@ -46,11 +46,11 @@ type EmbedConfig = {
     };
 };
 
-interface AdTargeting {
+type AdTargeting = {
     adUnit: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     customParams: { [key: string]: any };
-}
+};
 
 const buildEmbedConfig = (adTargeting: AdTargeting): EmbedConfig => {
     return {
