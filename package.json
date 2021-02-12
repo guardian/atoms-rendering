@@ -17,7 +17,7 @@
     ],
     "scripts": {
         "build": "rollup --config && yarn createTsDec",
-        "createTsDec": "tsc --emitDeclarationOnly true --declaration true --declarationDir build/ --noEmit false",
+        "createTsDec": "tsc --emitDeclarationOnly true --declaration true --declarationDir dist/ --noEmit false",
         "prettier:check": "prettier . --check",
         "prettier:fix": "prettier . --write",
         "storybook": "start-storybook -p 6006",
