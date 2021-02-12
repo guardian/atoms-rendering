@@ -7,7 +7,13 @@ module.exports = {
             options: {
                 presets: [
                     '@babel/preset-typescript',
-                    '@babel/preset-react',
+                    [
+                        '@babel/preset-react',
+                        {
+                            runtime: 'automatic',
+                            importSource: '@emotion/react',
+                        },
+                    ],
                     [
                         '@babel/preset-env',
                         {

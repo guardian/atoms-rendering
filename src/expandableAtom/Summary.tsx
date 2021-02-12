@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';

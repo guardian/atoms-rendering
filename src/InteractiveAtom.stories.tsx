@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { InteractiveAtomBlockElement } from './fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';

@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news, success } from '@guardian/src-foundations/palette';

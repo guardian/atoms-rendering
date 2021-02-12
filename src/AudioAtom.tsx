@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, MouseEvent } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';

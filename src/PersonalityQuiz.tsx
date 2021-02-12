@@ -6,7 +6,7 @@ import {
     Fragment,
     memo,
 } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
