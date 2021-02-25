@@ -11,14 +11,14 @@ import { SvgPlay } from '@guardian/src-icons';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
-import { ImageSource, RoleType } from './types';
+import { ImageSource, RoleType, AdTargetingType } from './types';
 import { Theme } from '@guardian/types';
 
 type Props = {
     assetId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
-    adTargeting?: AdTargeting;
+    adTargeting?: AdTargetingType;
     height?: number;
     width?: number;
     title?: string;
@@ -46,13 +46,7 @@ type EmbedConfig = {
     };
 };
 
-interface AdTargeting {
-    adUnit: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    customParams: { [key: string]: any };
-}
-
-const buildEmbedConfig = (adTargeting: AdTargeting): EmbedConfig => {
+const buildEmbedConfig = (adTargeting: AdTargetingType): EmbedConfig => {
     return {
         adsConfig: {
             adTagParameters: {
