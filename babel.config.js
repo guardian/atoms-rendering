@@ -1,7 +1,10 @@
 module.exports = {
     presets: [
         '@babel/preset-typescript',
-        ['@babel/preset-react', { pragma: 'h', pragmaFrag: 'Fragment' }],
+        [
+            '@babel/preset-react',
+            { runtime: 'automatic', importSource: '@emotion/react' },
+        ],
         '@emotion/babel-preset-css-prop',
         [
             '@babel/preset-env',

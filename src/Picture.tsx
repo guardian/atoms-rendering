@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 import { breakpoints } from '@guardian/src-foundations/mq';
 import { ImageSource, RoleType, SrcSetItem } from './types';
