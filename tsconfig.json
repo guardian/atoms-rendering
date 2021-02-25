@@ -6,7 +6,7 @@
         "outDir": "dist",
         "strict": true,
         "esModuleInterop": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "moduleResolution": "node",
         "allowJs": true,
         "skipLibCheck": true,
@@ -14,7 +14,7 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "isolatedModules": false,
-        "noEmit": false,
+        "noEmit": false
     },
     "files": ["src/types.ts", "src/content.d.ts"],
     "include": ["src/"],
