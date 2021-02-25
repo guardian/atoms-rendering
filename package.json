@@ -37,8 +37,8 @@
         "@babel/preset-react": "^7.12.10",
         "@babel/preset-typescript": "^7.12.1",
         "@emotion/babel-preset-css-prop": "10.0.27",
-        "@emotion/core": "10.0.35",
         "@emotion/eslint-plugin": "^11.0.0",
+        "@emotion/react": "^11.1.5",
         "@guardian/src-button": "2.4.0",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",
@@ -111,7 +111,6 @@
         }
     },
     "peerDependencies": {
-        "@emotion/core": "10.0.35",
         "@guardian/src-button": "2.4.0",
         "@guardian/src-foundations": "^2.6.0",
         "@guardian/src-icons": "^2.5.0",

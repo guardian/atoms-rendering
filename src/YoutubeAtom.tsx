@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import YouTubePlayer from 'youtube-player';
 import { pillarPalette } from './lib/pillarPalette';
 
