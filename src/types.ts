@@ -1,6 +1,6 @@
 import { Theme } from '@guardian/types';
 
-export type AdTargeting = {
+export type AdTargetingType = {
     adUnit: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     customParams: { [key: string]: any };
