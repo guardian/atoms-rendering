@@ -33,9 +33,9 @@ module.exports = {
         clear({
             targets: [ 'dist/' ],
         }),
+        commonjs(),
         babel({ extensions }),
         resolve({ extensions }),
-        commonjs(),
         visualizer({ filename: 'dist/stats.html' }),
     ],
 };
