@@ -28,7 +28,8 @@
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",
         "chromatic": "chromatic",
-        "release": "yarn validate && yarn build && np --no-tests"
+        "release": "yarn validate && yarn build && np --no-tests",
+        "prepare": "tsc"
     },
     "devDependencies": {
         "@babel/core": "^7.12.3",
