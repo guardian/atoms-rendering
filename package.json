@@ -27,8 +27,7 @@
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",
         "chromatic": "chromatic",
-        "release": "yarn validate && yarn build && np --no-tests",
-        "prepare": "yarn build"
+        "release": "yarn validate && yarn build && np --no-tests"
     },
     "devDependencies": {
         "@emotion/eslint-plugin": "^11.0.0",
