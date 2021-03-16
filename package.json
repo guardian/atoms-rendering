@@ -116,7 +116,7 @@
         "transformIgnorePatterns": [
             "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
         ],
-        "preset": "ts-jest/presets/js-with-babel",
+        "preset": "ts-jest/presets/js-with-ts",
         "moduleFileExtensions": [
             "ts",
             "tsx",
