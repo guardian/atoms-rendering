@@ -6,9 +6,9 @@
     },
     "version": "12.1.0",
     "source": "src/index.ts",
-    "main": "dist/index.js",
-    "module": "dist/index.modern.js",
-    "unpkg": "dist/index.umd.js",
+    "main": "dist/commonjs/index.js",
+    "module": "dist/esm/index.js",
+    "types": "dist/esm/index.d.ts",
     "publishConfig": {
         "access": "public"
     },
@@ -16,7 +16,9 @@
         "dist/**/*"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "yarn build:esm && yarn build:commonjs",
+        "build:esm": "tsc",
+        "build:commonjs": "tsc --outDir dist/commonjs --module CommonJS",
         "prettier:check": "prettier . --check",
         "prettier:fix": "prettier . --write",
         "storybook": "start-storybook -p 6006",
