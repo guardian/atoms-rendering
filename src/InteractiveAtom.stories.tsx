@@ -23,6 +23,7 @@ export const DefaultStory = (): JSX.Element => {
                 elementHtml={html}
                 elementJs={js}
                 elementCss={atomCss}
+                shouldIframe={true}
             />
         </div>
     );
@@ -30,4 +31,24 @@ export const DefaultStory = (): JSX.Element => {
 DefaultStory.parameters = {
     // This interactive uses animation which is causing false negatives for Chromatic
     chromatic: { disable: true },
+};
+
+export const NoIframeInteractive = (): JSX.Element => {
+    const { id, html, js, css: atomCss } = InteractiveAtomBlockElement;
+    return (
+        <div
+            css={css`
+                width: 500px;
+                height: 500px;
+            `}
+        >
+            <InteractiveAtom
+                id={id}
+                elementHtml={html}
+                elementJs={js}
+                elementCss={atomCss}
+                shouldIframe={false}
+            />
+        </div>
+    );
 };

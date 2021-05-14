@@ -17,6 +17,7 @@ type InteractiveAtomType = {
     elementHtml?: string;
     elementJs: string;
     elementCss?: string;
+    shouldIframe?: boolean;
 };
 
 export const InteractiveAtom = ({
@@ -24,12 +25,43 @@ export const InteractiveAtom = ({
     elementHtml,
     elementJs,
     elementCss,
-}: InteractiveAtomType): JSX.Element => (
-    <div css={containerStyles} data-atom-id={id} data-atom-type="interactive">
-        <iframe
-            css={fullWidthStyles}
-            srcDoc={unifyPageContent({ elementJs, elementCss, elementHtml })}
-            frameBorder="0"
-        />
-    </div>
-);
+    shouldIframe = true,
+}: InteractiveAtomType): JSX.Element => {
+    // Typically, interactive atoms are iframed, but for interactive pages they
+    // are inlined.
+    if (shouldIframe) {
+        return (
+            <div
+                css={containerStyles}
+                data-atom-id={id}
+                data-atom-type="interactive"
+            >
+                <iframe
+                    css={fullWidthStyles}
+                    srcDoc={unifyPageContent({
+                        elementJs,
+                        elementCss,
+                        elementHtml,
+                    })}
+                    frameBorder="0"
+                />
+            </div>
+        );
+    }
+
+    return (
+        <div
+            css={containerStyles}
+            data-atom-id={id}
+            data-atom-type="interactive"
+        >
+            {elementCss && (
+                <style dangerouslySetInnerHTML={{ __html: elementCss }} />
+            )}
+            {elementHtml && (
+                <div dangerouslySetInnerHTML={{ __html: elementHtml }} />
+            )}
+            <script dangerouslySetInnerHTML={{ __html: elementJs }} />
+        </div>
+    );
+};
