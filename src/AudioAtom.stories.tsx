@@ -24,6 +24,7 @@ export const DefaultStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.Sport}
+                duration={849}
             />
         </div>
     );
@@ -43,6 +44,7 @@ export const NewsStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.News}
+                duration={849}
             />
         </div>
     );
@@ -62,6 +64,7 @@ export const CultureStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.Culture}
+                duration={849}
             />
         </div>
     );

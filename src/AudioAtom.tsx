@@ -205,6 +205,7 @@ export const AudioAtom = ({
     title,
     pillar,
     shouldUseAcast,
+    duration,
 }: AudioAtomType): JSX.Element => {
     const audioEl = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -245,10 +246,10 @@ export const AudioAtom = ({
     }, [audioEl, setCurrentTime, shouldUseAcast]);
 
     // update duration time
-    const [durationTime, setDurationTime] = useState<number>(0);
+    const [durationTime, setDurationTime] = useState<number>(duration);
     useEffect(() => {
         const updateDurationTime = () =>
-            setDurationTime(audioEl.current ? audioEl.current.duration : 0);
+            setDurationTime(audioEl.current ? audioEl.current.duration : duration);
 
         audioEl.current &&
             audioEl.current.addEventListener('loadeddata', updateDurationTime);
