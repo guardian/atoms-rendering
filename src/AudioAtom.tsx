@@ -249,7 +249,9 @@ export const AudioAtom = ({
     const [durationTime, setDurationTime] = useState<number>(duration);
     useEffect(() => {
         const updateDurationTime = () =>
-            setDurationTime(audioEl.current ? audioEl.current.duration : duration);
+            setDurationTime(
+                audioEl.current ? audioEl.current.duration : duration,
+            );
 
         audioEl.current &&
             audioEl.current.addEventListener('loadeddata', updateDurationTime);
