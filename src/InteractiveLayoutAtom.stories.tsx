@@ -1,5 +1,3 @@
-// TODO: This currently doesn't appear to render in storybook; this should be fixed before interactives in DCR are live
-
 import React from 'react';
 import { css } from '@emotion/react';
 
