@@ -1,9 +1,9 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { neutral, text } from '@guardian/src-foundations/palette';
 
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 import { Summary } from './Summary';
 
 const containerStyling = css`
@@ -53,20 +53,16 @@ export const Container = ({
 }: {
     id: string;
     title: string;
-    pillar: Pillar;
+    pillar: Theme;
     expandForStorybook?: boolean;
     atomType: string;
     atomTypeTitle: string;
     children: React.ReactNode;
     expandCallback: () => void;
 }): JSX.Element => (
-    <div
-        className={containerStyling}
-        data-atom-id={id}
-        data-atom-type={atomType}
-    >
+    <div css={containerStyling} data-atom-id={id} data-atom-type={atomType}>
         <details
-            className={detailStyling}
+            css={detailStyling}
             data-atom-id={id}
             data-snippet-type={atomType}
             open={expandForStorybook}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 export const MaintainAspectRatio = ({
     height,
@@ -12,7 +12,7 @@ export const MaintainAspectRatio = ({
 }): JSX.Element => (
     /* https://css-tricks.com/aspect-ratio-boxes/ */
     <div
-        className={css`
+        css={css`
             /* position relative to contain the absolutely positioned iframe plus any Overlay image */
             position: relative;
             padding-bottom: ${(height / width) * 100}%;

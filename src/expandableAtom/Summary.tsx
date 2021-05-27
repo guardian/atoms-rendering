@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { textSans, headline, body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette/';
 import { SvgMinus, SvgPlus } from '@guardian/src-icons';
 
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// SUMMARY ELEMENT
@@ -47,7 +47,7 @@ export const Summary = ({
     pillar,
     expandCallback,
 }: {
-    pillar: Pillar;
+    pillar: Theme;
     sectionTitle: string;
     title: string;
     expandCallback: () => void;
@@ -91,19 +91,19 @@ export const Summary = ({
                 setHasBeenExpanded(!hasBeenExpanded);
             }}
         >
-            <span className={atomTitleStyling}>{sectionTitle}</span>
-            <h4 className={titleStyling}>{title}</h4>
-            <span className={showHideStyling}>
+            <span css={atomTitleStyling}>{sectionTitle}</span>
+            <h4 css={titleStyling}>{title}</h4>
+            <span css={showHideStyling}>
                 {!hasBeenExpanded ? (
-                    <span className={iconSpacing}>
-                        <span className={plusStyling}>
+                    <span css={iconSpacing}>
+                        <span css={plusStyling}>
                             <SvgPlus />
                         </span>
                         Show
                     </span>
                 ) : (
-                    <span className={iconSpacing}>
-                        <span className={minusStyling}>
+                    <span css={iconSpacing}>
+                        <span css={minusStyling}>
                             <SvgMinus />
                         </span>
                         Hide

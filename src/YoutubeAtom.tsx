@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/react';
 import YouTubePlayer from 'youtube-player';
 import { pillarPalette } from './lib/pillarPalette';
 
@@ -11,14 +11,14 @@ import { SvgPlay } from '@guardian/src-icons';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
-import { ImageSource, RoleType } from './types';
-import { Pillar } from '@guardian/types';
+import { ImageSource, RoleType, AdTargetingType } from './types';
+import { Theme } from '@guardian/types';
 
 type Props = {
     assetId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
-    adTargeting?: AdTargeting;
+    adTargeting?: AdTargetingType;
     height?: number;
     width?: number;
     title?: string;
@@ -27,7 +27,7 @@ type Props = {
     duration?: number; // in seconds
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
-    pillar: Pillar;
+    pillar: Theme;
 };
 declare global {
     interface Window {
@@ -46,13 +46,7 @@ type EmbedConfig = {
     };
 };
 
-interface AdTargeting {
-    adUnit: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    customParams: { [key: string]: any };
-}
-
-const buildEmbedConfig = (adTargeting: AdTargeting): EmbedConfig => {
+const buildEmbedConfig = (adTargeting: AdTargetingType): EmbedConfig => {
     return {
         adsConfig: {
             adTagParameters: {
@@ -65,9 +59,9 @@ const buildEmbedConfig = (adTargeting: AdTargeting): EmbedConfig => {
     };
 };
 
-const constructQuery = (query: { [key: string]: any }): string =>
+const constructQuery = (query: { [key: string]: string }): string =>
     Object.keys(query)
-        .map((param: any) => {
+        .map((param: string) => {
             const value = query[param];
             const queryValue = Array.isArray(value)
                 ? value.map((v) => encodeURIComponent(v)).join(',')
@@ -123,7 +117,7 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
-const playButtonStyling = (pillar: Pillar) => css`
+const playButtonStyling = (pillar: Theme) => css`
     background-color: ${pillarPalette[pillar][500]};
     border-radius: 100%;
     height: 60px;
@@ -151,7 +145,7 @@ const overlayInfoWrapperStyles = css`
     left: ${space[4]}px;
 `;
 
-const videoDurationStyles = (pillar: Pillar) => css`
+const videoDurationStyles = (pillar: Theme) => css`
     ${textSans.medium({ fontWeight: 'bold' })};
     padding-left: ${space[3]}px;
     color: ${pillarPalette[pillar][500]};
@@ -299,6 +293,9 @@ export const YoutubeAtom = ({
                 // https://stackoverflow.com/a/53298579/7378674
                 allow="autoplay"
                 tabIndex={overrideImage || posterImage ? -1 : 0}
+                allowFullScreen
+                data-atom-id={`youtube-video-${assetId}`}
+                data-atom-type="youtube"
             />
 
             {(overrideImage || posterImage) && (
@@ -316,7 +313,7 @@ export const YoutubeAtom = ({
                             player.current && player.current.playVideo();
                         }
                     }}
-                    className={cx(
+                    css={[
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
                         css`
@@ -325,7 +322,7 @@ export const YoutubeAtom = ({
                                 width: 100%;
                             }
                         `,
-                    )}
+                    ]}
                     tabIndex={0}
                 >
                     <Picture
@@ -335,16 +332,17 @@ export const YoutubeAtom = ({
                         height={`${height}`}
                         width={`${width}`}
                     />
-                    <div className={overlayInfoWrapperStyles}>
+                    <div css={overlayInfoWrapperStyles}>
                         <div
-                            className={`${playButtonStyling(
-                                pillar,
-                            )} overlay-play-button`}
+                            className="overlay-play-button"
+                            css={css`
+                                ${playButtonStyling(pillar)}
+                            `}
                         >
                             <SvgPlay />
                         </div>
                         {duration && (
-                            <div className={videoDurationStyles(pillar)}>
+                            <div css={videoDurationStyles(pillar)}>
                                 {formatTime(duration)}
                             </div>
                         )}

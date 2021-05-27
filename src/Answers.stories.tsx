@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { Radio } from '@guardian/src-radio';
 import {
@@ -16,7 +16,7 @@ export default {
 
 export const Answers = (): JSX.Element => (
     <div
-        className={css`
+        css={css`
             display: flex;
             flex-direction: column;
         `}
@@ -36,7 +36,7 @@ export const Answers = (): JSX.Element => (
             id="someId1"
             answerText="Unselectable unanswered answer"
         />
-        <div className={radioButtonWrapperStyles}>
+        <div css={radioButtonWrapperStyles}>
             <Radio
                 value={'answer.text'}
                 label="Selectable unanswered answer"

@@ -2,14 +2,14 @@ import React from 'react';
 import render from 'preact-render-to-string';
 
 export const unifyPageContent = ({
-    css,
-    js,
-    html,
+    elementCss,
+    elementJs,
+    elementHtml,
 }: {
-    css?: string;
-    js: string;
-    html?: string;
-}) =>
+    elementCss?: string;
+    elementJs: string;
+    elementHtml?: string;
+}): string =>
     render(
         <html>
             <head>
@@ -18,13 +18,17 @@ export const unifyPageContent = ({
                     name="viewport"
                     content="width=device-width,minimum-scale=1,initial-scale=1"
                 />
-                {css && <style dangerouslySetInnerHTML={{ __html: css }} />}
+                {elementCss && (
+                    <style dangerouslySetInnerHTML={{ __html: elementCss }} />
+                )}
             </head>
             <body>
-                {html && <div dangerouslySetInnerHTML={{ __html: html }} />}
+                {elementHtml && (
+                    <div dangerouslySetInnerHTML={{ __html: elementHtml }} />
+                )}
             </body>
             {/* JS need to load on body render */}
-            <script dangerouslySetInnerHTML={{ __html: js }} />
+            <script dangerouslySetInnerHTML={{ __html: elementJs }} />
             <script
                 dangerouslySetInnerHTML={{
                     __html: `

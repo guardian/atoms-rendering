@@ -1,5 +1,5 @@
 import React from 'react';
-import { css as emotionCSS } from 'emotion';
+import { css } from '@emotion/react';
 
 import { InteractiveAtomBlockElement } from './fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
@@ -10,15 +10,20 @@ export default {
 };
 
 export const DefaultStory = (): JSX.Element => {
-    const { id, html, js, css } = InteractiveAtomBlockElement;
+    const { id, html, js, css: atomCss } = InteractiveAtomBlockElement;
     return (
         <div
-            className={emotionCSS`
+            css={css`
                 width: 500px;
                 height: 500px;
             `}
         >
-            <InteractiveAtom id={id} html={html} js={js} css={css} />
+            <InteractiveAtom
+                id={id}
+                elementHtml={html}
+                elementJs={js}
+                elementCss={atomCss}
+            />
         </div>
     );
 };

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { css, cx } from 'emotion';
+import { css } from '@emotion/react';
 
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// LIKE/DISLIKE FEEDBACK FOOTER
@@ -18,7 +18,7 @@ const footerStyling = css`
 const ThumbImage = () => {
     return (
         <svg
-            className={css`
+            css={css`
                 width: 16px;
                 height: 16px;
             `}
@@ -37,7 +37,7 @@ export const Footer = ({
     likeHandler,
     dislikeHandler,
 }: {
-    pillar: Pillar;
+    pillar: Theme;
     likeHandler: () => void;
     dislikeHandler: () => void;
 }): JSX.Element => {
@@ -64,10 +64,10 @@ export const Footer = ({
     `;
     const [showThankYou, setShowThankYou] = useState(false);
     return (
-        <footer className={footerStyling}>
+        <footer css={footerStyling}>
             <div hidden={showThankYou}>
                 <div
-                    className={css`
+                    css={css`
                         display: flex;
                         align-items: center;
                         ${textSans.xsmall()};
@@ -76,7 +76,7 @@ export const Footer = ({
                     <div>Was this helpful?</div>
                     <button
                         data-testid="like"
-                        className={buttonStyling}
+                        css={buttonStyling}
                         onClick={() => {
                             likeHandler();
                             setShowThankYou(true);
@@ -85,7 +85,7 @@ export const Footer = ({
                         <ThumbImage />
                     </button>
                     <button
-                        className={cx(
+                        css={[
                             buttonStyling,
                             css`
                                 transform: rotate(180deg);
@@ -93,7 +93,7 @@ export const Footer = ({
                                 -moz-transform: rotate(180deg);
                                 -o-transform: rotate(180deg);
                             `,
-                        )}
+                        ]}
                         data-testid="dislike"
                         onClick={() => {
                             dislikeHandler();
@@ -105,7 +105,7 @@ export const Footer = ({
                 </div>
             </div>
             <div
-                className={css`
+                css={css`
                     ${textSans.xsmall()};
                     height: 28px;
                 `}

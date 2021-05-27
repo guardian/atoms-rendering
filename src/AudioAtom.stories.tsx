@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { Pillar } from '@guardian/types';
 
@@ -13,7 +13,7 @@ export default {
 export const DefaultStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}
@@ -24,6 +24,7 @@ export const DefaultStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.Sport}
+                duration={849}
             />
         </div>
     );
@@ -32,7 +33,7 @@ export const DefaultStory = (): JSX.Element => {
 export const NewsStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}
@@ -43,6 +44,7 @@ export const NewsStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.News}
+                duration={849}
             />
         </div>
     );
@@ -51,7 +53,7 @@ export const NewsStory = (): JSX.Element => {
 export const CultureStory = (): JSX.Element => {
     return (
         <div
-            className={css`
+            css={css`
                 width: 700px;
                 padding: 15px;
             `}
@@ -62,6 +64,7 @@ export const CultureStory = (): JSX.Element => {
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
                 pillar={Pillar.Culture}
+                duration={849}
             />
         </div>
     );

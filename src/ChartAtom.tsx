@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 
 import { ChartAtomType } from './types';
@@ -11,7 +11,7 @@ export const ChartAtom = ({ id, html }: ChartAtomType): JSX.Element => {
             data-testid="chart"
             data-atom-type="chart"
             data-snippet-type="chart"
-            className={css`
+            css={css`
                 padding-bottom: ${space[1]}px;
             `}
         >

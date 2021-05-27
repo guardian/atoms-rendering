@@ -3,11 +3,7 @@ module.exports = {
     webpackFinal: async (config) => {
         config.module.rules.push({
             test: /\.(ts|tsx)$/,
-            use: [
-                {
-                    loader: require.resolve('ts-loader'),
-                },
-            ],
+            loader: require.resolve('ts-loader'),
         });
 
         const rules = config.module.rules;

@@ -1,6 +1,6 @@
-import { Pillar } from '@guardian/types';
+import { Theme } from '@guardian/types';
 
-export type AdTargeting = {
+export type AdTargetingType = {
     adUnit: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     customParams: { [key: string]: any };
@@ -11,8 +11,9 @@ export type AudioAtomType = {
     trackUrl: string;
     kicker: string;
     title?: string;
-    pillar: Pillar;
+    pillar: Theme;
     shouldUseAcast?: boolean;
+    duration: number;
 };
 
 export type ChartAtomType = {
@@ -33,7 +34,7 @@ export type GuideAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: Theme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -49,14 +50,6 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
-export type InteractiveAtomType = {
-    id: string;
-    url?: string;
-    html?: string;
-    js: string;
-    css?: string;
-};
-
 export type ProfileAtomType = {
     id: string;
     label?: string;
@@ -64,7 +57,7 @@ export type ProfileAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: Theme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -77,7 +70,7 @@ export type QandaAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Pillar;
+    pillar: Theme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -88,7 +81,7 @@ export type TimelineAtomType = {
     id: string;
     events?: TimelineEvent[];
     title: string;
-    pillar: Pillar;
+    pillar: Theme;
     description?: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;
@@ -99,8 +92,10 @@ export type TimelineAtomType = {
 export interface TimelineEvent {
     title: string;
     date: string;
+    unixDate: number;
     body?: string;
     toDate?: string;
+    toUnixDate?: number;
 }
 
 type AssetType = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
@@ -18,7 +18,7 @@ const Container = ({
         <div
             data-atom-id={id}
             data-atom-type="explainer"
-            className={css`
+            css={css`
                 padding-bottom: ${space[1]}px;
                 padding-left: ${space[2]}px;
                 padding-right: ${space[2]}px;
@@ -30,6 +30,9 @@ const Container = ({
                     margin-top: ${space[3]}px;
                     margin-bottom: ${space[3]}px;
                 }
+                i {
+                    font-style: italic;
+                }
             `}
         >
             {children}
@@ -39,7 +42,7 @@ const Container = ({
 
 const Title = ({ title }: { title: string }) => (
     <h3
-        className={css`
+        css={css`
             ${headline.xxsmall({ fontWeight: 'bold' })}
             margin-top: ${space[2]}px;
         `}
@@ -50,8 +53,11 @@ const Title = ({ title }: { title: string }) => (
 
 const Body = ({ html }: { html: string }) => (
     <div
-        className={css`
-            ${textSans.small({ fontWeight: 'light', lineHeight: 'tight' })}
+        css={css`
+            ${textSans.small({
+                fontWeight: 'light',
+                lineHeight: 'tight',
+            })}
         `}
         dangerouslySetInnerHTML={{
             __html: html,
