@@ -222,8 +222,8 @@ export const IncorrectAnswer = ({
 const correctNonSelectedAnswerStyles = css`
     display: flex;
     flex-direction: row;
-    border: ${space[1]}px solid ${success[400]};
-    padding-left: ${space[2]}px;
+    border: 2px solid ${success[400]};
+    padding-left: 10px;
 
     background-color: ${neutral[97]};
 `;
