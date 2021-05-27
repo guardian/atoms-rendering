@@ -50,7 +50,7 @@ const AnswerWithSVG = ({
 
             margin-bottom: ${space[2]}px;
 
-            padding-top: ${space[3]}px;
+            padding-top: ${space[2]}px;
             padding-bottom: ${space[3]}px;
             padding-right: ${space[4]}px;
             padding-left: ${space[3]}px;
@@ -126,7 +126,7 @@ const AnswerWithoutSVG = ({
 
             margin-bottom: ${space[2]}px;
 
-            padding-top: ${space[3]}px;
+            padding-top: ${space[2]}px;
             padding-bottom: ${space[3]}px;
             padding-right: ${space[2]}px;
             padding-left: ${space[9]}px;
