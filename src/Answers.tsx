@@ -86,7 +86,7 @@ const WhiteCross = () => (
             }
         `}
     >
-        <SvgCheckmark />
+        <SvgCross />
     </div>
 );
 
