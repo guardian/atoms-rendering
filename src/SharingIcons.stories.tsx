@@ -8,7 +8,7 @@ export default {
     component: SharingIcons,
 };
 
-export const SharingIconsDefault = () => (
+export const SharingIconsDefault = (): JSX.Element => (
     <SharingIcons
         sharingUrls={sharingUrls}
         displayIcons={[
