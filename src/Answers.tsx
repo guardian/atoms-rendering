@@ -222,7 +222,7 @@ export const IncorrectAnswer = ({
 const correctNonSelectedAnswerStyles = css`
     display: flex;
     flex-direction: row;
-    border: ${space[1]}px solid;
+    border: ${space[1]}px solid ${success[400]};
     padding-left: ${space[2]}px;
 
     background-color: ${neutral[97]};
