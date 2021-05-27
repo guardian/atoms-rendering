@@ -6,6 +6,7 @@ import {
     examplePersonalityQuestions,
     exampleResultBuckets,
 } from './fixtures/personalityQuizAtom';
+import { sharingUrls } from './fixtures/sharingUrls';
 
 import {
     PersonalityQuizAtom,
@@ -19,6 +20,7 @@ describe('PersonalityQuiz', () => {
                 id="123abc"
                 questions={examplePersonalityQuestions}
                 resultBuckets={exampleResultBuckets}
+                sharingUrls={sharingUrls}
             />,
         );
         expect(
@@ -34,6 +36,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -43,6 +46,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -57,6 +61,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -66,6 +71,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -80,6 +86,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -93,6 +100,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -108,6 +116,7 @@ describe('PersonalityQuiz', () => {
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
+                    sharingUrls={sharingUrls}
                 />,
             );
 

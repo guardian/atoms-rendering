@@ -3,7 +3,6 @@ import React, {
     KeyboardEvent,
     useEffect,
     MouseEvent,
-    Fragment,
     memo,
 } from 'react';
 import { css } from '@emotion/react';
@@ -14,7 +13,9 @@ import { text, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 
+import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';
+import { SharingIcons } from './SharingIcons';
 
 type ResultsBucket = {
     id: string;
@@ -41,7 +42,7 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
-    sharingIcons?: JSX.Element;
+    sharingUrls: SharingUrlsType;
 };
 
 const answersWrapperStyle = css`
@@ -109,7 +110,7 @@ export const PersonalityQuizAtom = ({
     id,
     questions,
     resultBuckets,
-    sharingIcons,
+    sharingUrls,
 }: QuizAtomType): JSX.Element => {
     const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
         [key: string]: string;
@@ -167,7 +168,7 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-top">
                     <Result
                         resultBuckets={topSelectedResult}
-                        sharingIcons={sharingIcons}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -199,7 +200,7 @@ export const PersonalityQuizAtom = ({
                 <div data-testid="quiz-results-block-bottom">
                     <Result
                         resultBuckets={topSelectedResult}
-                        sharingIcons={sharingIcons}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -407,20 +408,27 @@ const resultDescriptionStyles = css`
 
 export const Result = ({
     resultBuckets,
-    sharingIcons,
+    sharingUrls,
 }: {
     resultBuckets: ResultsBucket;
-    sharingIcons?: JSX.Element;
+    sharingUrls: SharingUrlsType;
 }): JSX.Element => (
     <div css={resultWrapperStyles}>
         <div css={resultHeaderStyles}>{resultBuckets.title}</div>
         <div css={resultDescriptionStyles}>{resultBuckets.description}</div>
-        {sharingIcons && (
-            <Fragment>
-                <hr />
-                <div css={resultHeaderStyles}>Challenge your friends</div>
-                {sharingIcons}
-            </Fragment>
-        )}
+        <hr />
+        <div css={resultHeaderStyles}>Challenge your friends</div>
+        <SharingIcons
+            sharingUrls={sharingUrls}
+            displayIcons={[
+                'facebook',
+                'twitter',
+                'email',
+                'whatsApp',
+                'messenger',
+                'linkedIn',
+                'pinterest',
+            ]}
+        />
     </div>
 );
