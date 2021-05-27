@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import { from } from '@guardian/src-foundations/mq';
 import { LinkButton } from '@guardian/src-button';
@@ -80,7 +80,7 @@ export const SharingIcons = ({
     }, []);
 
     return (
-        <div className={shareIconList}>
+        <div css={shareIconList}>
             {shareList.map((shareListItem) => {
                 const {
                     Icon,
@@ -92,9 +92,7 @@ export const SharingIcons = ({
 
                 return (
                     <div
-                        className={
-                            mobileOnly ? mobileOnlyShareIconsListItem : ''
-                        }
+                        css={mobileOnly ? mobileOnlyShareIconsListItem : ''}
                         key={`${id}Share`}
                     >
                         <LinkButton
