@@ -50,6 +50,15 @@ export type InteractiveAtomBlockElementType = {
     url: string;
 };
 
+export type InteractiveLayoutAtomType = {
+    _type: string;
+    css: string;
+    js: string;
+    html: string;
+    id: string;
+    url: string;
+};
+
 export type ProfileAtomType = {
     id: string;
     label?: string;

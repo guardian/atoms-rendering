@@ -3,6 +3,7 @@ import { AudioAtom } from './AudioAtom';
 import { ChartAtom } from './ChartAtom';
 import { GuideAtom } from './GuideAtom';
 import { InteractiveAtom } from './InteractiveAtom';
+import { InteractiveLayoutAtom } from './InteractiveLayoutAtom';
 import { YoutubeAtom } from './YoutubeAtom';
 import { ProfileAtom } from './ProfileAtom';
 import { QandaAtom } from './QandaAtom';
@@ -17,6 +18,7 @@ export {
     ChartAtom,
     GuideAtom,
     InteractiveAtom,
+    InteractiveLayoutAtom,
     YoutubeAtom,
     ProfileAtom,
     QandaAtom,
