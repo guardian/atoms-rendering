@@ -4,11 +4,15 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { LinkButton } from '@guardian/src-button';
 
-import { SvgTwitter, SvgFacebook, SvgEnvelope } from '@guardian/src-icons';
-import { WhatsappIcon } from './icons/whatsapp';
-import { MessengerIcon } from './icons/messenger';
-import { LinkedInIcon } from './icons/linked-in';
-import { PinterestIcon } from './icons/pinterest';
+import {
+    SvgTwitter,
+    SvgFacebook,
+    SvgEnvelope,
+    SvgWhatsApp,
+    SvgMessenger,
+    SvgLinkedIn,
+    SvgPinterest,
+} from '@guardian/src-icons';
 
 import { SharePlatformType } from './types';
 
@@ -54,10 +58,10 @@ export const SharingIcons = ({
         facebook: SvgFacebook,
         twitter: SvgTwitter,
         email: SvgEnvelope,
-        whatsApp: WhatsappIcon,
-        messenger: MessengerIcon,
-        linkedIn: LinkedInIcon,
-        pinterest: PinterestIcon,
+        whatsApp: SvgWhatsApp,
+        messenger: SvgMessenger,
+        linkedIn: SvgLinkedIn,
+        pinterest: SvgPinterest,
     };
 
     const mobileOnlyIcons: SharePlatformType[] = ['whatsApp', 'messenger'];
