@@ -223,6 +223,7 @@ const correctNonSelectedAnswerStyles = css`
     display: flex;
     flex-direction: row;
     border: ${space[1]}px solid;
+    padding-left: ${space[2]}px;
 
     background-color: ${neutral[97]};
 `;
