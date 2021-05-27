@@ -30,136 +30,154 @@ export const radioButtonWrapperStyles = css`
     }
 `;
 
-const AnswerWithSVG = ({
-    id,
+const answerWithSVGStyles = css`
+    margin-bottom: ${space[2]}px;
+
+    padding-top: ${space[2]}px;
+    padding-bottom: ${space[3]}px;
+    padding-right: ${space[4]}px;
+    padding-left: ${space[3]}px;
+`;
+
+const WhiteCheckmark = () => (
+    <div
+        css={css`
+            margin-right: ${space[1]}px;
+
+            height: ${space[6]}px;
+            svg {
+                fill: ${neutral[100]};
+                height: ${space[6]}px;
+                width: ${space[6]}px;
+            }
+        `}
+    >
+        <SvgCheckmark />
+    </div>
+);
+
+const BlackCheckmark = () => (
+    <div
+        css={css`
+            margin-right: ${space[1]}px;
+
+            height: ${space[6]}px;
+            svg {
+                fill: ${neutral[0]};
+                height: ${space[6]}px;
+                width: ${space[6]}px;
+            }
+        `}
+    >
+        <SvgCheckmark />
+    </div>
+);
+
+const WhiteCross = () => (
+    <div
+        css={css`
+            margin-right: ${space[1]}px;
+
+            height: ${space[6]}px;
+            svg {
+                fill: ${neutral[100]};
+                height: ${space[6]}px;
+                width: ${space[6]}px;
+            }
+        `}
+    >
+        <SvgCheckmark />
+    </div>
+);
+
+const WhiteText = ({
     text,
     supplementText,
-    isCorrect,
+    id,
     answerType,
 }: {
     id: string;
     text: string;
     supplementText?: string;
-    isCorrect: boolean;
     answerType: string;
-}): JSX.Element => (
-    <div
+}) => (
+    <label
         css={css`
+            color: ${neutral[100]};
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
 
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[2]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[4]}px;
-            padding-left: ${space[3]}px;
-
-            background-color: ${isCorrect ? success[400] : news[400]};
+            ${body.medium()};
         `}
+        data-testid={id}
+        data-answer-type={answerType}
     >
-        <div
+        <span
             css={css`
-                margin-right: ${space[1]}px;
-
-                height: ${space[6]}px;
-                svg {
-                    fill: ${neutral[100]};
-                    height: ${space[6]}px;
-                    width: ${space[6]}px;
-                }
-            `}
-        >
-            {isCorrect ? <SvgCheckmark /> : <SvgCross />}
-        </div>
-        <label
-            css={css`
-                color: ${neutral[100]};
-                display: flex;
-                flex-direction: column;
-
                 ${body.medium()};
             `}
-            data-testid={id}
-            data-answer-type={answerType}
         >
+            {text}
+        </span>
+        {supplementText && (
             <span
                 css={css`
-                    ${body.medium()};
+                    ${textSans.xsmall()}
                 `}
             >
-                {text}
+                {supplementText}
             </span>
-            {supplementText && (
-                <span
-                    css={css`
-                        ${textSans.xsmall()}
-                    `}
-                >
-                    {supplementText}
-                </span>
-            )}
-        </label>
-    </div>
+        )}
+    </label>
 );
 
-const AnswerWithoutSVG = ({
-    id,
+const BlackText = ({
     text,
     supplementText,
-    isCorrect,
+    id,
     answerType,
 }: {
     id: string;
     text: string;
     supplementText?: string;
-    isCorrect?: boolean;
     answerType: string;
-}): JSX.Element => (
-    <div
+}) => (
+    <label
         css={css`
-            ${body.medium()};
-            background-color: ${isCorrect ? success[500] : neutral[97]};
-
+            color: ${neutral[0]};
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
 
-            margin-bottom: ${space[2]}px;
-
-            padding-top: ${space[2]}px;
-            padding-bottom: ${space[3]}px;
-            padding-right: ${space[2]}px;
-            padding-left: ${space[9]}px;
+            ${body.medium()};
         `}
+        data-testid={id}
+        data-answer-type={answerType}
     >
-        <label
+        <span
             css={css`
-                margin-left: ${space[1]}px;
-                display: flex;
-                flex-direction: column;
+                ${body.medium()};
             `}
-            data-testid={id}
-            data-answer-type={answerType}
         >
+            {text}
+        </span>
+        {supplementText && (
             <span
                 css={css`
-                    ${body.medium()};
+                    ${textSans.xsmall()}
                 `}
             >
-                {text}
+                {supplementText}
             </span>
-            {supplementText && (
-                <span
-                    css={css`
-                        ${textSans.xsmall()}
-                    `}
-                >
-                    {supplementText}
-                </span>
-            )}
-        </label>
-    </div>
+        )}
+    </label>
 );
+
+const correctSelectedAnswerStyles = css`
+    display: flex;
+    flex-direction: row;
+
+    background-color: ${success[400]};
+`;
 
 export const CorrectSelectedAnswer = ({
     answerText,
@@ -170,14 +188,23 @@ export const CorrectSelectedAnswer = ({
     explainerText: string;
     id: string;
 }): JSX.Element => (
-    <AnswerWithoutSVG
-        id={id}
-        text={answerText}
-        supplementText={explainerText}
-        isCorrect={true}
-        answerType="correct-selected-answer"
-    />
+    <div css={[answerWithSVGStyles, correctSelectedAnswerStyles]}>
+        <WhiteCheckmark />
+        <WhiteText
+            id={id}
+            text={answerText}
+            supplementText={explainerText}
+            answerType="correct-selected-answer"
+        />
+    </div>
 );
+
+const incorrectSelectedAnswerStyles = css`
+    display: flex;
+    flex-direction: row;
+
+    background-color: ${news[400]};
+`;
 
 export const IncorrectAnswer = ({
     answerText,
@@ -186,13 +213,19 @@ export const IncorrectAnswer = ({
     answerText: string;
     id: string;
 }): JSX.Element => (
-    <AnswerWithSVG
-        id={id}
-        text={answerText}
-        isCorrect={false}
-        answerType="incorrect-answer"
-    />
+    <div css={[answerWithSVGStyles, incorrectSelectedAnswerStyles]}>
+        <WhiteCross />
+        <WhiteText id={id} text={answerText} answerType="incorrect-answer" />
+    </div>
 );
+
+const correctNonSelectedAnswerStyles = css`
+    display: flex;
+    flex-direction: row;
+    border: ${space[1]}px solid;
+
+    background-color: ${neutral[97]};
+`;
 
 export const NonSelectedCorrectAnswer = ({
     answerText,
@@ -203,14 +236,26 @@ export const NonSelectedCorrectAnswer = ({
     explainerText: string;
     id: string;
 }): JSX.Element => (
-    <AnswerWithSVG
-        id={id}
-        text={answerText}
-        supplementText={explainerText}
-        isCorrect={true}
-        answerType="non-selected-correct-answer"
-    />
+    <div css={[answerWithSVGStyles, correctNonSelectedAnswerStyles]}>
+        <BlackCheckmark />
+        <BlackText
+            id={id}
+            text={answerText}
+            supplementText={explainerText}
+            answerType="non-selected-correct-answer"
+        />
+    </div>
 );
+
+const unselectedAnswerStyles = css`
+    background-color: ${neutral[97]};
+    margin-bottom: ${space[2]}px;
+
+    padding-top: ${space[2]}px;
+    padding-bottom: ${space[3]}px;
+    padding-right: ${space[2]}px;
+    padding-left: ${space[9]}px;
+`;
 
 export const UnselectedAnswer = ({
     id,
@@ -219,9 +264,11 @@ export const UnselectedAnswer = ({
     answerText: string;
     id: string;
 }): JSX.Element => (
-    <AnswerWithoutSVG
-        id={id}
-        text={answerText}
-        answerType="unselected-disabled-answer"
-    />
+    <div css={unselectedAnswerStyles}>
+        <BlackText
+            id={id}
+            text={answerText}
+            answerType="unselected-disabled-answer"
+        />
+    </div>
 );
