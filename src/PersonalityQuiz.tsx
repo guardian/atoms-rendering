@@ -395,6 +395,7 @@ const resultWrapperStyles = css`
     margin-bottom: ${space[3]}px;
     padding: ${space[2]}px;
 `;
+
 const resultHeaderStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}
     color: ${neutral[20]};
