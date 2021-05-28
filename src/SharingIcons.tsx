@@ -109,6 +109,7 @@ export const SharingIcons = ({
                             icon={<Icon />}
                             priority="tertiary"
                             size="small"
+                            data-ignore="global-link-styling"
                         >
                             {userMessage}
                         </LinkButton>
