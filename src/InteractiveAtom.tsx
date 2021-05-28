@@ -10,6 +10,9 @@ const containerStyles = css`
 const fullWidthStyles = css`
     width: 100%;
 `;
+const fullHeightStyles = css`
+    height: 100%;
+`;
 
 type InteractiveAtomType = {
     id: string;
@@ -17,6 +20,7 @@ type InteractiveAtomType = {
     elementHtml?: string;
     elementJs: string;
     elementCss?: string;
+    isMainMedia?: boolean;
 };
 
 export const InteractiveAtom = ({
@@ -24,10 +28,15 @@ export const InteractiveAtom = ({
     elementHtml,
     elementJs,
     elementCss,
+    isMainMedia,
 }: InteractiveAtomType): JSX.Element => (
-    <div css={containerStyles} data-atom-id={id} data-atom-type="interactive">
+    <div
+        css={[containerStyles, isMainMedia && fullHeightStyles]}
+        data-atom-id={id}
+        data-atom-type="interactive"
+    >
         <iframe
-            css={fullWidthStyles}
+            css={[fullWidthStyles, isMainMedia && fullHeightStyles]}
             srcDoc={unifyPageContent({ elementJs, elementCss, elementHtml })}
             frameBorder="0"
         />
