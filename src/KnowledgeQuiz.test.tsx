@@ -6,6 +6,7 @@ import {
     exampleKnowledgeQuestions,
     resultGroups,
 } from './fixtures/knowledgeQuizAtom';
+import { sharingUrls } from './fixtures/sharingUrls';
 
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
@@ -18,6 +19,7 @@ describe('KnowledgeQuiz', () => {
                 id="123abc"
                 questions={questions}
                 resultGroups={resultGroups}
+                sharingUrls={sharingUrls}
             />,
         );
         expect(getByText(questions[0].text)).toBeInTheDocument();
@@ -52,6 +54,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -61,6 +64,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -75,6 +79,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -85,6 +90,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -99,6 +105,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -109,6 +116,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -128,6 +136,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 
@@ -144,6 +153,7 @@ describe('KnowledgeQuiz', () => {
                     id="123abc"
                     questions={questions}
                     resultGroups={resultGroups}
+                    sharingUrls={sharingUrls}
                 />,
             );
 

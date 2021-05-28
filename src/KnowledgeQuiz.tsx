@@ -7,6 +7,9 @@ import { space } from '@guardian/src-foundations';
 import { RadioGroup, Radio } from '@guardian/src-radio';
 import { Button } from '@guardian/src-button';
 
+import { SharingUrlsType } from './types';
+import { SharingIcons } from './SharingIcons';
+
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
@@ -34,6 +37,7 @@ type QuizAtomType = {
     id: string;
     questions: QuestionType[];
     resultGroups: ResultGroupsType[];
+    sharingUrls: SharingUrlsType;
 };
 
 type ResultGroupsType = {
@@ -57,6 +61,7 @@ export const KnowledgeQuizAtom = ({
     id,
     questions,
     resultGroups,
+    sharingUrls,
 }: QuizAtomType): JSX.Element => {
     const [quizSelection, setQuizSelection] = useState<QuizSelectionType>({});
 
@@ -70,6 +75,7 @@ export const KnowledgeQuizAtom = ({
                     <Result
                         quizSelection={quizSelection}
                         resultGroups={resultGroups}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -90,6 +96,7 @@ export const KnowledgeQuizAtom = ({
                     <Result
                         quizSelection={quizSelection}
                         resultGroups={resultGroups}
+                        sharingUrls={sharingUrls}
                     />
                 </div>
             )}
@@ -301,7 +308,6 @@ const resultWrapperStyles = css`
 
 const resultDescriptionStyles = css`
     ${textSans.medium()}
-    color: ${neutral[46]};
     display: flex;
     flex-direction: column;
 `;
@@ -311,14 +317,22 @@ const resultsNumberStyles = css`
     color: ${brand[400]};
 `;
 
+const resultHeaderStyles = css`
+    ${textSans.medium({ fontWeight: 'bold' })}
+    color: ${neutral[20]};
+    padding-bottom: ${space[1]}px;
+`;
+
 export const Result = ({
     quizSelection,
     resultGroups,
+    sharingUrls,
 }: {
     quizSelection: {
         [questionId: string]: AnswerType;
     };
     resultGroups: ResultGroupsType[];
+    sharingUrls: SharingUrlsType;
 }): JSX.Element => {
     const totalNumberOfQuestions = Object.keys(quizSelection).length;
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
@@ -344,13 +358,28 @@ export const Result = ({
 
     return (
         <div css={resultWrapperStyles}>
-            <p css={resultDescriptionStyles}>
+            <div css={resultDescriptionStyles}>
                 <span>You got...</span>
                 <span
                     css={resultsNumberStyles}
                 >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
                 {bestResultGroup && <span>{bestResultGroup.title}</span>}
-            </p>
+            </div>
+
+            <hr />
+            <div css={resultHeaderStyles}>Challenge your friends</div>
+            <SharingIcons
+                sharingUrls={sharingUrls}
+                displayIcons={[
+                    'facebook',
+                    'twitter',
+                    'email',
+                    'whatsApp',
+                    'messenger',
+                    'linkedIn',
+                    'pinterest',
+                ]}
+            />
         </div>
     );
 };
