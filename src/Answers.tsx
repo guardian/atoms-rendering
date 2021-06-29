@@ -24,7 +24,7 @@ export const radioButtonWrapperStyles = css`
         }
         /* TODO: apply same styles on focus (requires source update) */
 
-        span {
+        div {
             ${body.medium()};
         }
     }
