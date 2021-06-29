@@ -1,14 +1,15 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news, success } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
+import { Special, Theme } from '@guardian/types';
 
 // We export Radio wrapper styles to override Source Radio buttons to align
 // with our custom answers for the quiz
-export const radioButtonWrapperStyles = css`
+export const radioButtonWrapperStyles = (theme: Theme): SerializedStyles => css`
     label {
         padding-top: ${space[3]}px;
         padding-bottom: ${space[3]}px;
@@ -24,11 +25,14 @@ export const radioButtonWrapperStyles = css`
         }
         /* TODO: apply same styles on focus (requires source update) */
 
-        span {
-            ${body.medium()};
+        div {
+            ${fontStyles(theme)};
         }
     }
 `;
+
+const fontStyles = (theme: Theme) =>
+    theme === Special.Labs ? textSans.medium() : body.medium();
 
 const answerWithSVGStyles = css`
     margin-bottom: ${space[2]}px;
@@ -95,11 +99,13 @@ const WhiteText = ({
     supplementText,
     id,
     answerType,
+    theme,
 }: {
     id: string;
     text: string;
     supplementText?: string;
     answerType: string;
+    theme: Theme;
 }) => (
     <label
         css={css`
@@ -107,14 +113,14 @@ const WhiteText = ({
             display: flex;
             flex-direction: column;
 
-            ${body.medium()};
+            ${fontStyles(theme)};
         `}
         data-testid={id}
         data-answer-type={answerType}
     >
         <span
             css={css`
-                ${body.medium()};
+                ${fontStyles(theme)};
             `}
         >
             {text}
@@ -136,11 +142,13 @@ const BlackText = ({
     supplementText,
     id,
     answerType,
+    theme,
 }: {
     id: string;
     text: string;
     supplementText?: string;
     answerType: string;
+    theme: Theme;
 }) => (
     <label
         css={css`
@@ -148,14 +156,14 @@ const BlackText = ({
             display: flex;
             flex-direction: column;
 
-            ${body.medium()};
+            ${fontStyles(theme)};
         `}
         data-testid={id}
         data-answer-type={answerType}
     >
         <span
             css={css`
-                ${body.medium()};
+                ${fontStyles(theme)};
             `}
         >
             {text}
@@ -183,10 +191,12 @@ export const CorrectSelectedAnswer = ({
     answerText,
     explainerText,
     id,
+    theme,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
+    theme: Theme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, correctSelectedAnswerStyles]}>
         <WhiteCheckmark />
@@ -195,6 +205,7 @@ export const CorrectSelectedAnswer = ({
             text={answerText}
             supplementText={explainerText}
             answerType="correct-selected-answer"
+            theme={theme}
         />
     </div>
 );
@@ -209,13 +220,20 @@ const incorrectSelectedAnswerStyles = css`
 export const IncorrectAnswer = ({
     answerText,
     id,
+    theme,
 }: {
     answerText: string;
     id: string;
+    theme: Theme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, incorrectSelectedAnswerStyles]}>
         <WhiteCross />
-        <WhiteText id={id} text={answerText} answerType="incorrect-answer" />
+        <WhiteText
+            id={id}
+            text={answerText}
+            answerType="incorrect-answer"
+            theme={theme}
+        />
     </div>
 );
 
@@ -232,10 +250,12 @@ export const NonSelectedCorrectAnswer = ({
     answerText,
     explainerText,
     id,
+    theme,
 }: {
     answerText: string;
     explainerText: string;
     id: string;
+    theme: Theme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, correctNonSelectedAnswerStyles]}>
         <BlackCheckmark />
@@ -244,6 +264,7 @@ export const NonSelectedCorrectAnswer = ({
             text={answerText}
             supplementText={explainerText}
             answerType="non-selected-correct-answer"
+            theme={theme}
         />
     </div>
 );
@@ -261,15 +282,18 @@ const unselectedAnswerStyles = css`
 export const UnselectedAnswer = ({
     id,
     answerText,
+    theme,
 }: {
     answerText: string;
     id: string;
+    theme: Theme;
 }): JSX.Element => (
     <div css={unselectedAnswerStyles}>
         <BlackText
             id={id}
             text={answerText}
             answerType="unselected-disabled-answer"
+            theme={theme}
         />
     </div>
 );
