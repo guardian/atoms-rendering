@@ -16,6 +16,7 @@ import { RadioGroup, Radio } from '@guardian/src-radio';
 import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
+import { Theme, Special } from '@guardian/types';
 
 type ResultsBucket = {
     id: string;
@@ -43,13 +44,14 @@ type QuizAtomType = {
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
     sharingUrls: SharingUrlsType;
+    theme: Theme;
 };
 
-const answersWrapperStyle = css`
+const answersWrapperStyle = (theme: Theme) => css`
     margin-bottom: 12px;
     border: 0px;
     padding: 0px;
-    ${body.medium()};
+    ${theme === Special.Labs ? textSans.medium() : body.medium()};
 `;
 
 export const findMostReferredToBucketId = ({
@@ -111,6 +113,7 @@ export const PersonalityQuizAtom = ({
     questions,
     resultBuckets,
     sharingUrls,
+    theme,
 }: QuizAtomType): JSX.Element => {
     const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
         [key: string]: string;
@@ -193,6 +196,7 @@ export const PersonalityQuizAtom = ({
                             : undefined
                     }
                     hasSubmittedAnswers={hasSubmittedAnswers}
+                    theme={theme}
                 />
             ))}
             {hasMissingAnswers && <MissingAnswers />}
@@ -260,6 +264,7 @@ type PersonalityQuizAnswersProps = {
     updateSelectedAnswer: (selectedAnswerId: string) => void;
     globallySelectedAnswer?: string;
     hasSubmittedAnswers: boolean;
+    theme: Theme;
 };
 
 const PersonalityQuizAnswers = ({
@@ -271,6 +276,7 @@ const PersonalityQuizAnswers = ({
     updateSelectedAnswer,
     globallySelectedAnswer,
     hasSubmittedAnswers,
+    theme,
 }: PersonalityQuizAnswersProps) => {
     // use local state to avoid re-renders of AnswersGroup from updates due to: updateSelectedAnswer & selectedAnswer
     const [selectedAnswer, setSelectedAnswers] = useState<string | undefined>();
@@ -287,7 +293,7 @@ const PersonalityQuizAnswers = ({
     }, [globallySelectedAnswer, setSelectedAnswers]);
 
     return (
-        <fieldset css={answersWrapperStyle}>
+        <fieldset css={answersWrapperStyle(theme)}>
             <div>
                 <legend
                     css={css`
@@ -318,6 +324,7 @@ const PersonalityQuizAnswers = ({
                 answers={answers}
                 selectedAnswer={selectedAnswer}
                 setSelectedAnswers={setSelectedAnswers}
+                theme={theme}
             />
         </fieldset>
     );
@@ -329,6 +336,7 @@ type AnswersGroupProp = {
     answers: AnswerType[];
     selectedAnswer: string | undefined;
     setSelectedAnswers: (selectedAnswerId: string) => void;
+    theme: Theme;
 };
 
 const AnswersGroup = memo(
@@ -338,10 +346,11 @@ const AnswersGroup = memo(
         answers,
         selectedAnswer,
         setSelectedAnswers,
+        theme,
     }: AnswersGroupProp) => (
         <div
             css={[
-                radioButtonWrapperStyles,
+                radioButtonWrapperStyles(theme),
                 css`
                     label {
                         :hover {

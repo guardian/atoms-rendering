@@ -17,6 +17,7 @@ import {
     UnselectedAnswer,
     radioButtonWrapperStyles,
 } from './Answers';
+import { Theme, Special } from '@guardian/types';
 
 type AnswerType = {
     id: string;
@@ -38,6 +39,7 @@ type QuizAtomType = {
     questions: QuestionType[];
     resultGroups: ResultGroupsType[];
     sharingUrls: SharingUrlsType;
+    theme: Theme;
 };
 
 type ResultGroupsType = {
@@ -62,6 +64,7 @@ export const KnowledgeQuizAtom = ({
     questions,
     resultGroups,
     sharingUrls,
+    theme,
 }: QuizAtomType): JSX.Element => {
     const [quizSelection, setQuizSelection] = useState<QuizSelectionType>({});
 
@@ -89,6 +92,7 @@ export const KnowledgeQuizAtom = ({
                     answers={question.answers}
                     quizSelection={quizSelection}
                     setQuizSelection={setQuizSelection}
+                    theme={theme}
                 />
             ))}
             {haveAllQuestionsBeenAnswered && (
@@ -112,10 +116,12 @@ export const Question = ({
     number,
     quizSelection,
     setQuizSelection,
+    theme,
 }: QuestionType & {
     number: number;
     quizSelection: QuizSelectionType;
     setQuizSelection: (quizSelection: QuizSelectionType) => void;
+    theme: Theme;
 }): JSX.Element => {
     const [selectedAnswerId, setSelectedAnswerId] = useState<
         string | undefined
@@ -138,7 +144,7 @@ export const Question = ({
     return (
         <div
             css={css`
-                ${body.medium()};
+                ${theme === Special.Labs ? textSans.medium() : body.medium()};
             `}
         >
             <fieldset css={fieldsetStyle}>
@@ -172,6 +178,7 @@ export const Question = ({
                     hasSubmitted={hasSubmitted}
                     selectedAnswerId={selectedAnswerId}
                     setSelectedAnswerId={setSelectedAnswerId}
+                    theme={theme}
                 />
                 <div
                     css={css`
@@ -216,12 +223,14 @@ const Answers = ({
     hasSubmitted,
     selectedAnswerId,
     setSelectedAnswerId,
+    theme,
 }: {
     answers: AnswerType[];
     id: string;
     hasSubmitted: boolean;
     selectedAnswerId?: string;
     setSelectedAnswerId: (selectedAnswerId: string) => void;
+    theme: Theme;
 }) => {
     if (hasSubmitted) {
         return (
@@ -237,6 +246,7 @@ const Answers = ({
                                     id={answer.id}
                                     answerText={answer.text}
                                     explainerText={answer.revealText || ''}
+                                    theme={theme}
                                 />
                             );
                         }
@@ -247,6 +257,7 @@ const Answers = ({
                                     key={answer.id}
                                     id={answer.id}
                                     answerText={answer.text}
+                                    theme={theme}
                                 />
                             );
                         }
@@ -259,6 +270,7 @@ const Answers = ({
                                 id={answer.id}
                                 answerText={answer.text}
                                 explainerText={answer.revealText || ''}
+                                theme={theme}
                             />
                         );
                     }
@@ -268,6 +280,7 @@ const Answers = ({
                             key={answer.id}
                             id={answer.id}
                             answerText={answer.text}
+                            theme={theme}
                         />
                     );
                 })}
@@ -276,7 +289,7 @@ const Answers = ({
     }
 
     return (
-        <div css={radioButtonWrapperStyles}>
+        <div css={radioButtonWrapperStyles(theme)}>
             <RadioGroup name={questionId}>
                 {answers.map((answer) => (
                     <Radio
