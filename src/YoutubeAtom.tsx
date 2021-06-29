@@ -28,6 +28,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: Theme;
+    atomId?: string;
 };
 declare global {
     interface Window {
@@ -181,6 +182,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    atomId,
 }: Props): JSX.Element => {
     const embedConfig =
         adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
@@ -294,8 +296,8 @@ export const YoutubeAtom = ({
                 allow="autoplay"
                 tabIndex={overrideImage || posterImage ? -1 : 0}
                 allowFullScreen
-                data-atom-id={`youtube-video-${assetId}`}
-                data-atom-type="youtube"
+                data-atom-id={atomId}
+                data-atom-type="media"
             />
 
             {(overrideImage || posterImage) && (
