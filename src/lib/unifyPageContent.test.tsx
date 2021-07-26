@@ -35,4 +35,12 @@ describe('unifyPageContent', () => {
         });
         expect(outputHTML).not.toContain(`<div`);
     });
+
+    it('should render successfully when no elementJs', () => {
+        const outputHTML = unifyPageContent({
+            elementCss,
+            elementHtml,
+        });
+        expect(outputHTML).not.toContain(elementJs);
+    });
 });
