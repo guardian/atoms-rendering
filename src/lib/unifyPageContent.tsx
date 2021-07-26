@@ -7,7 +7,7 @@ export const unifyPageContent = ({
     elementHtml,
 }: {
     elementCss?: string;
-    elementJs: string;
+    elementJs?: string;
     elementHtml?: string;
 }): string =>
     renderToString(
@@ -28,7 +28,9 @@ export const unifyPageContent = ({
                 )}
             </body>
             {/* JS need to load on body render */}
-            <script dangerouslySetInnerHTML={{ __html: elementJs }} />
+            {elementJs && (
+                <script dangerouslySetInnerHTML={{ __html: elementJs }} />
+            )}
             <script
                 dangerouslySetInnerHTML={{
                     __html: `

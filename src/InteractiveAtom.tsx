@@ -18,7 +18,7 @@ type InteractiveAtomType = {
     id: string;
     elementUrl?: string;
     elementHtml?: string;
-    elementJs: string;
+    elementJs?: string;
     elementCss?: string;
     isMainMedia?: boolean;
 };
