@@ -1,10 +1,14 @@
 import { Theme } from '@guardian/types';
 
-export type AdTargetingType = {
-    adUnit: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    customParams: { [key: string]: any };
-};
+export type AdTargetingType =
+    | {
+          adUnit: string;
+          customParams: Record<string, unknown>;
+          disableAds?: false;
+      }
+    | {
+          disableAds: true;
+      };
 
 export type AudioAtomType = {
     id: string;

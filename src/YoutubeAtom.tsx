@@ -38,34 +38,49 @@ declare global {
 type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
 
 type EmbedConfig = {
-    adsConfig: {
-        adTagParameters: {
-            iu: string;
-            cust_params: string;
-        };
-    };
+    adsConfig:
+        | {
+              adTagParameters: {
+                  iu: string;
+                  cust_params: string;
+              };
+              disableAds?: false;
+          }
+        | {
+              disableAds: true;
+          };
 };
 
 const buildEmbedConfig = (adTargeting: AdTargetingType): EmbedConfig => {
-    return {
-        adsConfig: {
-            adTagParameters: {
-                iu: `${adTargeting.adUnit || ''}`,
-                cust_params: encodeURIComponent(
-                    constructQuery(adTargeting.customParams),
-                ),
-            },
-        },
-    };
+    switch (adTargeting.disableAds) {
+        case true:
+            return {
+                adsConfig: {
+                    disableAds: true,
+                },
+            };
+        case false:
+        case undefined:
+            return {
+                adsConfig: {
+                    adTagParameters: {
+                        iu: `${adTargeting.adUnit || ''}`,
+                        cust_params: encodeURIComponent(
+                            constructQuery(adTargeting.customParams || {}),
+                        ),
+                    },
+                },
+            };
+    }
 };
 
-const constructQuery = (query: { [key: string]: string }): string =>
+const constructQuery = (query: { [key: string]: unknown }): string =>
     Object.keys(query)
         .map((param: string) => {
             const value = query[param];
             const queryValue = Array.isArray(value)
                 ? value.map((v) => encodeURIComponent(v)).join(',')
-                : encodeURIComponent(value);
+                : encodeURIComponent(String(value));
             return `${param}=${queryValue}`;
         })
         .join('&');
