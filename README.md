@@ -95,7 +95,7 @@ An example PR for adding the Profile Atom can be found [here](https://github.com
 
 ## Releasing a new version / Publishing to NPM
 
-Pre-requisits:
+Prerequisites:
 
 1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
