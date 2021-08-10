@@ -99,10 +99,21 @@ Prerequisites:
 
 1. Ensure your changes are on main
 2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
+3. If it is your first time to do a release, you might need to make NPM credentials available to your local instance. For this, go to your NPM account and generate a new access token with `publish` rights. Then issue
+
+```
+$ echo "//registry.npmjs.org/:_authToken=YOUR-ACCESS-TOKEN" > ~/.npmrc
+```
+
+replacing YOUR-ACCESS-TOKEN with your own access token
 
 Then:
 
-`yarn release --patch` or `yarn release --minor` or `yarn release --major`
+```
+$ yarn release
+```
+
+You will have to interactively specify the level or release (`patch`, `minor` or `major`) and a prompt will invite you to make a tag release on Github.
 
 Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
 
