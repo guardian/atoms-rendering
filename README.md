@@ -109,11 +109,9 @@ replacing YOUR-ACCESS-TOKEN with your own access token
 
 Then:
 
-```
-$ yarn release
-```
+`yarn release --patch` or `yarn release --minor` or `yarn release --major`
 
-You will have to interactively specify the level or release (`patch`, `minor` or `major`) and a prompt will invite you to make a tag release on Github.
+You might still have to interactively specify the level or release (`patch`, `minor` or `major`) and a prompt will invite you to make a tag release on Github.
 
 Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
 
