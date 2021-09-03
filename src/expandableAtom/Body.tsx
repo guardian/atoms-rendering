@@ -5,7 +5,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { SvgInfo } from '@guardian/src-icons';
 
-import { Theme } from '@guardian/types';
+import { ArticleTheme } from '@guardian/libs';
 import { pillarPalette } from '../lib/pillarPalette';
 
 const imageStyling = css`
@@ -76,7 +76,7 @@ const bodyStyling = css`
     }
 `;
 
-const linkStyling = (pillar: Theme) => css`
+const linkStyling = (pillar: ArticleTheme) => css`
     a {
         color: ${pillarPalette[pillar][300]};
         text-decoration: none;
@@ -98,7 +98,7 @@ export const Body = ({
     html: string;
     image?: string;
     credit?: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
 }): JSX.Element => {
     return (
         <div>

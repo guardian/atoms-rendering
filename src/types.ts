@@ -1,4 +1,4 @@
-import { Theme } from '@guardian/types';
+import { ArticleTheme } from '@guardian/libs';
 
 export type AdTargetingType =
     | {
@@ -15,7 +15,7 @@ export type AudioAtomType = {
     trackUrl: string;
     kicker: string;
     title?: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
     shouldUseAcast?: boolean;
     duration: number;
 };
@@ -38,7 +38,7 @@ export type GuideAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -70,7 +70,7 @@ export type ProfileAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -83,7 +83,7 @@ export type QandaAtomType = {
     image?: string;
     html: string;
     credit?: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
     expandForStorybook?: boolean;
     likeHandler: () => void;
     dislikeHandler: () => void;
@@ -94,7 +94,7 @@ export type TimelineAtomType = {
     id: string;
     events?: TimelineEvent[];
     title: string;
-    pillar: Theme;
+    pillar: ArticleTheme;
     description?: string;
     expandForStorybook?: boolean;
     likeHandler: () => void;

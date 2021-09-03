@@ -12,7 +12,7 @@ import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType, AdTargetingType } from './types';
-import { Theme } from '@guardian/types';
+import { ArticleTheme } from '@guardian/libs';
 
 type Props = {
     assetId: string;
@@ -27,7 +27,7 @@ type Props = {
     duration?: number; // in seconds
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
-    pillar: Theme;
+    pillar: ArticleTheme;
 };
 declare global {
     interface Window {
@@ -132,7 +132,7 @@ const hideOverlayStyling = css`
     transition-duration: 500ms;
 `;
 
-const playButtonStyling = (pillar: Theme) => css`
+const playButtonStyling = (pillar: ArticleTheme) => css`
     background-color: ${pillarPalette[pillar][500]};
     border-radius: 100%;
     height: 60px;
@@ -160,7 +160,7 @@ const overlayInfoWrapperStyles = css`
     left: ${space[4]}px;
 `;
 
-const videoDurationStyles = (pillar: Theme) => css`
+const videoDurationStyles = (pillar: ArticleTheme) => css`
     ${textSans.medium({ fontWeight: 'bold' })};
     padding-left: ${space[3]}px;
     color: ${pillarPalette[pillar][500]};

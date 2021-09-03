@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { screen, fireEvent } from '@testing-library/dom';
 
-import { Pillar } from '@guardian/types';
+import { ArticlePillar } from '@guardian/libs';
 
 import { AudioAtom } from './AudioAtom';
 
@@ -20,7 +20,7 @@ describe('AudioAtom', () => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title={title}
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
             />,
         );
         expect(getByText(title)).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('AudioAtom', () => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title={title}
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
             />,
         );
 
@@ -49,7 +49,7 @@ describe('AudioAtom', () => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title={title}
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
             />,
         );
         expect(playStub).toHaveBeenCalled();
@@ -62,7 +62,7 @@ describe('AudioAtom', () => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title={title}
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
             />,
         );
         expect(pauseStub).toHaveBeenCalled();

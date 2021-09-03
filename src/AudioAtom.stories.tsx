@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
-import { Pillar } from '@guardian/types';
+import { ArticlePillar } from '@guardian/libs';
 
 import { AudioAtom } from './AudioAtom';
 
@@ -23,7 +23,7 @@ export const DefaultStory = (): JSX.Element => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
                 duration={849}
             />
         </div>
@@ -43,7 +43,7 @@ export const NewsStory = (): JSX.Element => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
-                pillar={Pillar.News}
+                pillar={ArticlePillar.News}
                 duration={849}
             />
         </div>
@@ -63,7 +63,7 @@ export const CultureStory = (): JSX.Element => {
                 trackUrl="https://audio.guim.co.uk/2020/05/05-61553-gnl.fw.200505.jf.ch7DW.mp3"
                 kicker="Football Weekly Extra Extra"
                 title="Q&A and Detective Wilson"
-                pillar={Pillar.Culture}
+                pillar={ArticlePillar.Culture}
                 duration={849}
             />
         </div>

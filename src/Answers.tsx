@@ -5,11 +5,13 @@ import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { neutral, news, success } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { Special, Theme } from '@guardian/types';
+import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
 
 // We export Radio wrapper styles to override Source Radio buttons to align
 // with our custom answers for the quiz
-export const radioButtonWrapperStyles = (theme: Theme): SerializedStyles => css`
+export const radioButtonWrapperStyles = (
+    theme: ArticleTheme,
+): SerializedStyles => css`
     label {
         padding-top: ${space[3]}px;
         padding-bottom: ${space[3]}px;
@@ -31,8 +33,8 @@ export const radioButtonWrapperStyles = (theme: Theme): SerializedStyles => css`
     }
 `;
 
-const fontStyles = (theme: Theme) =>
-    theme === Special.Labs ? textSans.medium() : body.medium();
+const fontStyles = (theme: ArticleTheme) =>
+    theme === ArticleSpecial.Labs ? textSans.medium() : body.medium();
 
 const answerWithSVGStyles = css`
     margin-bottom: ${space[2]}px;
@@ -105,7 +107,7 @@ const WhiteText = ({
     text: string;
     supplementText?: string;
     answerType: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }) => (
     <label
         css={css`
@@ -148,7 +150,7 @@ const BlackText = ({
     text: string;
     supplementText?: string;
     answerType: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }) => (
     <label
         css={css`
@@ -196,7 +198,7 @@ export const CorrectSelectedAnswer = ({
     answerText: string;
     explainerText: string;
     id: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, correctSelectedAnswerStyles]}>
         <WhiteCheckmark />
@@ -224,7 +226,7 @@ export const IncorrectAnswer = ({
 }: {
     answerText: string;
     id: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, incorrectSelectedAnswerStyles]}>
         <WhiteCross />
@@ -255,7 +257,7 @@ export const NonSelectedCorrectAnswer = ({
     answerText: string;
     explainerText: string;
     id: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }): JSX.Element => (
     <div css={[answerWithSVGStyles, correctNonSelectedAnswerStyles]}>
         <BlackCheckmark />
@@ -286,7 +288,7 @@ export const UnselectedAnswer = ({
 }: {
     answerText: string;
     id: string;
-    theme: Theme;
+    theme: ArticleTheme;
 }): JSX.Element => (
     <div css={unselectedAnswerStyles}>
         <BlackText

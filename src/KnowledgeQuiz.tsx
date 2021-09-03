@@ -17,7 +17,7 @@ import {
     UnselectedAnswer,
     radioButtonWrapperStyles,
 } from './Answers';
-import { Theme, Special } from '@guardian/types';
+import { ArticleTheme, ArticleSpecial } from '@guardian/libs';
 
 type AnswerType = {
     id: string;
@@ -39,7 +39,7 @@ type QuizAtomType = {
     questions: QuestionType[];
     resultGroups: ResultGroupsType[];
     sharingUrls: SharingUrlsType;
-    theme: Theme;
+    theme: ArticleTheme;
 };
 
 type ResultGroupsType = {
@@ -121,7 +121,7 @@ export const Question = ({
     number: number;
     quizSelection: QuizSelectionType;
     setQuizSelection: (quizSelection: QuizSelectionType) => void;
-    theme: Theme;
+    theme: ArticleTheme;
 }): JSX.Element => {
     const [selectedAnswerId, setSelectedAnswerId] = useState<
         string | undefined
@@ -144,7 +144,9 @@ export const Question = ({
     return (
         <div
             css={css`
-                ${theme === Special.Labs ? textSans.medium() : body.medium()};
+                ${theme === ArticleSpecial.Labs
+                    ? textSans.medium()
+                    : body.medium()};
             `}
         >
             <fieldset css={fieldsetStyle}>
@@ -230,7 +232,7 @@ const Answers = ({
     hasSubmitted: boolean;
     selectedAnswerId?: string;
     setSelectedAnswerId: (selectedAnswerId: string) => void;
-    theme: Theme;
+    theme: ArticleTheme;
 }) => {
     if (hasSubmitted) {
         return (
