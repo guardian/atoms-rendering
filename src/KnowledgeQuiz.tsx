@@ -351,23 +351,49 @@ export const Result = ({
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
         (questionId) => quizSelection[questionId].isCorrect,
     ).length;
-
+    const totalResultGroups = resultGroups.length;
     let bestResultGroup: ResultGroupsType | undefined;
-    resultGroups.forEach((resultGroup) => {
-        if (!bestResultGroup) bestResultGroup = resultGroup;
+    const resultBrackets = [];
+    let bracketIndex = 0;
 
-        // In the case we have the exact numberOfCorrectAnswers
-        if (resultGroup.minScore === numberOfCorrectAnswers)
-            bestResultGroup = resultGroup;
-        if (bestResultGroup.minScore === numberOfCorrectAnswers) return; // do nothing
+    // Sorts the results groups alphabetically by title - it has a callback in case of duplication (probably un-necessary)
+    resultGroups.sort((a, b) =>
+        a.title > b.title
+            ? 1
+            : a.title === b.title
+            ? a.title > b.title
+                ? 1
+                : -1
+            : -1,
+    );
 
-        // if `cur` has a closer score than `acc`
-        if (
-            bestResultGroup.minScore < resultGroup.minScore &&
-            resultGroup.minScore < numberOfCorrectAnswers
-        )
-            return resultGroup;
-    });
+    // If there is an result group for each question return the matching score
+    if (totalNumberOfQuestions === totalResultGroups) {
+        resultGroups.forEach((resultGroup) => {
+            if (numberOfCorrectAnswers === resultGroup.minScore) {
+                bestResultGroup = resultGroup;
+            }
+        });
+    } else {
+        // If there are less result groups than questions then answers are being put into brackets e.g. 1-5 correct, 6-10 correct
+        // Find the score ranges
+        // Decide which bracket the score is in
+        for (let i = 0; i < resultGroups.length; i++) {
+            resultBrackets[i] = resultGroups[i].minScore;
+        }
+
+        // The regular sort function doesn't sort numbers, it works alphabetically
+        resultBrackets.sort(function (a, b) {
+            return a - b;
+        });
+
+        for (let i = 0; i < resultBrackets.length; i++) {
+            if (numberOfCorrectAnswers >= resultBrackets[i]) {
+                bracketIndex = i;
+            }
+        }
+    }
+    bestResultGroup = resultGroups[bracketIndex];
 
     return (
         <div css={resultWrapperStyles}>
