@@ -356,16 +356,10 @@ export const Result = ({
     const resultBrackets = [];
     let bracketIndex = 0;
 
-    // Sorts the results groups alphabetically by title - it has a callback in case of duplication (probably un-necessary)
-    resultGroups.sort((a, b) =>
-        a.title > b.title
-            ? 1
-            : a.title === b.title
-            ? a.title > b.title
-                ? 1
-                : -1
-            : -1,
-    );
+    // Sort the results by lowest score first
+    resultGroups.sort(function (a, b) {
+        return a.minScore - b.minScore;
+    });
 
     // If there is a result group for each question return the matching score
     if (totalNumberOfQuestions === totalResultGroups) {
