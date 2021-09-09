@@ -376,6 +376,7 @@ export const Result = ({
                 <span
                     css={resultsNumberStyles}
                 >{`${numberOfCorrectAnswers}/${totalNumberOfQuestions}`}</span>
+                {bestResultGroup && <span>{bestResultGroup.title}</span>}
             </div>
 
             <hr />
