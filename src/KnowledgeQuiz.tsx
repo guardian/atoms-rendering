@@ -367,7 +367,7 @@ export const Result = ({
             : -1,
     );
 
-    // If there is an result group for each question return the matching score
+    // If there is a result group for each question return the matching score
     if (totalNumberOfQuestions === totalResultGroups) {
         resultGroups.forEach((resultGroup) => {
             if (numberOfCorrectAnswers === resultGroup.minScore) {
