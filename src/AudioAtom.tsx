@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { textSans, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { focusHalo } from '@guardian/src-foundations/accessibility';
-import { Theme } from '@guardian/types';
+import { ArticleTheme } from '@guardian/libs';
 
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
@@ -28,7 +28,7 @@ const wrapperStyles = css`
     margin: 16px 0 36px;
 `;
 
-const kickerStyle = (pillar: Theme) => css`
+const kickerStyle = (pillar: ArticleTheme) => css`
     color: ${pillarPalette[pillar][400]};
     ${headline.xxxsmall({ fontWeight: 'bold' })};
 `;
@@ -98,7 +98,7 @@ const progressBarStyle = css`
     display: block;
 `;
 
-const progressBarInputStyle = (pillar: Theme) => css`
+const progressBarInputStyle = (pillar: ArticleTheme) => css`
     width: 100%;
     appearance: none;
     background-image: linear-gradient(
@@ -158,7 +158,7 @@ const formatTime = (t: number) => {
     return `${format(hour)}:${format(minute)}:${format(second)}`;
 };
 
-const PauseSVG = ({ pillar }: { pillar: Theme }) => (
+const PauseSVG = ({ pillar }: { pillar: ArticleTheme }) => (
     <svg css={svgPauseStyle} width="30px" height="30px" viewBox="0 0 30 30">
         <g fill="none" fillRule="evenodd">
             <circle
@@ -175,7 +175,7 @@ const PauseSVG = ({ pillar }: { pillar: Theme }) => (
     </svg>
 );
 
-const PlaySVG = ({ pillar }: { pillar: Theme }) => (
+const PlaySVG = ({ pillar }: { pillar: ArticleTheme }) => (
     <svg css={svgPlayStyle} width="30px" height="30px" viewBox="0 0 30 30">
         <g fill="none" fillRule="evenodd">
             <circle

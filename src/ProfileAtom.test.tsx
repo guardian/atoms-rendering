@@ -3,7 +3,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
-import { Pillar } from '@guardian/types';
+import { ArticlePillar } from '@guardian/libs';
 import { ProfileAtom } from './ProfileAtom';
 
 describe('ProfileAtom', () => {
@@ -15,7 +15,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}
@@ -48,7 +48,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}
@@ -82,7 +82,7 @@ describe('ProfileAtom', () => {
                 title="Who is Jon Lansman?"
                 html="<p>A 62-year-old Labour veteran who joined the party in 1974 and worked for Labour icon Tony Benn during his deputy leadership campaign in the 1980s. Lansman served as director of operations for Corbyn’s leadership campaign. After Corbyn was elected as the leader of the Labour party in 2015, Lansman founded Momentum, a pro-Corbyn campaign group.<br></p>"
                 credit=""
-                pillar={Pillar.Sport}
+                pillar={ArticlePillar.Sport}
                 likeHandler={() => {
                     return null;
                 }}

@@ -8,7 +8,7 @@ import {
     natureResultGroups,
 } from './fixtures/knowledgeQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-import { Pillar, Special } from '@guardian/types';
+import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
 
 export default {
     title: 'KnowledgeQuizAtom',
@@ -21,7 +21,7 @@ export const DefaultRendering = (): JSX.Element => (
         questions={exampleKnowledgeQuestions}
         resultGroups={resultGroups}
         sharingUrls={sharingUrls}
-        theme={Pillar.News}
+        theme={ArticlePillar.News}
     />
 );
 
@@ -31,7 +31,7 @@ export const BatchedResults = (): JSX.Element => (
         questions={natureQuestions}
         resultGroups={natureResultGroups}
         sharingUrls={sharingUrls}
-        theme={Pillar.News}
+        theme={ArticlePillar.News}
     />
 );
 
@@ -41,6 +41,6 @@ export const LabsTheme = (): JSX.Element => (
         questions={exampleKnowledgeQuestions}
         resultGroups={resultGroups}
         sharingUrls={sharingUrls}
-        theme={Special.Labs}
+        theme={ArticleSpecial.Labs}
     />
 );

@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
 import { body } from '@guardian/src-foundations/typography';
-import { Theme } from '@guardian/types';
+import { ArticleTheme } from '@guardian/libs';
 
 import { TimelineEvent, TimelineAtomType } from './types';
 
@@ -63,7 +63,7 @@ const TimelineContents = ({
     pillar,
 }: {
     events: TimelineEvent[];
-    pillar: Theme;
+    pillar: ArticleTheme;
 }): JSX.Element => {
     return (
         <div>

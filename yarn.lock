@@ -1454,6 +1454,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@guardian/libs@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-3.1.0.tgz#44b0291741a0fce588167f4ec8c17fa9a7d41261"
+  integrity sha512-GJk34o9lUmP6FcBKd0FSV2RwvAKKJzcAV5mVdhgq/JmBNj8Ns5eiJlq8LG2ewIJJSzRaWT4h8Fg6n9KI8K0xDQ==
+
 "@guardian/src-button@^3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-3.6.0.tgz#b620c4512f6069e97ca61380a9cf20a30108b3e2"
@@ -1507,11 +1512,6 @@
   dependencies:
     "@guardian/src-helpers" "^3.6.0"
     "@guardian/src-icons" "^3.6.0"
-
-"@guardian/types@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@guardian/types/-/types-5.1.0.tgz#d83e4fe911c0d4d460551855d47d07df0f0af8f2"
-  integrity sha512-8JQFfHqskOyc1ruSwWiJD8W4XuCsGorMpwEMRsBM3/zHykAiizsJu7827UbeFCWJ5FUquO/blXzm7oK8ZO99CQ==
 
 "@icons/material@^0.2.4":
   version "0.2.4"

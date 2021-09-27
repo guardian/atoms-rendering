@@ -6,7 +6,7 @@ import {
     exampleResultBuckets,
 } from './fixtures/personalityQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-import { Pillar, Special } from '@guardian/types';
+import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
 
 export default {
     title: 'PersonalityQuizAtom',
@@ -19,7 +19,7 @@ export const DefaultRendering = (): JSX.Element => (
         questions={examplePersonalityQuestions}
         resultBuckets={exampleResultBuckets}
         sharingUrls={sharingUrls}
-        theme={Pillar.News}
+        theme={ArticlePillar.News}
     />
 );
 
@@ -29,6 +29,6 @@ export const LabsTheme = (): JSX.Element => (
         questions={examplePersonalityQuestions}
         resultBuckets={exampleResultBuckets}
         sharingUrls={sharingUrls}
-        theme={Special.Labs}
+        theme={ArticleSpecial.Labs}
     />
 );

@@ -16,7 +16,7 @@ import { RadioGroup, Radio } from '@guardian/src-radio';
 import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
-import { Theme, Special } from '@guardian/types';
+import { ArticleTheme, ArticleSpecial } from '@guardian/libs';
 
 type ResultsBucket = {
     id: string;
@@ -44,14 +44,14 @@ type QuizAtomType = {
     questions: QuestionType[];
     resultBuckets: ResultsBucket[];
     sharingUrls: SharingUrlsType;
-    theme: Theme;
+    theme: ArticleTheme;
 };
 
-const answersWrapperStyle = (theme: Theme) => css`
+const answersWrapperStyle = (theme: ArticleTheme) => css`
     margin-bottom: 12px;
     border: 0px;
     padding: 0px;
-    ${theme === Special.Labs ? textSans.medium() : body.medium()};
+    ${theme === ArticleSpecial.Labs ? textSans.medium() : body.medium()};
 `;
 
 export const findMostReferredToBucketId = ({
@@ -264,7 +264,7 @@ type PersonalityQuizAnswersProps = {
     updateSelectedAnswer: (selectedAnswerId: string) => void;
     globallySelectedAnswer?: string;
     hasSubmittedAnswers: boolean;
-    theme: Theme;
+    theme: ArticleTheme;
 };
 
 const PersonalityQuizAnswers = ({
@@ -336,7 +336,7 @@ type AnswersGroupProp = {
     answers: AnswerType[];
     selectedAnswer: string | undefined;
     setSelectedAnswers: (selectedAnswerId: string) => void;
-    theme: Theme;
+    theme: ArticleTheme;
 };
 
 const AnswersGroup = memo(
