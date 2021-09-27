@@ -31,7 +31,7 @@ export const BatchedResults = (): JSX.Element => (
         questions={natureQuestions}
         resultGroups={natureResultGroups}
         sharingUrls={sharingUrls}
-        theme={Pillar.News}
+        theme={ArticlePillar.News}
     />
 );
 
