@@ -18,7 +18,7 @@ type Props = {
     assetId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
-    adTargeting?: AdTargetingType;
+    adTargetingBuilder?: () => AdTargetingType;
     height?: number;
     width?: number;
     title?: string;
@@ -186,7 +186,7 @@ export const YoutubeAtom = ({
     assetId,
     overrideImage,
     posterImage,
-    adTargeting,
+    adTargetingBuilder,
     height = 259,
     width = 460,
     alt,
@@ -197,121 +197,134 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const embedConfig =
-        adTargeting && JSON.stringify(buildEmbedConfig(adTargeting));
-    const originString = origin ? `&origin=${origin}` : '';
-    const iframeSrc = `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`;
-
+    const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-
     const player = useRef<YoutubePlayerType>();
 
     useEffect(() => {
-        if (!player.current) {
-            player.current = YouTubePlayer(`youtube-video-${assetId}`);
-        }
+        const embedConfig =
+            adTargetingBuilder &&
+            JSON.stringify(buildEmbedConfig(adTargetingBuilder()));
+        const originString = origin ? `&origin=${origin}` : '';
+        setIframeSrc(
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`,
+        );
+    }, []);
 
-        let hasSentPlayEvent = false;
-        let hasSent25Event = false;
-        let hasSent50Event = false;
-        let hasSent75Event = false;
+    useEffect(() => {
+        if (iframeSrc) {
+            if (!player.current) {
+                player.current = YouTubePlayer(`youtube-video-${assetId}`);
+            }
 
-        const listener =
-            player.current &&
-            player.current.on(
-                'stateChange',
-                (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                    if (e.data === youtubePlayerState.PLAYING) {
-                        if (!hasSentPlayEvent) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('play'),
-                            );
-                            hasSentPlayEvent = true;
+            let hasSentPlayEvent = false;
+            let hasSent25Event = false;
+            let hasSent50Event = false;
+            let hasSent75Event = false;
 
-                            setTimeout(() => {
-                                checkProgress();
-                            }, 3000);
+            const listener =
+                player.current &&
+                player.current.on(
+                    'stateChange',
+                    (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
+                        if (e.data === youtubePlayerState.PLAYING) {
+                            if (!hasSentPlayEvent) {
+                                eventEmitters.forEach((eventEmitter) =>
+                                    eventEmitter('play'),
+                                );
+                                hasSentPlayEvent = true;
+
+                                setTimeout(() => {
+                                    checkProgress();
+                                }, 3000);
+                            }
+
+                            const checkProgress = async () => {
+                                if (!player || !player.current) return null;
+                                const currentTime =
+                                    player.current &&
+                                    (await player.current.getCurrentTime());
+                                const duration =
+                                    player.current &&
+                                    (await player.current.getDuration());
+
+                                if (!duration || !currentTime) return;
+
+                                const percentPlayed =
+                                    (currentTime / duration) * 100;
+
+                                if (!hasSent25Event && 25 < percentPlayed) {
+                                    eventEmitters.forEach((eventEmitter) =>
+                                        eventEmitter('25'),
+                                    );
+                                    hasSent25Event = true;
+                                }
+
+                                if (!hasSent50Event && 50 < percentPlayed) {
+                                    eventEmitters.forEach((eventEmitter) =>
+                                        eventEmitter('50'),
+                                    );
+                                    hasSent50Event = true;
+                                }
+
+                                if (!hasSent75Event && 75 < percentPlayed) {
+                                    eventEmitters.forEach((eventEmitter) =>
+                                        eventEmitter('75'),
+                                    );
+                                    hasSent75Event = true;
+                                }
+
+                                const currentPlayerState =
+                                    player.current &&
+                                    (await player.current.getPlayerState());
+
+                                if (
+                                    currentPlayerState !==
+                                    youtubePlayerState.ENDED
+                                ) {
+                                    // Set a timeout to check progress again in the future
+                                    window.setTimeout(
+                                        () => checkProgress(),
+                                        3000,
+                                    );
+                                }
+                            };
                         }
 
-                        const checkProgress = async () => {
-                            if (!player || !player.current) return null;
-                            const currentTime =
-                                player.current &&
-                                (await player.current.getCurrentTime());
-                            const duration =
-                                player.current &&
-                                (await player.current.getDuration());
+                        if (e.data === youtubePlayerState.ENDED) {
+                            eventEmitters.forEach((eventEmitter) =>
+                                eventEmitter('end'),
+                            );
+                        }
+                    },
+                );
 
-                            if (!duration || !currentTime) return;
-
-                            const percentPlayed =
-                                (currentTime / duration) * 100;
-
-                            if (!hasSent25Event && 25 < percentPlayed) {
-                                eventEmitters.forEach((eventEmitter) =>
-                                    eventEmitter('25'),
-                                );
-                                hasSent25Event = true;
-                            }
-
-                            if (!hasSent50Event && 50 < percentPlayed) {
-                                eventEmitters.forEach((eventEmitter) =>
-                                    eventEmitter('50'),
-                                );
-                                hasSent50Event = true;
-                            }
-
-                            if (!hasSent75Event && 75 < percentPlayed) {
-                                eventEmitters.forEach((eventEmitter) =>
-                                    eventEmitter('75'),
-                                );
-                                hasSent75Event = true;
-                            }
-
-                            const currentPlayerState =
-                                player.current &&
-                                (await player.current.getPlayerState());
-
-                            if (
-                                currentPlayerState !== youtubePlayerState.ENDED
-                            ) {
-                                // Set a timeout to check progress again in the future
-                                window.setTimeout(() => checkProgress(), 3000);
-                            }
-                        };
-                    }
-
-                    if (e.data === youtubePlayerState.ENDED) {
-                        eventEmitters.forEach((eventEmitter) =>
-                            eventEmitter('end'),
-                        );
-                    }
-                },
-            );
-
-        return () => {
-            listener && player.current && player.current.off(listener);
-        };
-    }, [eventEmitters]);
+            return () => {
+                listener && player.current && player.current.off(listener);
+            };
+        }
+    }, [eventEmitters, iframeSrc]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            <iframe
-                title={title}
-                width={width}
-                height={height}
-                id={`youtube-video-${assetId}`}
-                src={iframeSrc}
-                // needed in order to allow `player.playVideo();` to be able to run
-                // https://stackoverflow.com/a/53298579/7378674
-                allow="autoplay"
-                tabIndex={overrideImage || posterImage ? -1 : 0}
-                allowFullScreen
-                data-atom-id={`youtube-video-${assetId}`}
-                data-atom-type="youtube"
-            />
+            {iframeSrc && (
+                <iframe
+                    title={title}
+                    width={width}
+                    height={height}
+                    id={`youtube-video-${assetId}`}
+                    src={iframeSrc}
+                    // needed in order to allow `player.playVideo();` to be able to run
+                    // https://stackoverflow.com/a/53298579/7378674
+                    allow="autoplay"
+                    tabIndex={overrideImage || posterImage ? -1 : 0}
+                    allowFullScreen
+                    data-atom-id={`youtube-video-${assetId}`}
+                    data-atom-type="youtube"
+                />
+            )}
 
             {(overrideImage || posterImage) && (
                 <div
