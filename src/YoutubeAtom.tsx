@@ -209,9 +209,11 @@ export const YoutubeAtom = ({
         const embedConfig =
             adTargetingBuilder &&
             JSON.stringify(buildEmbedConfig(adTargetingBuilder()));
-        const originString = origin ? `&origin=${origin}` : '';
+        const originString = origin
+            ? `&origin=${encodeURIComponent(origin)}`
+            : '';
         setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1${originString}&widgetid=1&modestbranding=1`,
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
         );
     }, []);
 
