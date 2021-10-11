@@ -204,6 +204,8 @@ export const YoutubeAtom = ({
     const player = useRef<YoutubePlayerType>();
 
     useEffect(() => {
+        // Set the iframe src once we have called adTargetingBuilder client side
+        // Allows client side targeting data to be passed to the Youtube player
         const embedConfig =
             adTargetingBuilder &&
             JSON.stringify(buildEmbedConfig(adTargetingBuilder()));
