@@ -11,14 +11,16 @@ import { SvgPlay } from '@guardian/src-icons';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
-import { ImageSource, RoleType, AdTargetingType } from './types';
+import { ImageSource, RoleType } from './types';
 import { ArticleTheme } from '@guardian/libs';
+import type { AdTargetingBuilder } from '@guardian/commercial-core';
+import { disabledAds } from '@guardian/commercial-core';
 
 type Props = {
     assetId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
-    adTargetingBuilder?: () => AdTargetingType;
+    adTargetingBuilder?: AdTargetingBuilder;
     height?: number;
     width?: number;
     title?: string;
@@ -36,54 +38,6 @@ declare global {
 }
 
 type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
-
-type EmbedConfig = {
-    adsConfig:
-        | {
-              adTagParameters: {
-                  iu: string;
-                  cust_params: string;
-              };
-              disableAds?: false;
-          }
-        | {
-              disableAds: true;
-          };
-};
-
-const buildEmbedConfig = (adTargeting: AdTargetingType): EmbedConfig => {
-    switch (adTargeting.disableAds) {
-        case true:
-            return {
-                adsConfig: {
-                    disableAds: true,
-                },
-            };
-        case false:
-        case undefined:
-            return {
-                adsConfig: {
-                    adTagParameters: {
-                        iu: `${adTargeting.adUnit || ''}`,
-                        cust_params: encodeURIComponent(
-                            constructQuery(adTargeting.customParams || {}),
-                        ),
-                    },
-                },
-            };
-    }
-};
-
-const constructQuery = (query: { [key: string]: unknown }): string =>
-    Object.keys(query)
-        .map((param: string) => {
-            const value = query[param];
-            const queryValue = Array.isArray(value)
-                ? value.map((v) => encodeURIComponent(v)).join(',')
-                : encodeURIComponent(String(value));
-            return `${param}=${queryValue}`;
-        })
-        .join('&');
 
 type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 
@@ -206,15 +160,21 @@ export const YoutubeAtom = ({
     useEffect(() => {
         // Set the iframe src once we have called adTargetingBuilder client side
         // Allows client side targeting data to be passed to the Youtube player
-        const embedConfig =
-            adTargetingBuilder &&
-            JSON.stringify(buildEmbedConfig(adTargetingBuilder()));
-        const originString = origin
-            ? `&origin=${encodeURIComponent(origin)}`
-            : '';
-        setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
-        );
+        const adTargetingPromise = async () => {
+            // disable ads if no ad targeting builder passed
+            const adTargetingBuilderFunc = adTargetingBuilder
+                ? adTargetingBuilder
+                : () => Promise.resolve(disabledAds);
+            const adsConfig = await adTargetingBuilderFunc();
+            const embedConfig = JSON.stringify({ adsConfig });
+            const originString = origin
+                ? `&origin=${encodeURIComponent(origin)}`
+                : '';
+            setIframeSrc(
+                `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
+            );
+        };
+        adTargetingPromise();
     }, []);
 
     useEffect(() => {
