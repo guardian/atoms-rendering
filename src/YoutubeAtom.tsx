@@ -11,16 +11,21 @@ import { SvgPlay } from '@guardian/src-icons';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
-import { ImageSource, RoleType } from './types';
+import { AdTargeting, ImageSource, RoleType } from './types';
 import { ArticleTheme } from '@guardian/libs';
-import type { AdTargetingBuilder } from '@guardian/commercial-core';
-import { disabledAds } from '@guardian/commercial-core';
+import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import {
+    AdsConfig,
+    buildAdsConfigWithConsent,
+    disabledAds,
+} from '@guardian/commercial-core';
 
 type Props = {
     assetId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
-    adTargetingBuilder?: AdTargetingBuilder;
+    adTargeting?: AdTargeting;
+    consentState?: ConsentState;
     height?: number;
     width?: number;
     title?: string;
@@ -140,7 +145,8 @@ export const YoutubeAtom = ({
     assetId,
     overrideImage,
     posterImage,
-    adTargetingBuilder,
+    adTargeting,
+    consentState,
     height = 259,
     width = 460,
     alt,
@@ -158,23 +164,24 @@ export const YoutubeAtom = ({
     const player = useRef<YoutubePlayerType>();
 
     useEffect(() => {
-        // Set the iframe src once we have called adTargetingBuilder client side
-        // Allows client side targeting data to be passed to the Youtube player
-        const adTargetingPromise = async () => {
-            // disable ads if no ad targeting builder passed
-            const adTargetingBuilderFunc = adTargetingBuilder
-                ? adTargetingBuilder
-                : () => Promise.resolve(disabledAds);
-            const adsConfig = await adTargetingBuilderFunc();
-            const embedConfig = JSON.stringify({ adsConfig });
-            const originString = origin
-                ? `&origin=${encodeURIComponent(origin)}`
-                : '';
-            setIframeSrc(
-                `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
-            );
-        };
-        adTargetingPromise();
+        // Set the iframe client side after hydration
+        // This is so we can dynamically build adsConfig using client side data (primarily consent)
+        const adsConfig: AdsConfig =
+            !adTargeting || adTargeting.disableAds
+                ? disabledAds
+                : buildAdsConfigWithConsent(
+                      false,
+                      adTargeting.adUnit,
+                      adTargeting.customParams,
+                      consentState || {},
+                  );
+        const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
+        const originString = origin
+            ? `&origin=${encodeURIComponent(origin)}`
+            : '';
+        setIframeSrc(
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
+        );
     }, []);
 
     useEffect(() => {

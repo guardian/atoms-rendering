@@ -1,9 +1,10 @@
 import { ArticleTheme } from '@guardian/libs';
+import type { CustomParams } from '@guardian/commercial-core';
 
-export type AdTargetingType =
+export type AdTargeting =
     | {
           adUnit: string;
-          customParams: Record<string, unknown>;
+          customParams: CustomParams;
           disableAds?: false;
       }
     | {
