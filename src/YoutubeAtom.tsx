@@ -157,15 +157,13 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
+    let iframeSrc: string | undefined = undefined;
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
     const player = useRef<YoutubePlayerType>();
 
-    useEffect(() => {
-        // Set the iframe client side after hydration
-        // This is so we can dynamically build adsConfig using client side data (primarily consent)
+    if (consentState) {
         const adsConfig: AdsConfig =
             !adTargeting || adTargeting.disableAds
                 ? disabledAds
@@ -173,16 +171,14 @@ export const YoutubeAtom = ({
                       false,
                       adTargeting.adUnit,
                       adTargeting.customParams,
-                      consentState || {},
+                      consentState,
                   );
         const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
         const originString = origin
             ? `&origin=${encodeURIComponent(origin)}`
             : '';
-        setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
-        );
-    }, []);
+        iframeSrc = `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`;
+    }
 
     useEffect(() => {
         if (iframeSrc) {
