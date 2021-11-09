@@ -4,7 +4,7 @@ import {
     sport,
     culture,
     lifestyle,
-} from '@guardian/src-foundations/palette';
+} from '@guardian/source-foundations';
 import { ArticlePillar, ArticleTheme, ArticleSpecial } from '@guardian/libs';
 
 type colour = string;

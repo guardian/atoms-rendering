@@ -3,10 +3,13 @@ import { css } from '@emotion/react';
 import YouTubePlayer from 'youtube-player';
 import { pillarPalette } from './lib/pillarPalette';
 
-import { focusHalo } from '@guardian/src-foundations/accessibility';
-import { palette, space } from '@guardian/src-foundations';
-import { textSans } from '@guardian/src-foundations/typography';
-import { SvgPlay } from '@guardian/src-icons';
+import {
+    focusHalo,
+    space,
+    textSans,
+    neutral,
+} from '@guardian/source-foundations';
+import { SvgPlay } from '@guardian/source-react-components';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { formatTime } from './lib/formatTime';
@@ -104,7 +107,7 @@ const playButtonStyling = (pillar: ArticleTheme) => css`
     justify-content: center;
 
     svg {
-        fill: ${palette['neutral'][100]};
+        fill: ${neutral[100]};
         width: 45px;
         height: 40px;
     }

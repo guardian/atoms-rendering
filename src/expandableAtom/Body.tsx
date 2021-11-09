@@ -1,9 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
-import { neutral } from '@guardian/src-foundations/palette';
-import { body, textSans } from '@guardian/src-foundations/typography';
-import { SvgInfo } from '@guardian/src-icons';
+import { neutral, body, textSans } from '@guardian/source-foundations';
+import { SvgInfo } from '@guardian/source-react-components';
 
 import { ArticleTheme } from '@guardian/libs';
 import { pillarPalette } from '../lib/pillarPalette';

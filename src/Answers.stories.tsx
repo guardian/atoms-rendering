@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
-import { Radio } from '@guardian/src-radio';
+import { Radio } from '@guardian/source-react-components';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,

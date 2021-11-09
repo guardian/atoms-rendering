@@ -1,10 +1,15 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 
-import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
-import { neutral, news, success } from '@guardian/src-foundations/palette';
-import { body, textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { SvgCheckmark, SvgCross } from '@guardian/source-react-components';
+import {
+    neutral,
+    news,
+    success,
+    body,
+    textSans,
+    space,
+} from '@guardian/source-foundations';
 import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
 
 // We export Radio wrapper styles to override Source Radio buttons to align

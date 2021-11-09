@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
-import { textSans, headline, body } from '@guardian/src-foundations/typography';
-import { neutral } from '@guardian/src-foundations/palette/';
-import { SvgMinus, SvgPlus } from '@guardian/src-icons';
+import {
+    textSans,
+    headline,
+    body,
+    neutral,
+} from '@guardian/source-foundations';
+import { SvgMinus, SvgPlus } from '@guardian/source-react-components';
 
 import { ArticleTheme } from '@guardian/libs';
 import { pillarPalette } from '../lib/pillarPalette';
