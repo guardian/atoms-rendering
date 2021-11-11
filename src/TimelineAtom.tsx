@@ -1,8 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
-import { neutral, brandAlt, space, remSpace } from '@guardian/src-foundations';
-import { body } from '@guardian/src-foundations/typography';
+import {
+    neutral,
+    brandAlt,
+    space,
+    remSpace,
+    body,
+} from '@guardian/source-foundations';
 import { ArticleTheme } from '@guardian/libs';
 
 import { TimelineEvent, TimelineAtomType } from './types';

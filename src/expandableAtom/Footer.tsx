@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
-import { textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/source-foundations';
 
 import { ArticleTheme } from '@guardian/libs';
 import { pillarPalette } from '../lib/pillarPalette';

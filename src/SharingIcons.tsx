@@ -1,10 +1,9 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
-import { from } from '@guardian/src-foundations/mq';
-import { LinkButton } from '@guardian/src-button';
-
+import { from } from '@guardian/source-foundations';
 import {
+    LinkButton,
     SvgTwitter,
     SvgFacebook,
     SvgEnvelope,
@@ -12,7 +11,8 @@ import {
     SvgMessenger,
     SvgLinkedIn,
     SvgPinterest,
-} from '@guardian/src-icons';
+} from '@guardian/source-react-components';
+import type { IconProps } from '@guardian/source-react-components';
 
 import { SharePlatformType } from './types';
 
@@ -54,7 +54,9 @@ export const SharingIcons = ({
     };
     displayIcons: SharePlatformType[];
 }): JSX.Element => {
-    const icons: { [K in SharePlatformType]?: React.ComponentType } = {
+    const icons: {
+        [K in SharePlatformType]?: React.ComponentType<IconProps>;
+    } = {
         facebook: SvgFacebook,
         twitter: SvgTwitter,
         email: SvgEnvelope,

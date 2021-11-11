@@ -1,11 +1,14 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { css } from '@emotion/react';
 
-import { body, textSans } from '@guardian/src-foundations/typography';
-import { neutral, brand } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
-import { RadioGroup, Radio } from '@guardian/src-radio';
-import { Button } from '@guardian/src-button';
+import {
+    body,
+    textSans,
+    neutral,
+    brand,
+    space,
+} from '@guardian/source-foundations';
+import { RadioGroup, Radio, Button } from '@guardian/source-react-components';
 
 import { SharingUrlsType } from './types';
 import { SharingIcons } from './SharingIcons';

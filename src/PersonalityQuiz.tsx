@@ -7,11 +7,14 @@ import React, {
 } from 'react';
 import { css } from '@emotion/react';
 
-import { body, textSans } from '@guardian/src-foundations/typography';
-import { Button } from '@guardian/src-button';
-import { text, neutral } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
-import { RadioGroup, Radio } from '@guardian/src-radio';
+import {
+    body,
+    textSans,
+    text,
+    neutral,
+    space,
+} from '@guardian/source-foundations';
+import { Button, RadioGroup, Radio } from '@guardian/source-react-components';
 
 import { SharingUrlsType } from './types';
 import { radioButtonWrapperStyles } from './Answers';

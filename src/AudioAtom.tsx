@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 import { css } from '@emotion/react';
 
-import { textSans, headline } from '@guardian/src-foundations/typography';
-import { palette } from '@guardian/src-foundations';
-import { focusHalo } from '@guardian/src-foundations/accessibility';
+import {
+    textSans,
+    headline,
+    neutral,
+    focusHalo,
+} from '@guardian/source-foundations';
 import { ArticleTheme } from '@guardian/libs';
 
 import { pillarPalette } from './lib/pillarPalette';
@@ -13,14 +16,14 @@ const wrapperStyles = css`
     width: 100%;
     border-image: repeating-linear-gradient(
             to bottom,
-            ${palette.neutral[86]},
-            ${palette.neutral[86]} 1px,
+            ${neutral[86]},
+            ${neutral[86]} 1px,
             transparent 1px,
             transparent 4px
         )
         13;
     border-top: 13px solid black;
-    background-color: ${palette.neutral[97]};
+    background-color: ${neutral[97]};
     position: relative;
     padding-left: 5px;
     padding-right: 5px;
@@ -104,7 +107,7 @@ const progressBarInputStyle = (pillar: ArticleTheme) => css`
     background-image: linear-gradient(
         to right,
         ${pillarPalette[pillar][400]} 0%,
-        ${palette.neutral[60]} 0%
+        ${neutral[60]} 0%
     );
     height: 6px;
     outline: 0;
@@ -169,7 +172,7 @@ const PauseSVG = ({ pillar }: { pillar: ArticleTheme }) => (
             ></circle>
             <path
                 d="M9.429 7.286h3.429v15.429h-3.43zm7.286 0h3.429v15.429h-3.43z"
-                fill={palette.neutral[100]}
+                fill={neutral[100]}
             ></path>
         </g>
     </svg>
@@ -185,7 +188,7 @@ const PlaySVG = ({ pillar }: { pillar: ArticleTheme }) => (
                 r="15"
             ></circle>
             <path
-                fill={palette.neutral[100]}
+                fill={neutral[100]}
                 d="M10.113 8.571l-.47.366V20.01l.472.347 13.456-5.593v-.598z"
             ></path>
         </g>
