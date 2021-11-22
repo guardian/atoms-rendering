@@ -12,6 +12,7 @@ import {
 import { SvgPlay } from '@guardian/source-react-components';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
+import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { AdTargeting, ImageSource, RoleType } from './types';
@@ -164,9 +165,34 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
+    const [hasUserHovered, setHasUserHovered] = useState<boolean>(false);
     const player = useRef<YoutubePlayerType>();
 
+    const hasOverlay = overrideImage || posterImage;
+
+    // Show the overlay if:
+    // 1) We have one
+    // AND
+    // 2) it hasn't been clicked upon
+    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
+    // Show a placeholder if:
+    // 1) We don't have an iframe source yet (probably because we don't have consent)
+    // AND
+    // 2) There's no overlay to replace it with
+    const showPlaceholder = !iframeSrc && !hasOverlay;
+    // Load the you tube iframe if:
+    // 1) We have a source string defined (Eg. We have consent)
+    // AND
+    // 2) One of these 3 things are true
+    //    a) We don't have an overlay - so we have to load the video straight away
+    //    b) The user has clicked on the overlay, so load the video iframe!
+    //    c) The user has moved their mouse over the overlay so lets pre load
+    //       the content
+    const loadIframe =
+        iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
+
     useEffect(() => {
+        if (!consentState) return;
         // Set the iframe client side after hydration
         // This is so we can dynamically build adsConfig using client side data (primarily consent)
         const adsConfig: AdsConfig =
@@ -176,19 +202,20 @@ export const YoutubeAtom = ({
                       false,
                       adTargeting.adUnit,
                       adTargeting.customParams,
-                      consentState || {},
+                      consentState,
                   );
         const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
         const originString = origin
             ? `&origin=${encodeURIComponent(origin)}`
             : '';
+        const autoplay = hasUserLaunchedPlay ? '&autoplay=1' : '';
         setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
         );
-    }, []);
+    }, [consentState, hasUserLaunchedPlay]);
 
     useEffect(() => {
-        if (iframeSrc) {
+        if (loadIframe) {
             if (!player.current) {
                 player.current = YouTubePlayer(`youtube-video-${assetId}`);
             }
@@ -279,11 +306,29 @@ export const YoutubeAtom = ({
                 listener && player.current && player.current.off(listener);
             };
         }
-    }, [eventEmitters, iframeSrc]);
+    }, [eventEmitters, loadIframe]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            {iframeSrc && (
+            {showPlaceholder && (
+                <div
+                    css={css`
+                        width: ${width}px;
+                        height: ${height}px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    `}
+                >
+                    <Placeholder
+                        height={height}
+                        width={width}
+                        shouldShimmer={true}
+                    />
+                </div>
+            )}
+
+            {loadIframe && (
                 <iframe
                     title={title}
                     width={width}
@@ -300,21 +345,27 @@ export const YoutubeAtom = ({
                 />
             )}
 
-            {(overrideImage || posterImage) && (
+            {showOverlay && (
                 <div
                     daya-cy="youtube-overlay"
+                    data-testid="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
-                        player.current && player.current.playVideo();
+                        iframeSrc &&
+                            player.current &&
+                            player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         const spaceKey = 32;
                         const enterKey = 13;
                         if (e.keyCode === spaceKey || e.keyCode === enterKey) {
                             setHasUserLaunchedPlay(true);
-                            player.current && player.current.playVideo();
+                            iframeSrc &&
+                                player.current &&
+                                player.current.playVideo();
                         }
                     }}
+                    onMouseEnter={() => setHasUserHovered(true)}
                     css={[
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
