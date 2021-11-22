@@ -372,7 +372,7 @@ export const YoutubeAtom = ({
                             player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
-                        if (e.code === "Space" || e.code === "Enter") {
+                        if (e.code === 'Space' || e.code === 'Enter') {
                             setHasUserLaunchedPlay(true);
                             iframeSrc &&
                                 player.current &&
