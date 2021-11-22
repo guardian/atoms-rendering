@@ -182,7 +182,7 @@ export const YoutubeAtom = ({
     //    still waiting on consent
     const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
     // Load the you tube iframe if:
-    // 1) We have a source string defined (Eg. We have consent)
+    // 1) We have a source string defined (i.e. we have consent)
     // AND
     // 2) One of these 3 things are true
     //    a) We don't have an overlay - so we have to load the video straight away
