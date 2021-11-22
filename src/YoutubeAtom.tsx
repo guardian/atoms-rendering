@@ -170,25 +170,40 @@ export const YoutubeAtom = ({
 
     const hasOverlay = overrideImage || posterImage;
 
-    // Show the overlay if:
-    // 1) We have one
-    // AND
-    // 2) it hasn't been clicked upon
+    /**
+     * Show the overlay if:
+     * - It exists
+     *
+     * and
+     *
+     * - It hasn't been clicked upon
+     */
     const showOverlay = hasOverlay && !hasUserLaunchedPlay;
-    // Show a placeholder if:
-    // 1) We don't have an iframe source yet (probably because we don't have consent)
-    // AND
-    // 2) There's no overlay to replace it with or the reader clicked to play but we're
-    //    still waiting on consent
+    /**
+     * Show a placeholder if:
+     *
+     * - We don't have an iframe source yet (probably because we don't have consent)
+     *
+     * and
+     *
+     * - There's no overlay to replace it with or the reader clicked to play but we're
+     * still waiting on consent
+     *
+     */
     const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
-    // Load the you tube iframe if:
-    // 1) We have a source string defined (Eg. We have consent)
-    // AND
-    // 2) One of these 3 things are true
-    //    a) We don't have an overlay - so we have to load the video straight away
-    //    b) The user has clicked on the overlay, so load the video iframe!
-    //    c) The user has moved their mouse over the overlay so lets pre load
-    //       the content
+    /**
+     * Load the you tube iframe if:
+     *
+     * - We have a source string defined (Eg. We have consent)
+     *
+     * and
+     *
+     * - One of these 3 things are true
+     *      - We don't have an overlay - so we have to load the video straight away
+     *      - The user has clicked on the overlay, so load the video iframe!
+     *      - The user has moved their mouse over the overlay so lets pre load
+     *        the content
+     */
     const loadIframe =
         iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
 
