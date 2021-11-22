@@ -139,6 +139,7 @@
         ]
     },
     "dependencies": {
+        "@guardian/src-foundations": "^3.12.0",
         "youtube-player": "^5.5.2"
     }
 }
