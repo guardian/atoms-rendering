@@ -194,7 +194,7 @@ export const YoutubeAtom = ({
     /**
      * Load the you tube iframe if:
      *
-     * - We have a source string defined (Eg. We have consent)
+     * - We have a source string defined (i.e. We have consent)
      *
      * and
      *
