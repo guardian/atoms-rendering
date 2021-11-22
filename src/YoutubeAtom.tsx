@@ -178,8 +178,9 @@ export const YoutubeAtom = ({
     // Show a placeholder if:
     // 1) We don't have an iframe source yet (probably because we don't have consent)
     // AND
-    // 2) There's no overlay to replace it with
-    const showPlaceholder = !iframeSrc && !hasOverlay;
+    // 2) There's no overlay to replace it with or the reader clicked to play but we're
+    //    still waiting on consent
+    const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
     // Load the you tube iframe if:
     // 1) We have a source string defined (Eg. We have consent)
     // AND
