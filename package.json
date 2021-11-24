@@ -37,7 +37,7 @@
         "@guardian/commercial-core": "^0.26.0",
         "@guardian/consent-management-platform": "^8",
         "@guardian/eslint-plugin-source-react-components": "^4.0.0-rc.1",
-        "@guardian/libs": "^3.1.0",
+        "@guardian/libs": "^3.5.1",
         "@guardian/source-foundations": "^4.0.0-rc.0",
         "@guardian/source-react-components": "^4.0.0-rc.1",
         "@storybook/addon-docs": "^6.1.11",
@@ -104,7 +104,6 @@
     "peerDependencies": {
         "@emotion/react": "^11.1.5",
         "@guardian/consent-management-platform": "^8",
-        "@guardian/libs": "^3.1.0",
         "@guardian/source-foundations": "^4.0.0-rc.0",
         "@guardian/source-react-components": "^4.0.0-rc.1",
         "react": "^17.0.1",
