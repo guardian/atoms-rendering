@@ -208,10 +208,19 @@ export const YoutubeAtom = ({
         iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
 
     useEffect(() => {
-        if (iframeSrc) return;
+        /**
+         * Build the iframe source url
+         *
+         * We do this on the client following hydration so we can dynamically build
+         * adsConfig using client side data (primarily consent)
+         *
+         */
+
+        // We don't want to ever load the iframe until we know the reader's consent preferences
         if (!consentState) return;
-        // Set the iframe client side after hydration
-        // This is so we can dynamically build adsConfig using client side data (primarily consent)
+        // If we've already set the iframe then don't try to set it again
+        if (iframeSrc) return;
+
         const adsConfig: AdsConfig =
             !adTargeting || adTargeting.disableAds
                 ? disabledAds
@@ -225,6 +234,12 @@ export const YoutubeAtom = ({
         const originString = origin
             ? `&origin=${encodeURIComponent(origin)}`
             : '';
+        // `autoplay`?
+        // We don't typically autoplay videos but in this case, where we know the reader has
+        // already clicked to play, we use this param to ensure the video plays. Why would it
+        // not play? Because when a reader clicks, we call player.current.playVideo() but at
+        // that point the video may not have loaded and the click event won't work. Autoplay
+        // is a failsafe for this scenario.
         const autoplay = hasUserLaunchedPlay ? '&autoplay=1' : '';
         setIframeSrc(
             `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
