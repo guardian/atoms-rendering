@@ -6,6 +6,7 @@ import {
     MainMedia,
 } from './fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
+import { ArticleDesign, ArticleDisplay, ArticlePillar } from '@guardian/libs';
 
 export default {
     title: 'InteractiveAtom',
@@ -26,6 +27,11 @@ export const DefaultStory = (): JSX.Element => {
                 elementHtml={html}
                 elementJs={js}
                 elementCss={atomCss}
+                format={{
+                    display: ArticleDisplay.Standard,
+                    design: ArticleDesign.Standard,
+                    theme: ArticlePillar.News,
+                }}
             />
         </div>
     );
@@ -35,7 +41,7 @@ DefaultStory.parameters = {
     chromatic: { disable: true },
 };
 
-export const MainMediaStory = (): JSX.Element => {
+export const ImmersiveMainMediaStory = (): JSX.Element => {
     const { id, html, js, css: atomCss } = MainMedia;
     return (
         <div
@@ -50,11 +56,16 @@ export const MainMediaStory = (): JSX.Element => {
                 elementJs={js}
                 elementCss={atomCss}
                 isMainMedia={true}
+                format={{
+                    display: ArticleDisplay.Immersive,
+                    design: ArticleDesign.Standard,
+                    theme: ArticlePillar.News,
+                }}
             />
         </div>
     );
 };
-MainMedia.parameters = {
+ImmersiveMainMediaStory.parameters = {
     // This interactive uses animation which is causing false negatives for Chromatic
     chromatic: { disable: true },
 };
