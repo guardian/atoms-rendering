@@ -208,6 +208,7 @@ export const YoutubeAtom = ({
         iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
 
     useEffect(() => {
+        if (iframeSrc) return;
         if (!consentState) return;
         // Set the iframe client side after hydration
         // This is so we can dynamically build adsConfig using client side data (primarily consent)
@@ -228,7 +229,7 @@ export const YoutubeAtom = ({
         setIframeSrc(
             `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
         );
-    }, [consentState, hasUserLaunchedPlay]);
+    }, [consentState, hasUserLaunchedPlay, iframeSrc]);
 
     useEffect(() => {
         if (loadIframe) {
