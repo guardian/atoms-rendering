@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, keyframes } from '@emotion/react';
 
-import { space, neutral } from '@guardian/source-foundations';
+import { neutral } from '@guardian/source-foundations';
 
 const BACKGROUND_COLOUR = neutral[93];
 
@@ -9,8 +9,6 @@ type Props = {
     height: number;
     rootId?: string;
     width?: number;
-    spaceBelow?: 1 | 2 | 3 | 4 | 5 | 6 | 9;
-    spaceLeft?: 1 | 2 | 3 | 4 | 5 | 6 | 9;
     shouldShimmer?: boolean;
 };
 
@@ -38,8 +36,6 @@ export const Placeholder = ({
     height,
     rootId,
     width,
-    spaceBelow,
-    spaceLeft,
     shouldShimmer = true,
 }: Props): JSX.Element => (
     <div
@@ -54,8 +50,6 @@ export const Placeholder = ({
             css={css`
                 height: ${height}px;
                 width: ${width ? `${width}px` : '100%'};
-                margin-bottom: ${spaceBelow && space[spaceBelow]}px;
-                margin-left: ${spaceLeft && space[spaceLeft]}px;
                 background-color: ${BACKGROUND_COLOUR};
 
                 ${shouldShimmer && shimmerStyles}
