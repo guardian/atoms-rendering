@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 
 import { unifyPageContent } from './lib/unifyPageContent';
+import { ArticleDisplay, ArticleFormat } from '@guardian/libs';
 
 const containerStyles = css`
     margin: 0;
@@ -21,6 +22,7 @@ type InteractiveAtomType = {
     elementJs?: string;
     elementCss?: string;
     isMainMedia?: boolean;
+    format: ArticleFormat;
 };
 
 export const InteractiveAtom = ({
@@ -29,6 +31,7 @@ export const InteractiveAtom = ({
     elementJs,
     elementCss,
     isMainMedia,
+    format,
 }: InteractiveAtomType): JSX.Element => (
     <div
         css={[containerStyles, isMainMedia && fullHeightStyles]}
@@ -36,7 +39,12 @@ export const InteractiveAtom = ({
         data-atom-type="interactive"
     >
         <iframe
-            css={[fullWidthStyles, isMainMedia && fullHeightStyles]}
+            css={[
+                fullWidthStyles,
+                isMainMedia &&
+                    format.display === ArticleDisplay.Immersive &&
+                    fullHeightStyles,
+            ]}
             srcDoc={unifyPageContent({ elementJs, elementCss, elementHtml })}
             frameBorder="0"
         />
