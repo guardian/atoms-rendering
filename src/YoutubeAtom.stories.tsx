@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
@@ -9,7 +9,7 @@ export default {
     component: YoutubeAtom,
 };
 
-export const DefaultStory = (): JSX.Element => {
+export const NoConsent = (): JSX.Element => {
     return (
         <div
             css={css`
@@ -26,6 +26,33 @@ export const DefaultStory = (): JSX.Element => {
                 ]}
                 duration={252}
                 pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+            />
+        </div>
+    );
+};
+
+export const NoOverlay = (): JSX.Element => {
+    return (
+        <div
+            css={css`
+                width: 800px;
+                margin: 25px;
+            `}
+        >
+            <YoutubeAtom
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
             />
         </div>
     );
@@ -47,6 +74,7 @@ export const WithOverrideImage = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
+                consentState={{}}
                 pillar={ArticlePillar.News}
                 overrideImage={[
                     {
@@ -81,6 +109,7 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 pillar={ArticlePillar.Sport}
                 duration={252}
+                consentState={{}}
                 posterImage={[
                     {
                         srcSet: [
@@ -107,6 +136,8 @@ export const WithPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                height={450}
+                width={800}
             />
         </div>
     );
@@ -140,6 +171,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                consentState={{}}
                 posterImage={[
                     {
                         srcSet: [
@@ -166,7 +198,49 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                height={450}
+                width={800}
             />
         </div>
+    );
+};
+
+export const GiveConsent = (): JSX.Element => {
+    const [consented, setConsented] = useState(false);
+    return (
+        <>
+            <button onClick={() => setConsented(true)}>Give consent</button>
+            <div
+                css={css`
+                    width: 800px;
+                    margin: 25px;
+                `}
+            >
+                <YoutubeAtom
+                    assetId="3jpXAMwRSu4"
+                    alt="Microscopic image of COVID"
+                    role="inline"
+                    eventEmitters={[
+                        (e) => console.log(`analytics event ${e} called`),
+                    ]}
+                    consentState={consented ? {} : undefined}
+                    duration={252}
+                    pillar={ArticlePillar.News}
+                    overrideImage={[
+                        {
+                            srcSet: [
+                                {
+                                    width: 500,
+                                    src:
+                                        'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
+                                },
+                            ],
+                        },
+                    ]}
+                    height={450}
+                    width={800}
+                />
+            </div>
+        </>
     );
 };

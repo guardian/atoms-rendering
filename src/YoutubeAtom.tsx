@@ -12,6 +12,7 @@ import {
 import { SvgPlay } from '@guardian/source-react-components';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
+import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { AdTargeting, ImageSource, RoleType } from './types';
@@ -164,11 +165,60 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
+    const [hasUserHovered, setHasUserHovered] = useState<boolean>(false);
     const player = useRef<YoutubePlayerType>();
 
+    const hasOverlay = overrideImage || posterImage;
+
+    /**
+     * Show the overlay if:
+     * - It exists
+     *
+     * and
+     *
+     * - It hasn't been clicked upon
+     */
+    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
+    /**
+     * Show a placeholder if:
+     *
+     * - We don't have an iframe source yet (probably because we don't have consent)
+     *
+     * and
+     *
+     * - There's no overlay to replace it with or the reader clicked to play but we're
+     * still waiting on consent
+     *
+     */
+    const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
+    /**
+     * Load the you tube iframe if:
+     *
+     * - We have a source string defined (i.e. We have consent)
+     *
+     * and
+     *
+     * - One of these 3 things are true
+     *      - We don't have an overlay - so we have to load the video straight away
+     *      - The user has clicked on the overlay, so load the video iframe!
+     *      - The user has moved their mouse over the overlay so lets pre load
+     *        the content
+     */
+    const loadIframe =
+        iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
+
     useEffect(() => {
-        // Set the iframe client side after hydration
-        // This is so we can dynamically build adsConfig using client side data (primarily consent)
+        /**
+         * Build the iframe source url
+         *
+         * We do this on the client following hydration so we can dynamically build
+         * adsConfig using client side data (primarily consent)
+         *
+         */
+
+        // We don't want to ever load the iframe until we know the reader's consent preferences
+        if (!consentState) return;
+
         const adsConfig: AdsConfig =
             !adTargeting || adTargeting.disableAds
                 ? disabledAds
@@ -176,19 +226,26 @@ export const YoutubeAtom = ({
                       false,
                       adTargeting.adUnit,
                       adTargeting.customParams,
-                      consentState || {},
+                      consentState,
                   );
         const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
         const originString = origin
             ? `&origin=${encodeURIComponent(origin)}`
             : '';
+        // `autoplay`?
+        // We don't typically autoplay videos but in this case, where we know the reader has
+        // already clicked to play, we use this param to ensure the video plays. Why would it
+        // not play? Because when a reader clicks, we call player.current.playVideo() but at
+        // that point the video may not have loaded and the click event won't work. Autoplay
+        // is a failsafe for this scenario.
+        const autoplay = hasUserLaunchedPlay ? '&autoplay=1' : '';
         setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}`,
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
         );
-    }, []);
+    }, [consentState, hasUserLaunchedPlay]);
 
     useEffect(() => {
-        if (iframeSrc) {
+        if (loadIframe) {
             if (!player.current) {
                 player.current = YouTubePlayer(`youtube-video-${assetId}`);
             }
@@ -279,11 +336,29 @@ export const YoutubeAtom = ({
                 listener && player.current && player.current.off(listener);
             };
         }
-    }, [eventEmitters, iframeSrc]);
+    }, [eventEmitters, loadIframe]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            {iframeSrc && (
+            {showPlaceholder && (
+                <div
+                    css={css`
+                        width: ${width}px;
+                        height: ${height}px;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    `}
+                >
+                    <Placeholder
+                        height={height}
+                        width={width}
+                        shouldShimmer={true}
+                    />
+                </div>
+            )}
+
+            {loadIframe && (
                 <iframe
                     title={title}
                     width={width}
@@ -300,21 +375,25 @@ export const YoutubeAtom = ({
                 />
             )}
 
-            {(overrideImage || posterImage) && (
+            {showOverlay && (
                 <div
                     daya-cy="youtube-overlay"
+                    data-testid="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
-                        player.current && player.current.playVideo();
+                        iframeSrc &&
+                            player.current &&
+                            player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
-                        const spaceKey = 32;
-                        const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                        if (e.code === 'Space' || e.code === 'Enter') {
                             setHasUserLaunchedPlay(true);
-                            player.current && player.current.playVideo();
+                            iframeSrc &&
+                                player.current &&
+                                player.current.playVideo();
                         }
                     }}
+                    onMouseEnter={() => setHasUserHovered(true)}
                     css={[
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
