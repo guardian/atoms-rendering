@@ -218,8 +218,6 @@ export const YoutubeAtom = ({
 
         // We don't want to ever load the iframe until we know the reader's consent preferences
         if (!consentState) return;
-        // If we've already set the iframe then don't try to set it again
-        if (iframeSrc) return;
 
         const adsConfig: AdsConfig =
             !adTargeting || adTargeting.disableAds
@@ -244,7 +242,7 @@ export const YoutubeAtom = ({
         setIframeSrc(
             `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
         );
-    }, [consentState, hasUserLaunchedPlay, iframeSrc]);
+    }, [consentState, hasUserLaunchedPlay]);
 
     useEffect(() => {
         if (loadIframe) {
