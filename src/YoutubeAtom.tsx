@@ -14,6 +14,9 @@ import { SvgPlay } from '@guardian/source-react-components';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
+import { useHasBeenSeen } from './lib/useHasBeenSeen';
+import { useOnce } from './lib/useOnce';
+import { whenIdle } from './lib/whenIdle';
 import { Picture } from './Picture';
 import { AdTargeting, ImageSource, RoleType } from './types';
 import { ArticleTheme } from '@guardian/libs';
@@ -39,6 +42,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
+    isMainMedia: boolean;
 };
 declare global {
     interface Window {
@@ -160,6 +164,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    isMainMedia,
 }: Props): JSX.Element => {
     const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
@@ -167,6 +172,19 @@ export const YoutubeAtom = ({
     );
     const [hasUserHovered, setHasUserHovered] = useState<boolean>(false);
     const player = useRef<YoutubePlayerType>();
+
+    const [hasBeenSeen, setNode] = useHasBeenSeen({
+        threshold: 0,
+        debounce: true,
+    });
+
+    const [isIdle, setIsIdle] = useState<boolean>(false);
+
+    useOnce(() => {
+        whenIdle(() => {
+            setIsIdle(true);
+        });
+    }, []);
 
     const hasOverlay = overrideImage || posterImage;
 
@@ -192,20 +210,31 @@ export const YoutubeAtom = ({
      */
     const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
     /**
-     * Load the you tube iframe if:
-     *
-     * - We have a source string defined (i.e. We have consent)
-     *
-     * and
-     *
-     * - One of these 3 things are true
-     *      - We don't have an overlay - so we have to load the video straight away
-     *      - The user has clicked on the overlay, so load the video iframe!
-     *      - The user has moved their mouse over the overlay so lets pre load
-     *        the content
+     * Load the YouTube iframe if:
      */
-    const loadIframe =
-        iframeSrc && (!hasOverlay || hasUserHovered || hasUserLaunchedPlay);
+    let loadIframe: boolean;
+    const isMobile = /Mobi/.test(navigator.userAgent);
+    if (!iframeSrc) {
+        // Never try to load the iframe if we don't have a source value for it
+        loadIframe = false;
+    } else if (!hasOverlay) {
+        // Always load the iframe if there is no overlay
+        loadIframe = true;
+    } else if (hasUserLaunchedPlay) {
+        // The overlay has been clicked so we should load the iframe
+        loadIframe = true;
+    } else if (isMobile && isMainMedia) {
+        // We're on a mobile device and the video is the main media so load
+        // the iframe early if idle
+        loadIframe = isIdle;
+    } else if (isMobile && !isMainMedia) {
+        // We're on a mobile device and the video is in the article body so
+        // load the iframe early when visible
+        loadIframe = hasBeenSeen;
+    } else {
+        // Not on a mobile device so load early when the mouse over event is fired
+        loadIframe = hasUserHovered;
+    }
 
     useEffect(() => {
         /**
@@ -393,6 +422,7 @@ export const YoutubeAtom = ({
                                 player.current.playVideo();
                         }
                     }}
+                    ref={setNode} // Used by useHasBeenSeen
                     onMouseEnter={() => setHasUserHovered(true)}
                     css={[
                         overlayStyles,
