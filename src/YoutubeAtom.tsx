@@ -213,7 +213,9 @@ export const YoutubeAtom = ({
      * Load the YouTube iframe if:
      */
     let loadIframe: boolean;
-    const isMobile = /Mobi/.test(navigator.userAgent);
+    const isMobile =
+        typeof window !== 'undefined' &&
+        /Mobi/.test(window.navigator.userAgent);
     if (!iframeSrc) {
         // Never try to load the iframe if we don't have a source value for it
         loadIframe = false;
