@@ -165,7 +165,9 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    const [hasUserHovered, setHasUserHovered] = useState<boolean>(false);
+    const [interactionStarted, setInteractionStarted] = useState<boolean>(
+        false,
+    );
     const player = useRef<YoutubePlayerType>();
 
     const hasOverlay = overrideImage || posterImage;
@@ -204,7 +206,7 @@ export const YoutubeAtom = ({
         loadIframe = true;
     } else {
         // Load early when either the mouse over or touch start event is fired
-        loadIframe = hasUserHovered;
+        loadIframe = interactionStarted;
     }
 
     useEffect(() => {
@@ -393,8 +395,8 @@ export const YoutubeAtom = ({
                                 player.current.playVideo();
                         }
                     }}
-                    onMouseEnter={() => setHasUserHovered(true)}
-                    onTouchStart={() => setHasUserHovered(true)}
+                    onMouseEnter={() => setInteractionStarted(true)}
+                    onTouchStart={() => setInteractionStarted(true)}
                     css={[
                         overlayStyles,
                         hasUserLaunchedPlay ? hideOverlayStyling : '',
