@@ -28,7 +28,6 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                isMainMedia={false}
             />
         </div>
     );
@@ -54,7 +53,6 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                isMainMedia={false}
             />
         </div>
     );
@@ -89,7 +87,6 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
-                isMainMedia={false}
             />
         </div>
     );
@@ -141,7 +138,6 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                isMainMedia={false}
             />
         </div>
     );
@@ -204,7 +200,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                isMainMedia={false}
             />
         </div>
     );
@@ -244,61 +239,8 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
-                    isMainMedia={false}
                 />
             </div>
         </>
-    );
-};
-
-export const WhenMainMedia = (): JSX.Element => {
-    return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
-            <YoutubeAtom
-                assetId="-ZCvZmYlQD8"
-                alt=""
-                role="inline"
-                eventEmitters={[
-                    (e) => console.log(`analytics event ${e} called`),
-                ]}
-                duration={252}
-                pillar={ArticlePillar.Culture}
-                height={450}
-                width={800}
-                isMainMedia={true}
-                consentState={{}}
-                posterImage={[
-                    {
-                        srcSet: [
-                            {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
-                                width: 1000,
-                            },
-                            {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
-                                width: 500,
-                            },
-                            {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
-                                width: 140,
-                            },
-                            {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
-                                width: 1920,
-                            },
-                        ],
-                    },
-                ]}
-            />
-        </div>
     );
 };
