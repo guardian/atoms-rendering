@@ -209,9 +209,7 @@ export const YoutubeAtom = ({
      *
      */
     const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
-    /**
-     * Load the YouTube iframe if:
-     */
+
     let loadIframe: boolean;
     const isMobile =
         typeof window !== 'undefined' &&
