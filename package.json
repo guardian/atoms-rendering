@@ -46,10 +46,8 @@
         "@testing-library/jest-dom": "^5.11.6",
         "@testing-library/react": "^11.2.2",
         "@types/jest": "^26.0.15",
-        "@types/lodash.debounce": "^4.0.6",
         "@types/react": "^17.0.2",
         "@types/react-dom": "^17.0.1",
-        "@types/requestidlecallback": "^0.3.4",
         "@types/youtube": "^0.0.39",
         "@typescript-eslint/eslint-plugin": "^4.0.0",
         "@typescript-eslint/parser": "^3.10.1",
@@ -70,7 +68,7 @@
         "react-dom": "^17.0.1",
         "ts-jest": "^24.3.0",
         "ts-loader": "^8.0.18",
-        "typescript": "4.1.3",
+        "typescript": "^4.1.3",
         "web-vitals": "^2.1.2"
     },
     "eslintConfig": {
@@ -111,7 +109,6 @@
         "@guardian/source-react-components": "^4.0.0-rc.1",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
-        "typescript": "^4.1.3",
         "web-vitals": "^2.1.2"
     },
     "jest": {
@@ -142,7 +139,6 @@
         ]
     },
     "dependencies": {
-        "lodash.debounce": "^4.0.8",
         "youtube-player": "^5.5.2"
     }
 }
