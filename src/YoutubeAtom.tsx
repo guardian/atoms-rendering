@@ -379,7 +379,7 @@ export const YoutubeAtom = ({
 
             {showOverlay && (
                 <div
-                    daya-cy="youtube-overlay"
+                    data-cy="youtube-overlay"
                     data-testid="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
