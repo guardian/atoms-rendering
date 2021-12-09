@@ -41,7 +41,7 @@
         "@guardian/source-foundations": "^4.0.0-rc.0",
         "@guardian/source-react-components": "^4.0.0-rc.1",
         "@storybook/addon-docs": "^6.1.11",
-        "@storybook/addons": "^6.1.11",
+        "@storybook/addons": "^6.4.9",
         "@storybook/react": "^6.1.11",
         "@testing-library/jest-dom": "^5.11.6",
         "@testing-library/react": "^11.2.2",
