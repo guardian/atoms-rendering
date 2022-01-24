@@ -87,6 +87,7 @@
             "plugin:prettier/recommended",
             "plugin:react/recommended",
             "plugin:@typescript-eslint/recommended",
+            "plugin:@guardian/eslint-plugin-source-foundations/recommended",
             "plugin:@guardian/eslint-plugin-source-react-components/recommended"
         ],
         "rules": {
