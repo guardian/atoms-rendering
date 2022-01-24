@@ -44,7 +44,7 @@
         "@storybook/addon-docs": "^6.1.11",
         "@storybook/addons": "^6.1.11",
         "@storybook/react": "^6.1.11",
-        "@testing-library/jest-dom": "^5.11.6",
+        "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^11.2.2",
         "@types/jest": "^26.0.15",
         "@types/react": "^17.0.2",
@@ -95,8 +95,7 @@
             "@emotion/import-from-emotion": "error",
             "@emotion/styled-import": "error",
             "no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars-experimental": "error"
+            "@typescript-eslint/no-unused-vars": "error"
         }
     },
     "husky": {
