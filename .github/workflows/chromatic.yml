@@ -6,10 +6,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
-            - name: Use Node.js 14.15
+            - name: Use Node.js
               uses: actions/setup-node@v1
-              with:
-                  node-version: '14.15'
 
             # Cache npm dependencies using https://github.com/bahmutov/npm-install
             - uses: bahmutov/npm-install@v1
