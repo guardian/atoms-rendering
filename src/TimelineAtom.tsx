@@ -11,6 +11,7 @@ import {
 import { ArticleTheme } from '@guardian/libs';
 
 import { TimelineEvent, TimelineAtomType } from './types';
+import { submitComponentEvent } from './lib/ophan';
 
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
@@ -125,14 +126,50 @@ export const TimelineAtom = ({
             pillar={pillar}
             expandForStorybook={expandForStorybook}
             title={title}
-            expandCallback={expandCallback}
+            expandCallback={
+                expandCallback ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'TIMELINE_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'EXPAND',
+                    }))
+            }
         >
             {description && <Body html={description} pillar={pillar} />}
             {events && <TimelineContents events={events} pillar={pillar} />}
             <Footer
                 pillar={pillar}
-                dislikeHandler={dislikeHandler}
-                likeHandler={likeHandler}
+                dislikeHandler={
+                    dislikeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'TIMELINE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'DISLIKE',
+                        }))
+                }
+                likeHandler={
+                    likeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'TIMELINE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'LIKE',
+                        }))
+                }
             />
         </Container>
     );
