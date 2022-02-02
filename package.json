@@ -4,7 +4,7 @@
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "22.1.1",
+    "version": "22.2.0",
     "source": "src/index.ts",
     "main": "dist/commonjs/index.js",
     "module": "dist/esm/index.js",
