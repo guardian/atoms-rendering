@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { GuideAtomType } from './types';
+import { submitComponentEvent } from './lib/ophan';
 import { Footer } from './expandableAtom/Footer';
 import { Container } from './expandableAtom/Container';
 import { Body } from './expandableAtom/Body';
@@ -25,13 +26,43 @@ export const GuideAtom = ({
             atomType="guide"
             atomTypeTitle="Quick Guide"
             expandForStorybook={expandForStorybook}
-            expandCallback={expandCallback}
+            expandCallback={() =>
+                submitComponentEvent({
+                    component: {
+                        componentType: 'GUIDE_ATOM',
+                        id,
+                        products: [],
+                        labels: [],
+                    },
+                    action: 'EXPAND',
+                })
+            }
         >
             <Body html={html} image={image} credit={credit} pillar={pillar} />
             <Footer
                 pillar={pillar}
-                dislikeHandler={dislikeHandler}
-                likeHandler={likeHandler}
+                dislikeHandler={() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'GUIDE_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'DISLIKE',
+                    })
+                }
+                likeHandler={() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'GUIDE_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'LIKE',
+                    })
+                }
             ></Footer>
         </Container>
     );
