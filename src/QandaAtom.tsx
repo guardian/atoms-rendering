@@ -24,42 +24,48 @@ export const QandaAtom = ({
         atomTypeTitle="Q&A"
         pillar={pillar}
         expandForStorybook={expandForStorybook}
-        expandCallback={() =>
-            submitComponentEvent({
-                component: {
-                    componentType: 'QANDA_ATOM',
-                    id,
-                    products: [],
-                    labels: [],
-                },
-                action: 'EXPAND',
-            })
+        expandCallback={
+            expandCallback ||
+            (() =>
+                submitComponentEvent({
+                    component: {
+                        componentType: 'QANDA_ATOM',
+                        id,
+                        products: [],
+                        labels: [],
+                    },
+                    action: 'EXPAND',
+                }))
         }
     >
         <Body html={html} image={image} credit={credit} pillar={pillar} />
         <Footer
             pillar={pillar}
-            dislikeHandler={() =>
-                submitComponentEvent({
-                    component: {
-                        componentType: 'QANDA_ATOM',
-                        id,
-                        products: [],
-                        labels: [],
-                    },
-                    action: 'DISLIKE',
-                })
+            dislikeHandler={
+                dislikeHandler ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'QANDA_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'DISLIKE',
+                    }))
             }
-            likeHandler={() =>
-                submitComponentEvent({
-                    component: {
-                        componentType: 'QANDA_ATOM',
-                        id,
-                        products: [],
-                        labels: [],
-                    },
-                    action: 'LIKE',
-                })
+            likeHandler={
+                likeHandler ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'QANDA_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'LIKE',
+                    }))
             }
         ></Footer>
     </Container>

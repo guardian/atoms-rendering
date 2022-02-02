@@ -126,43 +126,49 @@ export const TimelineAtom = ({
             pillar={pillar}
             expandForStorybook={expandForStorybook}
             title={title}
-            expandCallback={() =>
-                submitComponentEvent({
-                    component: {
-                        componentType: 'TIMELINE_ATOM',
-                        id,
-                        products: [],
-                        labels: [],
-                    },
-                    action: 'EXPAND',
-                })
+            expandCallback={
+                expandCallback ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'TIMELINE_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'EXPAND',
+                    }))
             }
         >
             {description && <Body html={description} pillar={pillar} />}
             {events && <TimelineContents events={events} pillar={pillar} />}
             <Footer
                 pillar={pillar}
-                dislikeHandler={() =>
-                    submitComponentEvent({
-                        component: {
-                            componentType: 'TIMELINE_ATOM',
-                            id,
-                            products: [],
-                            labels: [],
-                        },
-                        action: 'DISLIKE',
-                    })
+                dislikeHandler={
+                    dislikeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'TIMELINE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'DISLIKE',
+                        }))
                 }
-                likeHandler={() =>
-                    submitComponentEvent({
-                        component: {
-                            componentType: 'TIMELINE_ATOM',
-                            id,
-                            products: [],
-                            labels: [],
-                        },
-                        action: 'LIKE',
-                    })
+                likeHandler={
+                    likeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'TIMELINE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'LIKE',
+                        }))
                 }
             />
         </Container>

@@ -26,42 +26,48 @@ export const GuideAtom = ({
             atomType="guide"
             atomTypeTitle="Quick Guide"
             expandForStorybook={expandForStorybook}
-            expandCallback={() =>
-                submitComponentEvent({
-                    component: {
-                        componentType: 'GUIDE_ATOM',
-                        id,
-                        products: [],
-                        labels: [],
-                    },
-                    action: 'EXPAND',
-                })
+            expandCallback={
+                expandCallback ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'GUIDE_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'EXPAND',
+                    }))
             }
         >
             <Body html={html} image={image} credit={credit} pillar={pillar} />
             <Footer
                 pillar={pillar}
-                dislikeHandler={() =>
-                    submitComponentEvent({
-                        component: {
-                            componentType: 'GUIDE_ATOM',
-                            id,
-                            products: [],
-                            labels: [],
-                        },
-                        action: 'DISLIKE',
-                    })
+                dislikeHandler={
+                    dislikeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'GUIDE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'DISLIKE',
+                        }))
                 }
-                likeHandler={() =>
-                    submitComponentEvent({
-                        component: {
-                            componentType: 'GUIDE_ATOM',
-                            id,
-                            products: [],
-                            labels: [],
-                        },
-                        action: 'LIKE',
-                    })
+                likeHandler={
+                    likeHandler ||
+                    (() =>
+                        submitComponentEvent({
+                            component: {
+                                componentType: 'GUIDE_ATOM',
+                                id,
+                                products: [],
+                                labels: [],
+                            },
+                            action: 'LIKE',
+                        }))
                 }
             ></Footer>
         </Container>
