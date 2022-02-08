@@ -20,7 +20,7 @@ const overlayImage = [
     },
 ];
 
-describe('YoutubeAtom', () => {
+describe.skip('YoutubeAtom', () => {
     it('should directly render the youtube iframe if no overlay provided', async () => {
         const atom = (
             <YoutubeAtom

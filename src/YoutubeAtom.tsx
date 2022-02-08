@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { css } from '@emotion/react';
-import YouTubePlayer from 'youtube-player';
 import { pillarPalette } from './lib/pillarPalette';
 
 import {
@@ -12,11 +11,11 @@ import {
 import { SvgPlay } from '@guardian/source-react-components';
 
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
-import { Placeholder } from './common/Placeholder';
+// import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { AdTargeting, ImageSource, RoleType } from './types';
-import { ArticleTheme } from '@guardian/libs';
+import { ArticleTheme, loadScript } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import {
     AdsConfig,
@@ -43,6 +42,7 @@ type Props = {
 declare global {
     interface Window {
         onYouTubeIframeAPIReady: unknown;
+        YT?: typeof YT;
     }
 }
 
@@ -129,19 +129,66 @@ const videoDurationStyles = (pillar: ArticleTheme) => css`
     color: ${pillarPalette[pillar][500]};
 `;
 
-type YoutubeCallback = (
+type OnStateChangeListener = (
     e: YT.PlayerEvent & YoutubeStateChangeEventType,
 ) => void;
 
-// youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
-type YoutubePlayerType = {
-    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
-    off: (callback: YoutubeCallback) => void;
-    loadVideoById: (videoId: string) => void;
-    playVideo: () => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
-    getPlayerState: () => number;
+const createOnStateChangeListener = (
+    eventEmitters: Props['eventEmitters'],
+): OnStateChangeListener => (e) => {
+    console.log('onStateChange', e);
+    const player = e.target;
+    let hasSentPlayEvent = false;
+    let hasSent25Event = false;
+    let hasSent50Event = false;
+    let hasSent75Event = false;
+
+    if (e.data === youtubePlayerState.PLAYING) {
+        if (!hasSentPlayEvent) {
+            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
+            hasSentPlayEvent = true;
+
+            setTimeout(() => {
+                checkProgress();
+            }, 3000);
+        }
+
+        const checkProgress = async () => {
+            if (!player) return null;
+            const currentTime = player && player.getCurrentTime();
+            const duration = player && player.getDuration();
+
+            if (!duration || !currentTime) return;
+
+            const percentPlayed = (currentTime / duration) * 100;
+
+            if (!hasSent25Event && 25 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
+                hasSent25Event = true;
+            }
+
+            if (!hasSent50Event && 50 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
+                hasSent50Event = true;
+            }
+
+            if (!hasSent75Event && 75 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
+                hasSent75Event = true;
+            }
+
+            const currentPlayerState = player && player.getPlayerState();
+
+            if (currentPlayerState !== youtubePlayerState.ENDED) {
+                // Set a timeout to check progress again in the future
+                window.setTimeout(() => checkProgress(), 3000);
+            }
+        };
+    }
+
+    if (e.data === youtubePlayerState.ENDED) {
+        eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+    }
 };
 
 // Note, this is a subset of the CAPI MediaAtom essentially.
@@ -157,18 +204,17 @@ export const YoutubeAtom = ({
     role,
     title,
     duration,
-    origin,
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
+    const [YTReady, setYTReady] = useState<boolean>(false);
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
     const [interactionStarted, setInteractionStarted] = useState<boolean>(
         false,
     );
-    const player = useRef<YoutubePlayerType>();
+    const playerRef = useRef<YT.Player>();
 
     const hasOverlay = overrideImage || posterImage;
 
@@ -192,157 +238,107 @@ export const YoutubeAtom = ({
      * still waiting on consent
      *
      */
-    const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
+    // const showPlaceholder = !hasOverlay || hasUserLaunchedPlay;
 
-    let loadIframe: boolean;
-    if (!iframeSrc) {
-        // Never try to load the iframe if we don't have a source value for it
-        loadIframe = false;
-    } else if (!hasOverlay) {
+    let loadPlayer: boolean;
+    if (!hasOverlay) {
         // Always load the iframe if there is no overlay
-        loadIframe = true;
+        loadPlayer = true;
     } else if (hasUserLaunchedPlay) {
         // The overlay has been clicked so we should load the iframe
-        loadIframe = true;
+        loadPlayer = true;
     } else {
         // Load early when either the mouse over or touch start event is fired
-        loadIframe = interactionStarted;
+        loadPlayer = interactionStarted;
     }
 
     useEffect(() => {
-        /**
-         * Build the iframe source url
-         *
-         * We do this on the client following hydration so we can dynamically build
-         * adsConfig using client side data (primarily consent)
-         *
-         */
-
-        // We don't want to ever load the iframe until we know the reader's consent preferences
-        if (!consentState) return;
-
-        const adsConfig: AdsConfig =
-            !adTargeting || adTargeting.disableAds
-                ? disabledAds
-                : buildAdsConfigWithConsent(
-                      false,
-                      adTargeting.adUnit,
-                      adTargeting.customParams,
-                      consentState,
-                  );
-        const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
-        const originString = origin
-            ? `&origin=${encodeURIComponent(origin)}`
-            : '';
-        // `autoplay`?
-        // We don't typically autoplay videos but in this case, where we know the reader has
-        // already clicked to play, we use this param to ensure the video plays. Why would it
-        // not play? Because when a reader clicks, we call player.current.playVideo() but at
-        // that point the video may not have loaded and the click event won't work. Autoplay
-        // is a failsafe for this scenario.
-        const autoplay = hasUserLaunchedPlay ? '&autoplay=1' : '';
-        setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
+        loadScript('https://www.youtube.com/iframe_api').then(
+            () =>
+                (window.onYouTubeIframeAPIReady = () => {
+                    console.log('Setting YTReady');
+                    setYTReady(true);
+                }),
         );
-    }, [consentState, hasUserLaunchedPlay]);
+    }, []);
 
     useEffect(() => {
-        if (loadIframe) {
-            if (!player.current) {
-                player.current = YouTubePlayer(`youtube-video-${assetId}`);
-            }
+        if (consentState && YTReady && loadPlayer) {
+            if (playerRef.current) {
+                if (hasUserLaunchedPlay) {
+                    playerRef.current.playVideo();
+                }
+            } else {
+                console.log('Initialising YouTubePlayer');
 
-            let hasSentPlayEvent = false;
-            let hasSent25Event = false;
-            let hasSent50Event = false;
-            let hasSent75Event = false;
+                const adsConfig: AdsConfig =
+                    !adTargeting || adTargeting.disableAds
+                        ? disabledAds
+                        : buildAdsConfigWithConsent(
+                              false,
+                              adTargeting.adUnit,
+                              adTargeting.customParams,
+                              consentState,
+                          );
 
-            const listener =
-                player.current &&
-                player.current.on(
-                    'stateChange',
-                    (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                        if (e.data === youtubePlayerState.PLAYING) {
-                            if (!hasSentPlayEvent) {
-                                eventEmitters.forEach((eventEmitter) =>
-                                    eventEmitter('play'),
-                                );
-                                hasSentPlayEvent = true;
+                const onStateChangeListener = createOnStateChangeListener(
+                    eventEmitters,
+                );
 
-                                setTimeout(() => {
-                                    checkProgress();
-                                }, 3000);
-                            }
-
-                            const checkProgress = async () => {
-                                if (!player || !player.current) return null;
-                                const currentTime =
-                                    player.current &&
-                                    (await player.current.getCurrentTime());
-                                const duration =
-                                    player.current &&
-                                    (await player.current.getDuration());
-
-                                if (!duration || !currentTime) return;
-
-                                const percentPlayed =
-                                    (currentTime / duration) * 100;
-
-                                if (!hasSent25Event && 25 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('25'),
-                                    );
-                                    hasSent25Event = true;
+                // @ts-expect-error -- no public types for Player.embedConfig
+                playerRef.current = new window.YT.Player(
+                    `youtube-video-${assetId}`,
+                    {
+                        height: width,
+                        width: height,
+                        videoId: assetId,
+                        playerVars: {
+                            modestbranding: 1,
+                            origin,
+                            playsinline: 1,
+                            rel: 0,
+                        },
+                        events: {
+                            onReady: (e) => {
+                                console.log('onReady', e);
+                                // play if queued up
+                                if (hasUserLaunchedPlay) {
+                                    e.target.playVideo();
                                 }
-
-                                if (!hasSent50Event && 50 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('50'),
-                                    );
-                                    hasSent50Event = true;
-                                }
-
-                                if (!hasSent75Event && 75 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('75'),
-                                    );
-                                    hasSent75Event = true;
-                                }
-
-                                const currentPlayerState =
-                                    player.current &&
-                                    (await player.current.getPlayerState());
-
-                                if (
-                                    currentPlayerState !==
-                                    youtubePlayerState.ENDED
-                                ) {
-                                    // Set a timeout to check progress again in the future
-                                    window.setTimeout(
-                                        () => checkProgress(),
-                                        3000,
-                                    );
-                                }
-                            };
-                        }
-
-                        if (e.data === youtubePlayerState.ENDED) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('end'),
-                            );
-                        }
+                            },
+                            onStateChange: onStateChangeListener,
+                        },
+                        embedConfig: {
+                            relatedChannels: [],
+                            adsConfig,
+                        },
                     },
                 );
 
-            return () => {
-                listener && player.current && player.current.off(listener);
-            };
+                console.log('playerRef initialised', playerRef.current);
+
+                // return () => {
+                //     onStateChangeListener &&
+                //         playerRef.current &&
+                //         playerRef.current.removeEventListener(
+                //             'onStateChange',
+                //             onStateChangeListener,
+                //         );
+                // };
+            }
         }
-    }, [eventEmitters, loadIframe]);
+    }, [consentState, YTReady, loadPlayer, eventEmitters, hasUserLaunchedPlay]);
+
+    console.log({
+        YTReady,
+        loadPlayer,
+        hasUserLaunchedPlay,
+        interactionStarted,
+    });
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            {showPlaceholder && (
+            {/* {showPlaceholder && (
                 <div
                     css={css`
                         width: ${width}px;
@@ -358,24 +354,15 @@ export const YoutubeAtom = ({
                         shouldShimmer={true}
                     />
                 </div>
-            )}
+            )} */}
 
-            {loadIframe && (
-                <iframe
-                    title={title}
-                    width={width}
-                    height={height}
-                    id={`youtube-video-${assetId}`}
-                    src={iframeSrc}
-                    // needed in order to allow `player.playVideo();` to be able to run
-                    // https://stackoverflow.com/a/53298579/7378674
-                    allow="autoplay"
-                    tabIndex={overrideImage || posterImage ? -1 : 0}
-                    allowFullScreen
-                    data-atom-id={`youtube-video-${assetId}`}
-                    data-atom-type="youtube"
-                />
-            )}
+            <div
+                title={title}
+                id={`youtube-video-${assetId}`}
+                tabIndex={overrideImage || posterImage ? -1 : 0}
+                data-atom-id={`youtube-video-${assetId}`}
+                data-atom-type="youtube"
+            ></div>
 
             {showOverlay && (
                 <div
@@ -383,16 +370,10 @@ export const YoutubeAtom = ({
                     data-testid="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
-                        iframeSrc &&
-                            player.current &&
-                            player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
                             setHasUserLaunchedPlay(true);
-                            iframeSrc &&
-                                player.current &&
-                                player.current.playVideo();
                         }
                     }}
                     onMouseEnter={() => setInteractionStarted(true)}
