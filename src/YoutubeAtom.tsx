@@ -220,6 +220,9 @@ export const YoutubeAtom = ({
 
         // We don't want to ever load the iframe until we know the reader's consent preferences
         if (!consentState) return;
+        // We don't want to reset the iframeSrc if it has already been set
+        // Resetting the iframe will wipe the player state and all listeners
+        if (iframeSrc) return;
 
         const adsConfig: AdsConfig =
             !adTargeting || adTargeting.disableAds
