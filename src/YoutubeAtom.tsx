@@ -144,6 +144,68 @@ type YoutubePlayerType = {
     getPlayerState: () => number;
 };
 
+type OnStateChangeListener = (
+    e: YT.PlayerEvent & YoutubeStateChangeEventType,
+) => void;
+
+const createOnStateChangeListener = (
+    eventEmitters: Props['eventEmitters'],
+): OnStateChangeListener => (e) => {
+    console.log('onStateChange', e);
+    const player = e.target;
+    let hasSentPlayEvent = false;
+    let hasSent25Event = false;
+    let hasSent50Event = false;
+    let hasSent75Event = false;
+
+    if (e.data === youtubePlayerState.PLAYING) {
+        if (!hasSentPlayEvent) {
+            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
+            hasSentPlayEvent = true;
+
+            setTimeout(() => {
+                checkProgress();
+            }, 3000);
+        }
+
+        const checkProgress = async () => {
+            if (!player) return null;
+            const currentTime = player && player.getCurrentTime();
+            const duration = player && player.getDuration();
+
+            if (!duration || !currentTime) return;
+
+            const percentPlayed = (currentTime / duration) * 100;
+
+            if (!hasSent25Event && 25 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
+                hasSent25Event = true;
+            }
+
+            if (!hasSent50Event && 50 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
+                hasSent50Event = true;
+            }
+
+            if (!hasSent75Event && 75 < percentPlayed) {
+                eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
+                hasSent75Event = true;
+            }
+
+            const currentPlayerState = player && player.getPlayerState();
+
+            if (currentPlayerState !== youtubePlayerState.ENDED) {
+                // Set a timeout to check progress again in the future
+                window.setTimeout(() => checkProgress(), 3000);
+            }
+        };
+    }
+
+    if (e.data === youtubePlayerState.ENDED) {
+        eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+    }
+};
+
 // Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     assetId,
@@ -247,93 +309,20 @@ export const YoutubeAtom = ({
         if (loadIframe) {
             if (!player.current) {
                 player.current = YouTubePlayer(`youtube-video-${assetId}`);
-            }
 
-            let hasSentPlayEvent = false;
-            let hasSent25Event = false;
-            let hasSent50Event = false;
-            let hasSent75Event = false;
-
-            const listener =
-                player.current &&
-                player.current.on(
-                    'stateChange',
-                    (e: YT.PlayerEvent & YoutubeStateChangeEventType) => {
-                        if (e.data === youtubePlayerState.PLAYING) {
-                            if (!hasSentPlayEvent) {
-                                eventEmitters.forEach((eventEmitter) =>
-                                    eventEmitter('play'),
-                                );
-                                hasSentPlayEvent = true;
-
-                                setTimeout(() => {
-                                    checkProgress();
-                                }, 3000);
-                            }
-
-                            const checkProgress = async () => {
-                                if (!player || !player.current) return null;
-                                const currentTime =
-                                    player.current &&
-                                    (await player.current.getCurrentTime());
-                                const duration =
-                                    player.current &&
-                                    (await player.current.getDuration());
-
-                                if (!duration || !currentTime) return;
-
-                                const percentPlayed =
-                                    (currentTime / duration) * 100;
-
-                                if (!hasSent25Event && 25 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('25'),
-                                    );
-                                    hasSent25Event = true;
-                                }
-
-                                if (!hasSent50Event && 50 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('50'),
-                                    );
-                                    hasSent50Event = true;
-                                }
-
-                                if (!hasSent75Event && 75 < percentPlayed) {
-                                    eventEmitters.forEach((eventEmitter) =>
-                                        eventEmitter('75'),
-                                    );
-                                    hasSent75Event = true;
-                                }
-
-                                const currentPlayerState =
-                                    player.current &&
-                                    (await player.current.getPlayerState());
-
-                                if (
-                                    currentPlayerState !==
-                                    youtubePlayerState.ENDED
-                                ) {
-                                    // Set a timeout to check progress again in the future
-                                    window.setTimeout(
-                                        () => checkProgress(),
-                                        3000,
-                                    );
-                                }
-                            };
-                        }
-
-                        if (e.data === youtubePlayerState.ENDED) {
-                            eventEmitters.forEach((eventEmitter) =>
-                                eventEmitter('end'),
-                            );
-                        }
-                    },
+                const stateChangeListener = createOnStateChangeListener(
+                    eventEmitters,
                 );
 
-            return () => {
-                listener && player.current && player.current.off(listener);
-            };
+                player.current &&
+                    player.current.on('stateChange', stateChangeListener);
+
+                return () => {
+                    stateChangeListener &&
+                        player.current &&
+                        player.current.off(stateChangeListener);
+                };
+            }
         }
     }, [eventEmitters, loadIframe]);
 
