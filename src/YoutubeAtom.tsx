@@ -1,28 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { css } from '@emotion/react';
-import YouTubePlayer from 'youtube-player';
-import { pillarPalette } from './lib/pillarPalette';
-
-import {
-    focusHalo,
-    space,
-    textSans,
-    neutral,
-} from '@guardian/source-foundations';
-import { SvgPlay } from '@guardian/source-react-components';
-
+import React, { useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
-import { Placeholder } from './common/Placeholder';
-import { formatTime } from './lib/formatTime';
-import { Picture } from './Picture';
-import { AdTargeting, ImageSource, RoleType } from './types';
-import { ArticleTheme } from '@guardian/libs';
+import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
+import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
+import type {
+    AdTargeting,
+    ImageSource,
+    RoleType,
+    VideoEventKey,
+} from './types';
+import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
-import {
-    AdsConfig,
-    buildAdsConfigWithConsent,
-    disabledAds,
-} from '@guardian/commercial-core';
 
 type Props = {
     assetId: string;
@@ -40,169 +27,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
 };
-declare global {
-    interface Window {
-        onYouTubeIframeAPIReady: unknown;
-    }
-}
 
-type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
-
-// https://developers.google.com/youtube/iframe_api_reference#Events
-export const youtubePlayerState = {
-    ENDED: 0,
-    PLAYING: 1,
-    PAUSED: 2,
-    BUFFERING: 3,
-    CUED: 5,
-};
-
-const overlayStyles = css`
-    background-size: cover;
-    background-position: 49% 49%;
-    background-repeat: no-repeat;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    max-height: 100vh;
-    cursor: pointer;
-
-    /* hard code "overlay-play-button" to be able to give play button animation on focus/hover of overlay */
-    :focus {
-        ${focusHalo}
-        .overlay-play-button {
-            transform: scale(1.15);
-            transition-duration: 300ms;
-        }
-    }
-    :hover {
-        .overlay-play-button {
-            transform: scale(1.15);
-            transition-duration: 300ms;
-        }
-    }
-`;
-
-// Overlay CSS
-const hideOverlayStyling = css`
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 1s linear, visibility 1s;
-    transition-delay: 500ms;
-    transition-duration: 500ms;
-`;
-
-const playButtonStyling = (pillar: ArticleTheme) => css`
-    background-color: ${pillarPalette[pillar][500]};
-    border-radius: 100%;
-    height: 60px;
-    width: 60px;
-    transform: scale(1);
-    transition-duration: 300ms;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-        fill: ${neutral[100]};
-        width: 45px;
-        height: 40px;
-    }
-`;
-
-const overlayInfoWrapperStyles = css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: absolute;
-    bottom: ${space[4]}px;
-    left: ${space[4]}px;
-`;
-
-const videoDurationStyles = (pillar: ArticleTheme) => css`
-    ${textSans.medium({ fontWeight: 'bold' })};
-    padding-left: ${space[3]}px;
-    color: ${pillarPalette[pillar][500]};
-`;
-
-type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
-
-// youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
-type YoutubePlayerType = {
-    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
-    off: (callback: YoutubeCallback) => void;
-    loadVideoById: (videoId: string) => void;
-    playVideo: () => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
-    getPlayerState: () => number;
-};
-
-const createOnStateChangeListener = (
-    eventEmitters: Props['eventEmitters'],
-): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
-    console.log({
-        listener: 'onStateChange',
-        event,
-    });
-
-    const player = event.target;
-    let hasSentPlayEvent = false;
-    let hasSent25Event = false;
-    let hasSent50Event = false;
-    let hasSent75Event = false;
-
-    if (event.data === youtubePlayerState.PLAYING) {
-        if (!hasSentPlayEvent) {
-            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-            hasSentPlayEvent = true;
-
-            setTimeout(() => {
-                checkProgress();
-            }, 3000);
-        }
-
-        const checkProgress = async () => {
-            if (!player) return null;
-            const currentTime = player && player.getCurrentTime();
-            const duration = player && player.getDuration();
-
-            if (!duration || !currentTime) return;
-
-            const percentPlayed = (currentTime / duration) * 100;
-
-            if (!hasSent25Event && 25 < percentPlayed) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
-                hasSent25Event = true;
-            }
-
-            if (!hasSent50Event && 50 < percentPlayed) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
-                hasSent50Event = true;
-            }
-
-            if (!hasSent75Event && 75 < percentPlayed) {
-                eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
-                hasSent75Event = true;
-            }
-
-            const currentPlayerState = player && player.getPlayerState();
-
-            if (currentPlayerState !== youtubePlayerState.ENDED) {
-                // Set a timeout to check progress again in the future
-                window.setTimeout(() => checkProgress(), 3000);
-            }
-        };
-    }
-
-    if (event.data === youtubePlayerState.ENDED) {
-        eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-    }
-};
-
-// Note, this is a subset of the CAPI MediaAtom essentially.
 export const YoutubeAtom = ({
     assetId,
     overrideImage,
@@ -222,214 +47,44 @@ export const YoutubeAtom = ({
     const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
         false,
     );
-    const [interactionStarted, setInteractionStarted] = useState<boolean>(
-        false,
-    );
-    const player = useRef<YoutubePlayerType>();
-    const shouldPlay = useRef<boolean>();
-
-    const hasOverlay = overrideImage || posterImage;
-
-    /**
-     * Show the overlay if:
-     * - It exists
-     *
-     * and
-     *
-     * - It hasn't been clicked upon
-     */
-    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
-    /**
-     * Show a placeholder if:
-     *
-     * - We don't have an iframe source yet (probably because we don't have consent)
-     *
-     * and
-     *
-     * - There's no overlay to replace it with or the reader clicked to play but we're
-     * still waiting on consent
-     *
-     */
-
-    let loadIframe: boolean;
-
-    if (!hasOverlay) {
-        // Always load the iframe if there is no overlay
-        loadIframe = true;
-    } else if (hasUserLaunchedPlay) {
-        // The overlay has been clicked so we should load the iframe
-        loadIframe = true;
-    } else {
-        // Load early when either the mouse over or touch start event is fired
-        loadIframe = interactionStarted;
-    }
-
-    const showPlaceholder = !loadIframe && (!hasOverlay || hasUserLaunchedPlay);
-
-    useEffect(() => {
-        if (consentState && loadIframe) {
-            if (!player.current) {
-                const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting.disableAds
-                        ? disabledAds
-                        : buildAdsConfigWithConsent(
-                              false,
-                              adTargeting.adUnit,
-                              adTargeting.customParams,
-                              consentState,
-                          );
-
-                player.current = YouTubePlayer(`youtube-video-${assetId}`, {
-                    height: width,
-                    width: height,
-                    videoId: assetId,
-                    playerVars: {
-                        modestbranding: 1,
-                        origin,
-                        playsinline: 1,
-                        rel: 0,
-                    },
-                    embedConfig: {
-                        relatedChannels: [],
-                        adsConfig,
-                    },
-                });
-
-                const stateChangeListener = createOnStateChangeListener(
-                    eventEmitters,
-                );
-
-                player.current &&
-                    player.current.on('stateChange', stateChangeListener);
-
-                const readyListener = (event: YT.PlayerEvent) => {
-                    console.log({
-                        listener: 'onReady',
-                        event,
-                        shouldPlay: shouldPlay.current,
-                    });
-                    if (shouldPlay.current) {
-                        console.log('onReady - Playing video...');
-                        event.target.playVideo();
-                    }
-                };
-
-                player.current && player.current.on('ready', readyListener);
-
-                // return () => {
-                //     stateChangeListener &&
-                //         player.current &&
-                //         player.current.off(stateChangeListener);
-                // };
-            }
-        }
-    }, [consentState, eventEmitters, loadIframe]);
-
-    useEffect(() => {
-        console.log({
-            useEffect: 'hasUserLaunchedPlay',
-            hasUserLaunchedPlay,
-        });
-        if (hasUserLaunchedPlay) {
-            if (player.current) {
-                console.log(
-                    'hasUserLaunchedPlay - Player set. Playing video...',
-                );
-                player.current.playVideo();
-            } else {
-                console.log(
-                    'hasUserLaunchedPlay - Player NOT set. Setting shouldPlay ref for when the player is ready...',
-                );
-                shouldPlay.current = true;
-            }
-        }
-    }, [hasUserLaunchedPlay]);
+    const [loadPlayer, setLoadPlayer] = useState<boolean>(false);
 
     console.log({
-        loadIframe,
-        interactionStarted,
+        from: 'YoutubeAtom',
+        loadPlayer,
         hasUserLaunchedPlay,
-        player: player.current,
     });
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            {showPlaceholder && (
-                <div
-                    css={css`
-                        width: ${width}px;
-                        height: ${height}px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                    `}
-                >
-                    <Placeholder
-                        height={height}
-                        width={width}
-                        shouldShimmer={true}
-                    />
-                </div>
-            )}
-
-            <div
+            <YoutubeAtomPlayer
+                assetId={assetId}
+                overrideImage={overrideImage}
+                posterImage={posterImage}
+                adTargeting={adTargeting}
+                consentState={consentState}
+                height={height}
+                width={width}
                 title={title}
-                id={`youtube-video-${assetId}`}
-                tabIndex={overrideImage || posterImage ? -1 : 0}
-                data-atom-id={`youtube-video-${assetId}`}
-                data-atom-type="youtube"
-            ></div>
-
-            {showOverlay && (
-                <div
-                    data-cy="youtube-overlay"
-                    data-testid="youtube-overlay"
-                    onClick={() => {
-                        setHasUserLaunchedPlay(true);
-                    }}
-                    onKeyDown={(e) => {
-                        if (e.code === 'Space' || e.code === 'Enter') {
-                            setHasUserLaunchedPlay(true);
-                        }
-                    }}
-                    onMouseEnter={() => setInteractionStarted(true)}
-                    onTouchStart={() => setInteractionStarted(true)}
-                    css={[
-                        overlayStyles,
-                        hasUserLaunchedPlay ? hideOverlayStyling : '',
-                        css`
-                            img {
-                                height: 100%;
-                                width: 100%;
-                            }
-                        `,
-                    ]}
-                    tabIndex={0}
-                >
-                    <Picture
-                        imageSources={overrideImage || posterImage || []}
-                        role={role}
-                        alt={alt}
-                        height={`${height}`}
-                        width={`${width}`}
-                    />
-                    <div css={overlayInfoWrapperStyles}>
-                        <div
-                            className="overlay-play-button"
-                            css={css`
-                                ${playButtonStyling(pillar)}
-                            `}
-                        >
-                            <SvgPlay />
-                        </div>
-                        {duration && (
-                            <div css={videoDurationStyles(pillar)}>
-                                {formatTime(duration)}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+                origin={origin}
+                eventEmitters={eventEmitters}
+                loadPlayer={loadPlayer}
+                hasUserLaunchedPlay={hasUserLaunchedPlay}
+            />
+            <YoutubeAtomOverlay
+                overrideImage={overrideImage}
+                posterImage={posterImage}
+                height={height}
+                width={width}
+                alt={alt}
+                role={role}
+                duration={duration}
+                pillar={pillar}
+                loadPlayer={loadPlayer}
+                setLoadPlayer={setLoadPlayer}
+                hasUserLaunchedPlay={hasUserLaunchedPlay}
+                setHasUserLaunchedPlay={setHasUserLaunchedPlay}
+            />
         </MaintainAspectRatio>
     );
 };
