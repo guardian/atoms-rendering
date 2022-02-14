@@ -305,6 +305,12 @@ export const YoutubeAtom = ({
                 player.current &&
                     player.current.on('stateChange', stateChangeListener);
 
+                const readyListener = (event: YT.PlayerEvent) => {
+                    console.log('onReady custom', event);
+                };
+
+                player.current && player.current.on('ready', readyListener);
+
                 return () => {
                     stateChangeListener &&
                         player.current &&
