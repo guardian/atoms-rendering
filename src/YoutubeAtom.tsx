@@ -223,8 +223,12 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
-    const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
+    const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
+        false,
+    );
+    const [interactionStarted, setInteractionStarted] = useState<boolean>(
+        false,
+    );
     const player = useRef<YoutubePlayerType>();
 
     const hasOverlay = overrideImage || posterImage;
@@ -237,7 +241,7 @@ export const YoutubeAtom = ({
      *
      * - It hasn't been clicked upon
      */
-    const showOverlay = hasOverlay && !overlayClicked;
+    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
     /**
      * Show a placeholder if:
      *
@@ -249,61 +253,21 @@ export const YoutubeAtom = ({
      * still waiting on consent
      *
      */
-    const showPlaceholder = !iframeSrc && (!hasOverlay || overlayClicked);
 
     let loadIframe: boolean;
-    if (!iframeSrc) {
-        // Never try to load the iframe if we don't have a source value for it
-        loadIframe = false;
-    } else if (!hasOverlay) {
+
+    if (!hasOverlay) {
         // Always load the iframe if there is no overlay
         loadIframe = true;
-    } else if (overlayClicked) {
+    } else if (hasUserLaunchedPlay) {
         // The overlay has been clicked so we should load the iframe
         loadIframe = true;
     } else {
-        loadIframe = false;
+        // Load early when either the mouse over or touch start event is fired
+        loadIframe = interactionStarted;
     }
 
-    useEffect(() => {
-        /**
-         * Build the iframe source url
-         *
-         * We do this on the client following hydration so we can dynamically build
-         * adsConfig using client side data (primarily consent)
-         *
-         */
-
-        // We don't want to ever load the iframe until we know the reader's consent preferences
-        if (!consentState) return;
-        // We don't want to reset the iframeSrc if it has already been set
-        // Resetting the iframe will wipe the player state and all listeners
-        if (iframeSrc) return;
-
-        const adsConfig: AdsConfig =
-            !adTargeting || adTargeting.disableAds
-                ? disabledAds
-                : buildAdsConfigWithConsent(
-                      false,
-                      adTargeting.adUnit,
-                      adTargeting.customParams,
-                      consentState,
-                  );
-
-        const params = new URLSearchParams({
-            ...(origin ? { origin } : {}),
-            autoplay: '1',
-            embed_config: JSON.stringify({ adsConfig }),
-            enablejsapi: '1',
-            modestbranding: '1',
-            widgetid: '1',
-        });
-        const src = new URL(
-            `/embed/${assetId}?${params.toString()}`,
-            'https://www.youtube.com/',
-        );
-        setIframeSrc(src.toString());
-    }, [consentState, overlayClicked]);
+    const showPlaceholder = !loadIframe && (!hasOverlay || hasUserLaunchedPlay);
 
     useEffect(() => {
         if (consentState && loadIframe) {
@@ -327,14 +291,6 @@ export const YoutubeAtom = ({
                         origin,
                         playsinline: 1,
                         rel: 0,
-                    },
-                    events: {
-                        onReady: (event: YT.PlayerEvent) => {
-                            console.log('onReady', event);
-                        },
-                        onStateChange: (event: YT.OnStateChangeEvent) => {
-                            console.log('onStateChange', event);
-                        },
                     },
                     embedConfig: {
                         relatedChannels: [],
@@ -378,44 +334,33 @@ export const YoutubeAtom = ({
                 </div>
             )}
 
-            {loadIframe && (
-                <iframe
-                    title={title}
-                    width={width}
-                    height={height}
-                    id={`youtube-video-${assetId}`}
-                    src={iframeSrc}
-                    // needed in order to allow `player.playVideo();` to be able to run
-                    // https://stackoverflow.com/a/53298579/7378674
-                    allow="autoplay"
-                    tabIndex={overrideImage || posterImage ? -1 : 0}
-                    allowFullScreen
-                    data-atom-id={`youtube-video-${assetId}`}
-                    data-atom-type="youtube"
-                />
-            )}
+            <div
+                title={title}
+                id={`youtube-video-${assetId}`}
+                tabIndex={overrideImage || posterImage ? -1 : 0}
+                data-atom-id={`youtube-video-${assetId}`}
+                data-atom-type="youtube"
+            ></div>
 
             {showOverlay && (
                 <div
                     data-cy="youtube-overlay"
                     data-testid="youtube-overlay"
                     onClick={() => {
-                        setOverlayClicked(true);
-                        iframeSrc &&
-                            player.current &&
-                            player.current.playVideo();
+                        setHasUserLaunchedPlay(true);
+                        player.current && player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
-                            setOverlayClicked(true);
-                            iframeSrc &&
-                                player.current &&
-                                player.current.playVideo();
+                            setHasUserLaunchedPlay(true);
+                            player.current && player.current.playVideo();
                         }
                     }}
+                    onMouseEnter={() => setInteractionStarted(true)}
+                    onTouchStart={() => setInteractionStarted(true)}
                     css={[
                         overlayStyles,
-                        overlayClicked ? hideOverlayStyling : '',
+                        hasUserLaunchedPlay ? hideOverlayStyling : '',
                         css`
                             img {
                                 height: 100%;
