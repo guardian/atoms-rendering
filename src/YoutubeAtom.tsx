@@ -162,9 +162,7 @@ export const YoutubeAtom = ({
     pillar,
 }: Props): JSX.Element => {
     const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
-    const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
-        false,
-    );
+    const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const player = useRef<YoutubePlayerType>();
 
     const hasOverlay = overrideImage || posterImage;
@@ -177,7 +175,7 @@ export const YoutubeAtom = ({
      *
      * - It hasn't been clicked upon
      */
-    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
+    const showOverlay = hasOverlay && !overlayClicked;
     /**
      * Show a placeholder if:
      *
@@ -189,7 +187,7 @@ export const YoutubeAtom = ({
      * still waiting on consent
      *
      */
-    const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
+    const showPlaceholder = !iframeSrc && (!hasOverlay || overlayClicked);
 
     let loadIframe: boolean;
     if (!iframeSrc) {
@@ -198,7 +196,7 @@ export const YoutubeAtom = ({
     } else if (!hasOverlay) {
         // Always load the iframe if there is no overlay
         loadIframe = true;
-    } else if (hasUserLaunchedPlay) {
+    } else if (overlayClicked) {
         // The overlay has been clicked so we should load the iframe
         loadIframe = true;
     } else {
@@ -236,7 +234,7 @@ export const YoutubeAtom = ({
         setIframeSrc(
             `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}&autoplay=1`,
         );
-    }, [consentState, hasUserLaunchedPlay]);
+    }, [consentState, overlayClicked]);
 
     useEffect(() => {
         if (loadIframe) {
@@ -374,14 +372,14 @@ export const YoutubeAtom = ({
                     data-cy="youtube-overlay"
                     data-testid="youtube-overlay"
                     onClick={() => {
-                        setHasUserLaunchedPlay(true);
+                        setOverlayClicked(true);
                         iframeSrc &&
                             player.current &&
                             player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
-                            setHasUserLaunchedPlay(true);
+                            setOverlayClicked(true);
                             iframeSrc &&
                                 player.current &&
                                 player.current.playVideo();
@@ -389,7 +387,7 @@ export const YoutubeAtom = ({
                     }}
                     css={[
                         overlayStyles,
-                        hasUserLaunchedPlay ? hideOverlayStyling : '',
+                        overlayClicked ? hideOverlayStyling : '',
                         css`
                             img {
                                 height: 100%;
