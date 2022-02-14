@@ -46,8 +46,6 @@ declare global {
     }
 }
 
-type YoutubeStateChangeEventType = { data: -1 | 0 | 1 | 2 | 3 | 5 };
-
 type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
 
 // https://developers.google.com/youtube/iframe_api_reference#Events
@@ -129,9 +127,7 @@ const videoDurationStyles = (pillar: ArticleTheme) => css`
     color: ${pillarPalette[pillar][500]};
 `;
 
-type YoutubeCallback = (
-    e: YT.PlayerEvent & YoutubeStateChangeEventType,
-) => void;
+type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
 // youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
 type YoutubePlayerType = {
@@ -144,21 +140,17 @@ type YoutubePlayerType = {
     getPlayerState: () => number;
 };
 
-type OnStateChangeListener = (
-    e: YT.PlayerEvent & YoutubeStateChangeEventType,
-) => void;
-
 const createOnStateChangeListener = (
     eventEmitters: Props['eventEmitters'],
-): OnStateChangeListener => (e) => {
-    console.log('onStateChange custom', e);
-    const player = e.target;
+): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
+    console.log('onStateChange custom', event);
+    const player = event.target;
     let hasSentPlayEvent = false;
     let hasSent25Event = false;
     let hasSent50Event = false;
     let hasSent75Event = false;
 
-    if (e.data === youtubePlayerState.PLAYING) {
+    if (event.data === youtubePlayerState.PLAYING) {
         if (!hasSentPlayEvent) {
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
             hasSentPlayEvent = true;
@@ -201,7 +193,7 @@ const createOnStateChangeListener = (
         };
     }
 
-    if (e.data === youtubePlayerState.ENDED) {
+    if (event.data === youtubePlayerState.ENDED) {
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
     }
 };
@@ -319,6 +311,13 @@ export const YoutubeAtom = ({
             }
         }
     }, [consentState, eventEmitters, loadIframe]);
+
+    console.log({
+        loadIframe,
+        interactionStarted,
+        hasUserLaunchedPlay,
+        player: player.current,
+    });
 
     return (
         <MaintainAspectRatio height={height} width={width}>
