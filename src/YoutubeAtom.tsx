@@ -151,7 +151,7 @@ type OnStateChangeListener = (
 const createOnStateChangeListener = (
     eventEmitters: Props['eventEmitters'],
 ): OnStateChangeListener => (e) => {
-    console.log('onStateChange', e);
+    console.log('onStateChange custom', e);
     const player = e.target;
     let hasSentPlayEvent = false;
     let hasSent25Event = false;
@@ -306,9 +306,41 @@ export const YoutubeAtom = ({
     }, [consentState, overlayClicked]);
 
     useEffect(() => {
-        if (loadIframe) {
+        if (consentState && loadIframe) {
             if (!player.current) {
-                player.current = YouTubePlayer(`youtube-video-${assetId}`);
+                const adsConfig: AdsConfig =
+                    !adTargeting || adTargeting.disableAds
+                        ? disabledAds
+                        : buildAdsConfigWithConsent(
+                              false,
+                              adTargeting.adUnit,
+                              adTargeting.customParams,
+                              consentState,
+                          );
+
+                player.current = YouTubePlayer(`youtube-video-${assetId}`, {
+                    height: width,
+                    width: height,
+                    videoId: assetId,
+                    playerVars: {
+                        modestbranding: 1,
+                        origin,
+                        playsinline: 1,
+                        rel: 0,
+                    },
+                    events: {
+                        onReady: (event: YT.PlayerEvent) => {
+                            console.log('onReady', event);
+                        },
+                        onStateChange: (event: YT.OnStateChangeEvent) => {
+                            console.log('onStateChange', event);
+                        },
+                    },
+                    embedConfig: {
+                        relatedChannels: [],
+                        adsConfig,
+                    },
+                });
 
                 const stateChangeListener = createOnStateChangeListener(
                     eventEmitters,
@@ -324,7 +356,7 @@ export const YoutubeAtom = ({
                 };
             }
         }
-    }, [eventEmitters, loadIframe]);
+    }, [consentState, eventEmitters, loadIframe]);
 
     return (
         <MaintainAspectRatio height={height} width={width}>
