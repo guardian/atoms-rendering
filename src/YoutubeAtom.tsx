@@ -143,7 +143,11 @@ type YoutubePlayerType = {
 const createOnStateChangeListener = (
     eventEmitters: Props['eventEmitters'],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
-    console.log('onStateChange custom', event);
+    console.log({
+        listener: 'onStateChange',
+        event,
+    });
+
     const player = event.target;
     let hasSentPlayEvent = false;
     let hasSent25Event = false;
@@ -222,6 +226,7 @@ export const YoutubeAtom = ({
         false,
     );
     const player = useRef<YoutubePlayerType>();
+    const shouldPlay = useRef<boolean>();
 
     const hasOverlay = overrideImage || posterImage;
 
@@ -298,19 +303,47 @@ export const YoutubeAtom = ({
                     player.current.on('stateChange', stateChangeListener);
 
                 const readyListener = (event: YT.PlayerEvent) => {
-                    console.log('onReady custom', event);
+                    console.log({
+                        listener: 'onReady',
+                        event,
+                        shouldPlay: shouldPlay.current,
+                    });
+                    if (shouldPlay.current) {
+                        console.log('onReady - Playing video...');
+                        event.target.playVideo();
+                    }
                 };
 
                 player.current && player.current.on('ready', readyListener);
 
-                return () => {
-                    stateChangeListener &&
-                        player.current &&
-                        player.current.off(stateChangeListener);
-                };
+                // return () => {
+                //     stateChangeListener &&
+                //         player.current &&
+                //         player.current.off(stateChangeListener);
+                // };
             }
         }
     }, [consentState, eventEmitters, loadIframe]);
+
+    useEffect(() => {
+        console.log({
+            useEffect: 'hasUserLaunchedPlay',
+            hasUserLaunchedPlay,
+        });
+        if (hasUserLaunchedPlay) {
+            if (player.current) {
+                console.log(
+                    'hasUserLaunchedPlay - Player set. Playing video...',
+                );
+                player.current.playVideo();
+            } else {
+                console.log(
+                    'hasUserLaunchedPlay - Player NOT set. Setting shouldPlay ref for when the player is ready...',
+                );
+                shouldPlay.current = true;
+            }
+        }
+    }, [hasUserLaunchedPlay]);
 
     console.log({
         loadIframe,
@@ -353,12 +386,10 @@ export const YoutubeAtom = ({
                     data-testid="youtube-overlay"
                     onClick={() => {
                         setHasUserLaunchedPlay(true);
-                        player.current && player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
                             setHasUserLaunchedPlay(true);
-                            player.current && player.current.playVideo();
                         }
                     }}
                     onMouseEnter={() => setInteractionStarted(true)}
