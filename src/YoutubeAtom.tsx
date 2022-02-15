@@ -162,12 +162,7 @@ export const YoutubeAtom = ({
     pillar,
 }: Props): JSX.Element => {
     const [iframeSrc, setIframeSrc] = useState<string | undefined>(undefined);
-    const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
-        false,
-    );
-    const [interactionStarted, setInteractionStarted] = useState<boolean>(
-        false,
-    );
+    const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const player = useRef<YoutubePlayerType>();
 
     const hasOverlay = overrideImage || posterImage;
@@ -180,7 +175,7 @@ export const YoutubeAtom = ({
      *
      * - It hasn't been clicked upon
      */
-    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
+    const showOverlay = hasOverlay && !overlayClicked;
     /**
      * Show a placeholder if:
      *
@@ -192,7 +187,7 @@ export const YoutubeAtom = ({
      * still waiting on consent
      *
      */
-    const showPlaceholder = !iframeSrc && (!hasOverlay || hasUserLaunchedPlay);
+    const showPlaceholder = !iframeSrc && (!hasOverlay || overlayClicked);
 
     let loadIframe: boolean;
     if (!iframeSrc) {
@@ -201,12 +196,11 @@ export const YoutubeAtom = ({
     } else if (!hasOverlay) {
         // Always load the iframe if there is no overlay
         loadIframe = true;
-    } else if (hasUserLaunchedPlay) {
+    } else if (overlayClicked) {
         // The overlay has been clicked so we should load the iframe
         loadIframe = true;
     } else {
-        // Load early when either the mouse over or touch start event is fired
-        loadIframe = interactionStarted;
+        loadIframe = false;
     }
 
     useEffect(() => {
@@ -237,17 +231,10 @@ export const YoutubeAtom = ({
         const originString = origin
             ? `&origin=${encodeURIComponent(origin)}`
             : '';
-        // `autoplay`?
-        // We don't typically autoplay videos but in this case, where we know the reader has
-        // already clicked to play, we use this param to ensure the video plays. Why would it
-        // not play? Because when a reader clicks, we call player.current.playVideo() but at
-        // that point the video may not have loaded and the click event won't work. Autoplay
-        // is a failsafe for this scenario.
-        const autoplay = hasUserLaunchedPlay ? '&autoplay=1' : '';
         setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}${autoplay}`,
+            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}&autoplay=1`,
         );
-    }, [consentState, hasUserLaunchedPlay]);
+    }, [consentState, overlayClicked]);
 
     useEffect(() => {
         if (loadIframe) {
@@ -385,24 +372,22 @@ export const YoutubeAtom = ({
                     data-cy="youtube-overlay"
                     data-testid="youtube-overlay"
                     onClick={() => {
-                        setHasUserLaunchedPlay(true);
+                        setOverlayClicked(true);
                         iframeSrc &&
                             player.current &&
                             player.current.playVideo();
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
-                            setHasUserLaunchedPlay(true);
+                            setOverlayClicked(true);
                             iframeSrc &&
                                 player.current &&
                                 player.current.playVideo();
                         }
                     }}
-                    onMouseEnter={() => setInteractionStarted(true)}
-                    onTouchStart={() => setInteractionStarted(true)}
                     css={[
                         overlayStyles,
-                        hasUserLaunchedPlay ? hideOverlayStyling : '',
+                        overlayClicked ? hideOverlayStyling : '',
                         css`
                             img {
                                 height: 100%;
