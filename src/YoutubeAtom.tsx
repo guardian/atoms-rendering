@@ -227,13 +227,20 @@ export const YoutubeAtom = ({
                       adTargeting.customParams,
                       consentState,
                   );
-        const embedConfig = encodeURIComponent(JSON.stringify({ adsConfig }));
-        const originString = origin
-            ? `&origin=${encodeURIComponent(origin)}`
-            : '';
-        setIframeSrc(
-            `https://www.youtube.com/embed/${assetId}?embed_config=${embedConfig}&enablejsapi=1&widgetid=1&modestbranding=1${originString}&autoplay=1`,
+
+        const params = new URLSearchParams({
+            ...(origin ? { origin } : {}),
+            autoplay: '1',
+            embed_config: JSON.stringify({ adsConfig }),
+            enablejsapi: '1',
+            modestbranding: '1',
+            widgetid: '1',
+        });
+        const src = new URL(
+            `/embed/${assetId}?${params.toString()}`,
+            'https://www.youtube.com/',
         );
+        setIframeSrc(src.toString());
     }, [consentState, overlayClicked]);
 
     useEffect(() => {
