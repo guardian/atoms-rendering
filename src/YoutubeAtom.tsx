@@ -229,7 +229,7 @@ export const YoutubeAtom = ({
                   );
 
         const params = new URLSearchParams({
-            ...(origin ? { origin } : undefined),
+            ...(origin ? { origin } : {}),
             autoplay: '1',
             embed_config: JSON.stringify({ adsConfig }),
             enablejsapi: '1',
