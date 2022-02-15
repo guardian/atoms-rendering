@@ -215,11 +215,15 @@ export const YoutubeAtomPlayer = ({
 
                 player.current && player.current.on('ready', readyListener);
 
-                // return () => {
-                //     stateChangeListener &&
-                //         player.current &&
-                //         player.current.off(stateChangeListener);
-                // };
+                return () => {
+                    stateChangeListener &&
+                        player.current &&
+                        player.current.off(stateChangeListener);
+
+                    readyListener &&
+                        player.current &&
+                        player.current.off(readyListener);
+                };
             }
         }
     }, [consentState, eventEmitters, loadPlayer]);
