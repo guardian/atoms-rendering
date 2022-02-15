@@ -229,16 +229,16 @@ export const YoutubeAtom = ({
                   );
 
         const params = new URLSearchParams({
-            ...(origin ? { origin: encodeURIComponent(origin) } : undefined),
+            ...(origin ? { origin } : undefined),
             autoplay: '1',
-            embed_config: encodeURIComponent(JSON.stringify({ adsConfig })),
+            embed_config: JSON.stringify({ adsConfig }),
             enablejsapi: '1',
             modestbranding: '1',
             widgetid: '1',
         });
         const src = new URL(
             `/embed/${assetId}?${params.toString()}`,
-            'https://www.youtube.com',
+            'https://www.youtube.com/',
         );
         setIframeSrc(src.toString());
     }, [consentState, overlayClicked]);
