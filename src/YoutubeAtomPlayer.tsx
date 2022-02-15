@@ -30,15 +30,6 @@ declare global {
     }
 }
 
-// https://developers.google.com/youtube/iframe_api_reference#Events
-export const youtubePlayerState = {
-    ENDED: 0,
-    PLAYING: 1,
-    PAUSED: 2,
-    BUFFERING: 3,
-    CUED: 5,
-};
-
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
 // youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
@@ -67,7 +58,7 @@ const createOnStateChangeListener = (
     let hasSent50Event = false;
     let hasSent75Event = false;
 
-    if (event.data === youtubePlayerState.PLAYING) {
+    if (event.data === YT.PlayerState.PLAYING) {
         if (!hasSentPlayEvent) {
             log('dotcom', {
                 from: loggerFrom,
@@ -123,14 +114,14 @@ const createOnStateChangeListener = (
 
             const currentPlayerState = player && player.getPlayerState();
 
-            if (currentPlayerState !== youtubePlayerState.ENDED) {
+            if (currentPlayerState !== YT.PlayerState.ENDED) {
                 // Set a timeout to check progress again in the future
                 window.setTimeout(() => checkProgress(), 3000);
             }
         };
     }
 
-    if (event.data === youtubePlayerState.ENDED) {
+    if (event.data === YT.PlayerState.ENDED) {
         log('dotcom', {
             from: loggerFrom,
             msg: 'ended',
