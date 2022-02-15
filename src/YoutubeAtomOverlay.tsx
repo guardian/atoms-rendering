@@ -28,8 +28,6 @@ type Props = {
     pillar: ArticleTheme;
     loadPlayer: boolean;
     setLoadPlayer: (flag: boolean) => void;
-    hasUserLaunchedPlay: boolean;
-    setHasUserLaunchedPlay: (flag: boolean) => void;
 };
 
 const overlayStyles = css`
@@ -113,33 +111,10 @@ export const YoutubeAtomOverlay = ({
     pillar,
     loadPlayer,
     setLoadPlayer,
-    hasUserLaunchedPlay,
-    setHasUserLaunchedPlay,
 }: Props): JSX.Element => {
+    const [overlayClicked, setOverlayClicked] = useState(false);
+
     const hasOverlay = overrideImage || posterImage;
-
-    const [interactionStarted, setInteractionStarted] = useState<boolean>(
-        false,
-    );
-
-    useEffect(() => {
-        let loadPlayerValue;
-        if (!hasOverlay) {
-            // Always load the iframe if there is no overlay
-            loadPlayerValue = true;
-        } else if (hasUserLaunchedPlay) {
-            // The overlay has been clicked so we should load the iframe
-            loadPlayerValue = true;
-        } else {
-            // Load early when either the mouse over or touch start event is fired
-            loadPlayerValue = interactionStarted;
-        }
-        log('dotcom', {
-            from: 'YoutubeAtomOverlay useEffect setLoadPlayer',
-            loadPlayer: loadPlayerValue,
-        });
-        setLoadPlayer(loadPlayerValue);
-    }, [hasUserLaunchedPlay, interactionStarted, setLoadPlayer]);
 
     /**
      * Show the overlay if:
@@ -149,12 +124,12 @@ export const YoutubeAtomOverlay = ({
      *
      * - It hasn't been clicked upon
      */
-    const showOverlay = hasOverlay && !hasUserLaunchedPlay;
+    const showOverlay = hasOverlay && !overlayClicked;
 
     /**
      * Show a placeholder if:
      *
-     * - We don't have a player yet (probably because we don't have consent)
+     * - We haven't triggered the player to load yet
      *
      * and
      *
@@ -162,7 +137,26 @@ export const YoutubeAtomOverlay = ({
      * still waiting on consent
      *
      */
-    const showPlaceholder = !loadPlayer && (!hasOverlay || hasUserLaunchedPlay);
+    // TODO placeholder is visible and is removed when the player actually loads - not just triggered
+    const showPlaceholder = !hasOverlay && !loadPlayer;
+
+    useEffect(() => {
+        let shouldLoadPlayer;
+        if (!hasOverlay) {
+            // start the player if there is no overlay
+            shouldLoadPlayer = true;
+        } else if (overlayClicked) {
+            // start the player if the overlay has been clicked
+            shouldLoadPlayer = true;
+        } else {
+            shouldLoadPlayer = false;
+        }
+        log('dotcom', {
+            from: 'YoutubeAtomOverlay useEffect setLoadPlayer',
+            loadPlayer: shouldLoadPlayer,
+        });
+        setLoadPlayer(shouldLoadPlayer);
+    }, [overlayClicked, setLoadPlayer]);
 
     return (
         <>
@@ -189,18 +183,16 @@ export const YoutubeAtomOverlay = ({
                     data-cy="youtube-overlay"
                     data-testid="youtube-overlay"
                     onClick={() => {
-                        setHasUserLaunchedPlay(true);
+                        setOverlayClicked(true);
                     }}
                     onKeyDown={(e) => {
                         if (e.code === 'Space' || e.code === 'Enter') {
-                            setHasUserLaunchedPlay(true);
+                            setOverlayClicked(true);
                         }
                     }}
-                    onMouseEnter={() => setInteractionStarted(true)}
-                    onTouchStart={() => setInteractionStarted(true)}
                     css={[
                         overlayStyles,
-                        hasUserLaunchedPlay ? hideOverlayStyling : '',
+                        overlayClicked ? hideOverlayStyling : '',
                         css`
                             img {
                                 height: 100%;

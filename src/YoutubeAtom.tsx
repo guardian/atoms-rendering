@@ -44,9 +44,6 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const [hasUserLaunchedPlay, setHasUserLaunchedPlay] = useState<boolean>(
-        false,
-    );
     const [loadPlayer, setLoadPlayer] = useState<boolean>(false);
 
     return (
@@ -63,7 +60,6 @@ export const YoutubeAtom = ({
                 origin={origin}
                 eventEmitters={eventEmitters}
                 loadPlayer={loadPlayer}
-                hasUserLaunchedPlay={hasUserLaunchedPlay}
             />
             <YoutubeAtomOverlay
                 overrideImage={overrideImage}
@@ -76,8 +72,6 @@ export const YoutubeAtom = ({
                 pillar={pillar}
                 loadPlayer={loadPlayer}
                 setLoadPlayer={setLoadPlayer}
-                hasUserLaunchedPlay={hasUserLaunchedPlay}
-                setHasUserLaunchedPlay={setHasUserLaunchedPlay}
             />
         </MaintainAspectRatio>
     );

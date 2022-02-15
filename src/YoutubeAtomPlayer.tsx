@@ -22,7 +22,6 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     loadPlayer: boolean;
-    hasUserLaunchedPlay: boolean;
 };
 
 declare global {
@@ -153,10 +152,8 @@ export const YoutubeAtomPlayer = ({
     origin,
     eventEmitters,
     loadPlayer,
-    hasUserLaunchedPlay,
 }: Props): JSX.Element => {
     const player = useRef<YoutubePlayerType>();
-    const shouldPlay = useRef<boolean>();
 
     useEffect(() => {
         if (consentState && loadPlayer) {
@@ -201,16 +198,10 @@ export const YoutubeAtomPlayer = ({
                 const readyListener = (event: YT.PlayerEvent) => {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
-                        shouldPlay: shouldPlay.current,
+                        msg: 'Playing video',
                         event,
                     });
-                    if (shouldPlay.current) {
-                        log('dotcom', {
-                            from: 'YoutubeAtomPlayer onReady',
-                            msg: 'Playing queued video',
-                        });
-                        event.target.playVideo();
-                    }
+                    event.target.playVideo();
                 };
 
                 player.current && player.current.on('ready', readyListener);
@@ -227,27 +218,6 @@ export const YoutubeAtomPlayer = ({
             }
         }
     }, [consentState, eventEmitters, loadPlayer]);
-
-    useEffect(() => {
-        const loggerFrom = 'YoutubeAtomPlayer useEffect hasUserLaunchedPlay';
-        if (hasUserLaunchedPlay) {
-            if (player.current) {
-                log('dotcom', {
-                    from: loggerFrom,
-                    msg: 'Player set. Playing video',
-                    hasUserLaunchedPlay,
-                });
-                player.current.playVideo();
-            } else {
-                log('dotcom', {
-                    from: loggerFrom,
-                    msg: 'Player NOT set. Queuing video',
-                    hasUserLaunchedPlay,
-                });
-                shouldPlay.current = true;
-            }
-        }
-    }, [hasUserLaunchedPlay]);
 
     return (
         <div
