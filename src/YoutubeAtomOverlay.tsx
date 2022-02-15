@@ -134,7 +134,7 @@ export const YoutubeAtomOverlay = ({
             loadPlayerValue = interactionStarted;
         }
         console.log({
-            from: 'YoutubeAtomOverlay.setLoadPlayer useEffect',
+            from: 'YoutubeAtomOverlay useEffect setLoadPlayer',
             loadPlayer: loadPlayerValue,
         });
         setLoadPlayer(loadPlayerValue);
@@ -164,7 +164,7 @@ export const YoutubeAtomOverlay = ({
     const showPlaceholder = !loadPlayer && (!hasOverlay || hasUserLaunchedPlay);
 
     console.log({
-        from: 'YoutubeAtomOverlay',
+        from: 'YoutubeAtomOverlay render',
         showOverlay,
         showPlaceholder,
         loadPlayer,

@@ -55,8 +55,9 @@ type YoutubePlayerType = {
 const createOnStateChangeListener = (
     eventEmitters: Props['eventEmitters'],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
+    const loggerFrom = 'YoutubeAtomPlayer onStateChange';
     console.log({
-        from: 'onStateChange listener',
+        from: loggerFrom,
         event,
     });
 
@@ -68,6 +69,11 @@ const createOnStateChangeListener = (
 
     if (event.data === youtubePlayerState.PLAYING) {
         if (!hasSentPlayEvent) {
+            console.log({
+                from: loggerFrom,
+                msg: 'start play',
+                event,
+            });
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
             hasSentPlayEvent = true;
 
@@ -86,16 +92,31 @@ const createOnStateChangeListener = (
             const percentPlayed = (currentTime / duration) * 100;
 
             if (!hasSent25Event && 25 < percentPlayed) {
+                console.log({
+                    from: loggerFrom,
+                    msg: 'played 25%',
+                    event,
+                });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
                 hasSent25Event = true;
             }
 
             if (!hasSent50Event && 50 < percentPlayed) {
+                console.log({
+                    from: loggerFrom,
+                    msg: 'played 50%',
+                    event,
+                });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
                 hasSent50Event = true;
             }
 
             if (!hasSent75Event && 75 < percentPlayed) {
+                console.log({
+                    from: loggerFrom,
+                    msg: 'played 75%',
+                    event,
+                });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
                 hasSent75Event = true;
             }
@@ -110,6 +131,11 @@ const createOnStateChangeListener = (
     }
 
     if (event.data === youtubePlayerState.ENDED) {
+        console.log({
+            from: loggerFrom,
+            msg: 'ended',
+            event,
+        });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
     }
 };
@@ -133,11 +159,11 @@ export const YoutubeAtomPlayer = ({
 
     useEffect(() => {
         if (consentState && loadPlayer) {
-            console.log({
-                from: 'YoutubeAtomPlayer.loadPlayer useEffect',
-                msg: 'Initialising player',
-            });
             if (!player.current) {
+                console.log({
+                    from: 'YoutubeAtomPlayer useEffect loadPlayer',
+                    msg: 'Initialising player',
+                });
                 const adsConfig: AdsConfig =
                     !adTargeting || adTargeting.disableAds
                         ? disabledAds
@@ -173,12 +199,15 @@ export const YoutubeAtomPlayer = ({
 
                 const readyListener = (event: YT.PlayerEvent) => {
                     console.log({
-                        from: 'onReady listener',
-                        event,
+                        from: 'YoutubeAtomPlayer onReady',
                         shouldPlay: shouldPlay.current,
+                        event,
                     });
                     if (shouldPlay.current) {
-                        console.log('onReady - Playing video...');
+                        console.log({
+                            from: 'YoutubeAtomPlayer onReady',
+                            msg: 'Playing queued video',
+                        });
                         event.target.playVideo();
                     }
                 };
@@ -195,27 +224,28 @@ export const YoutubeAtomPlayer = ({
     }, [consentState, eventEmitters, loadPlayer]);
 
     useEffect(() => {
-        console.log({
-            from: 'YoutubeAtomPlayer.hasUserLaunchedPlay useEffect',
-            hasUserLaunchedPlay,
-        });
+        const loggerFrom = 'YoutubeAtomPlayer useEffect hasUserLaunchedPlay';
         if (hasUserLaunchedPlay) {
             if (player.current) {
-                console.log(
-                    'hasUserLaunchedPlay - Player set. Playing video...',
-                );
+                console.log({
+                    from: loggerFrom,
+                    msg: 'Player set. Playing video',
+                    hasUserLaunchedPlay,
+                });
                 player.current.playVideo();
             } else {
-                console.log(
-                    'hasUserLaunchedPlay - Player NOT set. Setting shouldPlay ref for when the player is ready...',
-                );
+                console.log({
+                    from: loggerFrom,
+                    msg: 'Player NOT set. Queuing video',
+                    hasUserLaunchedPlay,
+                });
                 shouldPlay.current = true;
             }
         }
     }, [hasUserLaunchedPlay]);
 
     console.log({
-        from: 'YoutubeAtomPlayer',
+        from: 'YoutubeAtomPlayer render',
         loadPlayer,
         hasUserLaunchedPlay,
         player: player.current,

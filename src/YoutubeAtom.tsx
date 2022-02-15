@@ -50,7 +50,7 @@ export const YoutubeAtom = ({
     const [loadPlayer, setLoadPlayer] = useState<boolean>(false);
 
     console.log({
-        from: 'YoutubeAtom',
+        from: 'YoutubeAtom render',
         loadPlayer,
         hasUserLaunchedPlay,
     });
