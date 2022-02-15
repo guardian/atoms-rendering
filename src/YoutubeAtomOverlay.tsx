@@ -14,7 +14,8 @@ import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
-import { ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
+import { log } from '@guardian/libs';
 
 type Props = {
     overrideImage?: ImageSource[];
@@ -133,7 +134,7 @@ export const YoutubeAtomOverlay = ({
             // Load early when either the mouse over or touch start event is fired
             loadPlayerValue = interactionStarted;
         }
-        console.log({
+        log('dotcom', {
             from: 'YoutubeAtomOverlay useEffect setLoadPlayer',
             loadPlayer: loadPlayerValue,
         });
@@ -162,15 +163,6 @@ export const YoutubeAtomOverlay = ({
      *
      */
     const showPlaceholder = !loadPlayer && (!hasOverlay || hasUserLaunchedPlay);
-
-    console.log({
-        from: 'YoutubeAtomOverlay render',
-        showOverlay,
-        showPlaceholder,
-        loadPlayer,
-        interactionStarted,
-        hasUserLaunchedPlay,
-    });
 
     return (
         <>

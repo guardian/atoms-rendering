@@ -49,12 +49,6 @@ export const YoutubeAtom = ({
     );
     const [loadPlayer, setLoadPlayer] = useState<boolean>(false);
 
-    console.log({
-        from: 'YoutubeAtom render',
-        loadPlayer,
-        hasUserLaunchedPlay,
-    });
-
     return (
         <MaintainAspectRatio height={height} width={width}>
             <YoutubeAtomPlayer

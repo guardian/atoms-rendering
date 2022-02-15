@@ -8,6 +8,7 @@ import {
     buildAdsConfigWithConsent,
     disabledAds,
 } from '@guardian/commercial-core';
+import { log } from '@guardian/libs';
 
 type Props = {
     assetId: string;
@@ -56,7 +57,7 @@ const createOnStateChangeListener = (
     eventEmitters: Props['eventEmitters'],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
-    console.log({
+    log('dotcom', {
         from: loggerFrom,
         event,
     });
@@ -69,7 +70,7 @@ const createOnStateChangeListener = (
 
     if (event.data === youtubePlayerState.PLAYING) {
         if (!hasSentPlayEvent) {
-            console.log({
+            log('dotcom', {
                 from: loggerFrom,
                 msg: 'start play',
                 event,
@@ -92,7 +93,7 @@ const createOnStateChangeListener = (
             const percentPlayed = (currentTime / duration) * 100;
 
             if (!hasSent25Event && 25 < percentPlayed) {
-                console.log({
+                log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 25%',
                     event,
@@ -102,7 +103,7 @@ const createOnStateChangeListener = (
             }
 
             if (!hasSent50Event && 50 < percentPlayed) {
-                console.log({
+                log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 50%',
                     event,
@@ -112,7 +113,7 @@ const createOnStateChangeListener = (
             }
 
             if (!hasSent75Event && 75 < percentPlayed) {
-                console.log({
+                log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 75%',
                     event,
@@ -131,7 +132,7 @@ const createOnStateChangeListener = (
     }
 
     if (event.data === youtubePlayerState.ENDED) {
-        console.log({
+        log('dotcom', {
             from: loggerFrom,
             msg: 'ended',
             event,
@@ -160,7 +161,7 @@ export const YoutubeAtomPlayer = ({
     useEffect(() => {
         if (consentState && loadPlayer) {
             if (!player.current) {
-                console.log({
+                log('dotcom', {
                     from: 'YoutubeAtomPlayer useEffect loadPlayer',
                     msg: 'Initialising player',
                 });
@@ -198,13 +199,13 @@ export const YoutubeAtomPlayer = ({
                     player.current.on('stateChange', stateChangeListener);
 
                 const readyListener = (event: YT.PlayerEvent) => {
-                    console.log({
+                    log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
                         shouldPlay: shouldPlay.current,
                         event,
                     });
                     if (shouldPlay.current) {
-                        console.log({
+                        log('dotcom', {
                             from: 'YoutubeAtomPlayer onReady',
                             msg: 'Playing queued video',
                         });
@@ -227,14 +228,14 @@ export const YoutubeAtomPlayer = ({
         const loggerFrom = 'YoutubeAtomPlayer useEffect hasUserLaunchedPlay';
         if (hasUserLaunchedPlay) {
             if (player.current) {
-                console.log({
+                log('dotcom', {
                     from: loggerFrom,
                     msg: 'Player set. Playing video',
                     hasUserLaunchedPlay,
                 });
                 player.current.playVideo();
             } else {
-                console.log({
+                log('dotcom', {
                     from: loggerFrom,
                     msg: 'Player NOT set. Queuing video',
                     hasUserLaunchedPlay,
@@ -243,13 +244,6 @@ export const YoutubeAtomPlayer = ({
             }
         }
     }, [hasUserLaunchedPlay]);
-
-    console.log({
-        from: 'YoutubeAtomPlayer render',
-        loadPlayer,
-        hasUserLaunchedPlay,
-        player: player.current,
-    });
 
     return (
         <div
