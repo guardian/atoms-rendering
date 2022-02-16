@@ -48,10 +48,10 @@ export const YoutubeAtom = ({
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
 
-    const hasOverlay = overrideImage || posterImage;
+    const hasOverlay = !!(overrideImage || posterImage);
 
     /**
-     * Show the overlay if:
+     * Show an overlay if:
      * - It exists
      *
      * AND
@@ -63,37 +63,20 @@ export const YoutubeAtom = ({
     /**
      * Show a placeholder if:
      *
-     * - We haven't triggered the player to load yet
+     * - The player is not ready
      *
      * AND
      *
-     * - There's no overlay to replace it
-     *
-     * OR
-     *
-     * - The user clicked the overlay but we're waiting on the player to be ready
-     *
+     * - We don't have an overlay OR the user has clicked the overlay
      */
-    const showPlaceholder = !hasOverlay || (overlayClicked && !playerReady);
-
-    /**
-     * Show a placeholder if:
-     *
-     * - We haven't triggered the player to load yet
-     *
-     * and
-     *
-     * - There's no overlay to replace it with or the reader clicked to play but we're
-     * still waiting on the player to be ready
-     *
-     */
+    const showPlaceholder = !playerReady && (!hasOverlay || overlayClicked);
 
     let loadPlayer;
     if (!hasOverlay) {
-        // start the player if there is no overlay
+        // load the player if there is no overlay
         loadPlayer = true;
     } else if (overlayClicked) {
-        // start the player if the overlay has been clicked
+        // load the player if the overlay has been clicked
         loadPlayer = true;
     } else {
         loadPlayer = false;
@@ -111,6 +94,7 @@ export const YoutubeAtom = ({
                 width={width}
                 title={title}
                 origin={origin}
+                hasOverlay={hasOverlay}
                 eventEmitters={eventEmitters}
                 loadPlayer={loadPlayer}
                 setPlayerReady={setPlayerReady}

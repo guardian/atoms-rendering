@@ -20,6 +20,7 @@ type Props = {
     width: number;
     title?: string;
     origin?: string;
+    hasOverlay: boolean;
     eventEmitters: ((event: VideoEventKey) => void)[];
     loadPlayer: boolean;
     setPlayerReady: (ready: true) => void;
@@ -153,6 +154,7 @@ export const YoutubeAtomPlayer = ({
     width,
     title,
     origin,
+    hasOverlay,
     eventEmitters,
     loadPlayer,
     setPlayerReady,
@@ -221,15 +223,23 @@ export const YoutubeAtomPlayer = ({
                 const readyListener = (event: YT.PlayerEvent) => {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
-                        msg: 'Playing video',
+                        msg: 'Ready',
                         event,
                     });
                     setPlayerReady(true);
                     /**
-                     * When the player is ready start playing
-                     * event.target is the actual underlying YT player
+                     * If the Atom has an overlay then auto-play when ready
+                     * Otherwise the user will use the player controls to play
                      */
-                    event.target.playVideo();
+                    if (hasOverlay) {
+                        log('dotcom', {
+                            from: 'YoutubeAtomPlayer onReady',
+                            msg: 'Playing video',
+                            event,
+                        });
+                        // event.target is the actual underlying YT player
+                        event.target.playVideo();
+                    }
                 };
 
                 player.current && player.current.on('ready', readyListener);
