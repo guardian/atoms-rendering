@@ -74,8 +74,7 @@ export const YoutubeAtom = ({
      * - The user clicked the overlay but we're waiting on the player to be ready
      *
      */
-    // const showPlaceholder = !hasOverlay || (overlayClicked && !playerReady);
-    const showPlaceholder = !hasOverlay && !playerReady;
+    const showPlaceholder = !hasOverlay || (overlayClicked && !playerReady);
 
     /**
      * Show a placeholder if:
