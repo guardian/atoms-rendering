@@ -254,6 +254,7 @@ export const YoutubeAtomPlayer = ({
             id={`youtube-video-${assetId}`}
             tabIndex={overrideImage || posterImage ? -1 : 0}
             data-atom-id={`youtube-video-${assetId}`}
+            data-testid={`youtube-video-${assetId}`}
             data-atom-type="youtube"
         ></div>
     );
