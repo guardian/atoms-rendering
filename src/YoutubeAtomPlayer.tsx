@@ -46,7 +46,18 @@ type YoutubePlayerType = {
     getPlayerState: () => number;
 };
 
+type ProgressEvents = {
+    hasSentPlayEvent: boolean;
+    hasSent25Event: boolean;
+    hasSent50Event: boolean;
+    hasSent75Event: boolean;
+};
+
+/**
+ * ProgressEvents are a ref to maintain state acrosss renders
+ */
 const createOnStateChangeListener = (
+    progressEvents: ProgressEvents,
     eventEmitters: Props['eventEmitters'],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
@@ -57,20 +68,16 @@ const createOnStateChangeListener = (
 
     // event.target is the actual underlying YT player
     const player = event.target;
-    let hasSentPlayEvent = false;
-    let hasSent25Event = false;
-    let hasSent50Event = false;
-    let hasSent75Event = false;
 
     if (event.data === YT.PlayerState.PLAYING) {
-        if (!hasSentPlayEvent) {
+        if (!progressEvents.hasSentPlayEvent) {
             log('dotcom', {
                 from: loggerFrom,
                 msg: 'start play',
                 event,
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-            hasSentPlayEvent = true;
+            progressEvents.hasSentPlayEvent = true;
 
             setTimeout(() => {
                 checkProgress();
@@ -86,34 +93,34 @@ const createOnStateChangeListener = (
 
             const percentPlayed = (currentTime / duration) * 100;
 
-            if (!hasSent25Event && 25 < percentPlayed) {
+            if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 25%',
                     event,
                 });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
-                hasSent25Event = true;
+                progressEvents.hasSent25Event = true;
             }
 
-            if (!hasSent50Event && 50 < percentPlayed) {
+            if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 50%',
                     event,
                 });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
-                hasSent50Event = true;
+                progressEvents.hasSent50Event = true;
             }
 
-            if (!hasSent75Event && 75 < percentPlayed) {
+            if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
                     msg: 'played 75%',
                     event,
                 });
                 eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
-                hasSent75Event = true;
+                progressEvents.hasSent75Event = true;
             }
 
             const currentPlayerState = player && player.getPlayerState();
@@ -149,6 +156,12 @@ export const YoutubeAtomPlayer = ({
     loadPlayer,
 }: Props): JSX.Element => {
     const player = useRef<YoutubePlayerType>();
+    const progressEvents = useRef<ProgressEvents>({
+        hasSentPlayEvent: false,
+        hasSent25Event: false,
+        hasSent50Event: false,
+        hasSent75Event: false,
+    });
 
     useEffect(() => {
         if (consentState && loadPlayer) {
@@ -171,7 +184,7 @@ export const YoutubeAtomPlayer = ({
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
                  * It will load the iframe embed
-                 * It's API allows us to queue up calls to YT that will fire when the underling player is ready
+                 * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
                  */
                 player.current = YouTubePlayer(`youtube-video-${assetId}`, {
                     height: width,
@@ -193,6 +206,7 @@ export const YoutubeAtomPlayer = ({
                  * Register an onStateChange listener
                  */
                 const stateChangeListener = createOnStateChangeListener(
+                    progressEvents.current,
                     eventEmitters,
                 );
 
