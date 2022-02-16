@@ -74,9 +74,6 @@ export const YoutubeAtom = ({
      * - The user clicked the overlay but we're waiting on the player to be ready
      *
      */
-    // TODO fix placeholder wrt width and height
-    // Should width and height be calculated depending on the viewport i.e. [wide: 620x350, small: 460x259]
-    // Or make Placeholder take a 100% width and height as the overlay does
     // const showPlaceholder = !hasOverlay || (overlayClicked && !playerReady);
     const showPlaceholder = !hasOverlay && !playerReady;
 
@@ -133,9 +130,7 @@ export const YoutubeAtom = ({
                     setOverlayClicked={setOverlayClicked}
                 />
             )}
-            {showPlaceholder && (
-                <YoutubeAtomPlaceholder height={height} width={width} />
-            )}
+            {showPlaceholder && <YoutubeAtomPlaceholder />}
         </MaintainAspectRatio>
     );
 };

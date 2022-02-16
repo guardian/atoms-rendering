@@ -3,15 +3,7 @@ import { css } from '@emotion/react';
 
 import { Placeholder } from './common/Placeholder';
 
-type Props = {
-    height: number;
-    width: number;
-};
-
-export const YoutubeAtomPlaceholder = ({
-    height,
-    width,
-}: Props): JSX.Element => {
+export const YoutubeAtomPlaceholder = (): JSX.Element => {
     return (
         <>
             <div
@@ -21,13 +13,10 @@ export const YoutubeAtomPlaceholder = ({
                     position: absolute;
                     top: 0;
                     left: 0;
+                    display: flex;
                 `}
             >
-                <Placeholder
-                    height={height}
-                    width={width}
-                    shouldShimmer={true}
-                />
+                <Placeholder height="100%" shouldShimmer={true} />
             </div>
         </>
     );

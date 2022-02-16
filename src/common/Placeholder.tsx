@@ -6,9 +6,9 @@ import { neutral } from '@guardian/source-foundations';
 const BACKGROUND_COLOUR = neutral[93];
 
 type Props = {
-    height: number;
+    height: string;
     rootId?: string;
-    width?: number;
+    width?: string;
     shouldShimmer?: boolean;
 };
 
@@ -48,8 +48,8 @@ export const Placeholder = ({
             data-name="placeholder"
             data-testid="placeholder"
             css={css`
-                height: ${height}px;
-                width: ${width ? `${width}px` : '100%'};
+                height: ${height};
+                width: ${width ? `${width}` : '100%'};
                 background-color: ${BACKGROUND_COLOUR};
 
                 ${shouldShimmer && shimmerStyles}
