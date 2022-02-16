@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
+import { YoutubeAtomPlaceholder } from './YoutubeAtomPlaceholder';
 import type {
     AdTargeting,
     ImageSource,
@@ -44,7 +45,63 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
 }: Props): JSX.Element => {
-    const [loadPlayer, setLoadPlayer] = useState<boolean>(false);
+    const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
+    const [playerReady, setPlayerReady] = useState<boolean>(false);
+
+    const hasOverlay = overrideImage || posterImage;
+
+    /**
+     * Show the overlay if:
+     * - It exists
+     *
+     * AND
+     *
+     * - It hasn't been clicked
+     */
+    const showOverlay = hasOverlay && !overlayClicked;
+
+    /**
+     * Show a placeholder if:
+     *
+     * - We haven't triggered the player to load yet
+     *
+     * AND
+     *
+     * - There's no overlay to replace it
+     *
+     * OR
+     *
+     * - The user clicked the overlay but we're waiting on the player to be ready
+     *
+     */
+    // TODO fix placeholder wrt width and height
+    // Should width and height be calculated depending on the viewport i.e. [wide: 620x350, small: 460x259]
+    // Or make Placeholder take a 100% width and height as the overlay does
+    // const showPlaceholder = !hasOverlay || (overlayClicked && !playerReady);
+    const showPlaceholder = !hasOverlay && !playerReady;
+
+    /**
+     * Show a placeholder if:
+     *
+     * - We haven't triggered the player to load yet
+     *
+     * and
+     *
+     * - There's no overlay to replace it with or the reader clicked to play but we're
+     * still waiting on the player to be ready
+     *
+     */
+
+    let loadPlayer;
+    if (!hasOverlay) {
+        // start the player if there is no overlay
+        loadPlayer = true;
+    } else if (overlayClicked) {
+        // start the player if the overlay has been clicked
+        loadPlayer = true;
+    } else {
+        loadPlayer = false;
+    }
 
     return (
         <MaintainAspectRatio height={height} width={width}>
@@ -60,19 +117,25 @@ export const YoutubeAtom = ({
                 origin={origin}
                 eventEmitters={eventEmitters}
                 loadPlayer={loadPlayer}
+                setPlayerReady={setPlayerReady}
             />
-            <YoutubeAtomOverlay
-                overrideImage={overrideImage}
-                posterImage={posterImage}
-                height={height}
-                width={width}
-                alt={alt}
-                role={role}
-                duration={duration}
-                pillar={pillar}
-                loadPlayer={loadPlayer}
-                setLoadPlayer={setLoadPlayer}
-            />
+            {showOverlay && (
+                <YoutubeAtomOverlay
+                    overrideImage={overrideImage}
+                    posterImage={posterImage}
+                    height={height}
+                    width={width}
+                    alt={alt}
+                    role={role}
+                    duration={duration}
+                    pillar={pillar}
+                    overlayClicked={overlayClicked}
+                    setOverlayClicked={setOverlayClicked}
+                />
+            )}
+            {showPlaceholder && (
+                <YoutubeAtomPlaceholder height={height} width={width} />
+            )}
         </MaintainAspectRatio>
     );
 };

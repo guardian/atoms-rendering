@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { pillarPalette } from './lib/pillarPalette';
 
@@ -10,12 +10,10 @@ import {
 } from '@guardian/source-foundations';
 import { SvgPlay } from '@guardian/source-react-components';
 
-import { Placeholder } from './common/Placeholder';
 import { formatTime } from './lib/formatTime';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
 import type { ArticleTheme } from '@guardian/libs';
-import { log } from '@guardian/libs';
 
 type Props = {
     overrideImage?: ImageSource[];
@@ -26,8 +24,8 @@ type Props = {
     role: RoleType;
     duration?: number; // in seconds
     pillar: ArticleTheme;
-    loadPlayer: boolean;
-    setLoadPlayer: (flag: boolean) => void;
+    overlayClicked: boolean;
+    setOverlayClicked: (flag: boolean) => void;
 };
 
 const overlayStyles = css`
@@ -109,123 +107,57 @@ export const YoutubeAtomOverlay = ({
     role,
     duration,
     pillar,
-    loadPlayer,
-    setLoadPlayer,
+    overlayClicked,
+    setOverlayClicked,
 }: Props): JSX.Element => {
-    const [overlayClicked, setOverlayClicked] = useState(false);
-
-    const hasOverlay = overrideImage || posterImage;
-
-    /**
-     * Show the overlay if:
-     * - It exists
-     *
-     * and
-     *
-     * - It hasn't been clicked upon
-     */
-    const showOverlay = hasOverlay && !overlayClicked;
-
-    /**
-     * Show a placeholder if:
-     *
-     * - We haven't triggered the player to load yet
-     *
-     * and
-     *
-     * - There's no overlay to replace it with or the reader clicked to play but we're
-     * still waiting on the player to be ready
-     *
-     */
-    // TODO make placeholder visible, then remove when the player actually loads - not just triggered
-    const showPlaceholder = !hasOverlay && !loadPlayer;
-
-    useEffect(() => {
-        let shouldLoadPlayer;
-        if (!hasOverlay) {
-            // start the player if there is no overlay
-            shouldLoadPlayer = true;
-        } else if (overlayClicked) {
-            // start the player if the overlay has been clicked
-            shouldLoadPlayer = true;
-        } else {
-            shouldLoadPlayer = false;
-        }
-        log('dotcom', {
-            from: 'YoutubeAtomOverlay useEffect setLoadPlayer',
-            loadPlayer: shouldLoadPlayer,
-        });
-        setLoadPlayer(shouldLoadPlayer);
-    }, [overlayClicked, setLoadPlayer]);
-
     return (
         <>
-            {showPlaceholder && (
-                <div
-                    css={css`
-                        width: ${width}px;
-                        height: ${height}px;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                    `}
-                >
-                    <Placeholder
-                        height={height}
-                        width={width}
-                        shouldShimmer={true}
-                    />
-                </div>
-            )}
-
-            {showOverlay && (
-                <div
-                    data-cy="youtube-overlay"
-                    data-testid="youtube-overlay"
-                    onClick={() => {
+            <div
+                data-cy="youtube-overlay"
+                data-testid="youtube-overlay"
+                onClick={() => {
+                    setOverlayClicked(true);
+                }}
+                onKeyDown={(e) => {
+                    if (e.code === 'Space' || e.code === 'Enter') {
                         setOverlayClicked(true);
-                    }}
-                    onKeyDown={(e) => {
-                        if (e.code === 'Space' || e.code === 'Enter') {
-                            setOverlayClicked(true);
+                    }
+                }}
+                css={[
+                    overlayStyles,
+                    overlayClicked ? hideOverlayStyling : '',
+                    css`
+                        img {
+                            height: 100%;
+                            width: 100%;
                         }
-                    }}
-                    css={[
-                        overlayStyles,
-                        overlayClicked ? hideOverlayStyling : '',
-                        css`
-                            img {
-                                height: 100%;
-                                width: 100%;
-                            }
-                        `,
-                    ]}
-                    tabIndex={0}
-                >
-                    <Picture
-                        imageSources={overrideImage || posterImage || []}
-                        role={role}
-                        alt={alt}
-                        height={`${height}`}
-                        width={`${width}`}
-                    />
-                    <div css={overlayInfoWrapperStyles}>
-                        <div
-                            className="overlay-play-button"
-                            css={css`
-                                ${playButtonStyling(pillar)}
-                            `}
-                        >
-                            <SvgPlay />
-                        </div>
-                        {duration && (
-                            <div css={videoDurationStyles(pillar)}>
-                                {formatTime(duration)}
-                            </div>
-                        )}
+                    `,
+                ]}
+                tabIndex={0}
+            >
+                <Picture
+                    imageSources={overrideImage || posterImage || []}
+                    role={role}
+                    alt={alt}
+                    height={`${height}`}
+                    width={`${width}`}
+                />
+                <div css={overlayInfoWrapperStyles}>
+                    <div
+                        className="overlay-play-button"
+                        css={css`
+                            ${playButtonStyling(pillar)}
+                        `}
+                    >
+                        <SvgPlay />
                     </div>
+                    {duration && (
+                        <div css={videoDurationStyles(pillar)}>
+                            {formatTime(duration)}
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </>
     );
 };

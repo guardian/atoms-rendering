@@ -22,6 +22,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     loadPlayer: boolean;
+    setPlayerReady: (ready: true) => void;
 };
 
 declare global {
@@ -154,6 +155,7 @@ export const YoutubeAtomPlayer = ({
     origin,
     eventEmitters,
     loadPlayer,
+    setPlayerReady,
 }: Props): JSX.Element => {
     const player = useRef<YoutubePlayerType>();
     const progressEvents = useRef<ProgressEvents>({
@@ -222,6 +224,7 @@ export const YoutubeAtomPlayer = ({
                         msg: 'Playing video',
                         event,
                     });
+                    setPlayerReady(true);
                     /**
                      * When the player is ready start playing
                      * event.target is the actual underlying YT player
