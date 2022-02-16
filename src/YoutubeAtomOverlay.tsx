@@ -134,10 +134,10 @@ export const YoutubeAtomOverlay = ({
      * and
      *
      * - There's no overlay to replace it with or the reader clicked to play but we're
-     * still waiting on consent
+     * still waiting on the player to be ready
      *
      */
-    // TODO placeholder is visible and is removed when the player actually loads - not just triggered
+    // TODO make placeholder visible, then remove when the player actually loads - not just triggered
     const showPlaceholder = !hasOverlay && !loadPlayer;
 
     useEffect(() => {

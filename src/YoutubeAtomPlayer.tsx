@@ -32,7 +32,10 @@ declare global {
 
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
-// youtube-player doesn't have a type definition, do we have to create our own based on https://github.com/gajus/youtube-player
+/**
+ * youtube-player doesn't have a type definition
+ * based on https://github.com/gajus/youtube-player
+ */
 type YoutubePlayerType = {
     on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
     off: (callback: YoutubeCallback) => void;
@@ -52,6 +55,7 @@ const createOnStateChangeListener = (
         event,
     });
 
+    // event.target is the actual underlying YT player
     const player = event.target;
     let hasSentPlayEvent = false;
     let hasSent25Event = false;
@@ -153,6 +157,7 @@ export const YoutubeAtomPlayer = ({
                     from: 'YoutubeAtomPlayer useEffect loadPlayer',
                     msg: 'Initialising player',
                 });
+
                 const adsConfig: AdsConfig =
                     !adTargeting || adTargeting.disableAds
                         ? disabledAds
@@ -163,6 +168,11 @@ export const YoutubeAtomPlayer = ({
                               consentState,
                           );
 
+                /**
+                 * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
+                 * It will load the iframe embed
+                 * It's API allows us to queue up calls to YT that will fire when the underling player is ready
+                 */
                 player.current = YouTubePlayer(`youtube-video-${assetId}`, {
                     height: width,
                     width: height,
@@ -179,6 +189,9 @@ export const YoutubeAtomPlayer = ({
                     },
                 });
 
+                /**
+                 * Register an onStateChange listener
+                 */
                 const stateChangeListener = createOnStateChangeListener(
                     eventEmitters,
                 );
@@ -186,12 +199,19 @@ export const YoutubeAtomPlayer = ({
                 player.current &&
                     player.current.on('stateChange', stateChangeListener);
 
+                /**
+                 * Register an onReady listener
+                 */
                 const readyListener = (event: YT.PlayerEvent) => {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
                         msg: 'Playing video',
                         event,
                     });
+                    /**
+                     * When the player is ready start playing
+                     * event.target is the actual underlying YT player
+                     */
                     event.target.playVideo();
                 };
 
@@ -210,6 +230,7 @@ export const YoutubeAtomPlayer = ({
         }
     }, [consentState, eventEmitters, loadPlayer]);
 
+    // we need to render a div to give the YouTube iframe somewhere to hook into the dom
     return (
         <div
             title={title}
