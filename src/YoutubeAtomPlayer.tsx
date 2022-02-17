@@ -36,7 +36,7 @@ type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
 /**
  * youtube-player doesn't have a type definition
- * based on https://github.com/gajus/youtube-player
+ * Based on https://github.com/gajus/youtube-player
  */
 type YoutubePlayerType = {
     on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
@@ -56,7 +56,7 @@ type ProgressEvents = {
 };
 
 /**
- * ProgressEvents are a ref to maintain state acrosss renders
+ * ProgressEvents are a ref, see below
  */
 const createOnStateChangeListener = (
     progressEvents: ProgressEvents,
@@ -159,6 +159,11 @@ export const YoutubeAtomPlayer = ({
     loadPlayer,
     setPlayerReady,
 }: Props): JSX.Element => {
+    /**
+     * useRef for player and progressEvents
+     * Provides mutable persistent state for the player across renders
+     * Does not cause re-renders on update
+     */
     const player = useRef<YoutubePlayerType>();
     const progressEvents = useRef<ProgressEvents>({
         hasSentPlayEvent: false,
@@ -257,7 +262,7 @@ export const YoutubeAtomPlayer = ({
         }
     }, [consentState, eventEmitters, loadPlayer]);
 
-    // we need to render a div to give the YouTube iframe somewhere to hook into the dom
+    // Render a div to give the YouTube iframe somewhere to hook into the dom
     return (
         <div
             title={title}

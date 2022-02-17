@@ -55,7 +55,6 @@ const overlayStyles = css`
     }
 `;
 
-// Overlay CSS
 const hideOverlayStyling = css`
     visibility: hidden;
     opacity: 0;
