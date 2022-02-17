@@ -20,8 +20,8 @@ type Props = {
     width: number;
     title?: string;
     origin?: string;
-    hasOverlay: boolean;
     eventEmitters: ((event: VideoEventKey) => void)[];
+    autoPlay: boolean;
     loadPlayer: boolean;
     setPlayerReady: (ready: true) => void;
 };
@@ -154,8 +154,8 @@ export const YoutubeAtomPlayer = ({
     width,
     title,
     origin,
-    hasOverlay,
     eventEmitters,
+    autoPlay,
     loadPlayer,
     setPlayerReady,
 }: Props): JSX.Element => {
@@ -228,10 +228,10 @@ export const YoutubeAtomPlayer = ({
                     });
                     setPlayerReady(true);
                     /**
-                     * If the Atom has an overlay then auto-play when ready
-                     * Otherwise the user will use the player controls to play
+                     * If the user has clicked the overlay to play we want to auto-play when ready
+                     * If there is no overlay the user will use the player controls to play
                      */
-                    if (hasOverlay) {
+                    if (autoPlay) {
                         log('dotcom', {
                             from: 'YoutubeAtomPlayer onReady',
                             msg: 'Playing video',

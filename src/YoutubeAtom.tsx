@@ -94,8 +94,8 @@ export const YoutubeAtom = ({
                 width={width}
                 title={title}
                 origin={origin}
-                hasOverlay={hasOverlay}
                 eventEmitters={eventEmitters}
+                autoPlay={hasOverlay}
                 loadPlayer={loadPlayer}
                 setPlayerReady={setPlayerReady}
             />
