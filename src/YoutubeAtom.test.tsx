@@ -45,7 +45,7 @@ describe('YoutubeAtom', () => {
             />
         );
         const { getByTestId } = render(atom);
-        const placeholder = getByTestId('placeholder');
+        const placeholder = getByTestId('youtube-placeholder');
         expect(placeholder).toBeInTheDocument();
     });
 
