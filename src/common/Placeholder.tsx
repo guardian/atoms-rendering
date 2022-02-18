@@ -3,7 +3,7 @@ import { css, keyframes } from '@emotion/react';
 
 import { neutral } from '@guardian/source-foundations';
 
-const BACKGROUND_COLOUR = neutral[93];
+const BACKGROUND_COLOUR = 'black';
 
 type Props = {
     height: string;

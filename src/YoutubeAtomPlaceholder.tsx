@@ -16,7 +16,7 @@ export const YoutubeAtomPlaceholder = (): JSX.Element => {
                     display: flex;
                 `}
             >
-                <Placeholder height="100%" shouldShimmer={true} />
+                <Placeholder height="100%" shouldShimmer={false} />
             </div>
         </>
     );
