@@ -129,7 +129,7 @@ const createOnStateChangeListener = (
 
             if (currentPlayerState !== YT.PlayerState.ENDED) {
                 // Set a timeout to check progress again in the future
-                window.setTimeout(() => checkProgress(), 3000);
+                setTimeout(() => checkProgress(), 3000);
             }
         };
     }
