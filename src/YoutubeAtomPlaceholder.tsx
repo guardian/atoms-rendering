@@ -29,7 +29,7 @@ export const YoutubeAtomPlaceholder = (): JSX.Element => {
                     display: flex;
                     flex-grow: 1;
                     background-color: black;
-                    ${transitionOpacityIn}
+                    /* ${transitionOpacityIn} */
                 `,
             ]}
         ></div>
