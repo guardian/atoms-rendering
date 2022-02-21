@@ -84,7 +84,7 @@ export const YoutubeAtom = ({
     }
 
     /**
-     * Create a stable callback as it will be a useEffect dependency
+     * Create a stable callback as it will be a useEffect dependency in YoutubeAtomPlayer
      */
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
 
