@@ -85,7 +85,7 @@ export const YoutubeAtom = ({
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            {loadPlayer && (
+            {loadPlayer && consentState && (
                 <YoutubeAtomPlayer
                     assetId={assetId}
                     overrideImage={overrideImage}

@@ -15,7 +15,7 @@ type Props = {
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
-    consentState?: ConsentState;
+    consentState: ConsentState;
     height: number;
     width: number;
     title?: string;
@@ -177,92 +177,90 @@ export const YoutubeAtomPlayer = ({
     });
 
     useEffect(() => {
-        if (consentState) {
-            if (!player.current) {
+        if (!player.current) {
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer useEffect loadPlayer',
+                msg: 'Initialising player',
+            });
+
+            const adsConfig: AdsConfig =
+                !adTargeting || adTargeting.disableAds
+                    ? disabledAds
+                    : buildAdsConfigWithConsent(
+                          false,
+                          adTargeting.adUnit,
+                          adTargeting.customParams,
+                          consentState,
+                      );
+
+            /**
+             * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
+             * It will load the iframe embed
+             * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
+             */
+            player.current = YouTubePlayer(`youtube-video-${assetId}`, {
+                height: width,
+                width: height,
+                videoId: assetId,
+                playerVars: {
+                    modestbranding: 1,
+                    origin,
+                    playsinline: 1,
+                    rel: 0,
+                },
+                embedConfig: {
+                    relatedChannels: [],
+                    adsConfig,
+                },
+            });
+
+            /**
+             * Register an onStateChange listener
+             */
+            const stateChangeListener = createOnStateChangeListener(
+                progressEvents.current,
+                eventEmitters,
+            );
+
+            player.current &&
+                player.current.on('stateChange', stateChangeListener);
+
+            /**
+             * Register an onReady listener
+             */
+            const readyListener = (event: YT.PlayerEvent) => {
                 log('dotcom', {
-                    from: 'YoutubeAtomPlayer useEffect loadPlayer',
-                    msg: 'Initialising player',
+                    from: 'YoutubeAtomPlayer onReady',
+                    msg: 'Ready',
+                    event,
                 });
-
-                const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting.disableAds
-                        ? disabledAds
-                        : buildAdsConfigWithConsent(
-                              false,
-                              adTargeting.adUnit,
-                              adTargeting.customParams,
-                              consentState,
-                          );
-
+                setPlayerReady(true);
                 /**
-                 * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
-                 * It will load the iframe embed
-                 * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
+                 * If the user has clicked the overlay to play we want to auto-play when ready
+                 * If there is no overlay the user will use the player controls to play
                  */
-                player.current = YouTubePlayer(`youtube-video-${assetId}`, {
-                    height: width,
-                    width: height,
-                    videoId: assetId,
-                    playerVars: {
-                        modestbranding: 1,
-                        origin,
-                        playsinline: 1,
-                        rel: 0,
-                    },
-                    embedConfig: {
-                        relatedChannels: [],
-                        adsConfig,
-                    },
-                });
-
-                /**
-                 * Register an onStateChange listener
-                 */
-                const stateChangeListener = createOnStateChangeListener(
-                    progressEvents.current,
-                    eventEmitters,
-                );
-
-                player.current &&
-                    player.current.on('stateChange', stateChangeListener);
-
-                /**
-                 * Register an onReady listener
-                 */
-                const readyListener = (event: YT.PlayerEvent) => {
+                if (autoPlay) {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
-                        msg: 'Ready',
+                        msg: 'Playing video',
                         event,
                     });
-                    setPlayerReady(true);
-                    /**
-                     * If the user has clicked the overlay to play we want to auto-play when ready
-                     * If there is no overlay the user will use the player controls to play
-                     */
-                    if (autoPlay) {
-                        log('dotcom', {
-                            from: 'YoutubeAtomPlayer onReady',
-                            msg: 'Playing video',
-                            event,
-                        });
-                        // event.target is the actual underlying YT player
-                        event.target.playVideo();
-                    }
-                };
+                    // event.target is the actual underlying YT player
+                    event.target.playVideo();
+                }
+            };
 
-                player.current && player.current.on('ready', readyListener);
+            player.current && player.current.on('ready', readyListener);
 
-                return () => {
-                    stateChangeListener &&
-                        player.current &&
-                        player.current.off(stateChangeListener);
+            return () => {
+                stateChangeListener &&
+                    player.current &&
+                    player.current.off(stateChangeListener);
 
-                    readyListener &&
-                        player.current &&
-                        player.current.off(readyListener);
-                };
-            }
+                readyListener &&
+                    player.current &&
+                    player.current.off(readyListener);
+            };
         }
     }, [consentState, eventEmitters]);
 
