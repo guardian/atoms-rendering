@@ -24,8 +24,7 @@ type Props = {
     role: RoleType;
     duration?: number; // in seconds
     pillar: ArticleTheme;
-    overlayClicked: boolean;
-    setOverlayClicked: (flag: boolean) => void;
+    onClick: () => void;
 };
 
 const overlayStyles = css`
@@ -53,14 +52,6 @@ const overlayStyles = css`
             transition-duration: 300ms;
         }
     }
-`;
-
-const hideOverlayStyling = css`
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 1s linear, visibility 1s;
-    transition-delay: 500ms;
-    transition-duration: 500ms;
 `;
 
 const playButtonStyling = (pillar: ArticleTheme) => css`
@@ -106,8 +97,7 @@ export const YoutubeAtomOverlay = ({
     role,
     duration,
     pillar,
-    overlayClicked,
-    setOverlayClicked,
+    onClick,
 }: Props): JSX.Element => {
     return (
         <>
@@ -115,23 +105,14 @@ export const YoutubeAtomOverlay = ({
                 data-cy="youtube-overlay"
                 data-testid="youtube-overlay"
                 onClick={() => {
-                    setOverlayClicked(true);
+                    onClick();
                 }}
                 onKeyDown={(e) => {
                     if (e.code === 'Space' || e.code === 'Enter') {
-                        setOverlayClicked(true);
+                        onClick();
                     }
                 }}
-                css={[
-                    overlayStyles,
-                    overlayClicked ? hideOverlayStyling : '',
-                    css`
-                        img {
-                            height: 100%;
-                            width: 100%;
-                        }
-                    `,
-                ]}
+                css={overlayStyles}
                 tabIndex={0}
             >
                 <Picture
