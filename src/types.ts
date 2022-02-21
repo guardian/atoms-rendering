@@ -156,3 +156,5 @@ export type SharingUrlsType = {
         userMessage: string;
     };
 };
+
+export type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';

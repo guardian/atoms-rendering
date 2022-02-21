@@ -1,12 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
-import { AdTargeting } from './types';
-
-const disabledAdsEmbedConfig =
-    'embed_config=%7B%22adsConfig%22%3A%7B%22disableAds%22%3Atrue%7D%7D';
 
 const overlayImage = [
     {
@@ -21,175 +17,131 @@ const overlayImage = [
 ];
 
 describe('YoutubeAtom', () => {
-    it('should directly render the youtube iframe if no overlay provided', async () => {
+    it('Player initialises when no overlay and has consent state', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
+                assetId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
+                pillar={0}
                 consentState={{}}
-                pillar={0}
             />
         );
-        const { findByTitle } = render(atom);
-
-        const iframe = await findByTitle('My Youtube video!');
-        expect(iframe).toBeInTheDocument();
+        const { getByTestId } = render(atom);
+        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
+        expect(playerDiv).toBeInTheDocument();
     });
 
-    it('should not render the youtube iframe if no consent state is given', async () => {
+    it('Player initialises when overlay clicked and has consent state', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
+                assetId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-            />
-        );
-        const { queryByTitle } = render(atom);
-
-        const iframe = (await queryByTitle(
-            'My Youtube video!',
-        )) as HTMLIFrameElement;
-        expect(iframe).not.toBeInTheDocument();
-    });
-
-    it('should not render the youtube iframe if an overlay is provided', async () => {
-        const atom = (
-            <YoutubeAtom
-                title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
-                alt=""
-                role="inline"
-                eventEmitters={[]}
                 consentState={{}}
-                pillar={0}
-                posterImage={overlayImage}
+                overrideImage={overlayImage}
             />
         );
-        const { queryByTitle } = render(atom);
+        const { getByTestId } = render(atom);
+        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        expect(overlay).toBeInTheDocument();
 
-        const iframe = queryByTitle('My Youtube video!');
-        expect(iframe).not.toBeInTheDocument();
+        fireEvent.click(getByTestId('youtube-overlay-ZCvZmYlQD8'));
+        expect(overlay).not.toBeInTheDocument();
+
+        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
+        expect(playerDiv).toBeInTheDocument();
     });
 
-    it('should show a placeholder if both overlay and consent are missing', async () => {
+    it('shows a placeholder if overlay is missing', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
+                assetId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
             />
         );
-        const { queryByTitle, getByTestId } = render(atom);
-
-        const iframe = queryByTitle('My Youtube video!');
-        expect(iframe).not.toBeInTheDocument();
-        const placeholder = getByTestId('placeholder');
+        const { getByTestId } = render(atom);
+        const placeholder = getByTestId('youtube-placeholder-ZCvZmYlQD8');
         expect(placeholder).toBeInTheDocument();
     });
 
-    it('should render an iframe with ads disabled when passed no ad targeting', async () => {
+    it('shows an overlay if present', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
+                assetId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
-                consentState={{}}
                 eventEmitters={[]}
                 pillar={0}
+                overrideImage={overlayImage}
             />
         );
-        const { findByTitle } = render(atom);
-
-        const iframe = (await findByTitle(
-            'My Youtube video!',
-        )) as HTMLIFrameElement;
-        expect(iframe).toBeInTheDocument();
-        expect(iframe.src.includes(disabledAdsEmbedConfig)).toBe(true);
+        const { getByTestId } = render(atom);
+        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        expect(overlay).toBeInTheDocument();
     });
 
-    it('should render an iframe with ads disabled when passed ad targeting with disabledAds flag true', async () => {
+    it('hides an overlay once it is clicked', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
+                assetId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-                consentState={{}}
-                adTargeting={
-                    {
-                        disableAds: true,
-                        adUnit: 'someAdUnit',
-                        customParams: {
-                            param1: 'param1',
-                            param2: 'param2',
-                        },
-                    } as AdTargeting
-                }
+                overrideImage={overlayImage}
             />
         );
-        const { findByTitle } = render(atom);
+        const { getByTestId } = render(atom);
+        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        expect(overlay).toBeInTheDocument();
 
-        const iframe = (await findByTitle(
-            'My Youtube video!',
-        )) as HTMLIFrameElement;
-        expect(iframe).toBeInTheDocument();
-        expect(iframe.src.includes(disabledAdsEmbedConfig)).toBe(true);
+        fireEvent.click(getByTestId('youtube-overlay-ZCvZmYlQD8'));
+        expect(overlay).not.toBeInTheDocument();
     });
 
-    it('should render an iframe with ad targeting when passed ad targeting and consent state', async () => {
+    it('when two Atoms - hides the overlay of the correct player if clicked', async () => {
         const atom = (
-            <YoutubeAtom
-                title="My Youtube video!"
-                assetId="-ZCvZmYlQD8"
-                alt=""
-                role="inline"
-                eventEmitters={[]}
-                pillar={0}
-                consentState={{
-                    aus: {
-                        personalisedAdvertising: true,
-                    },
-                }}
-                adTargeting={
-                    {
-                        disableAds: false,
-                        adUnit: 'someAdUnit',
-                        customParams: {
-                            param1: 'param1',
-                            param2: 'param2',
-                        },
-                    } as AdTargeting
-                }
-            />
+            <>
+                <YoutubeAtom
+                    title="My Youtube video!"
+                    assetId="ZCvZmYlQD8"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[]}
+                    pillar={0}
+                    overrideImage={overlayImage}
+                />
+                <YoutubeAtom
+                    title="My Youtube video 2!"
+                    assetId="ZCvZmYlQD8-2"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[]}
+                    pillar={0}
+                    overrideImage={overlayImage}
+                />
+            </>
         );
-        const { findByTitle } = render(atom);
+        const { getByTestId } = render(atom);
+        const overlay1 = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        expect(overlay1).toBeInTheDocument();
 
-        const iframe = (await findByTitle(
-            'My Youtube video!',
-        )) as HTMLIFrameElement;
-        expect(iframe).toBeInTheDocument();
-        // assert cust_params value is double uriComponent encoded e.g. % => %25
-        // as per existing Frontend behaviour
-        expect(
-            iframe.src.includes(
-                '%22cust_params%22%3A%22param1%253Dparam1%2526param2%253Dparam2',
-            ),
-        ).toBe(true);
-        // encoded consent state
-        expect(
-            iframe.src.includes('%22restrictedDataProcessor%22%3Afalse'),
-        ).toBe(true);
+        fireEvent.click(getByTestId('youtube-overlay-ZCvZmYlQD8'));
+        expect(overlay1).not.toBeInTheDocument();
+
+        const overlay2 = getByTestId('youtube-overlay-ZCvZmYlQD8-2');
+        expect(overlay2).toBeInTheDocument();
     });
 });
