@@ -59,12 +59,14 @@ type ProgressEvents = {
  * ProgressEvents are a ref, see below
  */
 const createOnStateChangeListener = (
+    assetId: string,
     progressEvents: ProgressEvents,
     eventEmitters: Props['eventEmitters'],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
     log('dotcom', {
         from: loggerFrom,
+        videoId: assetId,
         event,
     });
 
@@ -75,6 +77,7 @@ const createOnStateChangeListener = (
         if (!progressEvents.hasSentPlayEvent) {
             log('dotcom', {
                 from: loggerFrom,
+                videoId: assetId,
                 msg: 'start play',
                 event,
             });
@@ -98,6 +101,7 @@ const createOnStateChangeListener = (
             if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
+                    videoId: assetId,
                     msg: 'played 25%',
                     event,
                 });
@@ -108,6 +112,7 @@ const createOnStateChangeListener = (
             if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
+                    videoId: assetId,
                     msg: 'played 50%',
                     event,
                 });
@@ -118,6 +123,7 @@ const createOnStateChangeListener = (
             if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
                 log('dotcom', {
                     from: loggerFrom,
+                    videoId: assetId,
                     msg: 'played 75%',
                     event,
                 });
@@ -140,6 +146,7 @@ const createOnStateChangeListener = (
     ) {
         log('dotcom', {
             from: loggerFrom,
+            videoId: assetId,
             msg: 'ended',
             event,
         });
@@ -180,6 +187,7 @@ export const YoutubeAtomPlayer = ({
         if (!player.current) {
             log('dotcom', {
                 from: 'YoutubeAtomPlayer useEffect loadPlayer',
+                videoId: assetId,
                 msg: 'Initialising player',
             });
 
@@ -218,6 +226,7 @@ export const YoutubeAtomPlayer = ({
              * Register an onStateChange listener
              */
             const stateChangeListener = createOnStateChangeListener(
+                assetId,
                 progressEvents.current,
                 eventEmitters,
             );
@@ -231,6 +240,7 @@ export const YoutubeAtomPlayer = ({
             const readyListener = (event: YT.PlayerEvent) => {
                 log('dotcom', {
                     from: 'YoutubeAtomPlayer onReady',
+                    videoId: assetId,
                     msg: 'Ready',
                     event,
                 });
@@ -244,6 +254,7 @@ export const YoutubeAtomPlayer = ({
                 if (autoPlay) {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
+                        videoId: assetId,
                         msg: 'Playing video',
                         event,
                     });
@@ -264,7 +275,7 @@ export const YoutubeAtomPlayer = ({
                     player.current.off(readyListener);
             };
         }
-    }, [consentState, eventEmitters]);
+    }, [assetId, consentState, eventEmitters]);
 
     // An element for the YouTube iFrame to hook into the dom
     return (
