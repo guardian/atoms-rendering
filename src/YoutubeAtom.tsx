@@ -107,6 +107,7 @@ export const YoutubeAtom = ({
             )}
             {showOverlay && (
                 <YoutubeAtomOverlay
+                    assetId={assetId}
                     overrideImage={overrideImage}
                     posterImage={posterImage}
                     height={height}
@@ -118,7 +119,7 @@ export const YoutubeAtom = ({
                     onClick={() => setOverlayClicked(true)}
                 />
             )}
-            {showPlaceholder && <YoutubeAtomPlaceholder />}
+            {showPlaceholder && <YoutubeAtomPlaceholder assetId={assetId} />}
         </MaintainAspectRatio>
     );
 };

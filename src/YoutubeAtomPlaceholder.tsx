@@ -14,11 +14,15 @@ const transitionOpacityIn = css`
     animation: ${fadeInOpacity} 500ms ease-in 0s 1;
 `;
 
-export const YoutubeAtomPlaceholder = (): JSX.Element => {
+export const YoutubeAtomPlaceholder = ({
+    assetId,
+}: {
+    assetId: string;
+}): JSX.Element => {
     return (
         <div
-            data-name="youtube-placeholder"
-            data-testid="youtube-placeholder"
+            data-name={`youtube-placeholder-${assetId}`}
+            data-testid={`youtube-placeholder-${assetId}`}
             css={[
                 css`
                     width: 100%;
