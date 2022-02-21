@@ -15,14 +15,14 @@ const transitionOpacityIn = css`
 `;
 
 export const YoutubeAtomPlaceholder = ({
-    assetId,
+    videoId,
 }: {
-    assetId: string;
+    videoId: string;
 }): JSX.Element => {
     return (
         <div
-            data-name={`youtube-placeholder-${assetId}`}
-            data-testid={`youtube-placeholder-${assetId}`}
+            data-name={`youtube-placeholder-${videoId}`}
+            data-testid={`youtube-placeholder-${videoId}`}
             css={[
                 css`
                     width: 100%;

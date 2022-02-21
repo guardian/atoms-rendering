@@ -87,7 +87,7 @@ export const YoutubeAtom = ({
         <MaintainAspectRatio height={height} width={width}>
             {loadPlayer && consentState && (
                 <YoutubeAtomPlayer
-                    assetId={assetId}
+                    videoId={assetId}
                     overrideImage={overrideImage}
                     posterImage={posterImage}
                     adTargeting={adTargeting}
@@ -107,7 +107,7 @@ export const YoutubeAtom = ({
             )}
             {showOverlay && (
                 <YoutubeAtomOverlay
-                    assetId={assetId}
+                    videoId={assetId}
                     overrideImage={overrideImage}
                     posterImage={posterImage}
                     height={height}
@@ -119,7 +119,7 @@ export const YoutubeAtom = ({
                     onClick={() => setOverlayClicked(true)}
                 />
             )}
-            {showPlaceholder && <YoutubeAtomPlaceholder assetId={assetId} />}
+            {showPlaceholder && <YoutubeAtomPlaceholder videoId={assetId} />}
         </MaintainAspectRatio>
     );
 };
