@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
@@ -83,6 +83,11 @@ export const YoutubeAtom = ({
         loadPlayer = false;
     }
 
+    /**
+     * Create a stable callback as it will be a useEffect dependency
+     */
+    const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
+
     return (
         <MaintainAspectRatio height={height} width={width}>
             {loadPlayer && consentState && (
@@ -102,7 +107,7 @@ export const YoutubeAtom = ({
                      * If there is not an overlay the user will use the YouTube player UI to play
                      */
                     autoPlay={hasOverlay}
-                    onReady={() => setPlayerReady(true)}
+                    onReady={playerReadyCallback}
                 />
             )}
             {showOverlay && (
