@@ -52,6 +52,7 @@ export const YoutubeAtom = ({
 
     /**
      * Show an overlay if:
+     *
      * - It exists
      *
      * AND
@@ -63,13 +64,13 @@ export const YoutubeAtom = ({
     /**
      * Show a placeholder if:
      *
-     * - The player is not ready
+     * - We don't have an overlay OR the user has clicked the overlay
      *
      * AND
      *
-     * - We don't have an overlay OR the user has clicked the overlay
+     * - The player is not ready
      */
-    const showPlaceholder = !playerReady && (!hasOverlay || overlayClicked);
+    const showPlaceholder = (!hasOverlay || overlayClicked) && !playerReady;
 
     let loadPlayer;
     if (!hasOverlay) {
