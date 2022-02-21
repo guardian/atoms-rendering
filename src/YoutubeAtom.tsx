@@ -85,21 +85,22 @@ export const YoutubeAtom = ({
 
     return (
         <MaintainAspectRatio height={height} width={width}>
-            <YoutubeAtomPlayer
-                assetId={assetId}
-                overrideImage={overrideImage}
-                posterImage={posterImage}
-                adTargeting={adTargeting}
-                consentState={consentState}
-                height={height}
-                width={width}
-                title={title}
-                origin={origin}
-                eventEmitters={eventEmitters}
-                autoPlay={hasOverlay}
-                loadPlayer={loadPlayer}
-                setPlayerReady={setPlayerReady}
-            />
+            {loadPlayer && (
+                <YoutubeAtomPlayer
+                    assetId={assetId}
+                    overrideImage={overrideImage}
+                    posterImage={posterImage}
+                    adTargeting={adTargeting}
+                    consentState={consentState}
+                    height={height}
+                    width={width}
+                    title={title}
+                    origin={origin}
+                    eventEmitters={eventEmitters}
+                    autoPlay={hasOverlay}
+                    setPlayerReady={setPlayerReady}
+                />
+            )}
             {showOverlay && (
                 <YoutubeAtomOverlay
                     overrideImage={overrideImage}

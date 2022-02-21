@@ -22,7 +22,6 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
-    loadPlayer: boolean;
     setPlayerReady: (ready: true) => void;
 };
 
@@ -161,7 +160,6 @@ export const YoutubeAtomPlayer = ({
     origin,
     eventEmitters,
     autoPlay,
-    loadPlayer,
     setPlayerReady,
 }: Props): JSX.Element => {
     /**
@@ -179,7 +177,7 @@ export const YoutubeAtomPlayer = ({
     });
 
     useEffect(() => {
-        if (consentState && loadPlayer) {
+        if (consentState) {
             if (!player.current) {
                 log('dotcom', {
                     from: 'YoutubeAtomPlayer useEffect loadPlayer',
@@ -266,9 +264,9 @@ export const YoutubeAtomPlayer = ({
                 };
             }
         }
-    }, [consentState, eventEmitters, loadPlayer]);
+    }, [consentState, eventEmitters]);
 
-    // Render a div to give the YouTube iFrame somewhere to hook into the dom
+    // An element for the YouTube iFrame to hook into the dom
     return (
         <div
             title={title}
