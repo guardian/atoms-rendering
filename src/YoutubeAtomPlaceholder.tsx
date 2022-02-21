@@ -1,18 +1,5 @@
 import React from 'react';
-import { css, keyframes } from '@emotion/react';
-
-const fadeInOpacity = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const transitionOpacityIn = css`
-    animation: ${fadeInOpacity} 500ms ease-in 0s 1;
-`;
+import { css } from '@emotion/react';
 
 export const YoutubeAtomPlaceholder = ({
     videoId,
@@ -33,7 +20,6 @@ export const YoutubeAtomPlaceholder = ({
                     display: flex;
                     flex-grow: 1;
                     background-color: black;
-                    /* ${transitionOpacityIn} */
                 `,
             ]}
         ></div>
