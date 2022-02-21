@@ -17,7 +17,7 @@ const overlayImage = [
 ];
 
 describe('YoutubeAtom', () => {
-    it('renders a div for the youtube iframe to attach to', async () => {
+    it('Player initialises when no overlay and has consent state', async () => {
         const atom = (
             <YoutubeAtom
                 title="My Youtube video!"
@@ -26,9 +26,34 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
+                consentState={{}}
             />
         );
         const { getByTestId } = render(atom);
+        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
+        expect(playerDiv).toBeInTheDocument();
+    });
+
+    it('Player initialises when overlay clicked and has consent state', async () => {
+        const atom = (
+            <YoutubeAtom
+                title="My Youtube video!"
+                assetId="ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[]}
+                pillar={0}
+                consentState={{}}
+                overrideImage={overlayImage}
+            />
+        );
+        const { getByTestId } = render(atom);
+        const overlay = getByTestId('youtube-overlay');
+        expect(overlay).toBeInTheDocument();
+
+        fireEvent.click(getByTestId('youtube-overlay'));
+        expect(overlay).not.toBeInTheDocument();
+
         const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
         expect(playerDiv).toBeInTheDocument();
     });
