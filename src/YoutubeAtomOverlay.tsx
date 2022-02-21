@@ -107,44 +107,42 @@ export const YoutubeAtomOverlay = ({
     onClick,
 }: Props): JSX.Element => {
     return (
-        <>
-            <div
-                data-cy={`youtube-overlay-${videoId}`}
-                data-testid={`youtube-overlay-${videoId}`}
-                onClick={() => {
+        <div
+            data-cy={`youtube-overlay-${videoId}`}
+            data-testid={`youtube-overlay-${videoId}`}
+            onClick={() => {
+                onClick();
+            }}
+            onKeyDown={(e) => {
+                if (e.code === 'Space' || e.code === 'Enter') {
                     onClick();
-                }}
-                onKeyDown={(e) => {
-                    if (e.code === 'Space' || e.code === 'Enter') {
-                        onClick();
-                    }
-                }}
-                css={overlayStyles}
-                tabIndex={0}
-            >
-                <Picture
-                    imageSources={overrideImage || posterImage || []}
-                    role={role}
-                    alt={alt}
-                    height={`${height}`}
-                    width={`${width}`}
-                />
-                <div css={overlayInfoWrapperStyles}>
-                    <div
-                        className="overlay-play-button"
-                        css={css`
-                            ${playButtonStyling(pillar)}
-                        `}
-                    >
-                        <SvgPlay />
-                    </div>
-                    {duration && (
-                        <div css={videoDurationStyles(pillar)}>
-                            {formatTime(duration)}
-                        </div>
-                    )}
+                }
+            }}
+            css={overlayStyles}
+            tabIndex={0}
+        >
+            <Picture
+                imageSources={overrideImage || posterImage || []}
+                role={role}
+                alt={alt}
+                height={`${height}`}
+                width={`${width}`}
+            />
+            <div css={overlayInfoWrapperStyles}>
+                <div
+                    className="overlay-play-button"
+                    css={css`
+                        ${playButtonStyling(pillar)}
+                    `}
+                >
+                    <SvgPlay />
                 </div>
+                {duration && (
+                    <div css={videoDurationStyles(pillar)}>
+                        {formatTime(duration)}
+                    </div>
+                )}
             </div>
-        </>
+        </div>
     );
 };
