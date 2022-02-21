@@ -22,7 +22,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
-    setPlayerReady: (ready: true) => void;
+    onReady: () => void;
 };
 
 declare global {
@@ -160,7 +160,7 @@ export const YoutubeAtomPlayer = ({
     origin,
     eventEmitters,
     autoPlay,
-    setPlayerReady,
+    onReady,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -234,7 +234,10 @@ export const YoutubeAtomPlayer = ({
                     msg: 'Ready',
                     event,
                 });
-                setPlayerReady(true);
+                /**
+                 * Callback to notify that the player is ready
+                 */
+                onReady();
                 /**
                  * If the user has clicked the overlay to play we want to auto-play when ready
                  * If there is no overlay the user will use the player controls to play

@@ -98,7 +98,7 @@ export const YoutubeAtom = ({
                     origin={origin}
                     eventEmitters={eventEmitters}
                     autoPlay={hasOverlay}
-                    setPlayerReady={setPlayerReady}
+                    onReady={() => setPlayerReady(true)}
                 />
             )}
             {showOverlay && (
