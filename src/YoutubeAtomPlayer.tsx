@@ -239,8 +239,7 @@ export const YoutubeAtomPlayer = ({
                  */
                 onReady();
                 /**
-                 * If the user has clicked the overlay to play we want to auto-play when ready
-                 * If there is no overlay the user will use the player controls to play
+                 * Autoplay is determined by the parent, typically true when there is a preceding overlay
                  */
                 if (autoPlay) {
                     log('dotcom', {

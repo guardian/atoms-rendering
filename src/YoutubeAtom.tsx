@@ -97,6 +97,10 @@ export const YoutubeAtom = ({
                     title={title}
                     origin={origin}
                     eventEmitters={eventEmitters}
+                    /**
+                     * If there is an overlay we want to autoplay
+                     * If there is not an overlay the user will use the YouTube player UI to play
+                     */
                     autoPlay={hasOverlay}
                     onReady={() => setPlayerReady(true)}
                 />
