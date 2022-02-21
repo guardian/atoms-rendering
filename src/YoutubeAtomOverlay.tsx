@@ -39,6 +39,11 @@ const overlayStyles = css`
     max-height: 100vh;
     cursor: pointer;
 
+    img {
+        width: 100%;
+        height: 100%;
+    }
+
     /* hard code "overlay-play-button" to be able to give play button animation on focus/hover of overlay */
     :focus {
         ${focusHalo}
