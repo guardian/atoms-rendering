@@ -53,6 +53,7 @@ type ProgressEvents = {
     hasSent25Event: boolean;
     hasSent50Event: boolean;
     hasSent75Event: boolean;
+    hasSentEndEvent: boolean;
 };
 
 /**
@@ -134,13 +135,17 @@ const createOnStateChangeListener = (
         };
     }
 
-    if (event.data === YT.PlayerState.ENDED) {
+    if (
+        event.data === YT.PlayerState.ENDED &&
+        !progressEvents.hasSentEndEvent
+    ) {
         log('dotcom', {
             from: loggerFrom,
             msg: 'ended',
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+        progressEvents.hasSentEndEvent = true;
     }
 };
 
@@ -170,6 +175,7 @@ export const YoutubeAtomPlayer = ({
         hasSent25Event: false,
         hasSent50Event: false,
         hasSent75Event: false,
+        hasSentEndEvent: false,
     });
 
     useEffect(() => {
@@ -262,7 +268,7 @@ export const YoutubeAtomPlayer = ({
         }
     }, [consentState, eventEmitters, loadPlayer]);
 
-    // Render a div to give the YouTube iframe somewhere to hook into the dom
+    // Render a div to give the YouTube iFrame somewhere to hook into the dom
     return (
         <div
             title={title}
