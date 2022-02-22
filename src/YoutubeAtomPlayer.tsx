@@ -23,6 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    atomId?: string;
 };
 
 declare global {
@@ -175,6 +176,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    atomId,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -202,11 +204,11 @@ export const YoutubeAtomPlayer = ({
                     !adTargeting || adTargeting.disableAds
                         ? disabledAds
                         : buildAdsConfigWithConsent(
-                              false,
-                              adTargeting.adUnit,
-                              adTargeting.customParams,
-                              consentState,
-                          );
+                            false,
+                            adTargeting.adUnit,
+                            adTargeting.customParams,
+                            consentState,
+                        );
 
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
@@ -310,9 +312,9 @@ export const YoutubeAtomPlayer = ({
             title={title}
             id={`youtube-video-${videoId}`}
             tabIndex={overrideImage || posterImage ? -1 : 0}
-            data-atom-id={`youtube-video-${videoId}`}
+            data-atom-id={atomId}
             data-testid={`youtube-video-${videoId}`}
-            data-atom-type="youtube"
+            data-atom-type="media"
         ></div>
     );
 };
