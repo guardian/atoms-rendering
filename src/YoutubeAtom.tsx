@@ -7,6 +7,7 @@ import type {
     AdTargeting,
     ImageSource,
     RoleType,
+    VideoControls,
     VideoEventKey,
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
@@ -27,6 +28,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
+    videoControls?: VideoControls;
 };
 
 export const YoutubeAtom = ({
@@ -44,6 +46,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    videoControls,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -108,6 +111,7 @@ export const YoutubeAtom = ({
                      */
                     autoPlay={hasOverlay}
                     onReady={playerReadyCallback}
+                    videoControls={videoControls}
                 />
             )}
             {showOverlay && (

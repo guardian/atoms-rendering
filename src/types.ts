@@ -158,3 +158,5 @@ export type SharingUrlsType = {
 };
 
 export type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
+
+export type VideoControls = 'play' | 'stop' | 'pause';

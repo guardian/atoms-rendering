@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
+import { VideoControls } from './types';
 
 export default {
     title: 'YoutubeAtom',
@@ -242,5 +243,32 @@ export const GiveConsent = (): JSX.Element => {
                 />
             </div>
         </>
+    );
+};
+
+export const ExternalControls = (): JSX.Element => {
+    const [videoControls, setVideoControls] = useState<VideoControls>();
+
+    return (
+        <div>
+            <button onClick={() => setVideoControls('play')}>Play</button>
+            <button onClick={() => setVideoControls('pause')}>Pause</button>
+            <button onClick={() => setVideoControls('stop')}>Stop</button>
+
+            <YoutubeAtom
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                videoControls={videoControls}
+            />
+        </div>
     );
 };
