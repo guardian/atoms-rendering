@@ -312,6 +312,8 @@ export const YoutubeAtomPlayer = ({
     );
 
     useEffect(() => {
+        if (!player.current) return;
+
         switch (videoControls) {
             case 'play':
                 return player.current?.playVideo();
