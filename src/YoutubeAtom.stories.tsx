@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
@@ -247,7 +247,13 @@ export const GiveConsent = (): JSX.Element => {
 };
 
 export const ExternalControls = (): JSX.Element => {
-    const [videoControls, setVideoControls] = useState<VideoControls>();
+    const [videoControls, setVideoControls] = useState<VideoControls>(
+        undefined,
+    );
+
+    useEffect(() => {
+        setVideoControls(undefined);
+    }, [videoControls]);
 
     return (
         <div>
