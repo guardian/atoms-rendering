@@ -50,7 +50,6 @@ type YoutubePlayerType = {
     playVideo: () => void;
     stopVideo: () => void;
     pauseVideo: () => void;
-    destroy: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
     getPlayerState: () => number;
