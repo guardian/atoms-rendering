@@ -1,7 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
 
-import type { AdTargeting, ImageSource, VideoEventKey } from './types';
+import type {
+    AdTargeting,
+    ImageSource,
+    VideoControls,
+    VideoEventKey,
+} from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import {
     AdsConfig,
@@ -23,6 +28,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    videoControls?: VideoControls;
 };
 
 declare global {
@@ -42,6 +48,9 @@ type YoutubePlayerType = {
     off: (callback: YoutubeCallback) => void;
     loadVideoById: (videoId: string) => void;
     playVideo: () => void;
+    stopVideo: () => void;
+    pauseVideo: () => void;
+    destroy: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
     getPlayerState: () => number;
@@ -175,6 +184,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    videoControls,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -238,13 +248,15 @@ export const YoutubeAtomPlayer = ({
                     eventEmitters,
                 );
 
-                player.current &&
-                    player.current.on('stateChange', stateChangeListener);
+                const changeListener = player.current?.on(
+                    'stateChange',
+                    stateChangeListener,
+                );
 
                 /**
                  * Register an onReady listener
                  */
-                const readyListener = (event: YT.PlayerEvent) => {
+                const readyStateListener = (event: YT.PlayerEvent) => {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
                         videoId,
@@ -273,16 +285,14 @@ export const YoutubeAtomPlayer = ({
                     }
                 };
 
-                player.current && player.current.on('ready', readyListener);
+                const readyListener = player.current?.on(
+                    'ready',
+                    readyStateListener,
+                );
 
                 return () => {
-                    stateChangeListener &&
-                        player.current &&
-                        player.current.off(stateChangeListener);
-
-                    readyListener &&
-                        player.current &&
-                        player.current.off(readyListener);
+                    readyListener && player.current?.off(readyListener);
+                    changeListener && player.current?.off(changeListener);
                 };
             }
         },
@@ -301,6 +311,19 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
+
+    useEffect(() => {
+        switch (videoControls) {
+            case 'play':
+                return player.current?.playVideo();
+            case 'pause':
+                return player.current?.pauseVideo();
+            case 'stop':
+                return player.current?.stopVideo();
+            default:
+                return;
+        }
+    }, [videoControls, player]);
 
     /**
      * An element for the YouTube iFrame to hook into the dom
