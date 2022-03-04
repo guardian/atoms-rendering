@@ -247,7 +247,7 @@ export const YoutubeAtomPlayer = ({
                     eventEmitters,
                 );
 
-                const changeListener = player.current?.on(
+                const playerStateChangeListener = player.current?.on(
                     'stateChange',
                     stateChangeListener,
                 );
@@ -284,14 +284,16 @@ export const YoutubeAtomPlayer = ({
                     }
                 };
 
-                const readyListener = player.current?.on(
+                const playerReadyListener = player.current?.on(
                     'ready',
                     readyStateListener,
                 );
 
                 return () => {
-                    readyListener && player.current?.off(readyListener);
-                    changeListener && player.current?.off(changeListener);
+                    playerReadyListener &&
+                        player.current?.off(playerReadyListener);
+                    playerStateChangeListener &&
+                        player.current?.off(playerStateChangeListener);
                 };
             }
         },
