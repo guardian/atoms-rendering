@@ -157,6 +157,15 @@ export type SharingUrlsType = {
     };
 };
 
-export type VideoEventKey = 'play' | '25' | '50' | '75' | 'end' | 'skip';
+export type VideoEventKey =
+    | 'play'
+    | '25'
+    | '50'
+    | '75'
+    | 'end'
+    | 'skip'
+    | 'pause'
+    | 'resume'
+    | 'cued';
 
 export type VideoControls = 'play' | 'stop' | 'pause';
