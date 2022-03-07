@@ -108,13 +108,6 @@ const createOnStateChangeListener = (
                 event,
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
-
-            /**
-             * Set a timeout to check progress again in the future
-             */
-            setTimeout(() => {
-                checkProgress();
-            }, 3000);
         }
 
         const checkProgress = async () => {
