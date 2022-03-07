@@ -170,8 +170,6 @@ const createOnStateChangeListener = (
     }
 };
 
-let renderCount = 0;
-
 export const YoutubeAtomPlayer = ({
     videoId,
     overrideImage,
@@ -188,7 +186,7 @@ export const YoutubeAtomPlayer = ({
     videoControls,
 }: Props): JSX.Element => {
     /**
-     * useRef for player and progressEvents
+     * useRef for player, progressEvents and listeners
      * Provides mutable persistent state for the player across renders
      * Does not cause re-renders on update
      */
@@ -202,16 +200,11 @@ export const YoutubeAtomPlayer = ({
     });
     const listeners = useRef<Array<YoutubeCallback>>([]);
 
-    console.log(`player render ${++renderCount}`);
-
     /**
      * Initialise player useEffect
      */
     useEffect(() => {
-        console.log('player useEffect create player entry');
-        console.log({ playerCurrent: player.current });
         if (!player.current) {
-            console.log('player useEffect creating player');
             log('dotcom', {
                 from: 'YoutubeAtomPlayer initialise',
                 videoId,
@@ -319,14 +312,10 @@ export const YoutubeAtomPlayer = ({
     ]);
 
     /**
-     * Player control useEffect
+     * Player controls useEffect
      */
     useEffect(() => {
-        console.log('player controls useEffect');
         if (!player.current) return;
-
-        console.log(`player controls ${videoControls}`);
-
         switch (videoControls) {
             case 'play':
                 return player.current?.playVideo();
@@ -343,7 +332,6 @@ export const YoutubeAtomPlayer = ({
      * Unregister listeners useEffect
      */
     useEffect(() => {
-        console.log('player CLEANUP useEffect entry');
         /**
          * Unregister listeners on component unmount
          *
@@ -352,7 +340,6 @@ export const YoutubeAtomPlayer = ({
          * useEffect update.
          */
         return () => {
-            console.log('player CLEANUP!');
             listeners.current.forEach((listener) => {
                 player.current?.off(listener);
             });
