@@ -23,6 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    atomId?: string;
 };
 
 declare global {
@@ -175,6 +176,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    atomId,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -310,9 +312,9 @@ export const YoutubeAtomPlayer = ({
             title={title}
             id={`youtube-video-${videoId}`}
             tabIndex={overrideImage || posterImage ? -1 : 0}
-            data-atom-id={`youtube-video-${videoId}`}
+            data-atom-id={atomId}
             data-testid={`youtube-video-${videoId}`}
-            data-atom-type="youtube"
+            data-atom-type="media"
         ></div>
     );
 };

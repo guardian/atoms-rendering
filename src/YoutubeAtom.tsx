@@ -27,6 +27,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
+    atomId?: string;
 };
 
 export const YoutubeAtom = ({
@@ -44,6 +45,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    atomId,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -102,6 +104,7 @@ export const YoutubeAtom = ({
                     title={title}
                     origin={origin}
                     eventEmitters={eventEmitters}
+                    atomId={atomId}
                     /**
                      * If there is an overlay we want to autoplay
                      * If there is not an overlay the user will use the YouTube player UI to play
