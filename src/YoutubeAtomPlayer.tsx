@@ -204,11 +204,11 @@ export const YoutubeAtomPlayer = ({
                     !adTargeting || adTargeting.disableAds
                         ? disabledAds
                         : buildAdsConfigWithConsent(
-                            false,
-                            adTargeting.adUnit,
-                            adTargeting.customParams,
-                            consentState,
-                        );
+                              false,
+                              adTargeting.adUnit,
+                              adTargeting.customParams,
+                              consentState,
+                          );
 
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
