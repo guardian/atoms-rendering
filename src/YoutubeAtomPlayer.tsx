@@ -42,6 +42,8 @@ type YoutubePlayerType = {
     off: (callback: YoutubeCallback) => void;
     loadVideoById: (videoId: string) => void;
     playVideo: () => void;
+    stopVideo: () => void;
+    pauseVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
     getPlayerState: () => number;
@@ -92,6 +94,14 @@ const createOnStateChangeListener = (
             setTimeout(() => {
                 checkProgress();
             }, 3000);
+        } else {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'resume play',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
         }
 
         const checkProgress = async () => {
@@ -145,6 +155,26 @@ const createOnStateChangeListener = (
                 setTimeout(() => checkProgress(), 3000);
             }
         };
+    }
+
+    if (event.data === YT.PlayerState.PAUSED) {
+        log('dotcom', {
+            from: loggerFrom,
+            videoId,
+            msg: 'paused',
+            event,
+        });
+        eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
+    }
+
+    if (event.data === YT.PlayerState.CUED) {
+        log('dotcom', {
+            from: loggerFrom,
+            videoId,
+            msg: 'cued',
+            event,
+        });
+        eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
     }
 
     if (
