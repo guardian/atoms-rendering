@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
@@ -29,7 +29,6 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
@@ -55,7 +54,6 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
@@ -90,7 +88,6 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
@@ -142,7 +139,6 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
@@ -205,7 +201,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
@@ -245,7 +240,6 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
-                    setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
                 />
             </div>
         </>
@@ -257,15 +251,15 @@ export const ExternalControls = (): JSX.Element => {
         undefined,
     );
 
-    useEffect(() => {
-        setVideoControls(undefined);
-    }, [videoControls]);
+    const videoControlsCallback = useCallback((e) => {
+        setVideoControls(e.target.value);
+    }, []);
 
     return (
         <div>
-            <button onClick={() => setVideoControls('play')}>Play</button>
-            <button onClick={() => setVideoControls('pause')}>Pause</button>
-            <button onClick={() => setVideoControls('stop')}>Stop</button>
+            <button onClick={videoControlsCallback} value="stop">
+                Stop
+            </button>
             <YoutubeAtom
                 assetId="-ZCvZmYlQD8"
                 alt=""
@@ -279,7 +273,6 @@ export const ExternalControls = (): JSX.Element => {
                 height={450}
                 width={800}
                 videoControls={videoControls}
-                setIsPlaying={(x) => console.log(`video is playing: ${x}`)}
             />
         </div>
     );
