@@ -217,7 +217,11 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
+    const listeners = useRef<Array<YoutubeCallback>>([]);
 
+    /**
+     * Initialise player useEffect
+     */
     useEffect(
         () => {
             if (!player.current) {
@@ -266,8 +270,10 @@ export const YoutubeAtomPlayer = ({
                     eventEmitters,
                 );
 
-                player.current &&
-                    player.current.on('stateChange', stateChangeListener);
+                const playerStateChangeListener = player.current?.on(
+                    'stateChange',
+                    stateChangeListener,
+                );
 
                 /**
                  * Register an onReady listener
@@ -301,17 +307,18 @@ export const YoutubeAtomPlayer = ({
                     }
                 };
 
-                player.current && player.current.on('ready', readyListener);
+                const playerReadyListener = player.current?.on(
+                    'ready',
+                    readyListener,
+                );
 
-                return () => {
-                    stateChangeListener &&
-                        player.current &&
-                        player.current.off(stateChangeListener);
-
-                    readyListener &&
-                        player.current &&
-                        player.current.off(readyListener);
-                };
+                /**
+                 * Record the listeners so they can be unregistered on component unmount
+                 */
+                playerReadyListener &&
+                    listeners.current.push(playerReadyListener);
+                playerStateChangeListener &&
+                    listeners.current.push(playerStateChangeListener);
             }
         },
         /**
@@ -329,6 +336,24 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
+
+    /**
+     * Unregister listeners useEffect
+     */
+    useEffect(() => {
+        /**
+         * Unregister listeners on component unmount
+         *
+         * A useEffect with an empty dependency array will
+         * call its cleanup on unmount and not after every
+         * useEffect update.
+         */
+        return () => {
+            listeners.current.forEach((listener) => {
+                player.current?.off(listener);
+            });
+        };
+    }, []);
 
     /**
      * An element for the YouTube iFrame to hook into the dom
