@@ -167,6 +167,7 @@ const createOnStateChangeListener = (
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
+        setIsPlaying(false);
     }
 
     if (event.data === YT.PlayerState.CUED) {
