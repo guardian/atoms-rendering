@@ -23,7 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
-    setIsPlaying: (arg: boolean) => void;
+    setIsPlaying: (x: boolean) => void;
 };
 
 declare global {
@@ -87,6 +87,10 @@ const createOnStateChangeListener = (
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
             progressEvents.hasSentPlayEvent = true;
+
+            /**
+             * Callback to notify that the player is playing
+             */
             setIsPlaying(true);
 
             /**
