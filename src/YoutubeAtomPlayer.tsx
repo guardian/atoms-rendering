@@ -29,6 +29,8 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     videoControls?: VideoControls;
+    setIsPlaying: () => void;
+    setIsStopped: () => void;
 };
 
 declare global {
@@ -70,6 +72,8 @@ const createOnStateChangeListener = (
     videoId: string,
     progressEvents: ProgressEvents,
     eventEmitters: Props['eventEmitters'],
+    setIsPlaying: () => void,
+    setIsStopped: () => void,
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
     log('dotcom', {
@@ -93,6 +97,7 @@ const createOnStateChangeListener = (
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
             progressEvents.hasSentPlayEvent = true;
+            setIsPlaying();
 
             /**
              * Set a timeout to check progress again in the future
@@ -108,6 +113,7 @@ const createOnStateChangeListener = (
                 event,
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
+            setIsPlaying();
         }
 
         const checkProgress = async () => {
@@ -171,6 +177,7 @@ const createOnStateChangeListener = (
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
+        setIsStopped();
     }
 
     if (event.data === YT.PlayerState.CUED) {
@@ -181,6 +188,7 @@ const createOnStateChangeListener = (
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+        setIsStopped();
     }
 
     if (
@@ -195,6 +203,7 @@ const createOnStateChangeListener = (
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
         progressEvents.hasSentEndEvent = true;
+        setIsStopped();
     }
 };
 
@@ -212,6 +221,8 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     videoControls,
+    setIsPlaying,
+    setIsStopped,
 }: Props): JSX.Element => {
     /**
      * useRef for player, progressEvents and listeners
@@ -276,6 +287,8 @@ export const YoutubeAtomPlayer = ({
                 videoId,
                 progressEvents.current,
                 eventEmitters,
+                setIsPlaying,
+                setIsStopped,
             );
 
             const playerStateChangeListener = player.current?.on(

@@ -27,6 +27,8 @@ type Props = {
     duration?: number; // in seconds
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
+    setIsPlaying: () => void;
+    setIsStopped: () => void;
     pillar: ArticleTheme;
     videoControls?: VideoControls;
 };
@@ -47,6 +49,8 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
     videoControls,
+    setIsPlaying,
+    setIsStopped,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -112,6 +116,8 @@ export const YoutubeAtom = ({
                     autoPlay={hasOverlay}
                     onReady={playerReadyCallback}
                     videoControls={videoControls}
+                    setIsPlaying={setIsPlaying}
+                    setIsStopped={setIsStopped}
                 />
             )}
             {showOverlay && (

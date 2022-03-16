@@ -29,6 +29,8 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
@@ -54,6 +56,8 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
@@ -88,6 +92,8 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
@@ -139,6 +145,8 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
@@ -201,6 +209,8 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
@@ -240,6 +250,8 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
+                    setIsPlaying={() => console.log('set is playing')}
+                    setIsStopped={() => console.log('set is stopped')}
                 />
             </div>
         </>
@@ -273,6 +285,8 @@ export const ExternalControls = (): JSX.Element => {
                 height={450}
                 width={800}
                 videoControls={videoControls}
+                setIsPlaying={() => console.log('set is playing')}
+                setIsStopped={() => console.log('set is stopped')}
             />
         </div>
     );
