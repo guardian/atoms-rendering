@@ -28,6 +28,7 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
             />
         </div>
     );
@@ -53,6 +54,7 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
             />
         </div>
     );
@@ -87,6 +89,7 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                setIsPlaying={() => console.log('set is playing')}
             />
         </div>
     );
@@ -138,6 +141,7 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
             />
         </div>
     );
@@ -200,6 +204,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                setIsPlaying={() => console.log('set is playing')}
             />
         </div>
     );
@@ -239,6 +244,7 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
+                    setIsPlaying={() => console.log('set is playing')}
                 />
             </div>
         </>

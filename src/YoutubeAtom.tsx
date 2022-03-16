@@ -27,6 +27,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
+    setIsPlaying: (arg: boolean) => void;
 };
 
 export const YoutubeAtom = ({
@@ -44,6 +45,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    setIsPlaying,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -108,6 +110,7 @@ export const YoutubeAtom = ({
                      */
                     autoPlay={hasOverlay}
                     onReady={playerReadyCallback}
+                    setIsPlaying={setIsPlaying}
                 />
             )}
             {showOverlay && (

@@ -23,6 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    setIsPlaying: (arg: boolean) => void;
 };
 
 declare global {
@@ -62,6 +63,7 @@ const createOnStateChangeListener = (
     videoId: string,
     progressEvents: ProgressEvents,
     eventEmitters: Props['eventEmitters'],
+    setIsPlaying: (arg: boolean) => void,
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
     log('dotcom', {
@@ -85,6 +87,7 @@ const createOnStateChangeListener = (
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
             progressEvents.hasSentPlayEvent = true;
+            setIsPlaying(true);
 
             /**
              * Set a timeout to check progress again in the future
@@ -100,6 +103,7 @@ const createOnStateChangeListener = (
                 event,
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
+            setIsPlaying(true);
         }
 
         const checkProgress = async () => {
@@ -173,6 +177,7 @@ const createOnStateChangeListener = (
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+        setIsPlaying(false);
     }
 
     if (
@@ -187,6 +192,7 @@ const createOnStateChangeListener = (
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
         progressEvents.hasSentEndEvent = true;
+        setIsPlaying(false);
     }
 };
 
@@ -203,6 +209,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    setIsPlaying,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -264,6 +271,7 @@ export const YoutubeAtomPlayer = ({
                     videoId,
                     progressEvents.current,
                     eventEmitters,
+                    setIsPlaying,
                 );
 
                 player.current &&
@@ -327,6 +335,7 @@ export const YoutubeAtomPlayer = ({
             origin,
             videoId,
             width,
+            setIsPlaying,
         ],
     );
 
