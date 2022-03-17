@@ -272,7 +272,7 @@ export const ExternalControls = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                videoRefCallback={videoRefCallback}
+                onPlayerLoad={videoRefCallback}
             />
         </div>
     );

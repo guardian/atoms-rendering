@@ -29,7 +29,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
-    videoRefCallback?: (ref: Ref<YoutubePlayerType | undefined>) => void;
+    onPlayerLoad?: (ref: Ref<YoutubePlayerType | undefined>) => void;
 };
 
 declare global {
@@ -199,7 +199,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
-    videoRefCallback,
+    onPlayerLoad,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -344,7 +344,7 @@ export const YoutubeAtomPlayer = ({
          * This allows us to control the player
          * from any parent components
          */
-        videoRefCallback?.(player);
+        onPlayerLoad?.(player);
     }, [player]);
 
     /**
