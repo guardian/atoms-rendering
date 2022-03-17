@@ -202,7 +202,7 @@ export const YoutubeAtomPlayer = ({
     videoRefCallback,
 }: Props): JSX.Element => {
     /**
-     * useRef for player, progressEvents and listeners
+     * useRef for player and progressEvents
      * Provides mutable persistent state for the player across renders
      * Does not cause re-renders on update
      */
@@ -334,6 +334,9 @@ export const YoutubeAtomPlayer = ({
         ],
     );
 
+    /**
+     * Player ref callback useEffect
+     */
     useEffect(() => {
         /**
          * Callback to get the player ref
@@ -343,24 +346,6 @@ export const YoutubeAtomPlayer = ({
          */
         videoRefCallback?.(player);
     }, [player]);
-
-    /**
-     * Unregister listeners useEffect
-     */
-    useEffect(() => {
-        /**
-         * Unregister listeners on component unmount
-         *
-         * A useEffect with an empty dependency array will
-         * call its cleanup on unmount and not after every
-         * useEffect update.
-         */
-        return () => {
-            listeners.current.forEach((listener) => {
-                player.current?.off(listener);
-            });
-        };
-    }, []);
 
     /**
      * Unregister listeners useEffect

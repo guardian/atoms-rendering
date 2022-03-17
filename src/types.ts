@@ -182,5 +182,3 @@ export type VideoEventKey =
     | 'pause'
     | 'resume'
     | 'cued';
-
-export type VideoControls = 'play' | 'stop' | 'pause';
