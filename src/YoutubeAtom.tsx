@@ -147,22 +147,30 @@ export const YoutubeAtom = ({
         repeat: true,
     });
 
+    /**
+     * Click handler for the video close button
+     */
     const handleCloseClick = () => {
         // unstick the video
         setIsSticky(false);
-
         // reset the sticky event sender
         setStickEventAlreadySent(false);
-
         // stop the video
         playerRef?.stopVideo();
-
         // emit a 'closed' event
         eventEmitters.forEach((eventEmitter) => eventEmitter('closed'));
     };
 
+    /**
+     * Stick the video if:
+     *
+     * - It is playing
+     *
+     * AND
+     *
+     * - It is not intersecting
+     */
     useEffect(() => {
-        // if the video is playing and not on screen stick it
         setIsSticky(!!sticky && isPlaying && !isIntersecting);
     }, [isIntersecting, isPlaying, sticky]);
 
@@ -170,8 +178,7 @@ export const YoutubeAtom = ({
         if (isSticky && !stickEventAlreadySent) {
             // emit a 'stick' event
             eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
-            // set this flag so stick events aren't set
-            // again until it's reset
+            // set a flag to block future 'stick' events
             setStickEventAlreadySent(true);
         }
     }, [isSticky, stickEventAlreadySent]);
@@ -211,6 +218,15 @@ export const YoutubeAtom = ({
         loadPlayer = false;
     }
 
+    /**
+     * Show a placeholder if:
+     *
+     * - We don't have an overlay OR the user has clicked the overlay
+     *
+     * AND
+     *
+     * - The player is not ready
+     */
     const videoState = (trackingEvent: string) => {
         switch (trackingEvent) {
             case 'play':
