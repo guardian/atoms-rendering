@@ -219,117 +219,121 @@ export const YoutubeAtomPlayer = ({
     /**
      * Initialise player useEffect
      */
-    useEffect(() => {
-        if (!player.current) {
-            log('dotcom', {
-                from: 'YoutubeAtomPlayer initialise',
-                videoId,
-            });
-
-            const adsConfig: AdsConfig =
-                !adTargeting || adTargeting.disableAds
-                    ? disabledAds
-                    : buildAdsConfigWithConsent(
-                          false,
-                          adTargeting.adUnit,
-                          adTargeting.customParams,
-                          consentState,
-                      );
-
-            /**
-             * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
-             * It will load the iframe embed
-             * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
-             */
-            player.current = YouTubePlayer(`youtube-video-${videoId}`, {
-                height: width,
-                width: height,
-                videoId,
-                playerVars: {
-                    modestbranding: 1,
-                    origin,
-                    playsinline: 1,
-                    rel: 0,
-                },
-                embedConfig: {
-                    relatedChannels: [],
-                    adsConfig,
-                },
-            });
-
-            /**
-             * Register an onStateChange listener
-             */
-            const stateChangeListener = createOnStateChangeListener(
-                videoId,
-                progressEvents.current,
-                eventEmitters,
-            );
-
-            const playerStateChangeListener = player.current?.on(
-                'stateChange',
-                stateChangeListener,
-            );
-
-            /**
-             * Register an onReady listener
-             */
-            const readyStateListener = (event: YT.PlayerEvent) => {
+    useEffect(
+        () => {
+            if (!player.current) {
                 log('dotcom', {
-                    from: 'YoutubeAtomPlayer onReady',
+                    from: 'YoutubeAtomPlayer initialise',
                     videoId,
-                    msg: 'Ready',
-                    event,
                 });
+
+                const adsConfig: AdsConfig =
+                    !adTargeting || adTargeting.disableAds
+                        ? disabledAds
+                        : buildAdsConfigWithConsent(
+                              false,
+                              adTargeting.adUnit,
+                              adTargeting.customParams,
+                              consentState,
+                          );
+
                 /**
-                 * Callback to notify that the player is ready
+                 * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
+                 * It will load the iframe embed
+                 * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
                  */
-                onReady();
+                player.current = YouTubePlayer(`youtube-video-${videoId}`, {
+                    height: width,
+                    width: height,
+                    videoId,
+                    playerVars: {
+                        modestbranding: 1,
+                        origin,
+                        playsinline: 1,
+                        rel: 0,
+                    },
+                    embedConfig: {
+                        relatedChannels: [],
+                        adsConfig,
+                    },
+                });
+
                 /**
-                 * Autoplay is determined by the parent
-                 * Typically true when there is a preceding overlay
+                 * Register an onStateChange listener
                  */
-                if (autoPlay) {
+                const stateChangeListener = createOnStateChangeListener(
+                    videoId,
+                    progressEvents.current,
+                    eventEmitters,
+                );
+
+                const playerStateChangeListener = player.current?.on(
+                    'stateChange',
+                    stateChangeListener,
+                );
+
+                /**
+                 * Register an onReady listener
+                 */
+                const readyListener = (event: YT.PlayerEvent) => {
                     log('dotcom', {
                         from: 'YoutubeAtomPlayer onReady',
                         videoId,
-                        msg: 'Playing video',
+                        msg: 'Ready',
                         event,
                     });
                     /**
-                     * event.target is the actual underlying YT player
+                     * Callback to notify that the player is ready
                      */
-                    event.target.playVideo();
-                }
-            };
+                    onReady();
+                    /**
+                     * Autoplay is determined by the parent
+                     * Typically true when there is a preceding overlay
+                     */
+                    if (autoPlay) {
+                        log('dotcom', {
+                            from: 'YoutubeAtomPlayer onReady',
+                            videoId,
+                            msg: 'Playing video',
+                            event,
+                        });
+                        /**
+                         * event.target is the actual underlying YT player
+                         */
+                        event.target.playVideo();
+                    }
+                };
 
-            const playerReadyListener = player.current?.on(
-                'ready',
-                readyStateListener,
-            );
+                const playerReadyListener = player.current?.on(
+                    'ready',
+                    readyListener,
+                );
 
-            /**
-             * Record the listeners so they can be unregistered on component unmount
-             */
-            playerReadyListener && listeners.current.push(playerReadyListener);
-            playerStateChangeListener &&
-                listeners.current.push(playerStateChangeListener);
-        }
-    }, [
-        adTargeting,
-        autoPlay,
-        consentState,
-        eventEmitters,
-        height,
-        onReady,
-        origin,
-        videoId,
-        width,
-    ]);
+                /**
+                 * Record the listeners so they can be unregistered on component unmount
+                 */
+                playerReadyListener &&
+                    listeners.current.push(playerReadyListener);
+                playerStateChangeListener &&
+                    listeners.current.push(playerStateChangeListener);
+            }
+        },
+        /**
+         * useEffect dependencies are mostly static but added to array for correctness
+         */
+        [
+            adTargeting,
+            autoPlay,
+            consentState,
+            eventEmitters,
+            height,
+            onReady,
+            origin,
+            videoId,
+            width,
+        ],
+    );
 
-    /**
-     * Player controls useEffect
-     */
     useEffect(() => {
         /**
          * Callback to get the player ref
@@ -339,6 +343,24 @@ export const YoutubeAtomPlayer = ({
          */
         videoRefCallback?.(player);
     }, [player]);
+
+    /**
+     * Unregister listeners useEffect
+     */
+    useEffect(() => {
+        /**
+         * Unregister listeners on component unmount
+         *
+         * A useEffect with an empty dependency array will
+         * call its cleanup on unmount and not after every
+         * useEffect update.
+         */
+        return () => {
+            listeners.current.forEach((listener) => {
+                player.current?.off(listener);
+            });
+        };
+    }, []);
 
     /**
      * Unregister listeners useEffect
