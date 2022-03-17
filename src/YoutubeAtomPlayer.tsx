@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Ref, useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
 
 import type {
     AdTargeting,
     ImageSource,
-    VideoControls,
     VideoEventKey,
+    YoutubeCallback,
+    YoutubePlayerType,
 } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import {
@@ -28,7 +29,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
-    videoControls?: VideoControls;
+    videoRefCallback?: (ref: Ref<YoutubePlayerType | undefined>) => void;
 };
 
 declare global {
@@ -37,23 +38,10 @@ declare global {
     }
 }
 
-type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
-
 /**
  * youtube-player doesn't have a type definition
  * Based on https://github.com/gajus/youtube-player
  */
-type YoutubePlayerType = {
-    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
-    off: (callback: YoutubeCallback) => void;
-    loadVideoById: (videoId: string) => void;
-    playVideo: () => void;
-    stopVideo: () => void;
-    pauseVideo: () => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
-    getPlayerState: () => number;
-};
 
 type ProgressEvents = {
     hasSentPlayEvent: boolean;
@@ -211,7 +199,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
-    videoControls,
+    videoRefCallback,
 }: Props): JSX.Element => {
     /**
      * useRef for player, progressEvents and listeners
@@ -343,18 +331,14 @@ export const YoutubeAtomPlayer = ({
      * Player controls useEffect
      */
     useEffect(() => {
-        if (!player.current) return;
-        switch (videoControls) {
-            case 'play':
-                return player.current?.playVideo();
-            case 'pause':
-                return player.current?.pauseVideo();
-            case 'stop':
-                return player.current?.stopVideo();
-            default:
-                return;
-        }
-    }, [videoControls, player]);
+        /**
+         * Callback to get the player ref
+         *
+         * This allows us to control the player
+         * from any parent components
+         */
+        videoRefCallback?.(player);
+    }, [player]);
 
     /**
      * Unregister listeners useEffect

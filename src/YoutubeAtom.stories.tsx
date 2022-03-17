@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
-import { VideoControls } from './types';
+import { YoutubePlayerType } from './types';
 
 export default {
     title: 'YoutubeAtom',
@@ -29,6 +29,9 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                videoRefCallback={(ref) => {
+                    console.log(ref);
+                }}
             />
         </div>
     );
@@ -54,6 +57,9 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                videoRefCallback={(ref) => {
+                    console.log(ref);
+                }}
             />
         </div>
     );
@@ -88,6 +94,9 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                videoRefCallback={(ref) => {
+                    console.log(ref);
+                }}
             />
         </div>
     );
@@ -139,6 +148,9 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                videoRefCallback={(ref) => {
+                    console.log(ref);
+                }}
             />
         </div>
     );
@@ -201,6 +213,9 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                videoRefCallback={(ref) => {
+                    console.log(ref);
+                }}
             />
         </div>
     );
@@ -240,6 +255,9 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
+                    videoRefCallback={(ref) => {
+                        console.log(ref);
+                    }}
                 />
             </div>
         </>
@@ -247,17 +265,17 @@ export const GiveConsent = (): JSX.Element => {
 };
 
 export const ExternalControls = (): JSX.Element => {
-    const [videoControls, setVideoControls] = useState<VideoControls>(
-        undefined,
-    );
+    const [playerRef, setPlayerRef] = useState<YoutubePlayerType>();
 
-    const videoControlsCallback = useCallback((e) => {
-        setVideoControls(e.target.value);
+    const videoRefCallback = useCallback((ref) => {
+        if (ref.current) {
+            setPlayerRef(ref.current);
+        }
     }, []);
 
     return (
         <div>
-            <button onClick={videoControlsCallback} value="stop">
+            <button onClick={() => playerRef?.stopVideo()} value="stop">
                 Stop
             </button>
             <YoutubeAtom
@@ -272,7 +290,7 @@ export const ExternalControls = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                videoControls={videoControls}
+                videoRefCallback={videoRefCallback}
             />
         </div>
     );

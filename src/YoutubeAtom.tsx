@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { Ref, useCallback, useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
@@ -7,8 +7,8 @@ import type {
     AdTargeting,
     ImageSource,
     RoleType,
-    VideoControls,
     VideoEventKey,
+    YoutubePlayerType,
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -28,7 +28,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
-    videoControls?: VideoControls;
+    videoRefCallback?: (ref: Ref<YoutubePlayerType | undefined>) => void;
 };
 
 export const YoutubeAtom = ({
@@ -46,7 +46,7 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
-    videoControls,
+    videoRefCallback,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -111,7 +111,7 @@ export const YoutubeAtom = ({
                      */
                     autoPlay={hasOverlay}
                     onReady={playerReadyCallback}
-                    videoControls={videoControls}
+                    videoRefCallback={videoRefCallback}
                 />
             )}
             {showOverlay && (
