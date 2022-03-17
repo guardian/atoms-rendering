@@ -29,9 +29,6 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                videoRefCallback={(ref) => {
-                    console.log(ref);
-                }}
             />
         </div>
     );
@@ -57,9 +54,6 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
-                videoRefCallback={(ref) => {
-                    console.log(ref);
-                }}
             />
         </div>
     );
@@ -94,9 +88,6 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
-                videoRefCallback={(ref) => {
-                    console.log(ref);
-                }}
             />
         </div>
     );
@@ -148,9 +139,6 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                videoRefCallback={(ref) => {
-                    console.log(ref);
-                }}
             />
         </div>
     );
@@ -213,9 +201,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
-                videoRefCallback={(ref) => {
-                    console.log(ref);
-                }}
             />
         </div>
     );
@@ -255,9 +240,6 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
-                    videoRefCallback={(ref) => {
-                        console.log(ref);
-                    }}
                 />
             </div>
         </>
