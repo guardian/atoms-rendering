@@ -28,8 +28,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
-    onReady: () => void;
-    onPlayerLoad?: (ref: Ref<YoutubePlayerType | undefined>) => void;
+    onReady: (ref: Ref<YoutubePlayerType | undefined>) => void;
 };
 
 declare global {
@@ -199,7 +198,6 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
-    onPlayerLoad,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -285,7 +283,7 @@ export const YoutubeAtomPlayer = ({
                     /**
                      * Callback to notify that the player is ready
                      */
-                    onReady();
+                    onReady(player);
                     /**
                      * Autoplay is determined by the parent
                      * Typically true when there is a preceding overlay
@@ -333,19 +331,6 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
-
-    /**
-     * Player ref callback useEffect
-     */
-    useEffect(() => {
-        /**
-         * Callback to get the player ref
-         *
-         * This allows us to control the player
-         * from any parent components
-         */
-        onPlayerLoad?.(player);
-    }, [player]);
 
     /**
      * Unregister listeners useEffect

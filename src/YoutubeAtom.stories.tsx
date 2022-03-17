@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
-import { YoutubePlayerType } from './types';
 
 export default {
     title: 'YoutubeAtom',
@@ -246,34 +245,27 @@ export const GiveConsent = (): JSX.Element => {
     );
 };
 
-export const ExternalControls = (): JSX.Element => {
-    const [playerRef, setPlayerRef] = useState<YoutubePlayerType>();
-
-    const videoRefCallback = useCallback((ref) => {
-        if (ref.current) {
-            setPlayerRef(ref.current);
-        }
-    }, []);
-
+export const Sticky = (): JSX.Element => {
     return (
         <div>
-            <button onClick={() => playerRef?.stopVideo()} value="stop">
-                Stop
-            </button>
-            <YoutubeAtom
-                assetId="-ZCvZmYlQD8"
-                alt=""
-                role="inline"
-                eventEmitters={[
-                    (e) => console.log(`analytics event ${e} called`),
-                ]}
-                consentState={{}}
-                duration={252}
-                pillar={ArticlePillar.Culture}
-                height={450}
-                width={800}
-                onPlayerLoad={videoRefCallback}
-            />
+            <div style={{ height: '1000px' }}></div>
+            <div>
+                <YoutubeAtom
+                    assetId="-ZCvZmYlQD8"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[
+                        (e) => console.log(`analytics event ${e} called`),
+                    ]}
+                    consentState={{}}
+                    duration={252}
+                    pillar={ArticlePillar.Culture}
+                    height={450}
+                    width={800}
+                    sticky={true}
+                />
+            </div>
+            <div style={{ height: '1000px' }}></div>
         </div>
     );
 };
