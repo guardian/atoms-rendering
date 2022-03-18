@@ -1,6 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import libDebounce from 'lodash.debounce';
 
+/**
+ * Intersection observer hook.
+ *
+ * @param {Number} threshold intersection threshold
+ * @param {Boolean} repeat should the observer retrigger
+ * @param {Boolean} debounce
+ */
+
 const useIsInView = (
     options: IntersectionObserverInit & {
         debounce?: boolean;
@@ -22,10 +30,10 @@ const useIsInView = (
         }
     };
     const intersectionCallback = options.debounce
-        ? libDebounce(intersectionFn, 200)
+        ? libDebounce(intersectionFn, 300)
         : intersectionFn;
 
-    useEffect((): any => {
+    useEffect(() => {
         if (observer.current) {
             observer.current.disconnect();
         }
