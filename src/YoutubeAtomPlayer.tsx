@@ -88,14 +88,6 @@ const createOnStateChangeListener = (
             setTimeout(() => {
                 checkProgress();
             }, 3000);
-        } else {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'resume play',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
         }
 
         const checkProgress = async () => {
@@ -151,6 +143,17 @@ const createOnStateChangeListener = (
         };
     }
 
+    if (event.data === YT.PlayerState.CUED) {
+        log('dotcom', {
+            from: loggerFrom,
+            videoId,
+            msg: 'cued',
+            event,
+        });
+        eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+        progressEvents.hasSentPlayEvent = false;
+    }
+
     if (
         event.data === YT.PlayerState.ENDED &&
         !progressEvents.hasSentEndEvent
@@ -163,6 +166,7 @@ const createOnStateChangeListener = (
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
         progressEvents.hasSentEndEvent = true;
+        progressEvents.hasSentPlayEvent = false;
     }
 };
 
@@ -319,17 +323,12 @@ export const YoutubeAtomPlayer = ({
      */
     useEffect(() => {
         /**
-         * if a 'close' event this should stop the video
+         * if the 'shouldStop' prop is true this should stop the video
+         *
+         * 'shouldStop' is controlled by the close sticky video button
          */
         if (shouldStop) {
-            /**
-             * stop the video
-             */
             player.current?.stopVideo();
-            /**
-             * reset the play event sent flag
-             */
-            progressEvents.current.hasSentPlayEvent = false;
         }
     }, [shouldStop]);
 

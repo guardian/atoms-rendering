@@ -179,6 +179,6 @@ export type VideoEventKey =
     | '75'
     | 'end'
     | 'skip'
-    | 'resume'
+    | 'cued'
     | 'stick'
     | 'close';
