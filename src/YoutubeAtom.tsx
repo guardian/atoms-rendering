@@ -139,9 +139,9 @@ export const YoutubeAtom = ({
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [isSticky, setIsSticky] = useState(false);
-    const [stickEventAlreadySent, setStickEventAlreadySent] = useState(false);
-    const [shouldStop, setShouldStop] = useState(false);
+    const [isSticky, setIsSticky] = useState<boolean>(false);
+    const [stickEventSent, setStickEventSent] = useState<boolean>(false);
+    const [shouldStop, setShouldStop] = useState<boolean>(false);
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
@@ -180,7 +180,7 @@ export const YoutubeAtom = ({
         // unstick the video
         setIsSticky(false);
         // reset the sticky event sender
-        setStickEventAlreadySent(false);
+        setStickEventSent(false);
         // stop the video
         setShouldStop(true);
         // emit a 'close' event
@@ -203,8 +203,8 @@ export const YoutubeAtom = ({
      * useEffect for the stick events
      */
     useEffect(() => {
-        if (isSticky && !stickEventAlreadySent) {
-            setStickEventAlreadySent(true);
+        if (isSticky && !stickEventSent) {
+            setStickEventSent(true);
 
             log('dotcom', {
                 from: 'YoutubeAtom stick useEffect',
@@ -213,7 +213,7 @@ export const YoutubeAtom = ({
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
         }
-    }, [isSticky, stickEventAlreadySent]);
+    }, [isSticky, stickEventSent]);
 
     const hasOverlay = !!(overrideImage || posterImage);
 
