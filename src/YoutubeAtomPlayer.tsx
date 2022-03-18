@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
 
 import type {
@@ -28,7 +28,8 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
-    onReady: (ref: Ref<YoutubePlayerType | undefined>) => void;
+    onReady: () => void;
+    shouldStop: boolean;
 };
 
 declare global {
@@ -87,14 +88,6 @@ const createOnStateChangeListener = (
             setTimeout(() => {
                 checkProgress();
             }, 3000);
-        } else {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'resume play',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
         }
 
         const checkProgress = async () => {
@@ -150,26 +143,6 @@ const createOnStateChangeListener = (
         };
     }
 
-    if (event.data === YT.PlayerState.PAUSED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'paused',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
-    }
-
-    if (event.data === YT.PlayerState.CUED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'cued',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
-    }
-
     if (
         event.data === YT.PlayerState.ENDED &&
         !progressEvents.hasSentEndEvent
@@ -198,6 +171,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    shouldStop,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -283,7 +257,7 @@ export const YoutubeAtomPlayer = ({
                     /**
                      * Callback to notify that the player is ready
                      */
-                    onReady(player);
+                    onReady();
                     /**
                      * Autoplay is determined by the parent
                      * Typically true when there is a preceding overlay
@@ -331,6 +305,25 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
+
+    /**
+     * Player stop useEffect
+     */
+    useEffect(() => {
+        /**
+         * if a 'close' event this should stop the video
+         */
+        if (shouldStop) {
+            /**
+             * stop the video
+             */
+            player.current?.stopVideo();
+            /**
+             * reset the play event sent flag
+             */
+            progressEvents.current.hasSentPlayEvent = false;
+        }
+    }, [shouldStop]);
 
     /**
      * Unregister listeners useEffect

@@ -8,9 +8,9 @@ import type {
     ImageSource,
     RoleType,
     VideoEventKey,
-    YoutubePlayerType,
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
+import { log } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import { useIsInView } from './lib/useIsInView';
 import { from, neutral } from '@guardian/source-foundations';
@@ -32,7 +32,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
-    sticky?: boolean;
+    shouldStick: boolean;
 };
 
 const buttonStyles = css`
@@ -61,8 +61,9 @@ const buttonStyles = css`
     }
 `;
 
-// This extended hover area allows users
-// to click the close video button more easily
+/**
+ * This extended hover area allows users to click the close video button more easily
+ */
 const hoverAreaStyles = css`
     position: absolute;
     top: -4px;
@@ -133,53 +134,81 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
-    sticky,
+    shouldStick,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isSticky, setIsSticky] = useState(false);
     const [stickEventAlreadySent, setStickEventAlreadySent] = useState(false);
-    const [playerRef, setPlayerRef] = useState<YoutubePlayerType>();
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
         repeat: true,
+        debounce: true,
     });
 
+    const loggerFrom = 'YoutubeAtom';
+
     /**
-     * Click handler for the video close button
+     * Update the isPlaying state based on video events
+     *
+     * @param {VideoEventKey} videoEvent the video event which triggers the callback
+     */
+    const videoState = (videoEvent: VideoEventKey) => {
+        switch (videoEvent) {
+            case 'play':
+                return setIsPlaying(true);
+            case 'end':
+            case 'close':
+                return setIsPlaying(false);
+        }
+    };
+
+    /**
+     * Combine the videoState and tracking event emitters
+     */
+    const compositeEventEmitters = [videoState, ...eventEmitters];
+
+    /**
+     * Click handler for the sticky video close button
      */
     const handleCloseClick = () => {
         // unstick the video
         setIsSticky(false);
         // reset the sticky event sender
         setStickEventAlreadySent(false);
-        // stop the video
-        playerRef?.stopVideo();
-        // emit a 'closed' event
-        eventEmitters.forEach((eventEmitter) => eventEmitter('closed'));
+        // emit a 'close' event
+        log('dotcom', {
+            from: loggerFrom,
+            videoId: assetId,
+            msg: 'close',
+            event,
+        });
+        compositeEventEmitters.forEach((eventEmitter) => eventEmitter('close'));
     };
 
     /**
-     * Stick the video if:
-     *
-     * - It is playing
-     *
-     * AND
-     *
-     * - It is not intersecting
+     * useEffect for the sticky state
      */
     useEffect(() => {
-        setIsSticky(!!sticky && isPlaying && !isIntersecting);
-    }, [isIntersecting, isPlaying, sticky]);
+        if (shouldStick) setIsSticky(isPlaying && !isIntersecting);
+    }, [isIntersecting, isPlaying, shouldStick]);
 
+    /**
+     * useEffect for the stick events
+     */
     useEffect(() => {
         if (isSticky && !stickEventAlreadySent) {
-            // emit a 'stick' event
-            eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
-            // set a flag to block future 'stick' events
             setStickEventAlreadySent(true);
+
+            log('dotcom', {
+                from: loggerFrom,
+                videoId: assetId,
+                msg: 'stick',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
         }
     }, [isSticky, stickEventAlreadySent]);
 
@@ -219,35 +248,9 @@ export const YoutubeAtom = ({
     }
 
     /**
-     * Show a placeholder if:
-     *
-     * - We don't have an overlay OR the user has clicked the overlay
-     *
-     * AND
-     *
-     * - The player is not ready
-     */
-    const videoState = (trackingEvent: string) => {
-        switch (trackingEvent) {
-            case 'play':
-            case 'resume':
-                return setIsPlaying(true);
-            case 'cued':
-            case 'end':
-            case 'paused':
-                return setIsPlaying(false);
-        }
-    };
-
-    /**
      * Create a stable callback as it will be a useEffect dependency in YoutubeAtomPlayer
      */
-    const playerReadyCallback = useCallback((player) => {
-        if (player.current) {
-            setPlayerRef(player.current);
-            setPlayerReady(true);
-        }
-    }, []);
+    const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
 
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(192)}>
@@ -270,13 +273,14 @@ export const YoutubeAtom = ({
                             width={width}
                             title={title}
                             origin={origin}
-                            eventEmitters={[videoState, ...eventEmitters]}
+                            eventEmitters={compositeEventEmitters}
                             /**
                              * If there is an overlay we want to autoplay
                              * If there is not an overlay the user will use the YouTube player UI to play
                              */
                             autoPlay={hasOverlay}
                             onReady={playerReadyCallback}
+                            shouldStop={!isPlaying}
                         />
                     )}
                     {showOverlay && (
