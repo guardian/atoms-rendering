@@ -33,6 +33,8 @@
         "release:changesets": "yarn validate && yarn build && changeset publish"
     },
     "devDependencies": {
+        "@changesets/changelog-github": "^0.4.3",
+        "@changesets/cli": "^2.21.1",
         "@emotion/eslint-plugin": "^11.0.0",
         "@emotion/react": "^11.1.5",
         "@guardian/commercial-core": "^0.26.0",
@@ -141,8 +143,6 @@
         ]
     },
     "dependencies": {
-        "@changesets/changelog-github": "^0.4.3",
-        "@changesets/cli": "^2.21.1",
         "youtube-player": "^5.5.2"
     }
 }
