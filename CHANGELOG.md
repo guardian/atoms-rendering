@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 22.5.3
+
+### Patch Changes
+
+-   442a8a3: Test
+
 ## 22.5.2
 
 ### Patch Changes
