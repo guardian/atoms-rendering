@@ -19,6 +19,7 @@ jobs:
       - uses: guardian/actions-setup-node@v2.4.1
         with:
           cache: 'yarn'
+          registry-url: https://registry.npmjs.org
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
@@ -28,6 +29,8 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: yarn release:changesets
+          title: "Bump packages"
+          commit: "Bump packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
