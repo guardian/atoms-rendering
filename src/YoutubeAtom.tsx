@@ -141,7 +141,7 @@ export const YoutubeAtom = ({
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
-    const [shouldStop, setShouldStop] = useState<boolean>(false);
+    const [stopVideo, setStopVideo] = useState<boolean>(false);
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
@@ -157,7 +157,7 @@ export const YoutubeAtom = ({
     const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
-                setShouldStop(false);
+                setStopVideo(false);
                 setIsPlaying(true);
                 break;
             case 'end':
@@ -181,7 +181,7 @@ export const YoutubeAtom = ({
         // reset the sticky event sender
         setStickEventSent(false);
         // stop the video
-        setShouldStop(true);
+        setStopVideo(true);
         // emit a 'close' event
         log('dotcom', {
             from: `YoutubeAtom handleCloseClick`,
@@ -212,7 +212,7 @@ export const YoutubeAtom = ({
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
         }
-    }, [isSticky, stickEventSent]);
+    }, [isSticky, stickEventSent, assetId, eventEmitters]);
 
     const hasOverlay = !!(overrideImage || posterImage);
 
@@ -257,11 +257,13 @@ export const YoutubeAtom = ({
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(192)}>
             <div css={isSticky && stickyStyles}>
-                {isSticky && <span css={hoverAreaStyles} />}
                 {isSticky && (
-                    <button css={buttonStyles} onClick={handleCloseClick}>
-                        <SvgCross size="medium" />
-                    </button>
+                    <>
+                        <span css={hoverAreaStyles} />
+                        <button css={buttonStyles} onClick={handleCloseClick}>
+                            <SvgCross size="medium" />
+                        </button>
+                    </>
                 )}
                 <MaintainAspectRatio height={height} width={width}>
                     {loadPlayer && consentState && (
@@ -282,7 +284,7 @@ export const YoutubeAtom = ({
                              */
                             autoPlay={hasOverlay}
                             onReady={playerReadyCallback}
-                            shouldStop={shouldStop}
+                            stopVideo={stopVideo}
                         />
                     )}
                     {showOverlay && (

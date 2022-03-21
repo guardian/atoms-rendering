@@ -1,13 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
 
-import type {
-    AdTargeting,
-    ImageSource,
-    VideoEventKey,
-    YoutubeCallback,
-    YoutubePlayerType,
-} from './types';
+import type { AdTargeting, ImageSource, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import {
     AdsConfig,
@@ -29,7 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
-    shouldStop: boolean;
+    stopVideo: boolean;
 };
 
 declare global {
@@ -38,10 +32,22 @@ declare global {
     }
 }
 
+type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
+
 /**
  * youtube-player doesn't have a type definition
  * Based on https://github.com/gajus/youtube-player
  */
+type YoutubePlayerType = {
+    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
+    off: (callback: YoutubeCallback) => void;
+    loadVideoById: (videoId: string) => void;
+    playVideo: () => void;
+    stopVideo: () => void;
+    getCurrentTime: () => number;
+    getDuration: () => number;
+    getPlayerState: () => number;
+};
 
 type ProgressEvents = {
     hasSentPlayEvent: boolean;
@@ -183,7 +189,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
-    shouldStop,
+    stopVideo,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -323,14 +329,14 @@ export const YoutubeAtomPlayer = ({
      */
     useEffect(() => {
         /**
-         * if the 'shouldStop' prop is true this should stop the video
+         * if the 'stopVideo' prop is true this should stop the video
          *
-         * 'shouldStop' is controlled by the close sticky video button
+         * 'stopVideo' is controlled by the close sticky video button
          */
-        if (shouldStop) {
+        if (stopVideo) {
             player.current?.stopVideo();
         }
-    }, [shouldStop]);
+    }, [stopVideo]);
 
     /**
      * Unregister listeners useEffect

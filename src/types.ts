@@ -124,21 +124,6 @@ export type VideoAtomType = {
     width?: number;
 };
 
-export type YoutubeCallback = (
-    e: YT.PlayerEvent & YT.OnStateChangeEvent,
-) => void;
-
-export type YoutubePlayerType = {
-    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
-    off: (callback: YoutubeCallback) => void;
-    loadVideoById: (videoId: string) => void;
-    playVideo: () => void;
-    stopVideo: () => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
-    getPlayerState: () => number;
-};
-
 export type SrcSetItem = { src: string; width: number };
 
 export type ImageSource = {
