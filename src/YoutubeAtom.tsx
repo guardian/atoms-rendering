@@ -154,7 +154,7 @@ export const YoutubeAtom = ({
      *
      * @param {VideoEventKey} videoEvent the video event which triggers the callback
      */
-    const videoState = (videoEvent: VideoEventKey) => {
+    const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
                 setShouldStop(false);
@@ -170,7 +170,7 @@ export const YoutubeAtom = ({
     /**
      * Combine the videoState and tracking event emitters
      */
-    const compositeEventEmitters = [videoState, ...eventEmitters];
+    const compositeEventEmitters = [playerState, ...eventEmitters];
 
     /**
      * Click handler for the sticky video close button
@@ -257,7 +257,7 @@ export const YoutubeAtom = ({
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(192)}>
             <div css={isSticky && stickyStyles}>
-                <span css={hoverAreaStyles} />
+                {isSticky && <span css={hoverAreaStyles} />}
                 {isSticky && (
                     <button css={buttonStyles} onClick={handleCloseClick}>
                         <SvgCross size="medium" />
