@@ -255,22 +255,20 @@ export const Sticky = (): JSX.Element => {
     return (
         <div>
             <div style={{ height: '1000px' }}></div>
-            <div>
-                <YoutubeAtom
-                    assetId="-ZCvZmYlQD8"
-                    alt=""
-                    role="inline"
-                    eventEmitters={[
-                        (e) => console.log(`analytics event ${e} called`),
-                    ]}
-                    consentState={{}}
-                    duration={252}
-                    pillar={ArticlePillar.Culture}
-                    height={450}
-                    width={800}
-                    shouldStick={true}
-                />
-            </div>
+            <YoutubeAtom
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+            />
             <div style={{ height: '1000px' }}></div>
         </div>
     );

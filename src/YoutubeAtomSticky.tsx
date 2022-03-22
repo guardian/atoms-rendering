@@ -161,6 +161,7 @@ export const YoutubeAtomSticky = ({
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(192)}>
             <div css={isSticky && stickyStyles}>
+                {children}
                 {isSticky && (
                     <>
                         <span css={hoverAreaStyles} />
@@ -169,7 +170,6 @@ export const YoutubeAtomSticky = ({
                         </button>
                     </>
                 )}
-                {children}
             </div>
         </div>
     );
