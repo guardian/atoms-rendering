@@ -95,23 +95,11 @@ An example PR for adding the Profile Atom can be found [here](https://github.com
 
 ## Releasing a new version / Publishing to NPM
 
-Prerequisites:
+`atoms-rendering` is now published to NPM using [changesets](https://github.com/changesets/changesets)
 
-1. Ensure your changes are on main
-2. Ensure you have an [npm account](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages) that is authorised for the npm @guardian organisation
-3. If it is your first time to do a release, you might need to make NPM credentials available to your local instance. For this, go to your NPM account and generate a new access token with `publish` rights. Then issue
+Generate a changeset describing your work by running `yarn changeset` and following the prompts.
 
-```
-$ echo "//registry.npmjs.org/:_authToken=YOUR-ACCESS-TOKEN" > ~/.npmrc
-```
-
-replacing YOUR-ACCESS-TOKEN with your own access token
-
-Then:
-
-`yarn release --patch` or `yarn release --minor` or `yarn release --major`
-
-You might still have to interactively specify the level or release (`patch`, `minor` or `major`) and a prompt will invite you to make a tag release on Github.
+Publishing is triggered by merging the auto-generated Version Packages PR that changesets manages.
 
 Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
 
