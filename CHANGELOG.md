@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 22.6.1
+
+### Patch Changes
+
+-   987e88d: Fix rerender bug when sticking and unsticking
+
 ## 22.6.0
 
 ### Minor Changes
