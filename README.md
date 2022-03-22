@@ -101,7 +101,7 @@ Generate a changeset describing your work by running `yarn changeset` and follow
 
 Publishing is triggered by merging the auto-generated Version Packages PR that changesets manages.
 
-Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes
+Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes.
 
 ## Snyk Code Scanning
 
