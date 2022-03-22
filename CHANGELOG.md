@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 22.6.0
+
+### Minor Changes
+
+-   2c6217d: Add sticky videos to YoutubeAtom
+
 ## 22.5.3
 
 ### Patch Changes
