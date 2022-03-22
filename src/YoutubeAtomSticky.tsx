@@ -126,7 +126,7 @@ export const YoutubeAtomSticky = ({
         setStickEventSent(false);
         // stop the video
         onStopVideo();
-        // emit a 'close' event
+        // emit a 'close' event and log it
         log('dotcom', {
             from: `YoutubeAtom handleCloseClick`,
             videoId: assetId,
