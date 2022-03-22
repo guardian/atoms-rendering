@@ -28,6 +28,7 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                shouldStick={false}
             />
         </div>
     );
@@ -53,6 +54,7 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                shouldStick={false}
             />
         </div>
     );
@@ -87,6 +89,7 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                shouldStick={false}
             />
         </div>
     );
@@ -138,6 +141,7 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                shouldStick={false}
             />
         </div>
     );
@@ -200,6 +204,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                shouldStick={false}
             />
         </div>
     );
@@ -239,8 +244,34 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
+                    shouldStick={false}
                 />
             </div>
         </>
+    );
+};
+
+export const Sticky = (): JSX.Element => {
+    return (
+        <div>
+            <div style={{ height: '1000px' }}></div>
+            <div>
+                <YoutubeAtom
+                    assetId="-ZCvZmYlQD8"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[
+                        (e) => console.log(`analytics event ${e} called`),
+                    ]}
+                    consentState={{}}
+                    duration={252}
+                    pillar={ArticlePillar.Culture}
+                    height={450}
+                    width={800}
+                    shouldStick={true}
+                />
+            </div>
+            <div style={{ height: '1000px' }}></div>
+        </div>
     );
 };

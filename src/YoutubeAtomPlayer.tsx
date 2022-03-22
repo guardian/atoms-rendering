@@ -23,6 +23,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    stopVideo: boolean;
 };
 
 declare global {
@@ -42,6 +43,7 @@ type YoutubePlayerType = {
     off: (callback: YoutubeCallback) => void;
     loadVideoById: (videoId: string) => void;
     playVideo: () => void;
+    stopVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
     getPlayerState: () => number;
@@ -92,14 +94,6 @@ const createOnStateChangeListener = (
             setTimeout(() => {
                 checkProgress();
             }, 3000);
-        } else {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'resume play',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
         }
 
         const checkProgress = async () => {
@@ -155,16 +149,6 @@ const createOnStateChangeListener = (
         };
     }
 
-    if (event.data === YT.PlayerState.PAUSED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'paused',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
-    }
-
     if (event.data === YT.PlayerState.CUED) {
         log('dotcom', {
             from: loggerFrom,
@@ -173,6 +157,7 @@ const createOnStateChangeListener = (
             event,
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+        progressEvents.hasSentPlayEvent = false;
     }
 
     if (
@@ -187,6 +172,7 @@ const createOnStateChangeListener = (
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
         progressEvents.hasSentEndEvent = true;
+        progressEvents.hasSentPlayEvent = false;
     }
 };
 
@@ -203,6 +189,7 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    stopVideo,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -336,6 +323,20 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
+
+    /**
+     * Player stop useEffect
+     */
+    useEffect(() => {
+        /**
+         * if the 'stopVideo' prop is true this should stop the video
+         *
+         * 'stopVideo' is controlled by the close sticky video button
+         */
+        if (stopVideo) {
+            player.current?.stopVideo();
+        }
+    }, [stopVideo]);
 
     /**
      * Unregister listeners useEffect

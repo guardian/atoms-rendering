@@ -3,6 +3,7 @@ import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
 import { YoutubeAtomPlaceholder } from './YoutubeAtomPlaceholder';
+import { YoutubeAtomSticky } from './YoutubeAtomSticky';
 import type {
     AdTargeting,
     ImageSource,
@@ -27,6 +28,7 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
+    shouldStick: boolean;
 };
 
 export const YoutubeAtom = ({
@@ -44,9 +46,35 @@ export const YoutubeAtom = ({
     origin,
     eventEmitters,
     pillar,
+    shouldStick,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [stopVideo, setStopVideo] = useState<boolean>(false);
+
+    /**
+     * Update the isPlaying state based on video events
+     *
+     * @param {VideoEventKey} videoEvent the video event which triggers the callback
+     */
+    const playerState = (videoEvent: VideoEventKey) => {
+        switch (videoEvent) {
+            case 'play':
+                setStopVideo(false);
+                setIsPlaying(true);
+                break;
+            case 'end':
+            case 'cued':
+                setIsPlaying(false);
+                break;
+        }
+    };
+
+    /**
+     * Combine the videoState and tracking event emitters
+     */
+    const compositeEventEmitters = [playerState, ...eventEmitters];
 
     const hasOverlay = !!(overrideImage || posterImage);
 
@@ -89,42 +117,53 @@ export const YoutubeAtom = ({
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
 
     return (
-        <MaintainAspectRatio height={height} width={width}>
-            {loadPlayer && consentState && (
-                <YoutubeAtomPlayer
-                    videoId={assetId}
-                    overrideImage={overrideImage}
-                    posterImage={posterImage}
-                    adTargeting={adTargeting}
-                    consentState={consentState}
-                    height={height}
-                    width={width}
-                    title={title}
-                    origin={origin}
-                    eventEmitters={eventEmitters}
-                    /**
-                     * If there is an overlay we want to autoplay
-                     * If there is not an overlay the user will use the YouTube player UI to play
-                     */
-                    autoPlay={hasOverlay}
-                    onReady={playerReadyCallback}
-                />
-            )}
-            {showOverlay && (
-                <YoutubeAtomOverlay
-                    videoId={assetId}
-                    overrideImage={overrideImage}
-                    posterImage={posterImage}
-                    height={height}
-                    width={width}
-                    alt={alt}
-                    role={role}
-                    duration={duration}
-                    pillar={pillar}
-                    onClick={() => setOverlayClicked(true)}
-                />
-            )}
-            {showPlaceholder && <YoutubeAtomPlaceholder videoId={assetId} />}
-        </MaintainAspectRatio>
+        <YoutubeAtomSticky
+            assetId={assetId}
+            shouldStick={shouldStick}
+            isPlaying={isPlaying}
+            eventEmitters={eventEmitters}
+            onStopVideo={() => setStopVideo(true)}
+        >
+            <MaintainAspectRatio height={height} width={width}>
+                {loadPlayer && consentState && (
+                    <YoutubeAtomPlayer
+                        videoId={assetId}
+                        overrideImage={overrideImage}
+                        posterImage={posterImage}
+                        adTargeting={adTargeting}
+                        consentState={consentState}
+                        height={height}
+                        width={width}
+                        title={title}
+                        origin={origin}
+                        eventEmitters={compositeEventEmitters}
+                        /**
+                         * If there is an overlay we want to autoplay
+                         * If there is not an overlay the user will use the YouTube player UI to play
+                         */
+                        autoPlay={hasOverlay}
+                        onReady={playerReadyCallback}
+                        stopVideo={stopVideo}
+                    />
+                )}
+                {showOverlay && (
+                    <YoutubeAtomOverlay
+                        videoId={assetId}
+                        overrideImage={overrideImage}
+                        posterImage={posterImage}
+                        height={height}
+                        width={width}
+                        alt={alt}
+                        role={role}
+                        duration={duration}
+                        pillar={pillar}
+                        onClick={() => setOverlayClicked(true)}
+                    />
+                )}
+                {showPlaceholder && (
+                    <YoutubeAtomPlaceholder videoId={assetId} />
+                )}
+            </MaintainAspectRatio>
+        </YoutubeAtomSticky>
     );
 };
