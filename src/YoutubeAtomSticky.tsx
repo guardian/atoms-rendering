@@ -136,6 +136,26 @@ export const YoutubeAtomSticky = ({
     };
 
     /**
+     * keydown event handler
+     *
+     * closes sticky video when Escape key is pressed
+     */
+    const handleKeydown = (e: { key: string }) => {
+        if (e.key === 'Escape') {
+            handleCloseClick();
+        }
+    };
+
+    /**
+     * useEffect to create keydown listener
+     */
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => window.removeEventListener('keydown', handleKeydown);
+    }, []);
+
+    /**
      * useEffect for the sticky state
      */
     useEffect(() => {
