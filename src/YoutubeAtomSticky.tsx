@@ -150,10 +150,9 @@ export const YoutubeAtomSticky = ({
      * useEffect to create keydown listener
      */
     useEffect(() => {
-        console.log('here');
-        document.addEventListener('keydown', handleKeydown);
+        window.addEventListener('keydown', handleKeydown);
 
-        return () => document.removeEventListener('keydown', handleKeydown);
+        return () => window.removeEventListener('keydown', handleKeydown);
     }, []);
 
     /**
