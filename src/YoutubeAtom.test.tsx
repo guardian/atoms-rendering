@@ -209,4 +209,40 @@ describe('YoutubeAtom', () => {
         const overlay2 = getByTestId(`youtube-overlay-ZCvZmYlQD8_2-xyz`);
         expect(overlay2).toBeInTheDocument();
     });
+
+    it('when two Atoms with duplicate videos - hides the overlay of the correct player if clicked', async () => {
+        const atom = (
+            <>
+                <YoutubeAtom
+                    id="xyz"
+                    title="My Youtube video!"
+                    assetId="ZCvZmYlQD8"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[]}
+                    pillar={0}
+                    overrideImage={overlayImage}
+                />
+                <YoutubeAtom
+                    id="vwx"
+                    title="My Youtube video 2!"
+                    assetId="ZCvZmYlQD8"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[]}
+                    pillar={0}
+                    overrideImage={overlayImage}
+                />
+            </>
+        );
+        const { getByTestId } = render(atom);
+        const overlay1 = getByTestId('youtube-overlay-ZCvZmYlQD8-xyz');
+        expect(overlay1).toBeInTheDocument();
+
+        fireEvent.click(getByTestId('youtube-overlay-ZCvZmYlQD8-xyz'));
+        expect(overlay1).not.toBeInTheDocument();
+
+        const overlay2 = getByTestId(`youtube-overlay-ZCvZmYlQD8-vwx`);
+        expect(overlay2).toBeInTheDocument();
+    });
 });
