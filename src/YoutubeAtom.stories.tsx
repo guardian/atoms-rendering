@@ -18,6 +18,7 @@ export const NoConsent = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
+                id="xyz"
                 assetId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -44,6 +45,7 @@ export const NoOverlay = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
+                id="xyz"
                 assetId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -72,6 +74,7 @@ export const WithOverrideImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
+                id="xyz"
                 assetId="3jpXAMwRSu4"
                 alt="Microscopic image of COVID"
                 role="inline"
@@ -109,6 +112,7 @@ export const WithPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
+                id="xyz"
                 assetId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
@@ -163,6 +167,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
+                id="xyz"
                 assetId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
@@ -231,6 +236,7 @@ export const GiveConsent = (): JSX.Element => {
                 `}
             >
                 <YoutubeAtom
+                    id="xyz"
                     assetId="3jpXAMwRSu4"
                     alt="Microscopic image of COVID"
                     role="inline"
@@ -267,6 +273,7 @@ export const Sticky = (): JSX.Element => {
         <div>
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
+                id="xyz"
                 assetId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -308,6 +315,49 @@ export const StickyMainMedia = (): JSX.Element => {
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
             <div style={{ height: '1000px' }}></div>
+        </div>
+    );
+};
+
+export const DuplicateVideos = (): JSX.Element => {
+    return (
+        <div
+            css={css`
+                width: 400px;
+                margin: 25px;
+            `}
+        >
+            <YoutubeAtom
+                id="xyz"
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+            />
+            <br />
+            <YoutubeAtom
+                id="xyz2"
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+            />
         </div>
     );
 };
