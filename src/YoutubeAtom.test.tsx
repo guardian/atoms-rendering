@@ -222,6 +222,7 @@ describe('YoutubeAtom', () => {
                     eventEmitters={[]}
                     pillar={0}
                     overrideImage={overlayImage}
+                    shouldStick={false}
                 />
                 <YoutubeAtom
                     id="vwx"
@@ -232,6 +233,7 @@ describe('YoutubeAtom', () => {
                     eventEmitters={[]}
                     pillar={0}
                     overrideImage={overlayImage}
+                    shouldStick={false}
                 />
             </>
         );
