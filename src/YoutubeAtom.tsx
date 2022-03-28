@@ -28,7 +28,8 @@ type Props = {
     origin?: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
-    shouldStick: boolean;
+    shouldStick?: boolean;
+    isMainMedia?: boolean;
 };
 
 export const YoutubeAtom = ({
@@ -47,6 +48,7 @@ export const YoutubeAtom = ({
     eventEmitters,
     pillar,
     shouldStick,
+    isMainMedia,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -123,6 +125,7 @@ export const YoutubeAtom = ({
             isPlaying={isPlaying}
             eventEmitters={eventEmitters}
             onStopVideo={() => setStopVideo(true)}
+            isMainMedia={isMainMedia}
         >
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
