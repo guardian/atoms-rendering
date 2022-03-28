@@ -131,8 +131,6 @@ export const YoutubeAtom = ({
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
                         videoId={assetId}
-                        overrideImage={overrideImage}
-                        posterImage={posterImage}
                         adTargeting={adTargeting}
                         consentState={consentState}
                         height={height}
