@@ -121,6 +121,7 @@ export const YoutubeAtomOverlay = ({
                 }
             }}
             css={overlayStyles}
+            tabIndex={0}
             aria-label={`Play video: ${title}`}
         >
             <Picture
