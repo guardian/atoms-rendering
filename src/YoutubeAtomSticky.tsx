@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { VideoEventKey } from './types';
 import { log } from '@guardian/libs';
 import { useIsInView } from './lib/useIsInView';
-import { from, neutral } from '@guardian/source-foundations';
+import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
 
@@ -87,7 +87,7 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
         position: relative;
         display: flex;
         justify-content: flex-end;
-        padding-right: ${isMainMedia ? '20px' : 0};
+        padding-right: ${isMainMedia ? `${space[5]}px` : 0};
 
         ${from.tablet} {
             height: ${height * 2}px;
