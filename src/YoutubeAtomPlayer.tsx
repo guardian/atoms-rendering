@@ -246,6 +246,7 @@ export const YoutubeAtomPlayer = ({
                         relatedChannels: [],
                         adsConfig,
                     },
+                    title,
                 });
 
                 /**
