@@ -27,6 +27,8 @@ describe('YoutubeAtom', () => {
                 eventEmitters={[]}
                 pillar={0}
                 consentState={{}}
+                shouldStick={false}
+                mainMedia={false}
             />
         );
         const { getByTestId } = render(atom);
@@ -45,6 +47,8 @@ describe('YoutubeAtom', () => {
                 pillar={0}
                 consentState={{}}
                 overrideImage={overlayImage}
+                shouldStick={false}
+                mainMedia={false}
             />
         );
         const { getByTestId } = render(atom);
@@ -67,6 +71,8 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
+                shouldStick={false}
+                mainMedia={false}
             />
         );
         const { getByTestId } = render(atom);
@@ -84,6 +90,8 @@ describe('YoutubeAtom', () => {
                 eventEmitters={[]}
                 pillar={0}
                 overrideImage={overlayImage}
+                shouldStick={false}
+                mainMedia={false}
             />
         );
         const { getByTestId } = render(atom);
@@ -101,6 +109,8 @@ describe('YoutubeAtom', () => {
                 eventEmitters={[]}
                 pillar={0}
                 overrideImage={overlayImage}
+                shouldStick={false}
+                mainMedia={false}
             />
         );
         const { getByTestId } = render(atom);
@@ -122,6 +132,8 @@ describe('YoutubeAtom', () => {
                     eventEmitters={[]}
                     pillar={0}
                     overrideImage={overlayImage}
+                    shouldStick={false}
+                    mainMedia={false}
                 />
                 <YoutubeAtom
                     title="My Youtube video 2!"
@@ -131,6 +143,8 @@ describe('YoutubeAtom', () => {
                     eventEmitters={[]}
                     pillar={0}
                     overrideImage={overlayImage}
+                    shouldStick={false}
+                    mainMedia={false}
                 />
             </>
         );

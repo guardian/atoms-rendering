@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { VideoEventKey } from './types';
 import { log } from '@guardian/libs';
 import { useIsInView } from './lib/useIsInView';
-import { from, neutral } from '@guardian/source-foundations';
+import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
 
@@ -79,23 +79,29 @@ const stickyStyles = css`
     }
 `;
 
-const stickyContainerStyles = (height: number) => css`
-    height: ${height}px;
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
+const stickyContainerStyles = (isMainMedia?: boolean) => {
+    const height = 192;
 
-    ${from.tablet} {
-        height: ${height * 2}px;
-    }
-`;
+    return css`
+        height: ${height}px;
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: ${isMainMedia ? `${space[5]}px` : 0};
+
+        ${from.tablet} {
+            height: ${height * 2}px;
+        }
+    `;
+};
 
 type Props = {
     assetId: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
-    shouldStick: boolean;
+    shouldStick?: boolean;
     onStopVideo: () => void;
     isPlaying: boolean;
+    isMainMedia?: boolean;
     children: JSX.Element;
 };
 
@@ -105,6 +111,7 @@ export const YoutubeAtomSticky = ({
     shouldStick,
     onStopVideo,
     isPlaying,
+    isMainMedia,
     children,
 }: Props): JSX.Element => {
     const [isSticky, setIsSticky] = useState<boolean>(false);
@@ -159,7 +166,7 @@ export const YoutubeAtomSticky = ({
     }, [isSticky, stickEventSent, assetId, eventEmitters]);
 
     return (
-        <div ref={setRef} css={isSticky && stickyContainerStyles(192)}>
+        <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
             <div css={isSticky && stickyStyles}>
                 {children}
                 {isSticky && (
