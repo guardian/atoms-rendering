@@ -160,6 +160,7 @@ export const YoutubeAtom = ({
                         role={role}
                         duration={duration}
                         pillar={pillar}
+                        title={title}
                         onClick={() => setOverlayClicked(true)}
                     />
                 )}

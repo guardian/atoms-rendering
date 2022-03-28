@@ -25,6 +25,7 @@ type Props = {
     role: RoleType;
     duration?: number; // in seconds
     pillar: ArticleTheme;
+    title?: string;
     onClick: () => void;
 };
 
@@ -104,6 +105,7 @@ export const YoutubeAtomOverlay = ({
     role,
     duration,
     pillar,
+    title,
     onClick,
 }: Props): JSX.Element => {
     return (
@@ -119,7 +121,7 @@ export const YoutubeAtomOverlay = ({
                 }
             }}
             css={overlayStyles}
-            tabIndex={0}
+            aria-label={`Play video: ${title}`}
         >
             <Picture
                 imageSources={overrideImage || posterImage || []}

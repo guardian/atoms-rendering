@@ -57,6 +57,7 @@ export const NoOverlay = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
         </div>
     );
@@ -93,6 +94,7 @@ export const WithOverrideImage = (): JSX.Element => {
                 ]}
                 shouldStick={false}
                 isMainMedia={false}
+                title="How to stop the spread of coronavirus"
             />
         </div>
     );
@@ -146,6 +148,7 @@ export const WithPosterImage = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
             />
         </div>
     );
@@ -210,6 +213,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio"
             />
         </div>
     );
@@ -251,6 +255,7 @@ export const GiveConsent = (): JSX.Element => {
                     width={800}
                     shouldStick={false}
                     isMainMedia={false}
+                    title="How to stop the spread of coronavirus"
                 />
             </div>
         </>
@@ -275,6 +280,7 @@ export const Sticky = (): JSX.Element => {
                 width={800}
                 shouldStick={true}
                 isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -299,6 +305,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 width={800}
                 shouldStick={true}
                 isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
             <div style={{ height: '1000px' }}></div>
         </div>
