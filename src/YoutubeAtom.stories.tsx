@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
@@ -9,14 +8,12 @@ export default {
     component: YoutubeAtom,
 };
 
+const containerStyle = { width: '800px', margin: '24px' };
+const containerStyleSmall = { width: '400px', margin: '24px' };
+
 export const NoConsent = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="-ZCvZmYlQD8"
@@ -38,12 +35,7 @@ export const NoConsent = (): JSX.Element => {
 
 export const NoOverlay = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="-ZCvZmYlQD8"
@@ -67,12 +59,7 @@ export const NoOverlay = (): JSX.Element => {
 
 export const WithOverrideImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="3jpXAMwRSu4"
@@ -105,12 +92,7 @@ export const WithOverrideImage = (): JSX.Element => {
 
 export const WithPosterImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="N9Cgy-ke5-s"
@@ -160,12 +142,7 @@ export const WithPosterImage = (): JSX.Element => {
 
 export const WithOverlayAndPosterImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="N9Cgy-ke5-s"
@@ -229,12 +206,7 @@ export const GiveConsent = (): JSX.Element => {
     return (
         <>
             <button onClick={() => setConsented(true)}>Give consent</button>
-            <div
-                css={css`
-                    width: 800px;
-                    margin: 25px;
-                `}
-            >
+            <div style={containerStyle}>
                 <YoutubeAtom
                     elementId="xyz"
                     videoId="3jpXAMwRSu4"
@@ -321,12 +293,7 @@ export const StickyMainMedia = (): JSX.Element => {
 
 export const DuplicateVideos = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 400px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyleSmall}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="-ZCvZmYlQD8"
