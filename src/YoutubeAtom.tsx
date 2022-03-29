@@ -57,6 +57,8 @@ export const YoutubeAtom = ({
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [stopVideo, setStopVideo] = useState<boolean>(false);
 
+    const uniqueId = `${videoId}-${elementId}`;
+
     /**
      * Update the isPlaying state based on video events
      *
@@ -134,8 +136,8 @@ export const YoutubeAtom = ({
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
-                        elementId={elementId}
                         videoId={videoId}
+                        uniqueId={uniqueId}
                         adTargeting={adTargeting}
                         consentState={consentState}
                         height={height}
@@ -154,8 +156,7 @@ export const YoutubeAtom = ({
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay
-                        elementId={elementId}
-                        videoId={videoId}
+                        uniqueId={uniqueId}
                         overrideImage={overrideImage}
                         posterImage={posterImage}
                         height={height}
@@ -169,10 +170,7 @@ export const YoutubeAtom = ({
                     />
                 )}
                 {showPlaceholder && (
-                    <YoutubeAtomPlaceholder
-                        elementId={elementId}
-                        videoId={videoId}
-                    />
+                    <YoutubeAtomPlaceholder uniqueId={uniqueId} />
                 )}
             </MaintainAspectRatio>
         </YoutubeAtomSticky>

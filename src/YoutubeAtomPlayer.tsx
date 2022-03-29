@@ -11,7 +11,7 @@ import {
 import { log } from '@guardian/libs';
 
 type Props = {
-    elementId: string;
+    uniqueId: string;
     videoId: string;
     adTargeting?: AdTargeting;
     consentState: ConsentState;
@@ -195,7 +195,7 @@ const createOnStateChangeListener = (
 };
 
 export const YoutubeAtomPlayer = ({
-    elementId,
+    uniqueId,
     videoId,
     adTargeting,
     consentState,
@@ -222,7 +222,7 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
     const listeners = useRef<Array<YoutubeCallback>>([]);
-    const uniqueId = `youtube-video-${videoId}-${elementId}`;
+    const id = `youtube-video-${uniqueId}`;
 
     /**
      * Initialise player useEffect
@@ -250,7 +250,7 @@ export const YoutubeAtomPlayer = ({
                  * It will load the iframe embed
                  * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
                  */
-                player.current = YouTubePlayer(uniqueId, {
+                player.current = YouTubePlayer(id, {
                     height: width,
                     width: height,
                     videoId,
@@ -380,9 +380,9 @@ export const YoutubeAtomPlayer = ({
      */
     return (
         <div
-            id={uniqueId}
-            data-atom-id={uniqueId}
-            data-testid={uniqueId}
+            id={id}
+            data-atom-id={id}
+            data-testid={id}
             data-atom-type="youtube"
             title={title}
         ></div>
