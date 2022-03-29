@@ -11,7 +11,7 @@ import {
 import { log } from '@guardian/libs';
 
 type Props = {
-    id: string;
+    elementId: string;
     videoId: string;
     adTargeting?: AdTargeting;
     consentState: ConsentState;
@@ -195,7 +195,7 @@ const createOnStateChangeListener = (
 };
 
 export const YoutubeAtomPlayer = ({
-    id,
+    elementId,
     videoId,
     adTargeting,
     consentState,
@@ -222,7 +222,7 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
     const listeners = useRef<Array<YoutubeCallback>>([]);
-    const uniqueId = `youtube-video-${videoId}-${id}`;
+    const uniqueId = `youtube-video-${videoId}-${elementId}`;
 
     /**
      * Initialise player useEffect

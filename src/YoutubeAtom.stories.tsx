@@ -18,7 +18,7 @@ export const NoConsent = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -45,7 +45,7 @@ export const NoOverlay = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -74,7 +74,7 @@ export const WithOverrideImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="3jpXAMwRSu4"
                 alt="Microscopic image of COVID"
                 role="inline"
@@ -112,7 +112,7 @@ export const WithPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
@@ -167,7 +167,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
@@ -236,7 +236,7 @@ export const GiveConsent = (): JSX.Element => {
                 `}
             >
                 <YoutubeAtom
-                    id="xyz"
+                    elementId="xyz"
                     videoId="3jpXAMwRSu4"
                     alt="Microscopic image of COVID"
                     role="inline"
@@ -273,7 +273,7 @@ export const Sticky = (): JSX.Element => {
         <div>
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -328,7 +328,7 @@ export const DuplicateVideos = (): JSX.Element => {
             `}
         >
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
@@ -344,7 +344,7 @@ export const DuplicateVideos = (): JSX.Element => {
             />
             <br />
             <YoutubeAtom
-                id="xyz2"
+                elementId="xyz2"
                 videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"

@@ -20,7 +20,7 @@ describe('YoutubeAtom', () => {
     it('Player initialises when no overlay and has consent state', async () => {
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -40,7 +40,7 @@ describe('YoutubeAtom', () => {
     it('Player initialises when overlay clicked and has consent state', async () => {
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -69,7 +69,7 @@ describe('YoutubeAtom', () => {
 
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -90,7 +90,7 @@ describe('YoutubeAtom', () => {
         const title = 'My Youtube video!';
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -113,7 +113,7 @@ describe('YoutubeAtom', () => {
     it('shows a placeholder if overlay is missing', async () => {
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -132,7 +132,7 @@ describe('YoutubeAtom', () => {
     it('shows an overlay if present', async () => {
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -152,7 +152,7 @@ describe('YoutubeAtom', () => {
     it('hides an overlay once it is clicked', async () => {
         const atom = (
             <YoutubeAtom
-                id="xyz"
+                elementId="xyz"
                 title="My Youtube video!"
                 videoId="ZCvZmYlQD8"
                 alt=""
@@ -176,7 +176,7 @@ describe('YoutubeAtom', () => {
         const atom = (
             <>
                 <YoutubeAtom
-                    id="xyz"
+                    elementId="xyz"
                     title="My Youtube video!"
                     videoId="ZCvZmYlQD8"
                     alt=""
@@ -188,7 +188,7 @@ describe('YoutubeAtom', () => {
                     isMainMedia={false}
                 />
                 <YoutubeAtom
-                    id="xyz"
+                    elementId="xyz"
                     title="My Youtube video 2!"
                     videoId="ZCvZmYlQD8_2"
                     alt=""

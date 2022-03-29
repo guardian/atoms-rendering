@@ -14,7 +14,7 @@ import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 
 type Props = {
-    id: string;
+    elementId: string;
     videoId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
@@ -34,7 +34,7 @@ type Props = {
 };
 
 export const YoutubeAtom = ({
-    id,
+    elementId,
     videoId,
     overrideImage,
     posterImage,
@@ -134,7 +134,7 @@ export const YoutubeAtom = ({
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
-                        id={id}
+                        elementId={elementId}
                         videoId={videoId}
                         adTargeting={adTargeting}
                         consentState={consentState}
@@ -154,7 +154,7 @@ export const YoutubeAtom = ({
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay
-                        id={id}
+                        elementId={elementId}
                         videoId={videoId}
                         overrideImage={overrideImage}
                         posterImage={posterImage}
@@ -169,7 +169,10 @@ export const YoutubeAtom = ({
                     />
                 )}
                 {showPlaceholder && (
-                    <YoutubeAtomPlaceholder id={id} videoId={videoId} />
+                    <YoutubeAtomPlaceholder
+                        elementId={elementId}
+                        videoId={videoId}
+                    />
                 )}
             </MaintainAspectRatio>
         </YoutubeAtomSticky>
