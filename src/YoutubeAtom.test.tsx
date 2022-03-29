@@ -62,6 +62,50 @@ describe('YoutubeAtom', () => {
         expect(playerDiv).toBeInTheDocument();
     });
 
+    it('player div has correct title', async () => {
+        const title = 'My Youtube video!';
+
+        const atom = (
+            <YoutubeAtom
+                title="My Youtube video!"
+                assetId="ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[]}
+                pillar={0}
+                consentState={{}}
+                shouldStick={false}
+                isMainMedia={false}
+            />
+        );
+        const { getByTestId } = render(atom);
+        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
+        expect(playerDiv.title).toBe(title);
+    });
+
+    it('overlay has correct aira-label', async () => {
+        const title = 'My Youtube video!';
+        const atom = (
+            <YoutubeAtom
+                title="My Youtube video!"
+                assetId="ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[]}
+                pillar={0}
+                consentState={{}}
+                overrideImage={overlayImage}
+                shouldStick={false}
+                isMainMedia={false}
+            />
+        );
+        const { getByTestId } = render(atom);
+        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        const ariaLabel = overlay.getAttribute('aria-label');
+
+        expect(ariaLabel).toBe(`Play video: ${title}`);
+    });
+
     it('shows a placeholder if overlay is missing', async () => {
         const atom = (
             <YoutubeAtom
