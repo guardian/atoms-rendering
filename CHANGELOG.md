@@ -1,5 +1,14 @@
 # @guardian/atoms-rendering
 
+## 22.6.2
+
+### Patch Changes
+
+-   6e01504: Make YoutubeAtom controls keyboard accesible
+-   db94fa1: Add title to YoutubeAtom iframe and aria-label
+-   934cc67: Close sticky video on ESC key press
+-   a988893: Add isMainMedia prop to YoutubeAtom
+
 ## 22.6.1
 
 ### Patch Changes
