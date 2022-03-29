@@ -19,7 +19,7 @@ export const NoConsent = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -46,7 +46,7 @@ export const NoOverlay = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -75,7 +75,7 @@ export const WithOverrideImage = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="3jpXAMwRSu4"
+                videoId="3jpXAMwRSu4"
                 alt="Microscopic image of COVID"
                 role="inline"
                 eventEmitters={[
@@ -113,7 +113,7 @@ export const WithPosterImage = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="N9Cgy-ke5-s"
+                videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -168,7 +168,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="N9Cgy-ke5-s"
+                videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -237,7 +237,7 @@ export const GiveConsent = (): JSX.Element => {
             >
                 <YoutubeAtom
                     id="xyz"
-                    assetId="3jpXAMwRSu4"
+                    videoId="3jpXAMwRSu4"
                     alt="Microscopic image of COVID"
                     role="inline"
                     eventEmitters={[
@@ -274,7 +274,7 @@ export const Sticky = (): JSX.Element => {
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
                 id="xyz"
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -299,7 +299,7 @@ export const StickyMainMedia = (): JSX.Element => {
         <div>
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -329,7 +329,7 @@ export const DuplicateVideos = (): JSX.Element => {
         >
             <YoutubeAtom
                 id="xyz"
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -345,7 +345,7 @@ export const DuplicateVideos = (): JSX.Element => {
             <br />
             <YoutubeAtom
                 id="xyz2"
-                assetId="-ZCvZmYlQD8"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[

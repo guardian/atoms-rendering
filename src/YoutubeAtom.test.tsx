@@ -22,7 +22,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -42,7 +42,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -71,7 +71,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -92,7 +92,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -115,7 +115,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -134,7 +134,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -154,7 +154,7 @@ describe('YoutubeAtom', () => {
             <YoutubeAtom
                 id="xyz"
                 title="My Youtube video!"
-                assetId="ZCvZmYlQD8"
+                videoId="ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[]}
@@ -178,7 +178,7 @@ describe('YoutubeAtom', () => {
                 <YoutubeAtom
                     id="xyz"
                     title="My Youtube video!"
-                    assetId="ZCvZmYlQD8"
+                    videoId="ZCvZmYlQD8"
                     alt=""
                     role="inline"
                     eventEmitters={[]}
@@ -190,7 +190,7 @@ describe('YoutubeAtom', () => {
                 <YoutubeAtom
                     id="xyz"
                     title="My Youtube video 2!"
-                    assetId="ZCvZmYlQD8_2"
+                    videoId="ZCvZmYlQD8_2"
                     alt=""
                     role="inline"
                     eventEmitters={[]}

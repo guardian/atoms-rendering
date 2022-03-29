@@ -15,7 +15,7 @@ import type { ConsentState } from '@guardian/consent-management-platform/dist/ty
 
 type Props = {
     id: string;
-    assetId: string;
+    videoId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
@@ -35,7 +35,7 @@ type Props = {
 
 export const YoutubeAtom = ({
     id,
-    assetId,
+    videoId,
     overrideImage,
     posterImage,
     adTargeting,
@@ -124,7 +124,7 @@ export const YoutubeAtom = ({
 
     return (
         <YoutubeAtomSticky
-            assetId={assetId}
+            videoId={videoId}
             shouldStick={shouldStick}
             isPlaying={isPlaying}
             eventEmitters={eventEmitters}
@@ -135,7 +135,7 @@ export const YoutubeAtom = ({
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
                         id={id}
-                        videoId={assetId}
+                        videoId={videoId}
                         adTargeting={adTargeting}
                         consentState={consentState}
                         height={height}
@@ -155,7 +155,7 @@ export const YoutubeAtom = ({
                 {showOverlay && (
                     <YoutubeAtomOverlay
                         id={id}
-                        videoId={assetId}
+                        videoId={videoId}
                         overrideImage={overrideImage}
                         posterImage={posterImage}
                         height={height}
@@ -169,7 +169,7 @@ export const YoutubeAtom = ({
                     />
                 )}
                 {showPlaceholder && (
-                    <YoutubeAtomPlaceholder id={id} videoId={assetId} />
+                    <YoutubeAtomPlaceholder id={id} videoId={videoId} />
                 )}
             </MaintainAspectRatio>
         </YoutubeAtomSticky>

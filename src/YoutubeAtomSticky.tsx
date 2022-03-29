@@ -94,7 +94,7 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
 };
 
 type Props = {
-    assetId: string;
+    videoId: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     shouldStick?: boolean;
     onStopVideo: () => void;
@@ -104,7 +104,7 @@ type Props = {
 };
 
 export const YoutubeAtomSticky = ({
-    assetId,
+    videoId,
     eventEmitters,
     shouldStick,
     onStopVideo,
@@ -134,7 +134,7 @@ export const YoutubeAtomSticky = ({
         // emit a 'close' event
         log('dotcom', {
             from: `YoutubeAtom handleCloseClick`,
-            videoId: assetId,
+            videoId,
             msg: 'Close',
         });
         eventEmitters.forEach((eventEmitter) => eventEmitter('close'));
@@ -176,12 +176,12 @@ export const YoutubeAtomSticky = ({
 
             log('dotcom', {
                 from: 'YoutubeAtom stick useEffect',
-                videoId: assetId,
+                videoId,
                 msg: 'Stick',
             });
             eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
         }
-    }, [isSticky, stickEventSent, assetId, eventEmitters]);
+    }, [isSticky, stickEventSent, videoId, eventEmitters]);
 
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
