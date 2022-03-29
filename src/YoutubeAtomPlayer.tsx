@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
 
-import type { AdTargeting, ImageSource, VideoEventKey } from './types';
+import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import {
     AdsConfig,
@@ -12,8 +12,6 @@ import { log } from '@guardian/libs';
 
 type Props = {
     videoId: string;
-    overrideImage?: ImageSource[];
-    posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
     consentState: ConsentState;
     height: number;
@@ -178,8 +176,6 @@ const createOnStateChangeListener = (
 
 export const YoutubeAtomPlayer = ({
     videoId,
-    overrideImage,
-    posterImage,
     adTargeting,
     consentState,
     height,
@@ -363,7 +359,6 @@ export const YoutubeAtomPlayer = ({
         <div
             title={title}
             id={`youtube-video-${videoId}`}
-            tabIndex={overrideImage || posterImage ? -1 : 0}
             data-atom-id={`youtube-video-${videoId}`}
             data-testid={`youtube-video-${videoId}`}
             data-atom-type="youtube"

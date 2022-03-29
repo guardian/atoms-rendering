@@ -8,8 +8,8 @@ type Props = {
     imageSources: ImageSource[];
     role: RoleType;
     alt: string;
-    height: string;
-    width: string;
+    height: number;
+    width: number;
     isMainMedia?: boolean;
     isLazy?: boolean;
 };

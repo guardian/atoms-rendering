@@ -38,6 +38,8 @@ const overlayStyles = css`
     position: absolute;
     max-height: 100vh;
     cursor: pointer;
+    border: 0;
+    padding: 0;
 
     img {
         width: 100%;
@@ -107,26 +109,18 @@ export const YoutubeAtomOverlay = ({
     onClick,
 }: Props): JSX.Element => {
     return (
-        <div
+        <button
             data-cy={`youtube-overlay-${videoId}`}
             data-testid={`youtube-overlay-${videoId}`}
-            onClick={() => {
-                onClick();
-            }}
-            onKeyDown={(e) => {
-                if (e.code === 'Space' || e.code === 'Enter') {
-                    onClick();
-                }
-            }}
+            onClick={onClick}
             css={overlayStyles}
-            tabIndex={0}
         >
             <Picture
                 imageSources={overrideImage || posterImage || []}
                 role={role}
                 alt={alt}
-                height={`${height}`}
-                width={`${width}`}
+                height={height}
+                width={width}
             />
             <div css={overlayInfoWrapperStyles}>
                 <div
@@ -143,6 +137,6 @@ export const YoutubeAtomOverlay = ({
                     </div>
                 )}
             </div>
-        </div>
+        </button>
     );
 };
