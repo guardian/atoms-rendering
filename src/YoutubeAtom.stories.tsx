@@ -311,3 +311,42 @@ export const StickyMainMedia = (): JSX.Element => {
         </div>
     );
 };
+
+export const multipleVideo = (): JSX.Element => {
+    return (
+        <div style={{ width: '500px' }}>
+            <YoutubeAtom
+                assetId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <YoutubeAtom
+                assetId="3jpXAMwRSu4"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+        </div>
+    );
+};
