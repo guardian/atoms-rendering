@@ -69,6 +69,7 @@ describe('YoutubeAtom', () => {
 
         const atom = (
             <YoutubeAtom
+                id="xyz"
                 title="My Youtube video!"
                 assetId="ZCvZmYlQD8"
                 alt=""
@@ -81,14 +82,15 @@ describe('YoutubeAtom', () => {
             />
         );
         const { getByTestId } = render(atom);
-        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8');
+        const playerDiv = getByTestId('youtube-video-ZCvZmYlQD8-xyz');
         expect(playerDiv.title).toBe(title);
     });
 
-    it('overlay has correct aira-label', async () => {
+    it('overlay has correct aria-label', async () => {
         const title = 'My Youtube video!';
         const atom = (
             <YoutubeAtom
+                id="xyz"
                 title="My Youtube video!"
                 assetId="ZCvZmYlQD8"
                 alt=""
@@ -102,7 +104,7 @@ describe('YoutubeAtom', () => {
             />
         );
         const { getByTestId } = render(atom);
-        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8');
+        const overlay = getByTestId('youtube-overlay-ZCvZmYlQD8-xyz');
         const ariaLabel = overlay.getAttribute('aria-label');
 
         expect(ariaLabel).toBe(`Play video: ${title}`);
@@ -207,44 +209,6 @@ describe('YoutubeAtom', () => {
         expect(overlay1).not.toBeInTheDocument();
 
         const overlay2 = getByTestId(`youtube-overlay-ZCvZmYlQD8_2-xyz`);
-        expect(overlay2).toBeInTheDocument();
-    });
-
-    it('when two Atoms with duplicate videos - hides the overlay of the correct player if clicked', async () => {
-        const atom = (
-            <>
-                <YoutubeAtom
-                    id="xyz"
-                    title="My Youtube video!"
-                    assetId="ZCvZmYlQD8"
-                    alt=""
-                    role="inline"
-                    eventEmitters={[]}
-                    pillar={0}
-                    overrideImage={overlayImage}
-                    shouldStick={false}
-                />
-                <YoutubeAtom
-                    id="vwx"
-                    title="My Youtube video 2!"
-                    assetId="ZCvZmYlQD8"
-                    alt=""
-                    role="inline"
-                    eventEmitters={[]}
-                    pillar={0}
-                    overrideImage={overlayImage}
-                    shouldStick={false}
-                />
-            </>
-        );
-        const { getByTestId } = render(atom);
-        const overlay1 = getByTestId('youtube-overlay-ZCvZmYlQD8-xyz');
-        expect(overlay1).toBeInTheDocument();
-
-        fireEvent.click(getByTestId('youtube-overlay-ZCvZmYlQD8-xyz'));
-        expect(overlay1).not.toBeInTheDocument();
-
-        const overlay2 = getByTestId(`youtube-overlay-ZCvZmYlQD8-vwx`);
         expect(overlay2).toBeInTheDocument();
     });
 });
