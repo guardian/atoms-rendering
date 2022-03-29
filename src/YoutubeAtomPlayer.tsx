@@ -62,9 +62,7 @@ const createOnStateChangeListener = (
     videoId: string,
     progressEvents: ProgressEvents,
     eventEmitters: Props['eventEmitters'],
-    atomIds: string[],
 ): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
-    console.log(atomIds);
     const loggerFrom = 'YoutubeAtomPlayer onStateChange';
     log('dotcom', {
         from: loggerFrom,
@@ -78,14 +76,28 @@ const createOnStateChangeListener = (
     const player = event.target;
 
     if (event.data === YT.PlayerState.PLAYING) {
-        const otherPlayer: YoutubePlayerType = YouTubePlayer(
-            `youtube-video-${atomIds[0]}`,
-            {
-                videoId: atomIds[0],
-            },
-        );
+        const iframes = document.getElementsByTagName('iframe');
+        const atomsArray = Array.from(iframes);
 
-        otherPlayer.stopVideo();
+        atomsArray.forEach((iframe) => {
+            const src = iframe.getAttribute('src');
+            if (
+                iframe &&
+                iframe.id !== `youtube-video-${videoId}` &&
+                src &&
+                src.indexOf('youtube.com/embed') !== -1
+            ) {
+                console.log(iframe.id);
+                iframe.contentWindow?.postMessage(
+                    JSON.stringify({
+                        event: 'command',
+                        func: 'stopVideo',
+                        args: [],
+                    }),
+                    '*',
+                );
+            }
+        });
 
         if (!progressEvents.hasSentPlayEvent) {
             log('dotcom', {
@@ -212,8 +224,6 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
     const listeners = useRef<Array<YoutubeCallback>>([]);
-    //const otherPlayer = useRef<YoutubePlayerType | undefined>();
-    const otherAtomIds = useRef<string[]>([]);
 
     /**
      * Initialise player useEffect
@@ -265,7 +275,6 @@ export const YoutubeAtomPlayer = ({
                     videoId,
                     progressEvents.current,
                     eventEmitters,
-                    otherAtomIds.current,
                 );
 
                 const playerStateChangeListener = player.current?.on(
@@ -367,19 +376,6 @@ export const YoutubeAtomPlayer = ({
         };
     }, []);
 
-    useEffect(() => {
-        const otherAtoms = document.querySelectorAll(
-            '[data-atom-type="youtube"]',
-        );
-        const atomsArray = Array.from(otherAtoms);
-        console.log(atomsArray);
-        atomsArray.forEach((atom) => {
-            if (atom.id !== `youtube-video-${videoId}`) {
-                console.log(`atom id ${atom.id} is pushed`);
-                otherAtomIds.current?.push(atom.id);
-            }
-        });
-    }, []);
     /**
      * An element for the YouTube iFrame to hook into the dom
      */
