@@ -75,27 +75,31 @@ const createOnStateChangeListener = (
      */
     const player = event.target;
 
-    if (event.data === YT.PlayerState.PLAYING) {
-        const iframes = document.getElementsByTagName('iframe');
-        const atomsArray = Array.from(iframes);
+    /**
+     * the ID of the iframe
+     */
+    const atomId = `youtube-video-${videoId}`;
 
-        atomsArray.forEach((iframe) => {
-            const src = iframe.getAttribute('src');
-            if (
-                iframe &&
-                iframe.id !== `youtube-video-${videoId}` &&
-                src &&
-                src.indexOf('youtube.com/embed') !== -1
-            ) {
-                console.log(iframe.id);
-                iframe.contentWindow?.postMessage(
-                    JSON.stringify({
-                        event: 'command',
-                        func: 'stopVideo',
-                        args: [],
-                    }),
-                    '*',
-                );
+    if (event.data === YT.PlayerState.PLAYING) {
+        const youtubeIframes = document.querySelectorAll(
+            '[data-atom-type="youtube"]',
+        );
+
+        /**
+         * send a 'stopVideo' postMessage to all other YoutubeAtoms
+         */
+        Array.from(youtubeIframes).forEach((iframe) => {
+            if (iframe instanceof HTMLIFrameElement) {
+                if (iframe?.id !== atomId) {
+                    iframe.contentWindow?.postMessage(
+                        JSON.stringify({
+                            event: 'command',
+                            func: 'stopVideo',
+                            args: [],
+                        }),
+                        'https://www.youtube.com/',
+                    );
+                }
             }
         });
 
