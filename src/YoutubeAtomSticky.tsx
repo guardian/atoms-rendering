@@ -80,7 +80,7 @@ const stickyStyles = css`
 `;
 
 const stickyContainerStyles = (isMainMedia?: boolean) => {
-    const height = 192;
+    const height = 175;
 
     return css`
         height: ${height}px;
@@ -89,7 +89,7 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
         justify-content: flex-end;
         padding-right: ${isMainMedia ? `${space[5]}px` : 0};
 
-        ${from.tablet} {
+        ${from.phablet} {
             height: ${height * 2}px;
         }
     `;
