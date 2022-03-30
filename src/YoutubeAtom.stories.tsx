@@ -312,7 +312,7 @@ export const StickyMainMedia = (): JSX.Element => {
     );
 };
 
-export const multipleVideo = (): JSX.Element => {
+export const MultipleVideos = (): JSX.Element => {
     return (
         <div style={{ width: '500px' }}>
             <YoutubeAtom
