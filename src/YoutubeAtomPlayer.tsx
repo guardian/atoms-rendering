@@ -299,7 +299,7 @@ export const YoutubeAtomPlayer = ({
                             const playerStatePromise = player.current?.getPlayerState();
                             playerStatePromise?.then((state) => {
                                 if (state === YT.PlayerState.PLAYING) {
-                                    player.current?.stopVideo();
+                                    player.current?.pauseVideo();
                                 }
                             });
                         }
