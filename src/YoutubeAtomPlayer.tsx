@@ -75,11 +75,6 @@ const createOnStateChangeListener = (
      */
     const player = event.target;
 
-    /**
-     * the ID of the iframe
-     */
-    const atomId = `youtube-video-${videoId}`;
-
     if (event.data === YT.PlayerState.PLAYING) {
         const youtubeIframes = document.querySelectorAll(
             '[data-atom-type="youtube"]',
@@ -90,7 +85,8 @@ const createOnStateChangeListener = (
          */
         Array.from(youtubeIframes).forEach((iframe) => {
             if (iframe instanceof HTMLIFrameElement) {
-                if (iframe?.id !== atomId) {
+                // filtering out the current component playing video
+                if (iframe.id !== `youtube-video-${videoId}`) {
                     iframe.contentWindow?.postMessage(
                         JSON.stringify({
                             event: 'command',
