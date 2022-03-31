@@ -63,9 +63,11 @@ export const YoutubeAtom = ({
     const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
+            case 'resume':
                 setStopVideo(false);
                 setIsPlaying(true);
                 break;
+            case 'pause':
             case 'end':
             case 'cued':
                 setIsPlaying(false);
