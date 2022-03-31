@@ -44,7 +44,7 @@ type YoutubePlayerType = {
     stopVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
-    getPlayerState: () => number;
+    getPlayerState: () => Promise<YT.PlayerState>;
 };
 
 type ProgressEvents = {
@@ -76,28 +76,15 @@ const createOnStateChangeListener = (
     const player = event.target;
 
     if (event.data === YT.PlayerState.PLAYING) {
-        const youtubeIframes = document.querySelectorAll(
-            '[data-atom-type="youtube"]',
-        );
-
         /**
-         * send a 'stopVideo' postMessage to all other YoutubeAtoms
+         * Emit video play event so other components
+         * get aware when a video is played
          */
-        Array.from(youtubeIframes).forEach((iframe) => {
-            if (iframe instanceof HTMLIFrameElement) {
-                // filtering out the current component playing video
-                if (iframe.id !== `youtube-video-${videoId}`) {
-                    iframe.contentWindow?.postMessage(
-                        JSON.stringify({
-                            event: 'command',
-                            func: 'stopVideo',
-                            args: [],
-                        }),
-                        'https://www.youtube.com/',
-                    );
-                }
-            }
-        });
+        document.dispatchEvent(
+            new CustomEvent('video:play', {
+                detail: { videoId },
+            }),
+        );
 
         if (!progressEvents.hasSentPlayEvent) {
             log('dotcom', {
@@ -281,6 +268,25 @@ export const YoutubeAtomPlayer = ({
                     'stateChange',
                     stateChangeListener,
                 );
+
+                /**
+                 * add a listener for when another youtube video is played in the page
+                 */
+                const youtubePlayerListener = (
+                    event: CustomEventInit<{ videoId: string }>,
+                ): void => {
+                    if (event instanceof CustomEvent) {
+                        if (event.detail.videoId !== videoId) {
+                            const playerStatePromise = player.current?.getPlayerState();
+                            playerStatePromise?.then((state) => {
+                                if (state === YT.PlayerState.PLAYING) {
+                                    player.current?.stopVideo();
+                                }
+                            });
+                        }
+                    }
+                };
+                document.addEventListener('video:play', youtubePlayerListener);
 
                 /**
                  * Register an onReady listener
