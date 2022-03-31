@@ -80,18 +80,15 @@ const stickyStyles = css`
 `;
 
 const stickyContainerStyles = (isMainMedia?: boolean) => {
-    const videoHeight = 192;
-    const largeVideoHeight = 349;
-
     return css`
-        height: ${videoHeight}px;
+        height: 192px;
         position: relative;
         display: flex;
         justify-content: flex-end;
         padding-right: ${isMainMedia ? `${space[5]}px` : 0};
 
         ${from.phablet} {
-            height: ${largeVideoHeight}px;
+            height: 349px;
         }
     `;
 };
