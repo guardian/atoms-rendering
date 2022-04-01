@@ -1,5 +1,12 @@
 # @guardian/atoms-rendering
 
+## 22.6.3
+
+### Patch Changes
+
+-   2f7a06a: Untsick YoutubeAtom on pause event
+-   b401b29: fix: content jump on sticky video close
+
 ## 22.6.2
 
 ### Patch Changes
