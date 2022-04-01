@@ -358,7 +358,7 @@ export const YoutubeAtomPlayer = ({
      */
     const handlePauseVideo = (
         event: CustomEventInit<PlayCustomEventDetail>,
-    ): void => {
+    ) => {
         if (event instanceof CustomEvent) {
             if (event.detail.videoId !== videoId) {
                 const playerStatePromise = player.current?.getPlayerState();
