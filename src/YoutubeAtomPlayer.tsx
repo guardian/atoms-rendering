@@ -32,6 +32,9 @@ declare global {
 
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
+type PlayCustomEventDetail = { videoId: string };
+const customPlayEventName = 'video:play';
+
 /**
  * youtube-player doesn't have a type definition
  * Based on https://github.com/gajus/youtube-player
@@ -82,7 +85,7 @@ const createOnStateChangeListener = (
          * get aware when a video is played
          */
         document.dispatchEvent(
-            new CustomEvent('video:play', {
+            new CustomEvent(customPlayEventName, {
                 detail: { videoId },
             }),
         );
@@ -289,25 +292,6 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
-                 * add a listener for when another youtube video is played in the page
-                 */
-                const youtubePlayerListener = (
-                    event: CustomEventInit<{ videoId: string }>,
-                ): void => {
-                    if (event instanceof CustomEvent) {
-                        if (event.detail.videoId !== videoId) {
-                            const playerStatePromise = player.current?.getPlayerState();
-                            playerStatePromise?.then((state) => {
-                                if (state === YT.PlayerState.PLAYING) {
-                                    player.current?.pauseVideo();
-                                }
-                            });
-                        }
-                    }
-                };
-                document.addEventListener('video:play', youtubePlayerListener);
-
-                /**
                  * Register an onReady listener
                  */
                 const readyListener = (event: YT.PlayerEvent) => {
@@ -368,6 +352,35 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
+
+    /**
+     * Pause the current video when another video is played on the same page
+     */
+    const handlePauseVideo = (
+        event: CustomEventInit<PlayCustomEventDetail>,
+    ): void => {
+        if (event instanceof CustomEvent) {
+            if (event.detail.videoId !== videoId) {
+                const playerStatePromise = player.current?.getPlayerState();
+                playerStatePromise?.then((state) => {
+                    if (state === YT.PlayerState.PLAYING) {
+                        player.current?.pauseVideo();
+                    }
+                });
+            }
+        }
+    };
+
+    /**
+     * add listener for custom play event
+     * remove listener in clean up function
+     */
+    useEffect(() => {
+        document.addEventListener(customPlayEventName, handlePauseVideo);
+        return () => {
+            document.removeEventListener(customPlayEventName, handlePauseVideo);
+        };
+    }, []);
 
     /**
      * Player stop useEffect
