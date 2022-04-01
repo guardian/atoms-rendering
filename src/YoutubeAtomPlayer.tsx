@@ -235,6 +235,10 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
     const playerListeners = useRef<Array<YoutubeCallback>>([]);
+
+    /**
+     * A map ref with a key of eventname and a value of eventHandler
+     */
     const customListeners = useRef<
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
