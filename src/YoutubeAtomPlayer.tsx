@@ -365,7 +365,7 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
-                 * Record the playerListeners so they can be unregistered on component unmount
+                 * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
                  */
                 playerReadyListener &&
                     playerListeners.current.push(playerReadyListener);
