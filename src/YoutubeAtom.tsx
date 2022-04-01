@@ -14,7 +14,8 @@ import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 
 type Props = {
-    assetId: string;
+    elementId: string;
+    videoId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
     adTargeting?: AdTargeting;
@@ -33,7 +34,8 @@ type Props = {
 };
 
 export const YoutubeAtom = ({
-    assetId,
+    elementId,
+    videoId,
     overrideImage,
     posterImage,
     adTargeting,
@@ -54,6 +56,8 @@ export const YoutubeAtom = ({
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [stopVideo, setStopVideo] = useState<boolean>(false);
+
+    const uniqueId = `${videoId}-${elementId}`;
 
     /**
      * Update the isPlaying state based on video events
@@ -122,7 +126,7 @@ export const YoutubeAtom = ({
 
     return (
         <YoutubeAtomSticky
-            assetId={assetId}
+            videoId={videoId}
             shouldStick={shouldStick}
             isPlaying={isPlaying}
             eventEmitters={eventEmitters}
@@ -132,7 +136,8 @@ export const YoutubeAtom = ({
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
-                        videoId={assetId}
+                        videoId={videoId}
+                        uniqueId={uniqueId}
                         adTargeting={adTargeting}
                         consentState={consentState}
                         height={height}
@@ -151,7 +156,7 @@ export const YoutubeAtom = ({
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay
-                        videoId={assetId}
+                        uniqueId={uniqueId}
                         overrideImage={overrideImage}
                         posterImage={posterImage}
                         height={height}
@@ -165,7 +170,7 @@ export const YoutubeAtom = ({
                     />
                 )}
                 {showPlaceholder && (
-                    <YoutubeAtomPlaceholder videoId={assetId} />
+                    <YoutubeAtomPlaceholder uniqueId={uniqueId} />
                 )}
             </MaintainAspectRatio>
         </YoutubeAtomSticky>
