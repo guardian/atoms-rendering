@@ -234,7 +234,10 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
-    const listeners = useRef<Array<YoutubeCallback>>([]);
+    const playerListeners = useRef<Array<YoutubeCallback>>([]);
+    const customListeners = useRef<
+        Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
+    >({});
     const id = `youtube-video-${uniqueId}`;
 
     /**
@@ -295,6 +298,32 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
+                 * Pause the current video when another video is played on the same page
+                 */
+                const handlePauseVideo = (
+                    event: CustomEventInit<CustomPlayEventDetail>,
+                ) => {
+                    if (event instanceof CustomEvent) {
+                        if (event.detail.videoId !== videoId) {
+                            const playerStatePromise = player.current?.getPlayerState();
+                            playerStatePromise?.then((state) => {
+                                if (state === YT.PlayerState.PLAYING) {
+                                    player.current?.pauseVideo();
+                                }
+                            });
+                        }
+                    }
+                };
+
+                /**
+                 * add listener for custom play event
+                 */
+                document.addEventListener(
+                    customPlayEventName,
+                    handlePauseVideo,
+                );
+
+                /**
                  * Register an onReady listener
                  */
                 const readyListener = (event: YT.PlayerEvent) => {
@@ -332,12 +361,14 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
-                 * Record the listeners so they can be unregistered on component unmount
+                 * Record the playerListeners so they can be unregistered on component unmount
                  */
                 playerReadyListener &&
-                    listeners.current.push(playerReadyListener);
+                    playerListeners.current.push(playerReadyListener);
                 playerStateChangeListener &&
-                    listeners.current.push(playerStateChangeListener);
+                    playerListeners.current.push(playerStateChangeListener);
+
+                customListeners.current[customPlayEventName] = handlePauseVideo;
             }
         },
         /**
@@ -355,35 +386,6 @@ export const YoutubeAtomPlayer = ({
             width,
         ],
     );
-
-    /**
-     * Pause the current video when another video is played on the same page
-     */
-    const handlePauseVideo = (
-        event: CustomEventInit<CustomPlayEventDetail>,
-    ) => {
-        if (event instanceof CustomEvent) {
-            if (event.detail.videoId !== videoId) {
-                const playerStatePromise = player.current?.getPlayerState();
-                playerStatePromise?.then((state) => {
-                    if (state === YT.PlayerState.PLAYING) {
-                        player.current?.pauseVideo();
-                    }
-                });
-            }
-        }
-    };
-
-    /**
-     * add listener for custom play event
-     * remove listener in clean up function
-     */
-    useEffect(() => {
-        document.addEventListener(customPlayEventName, handlePauseVideo);
-        return () => {
-            document.removeEventListener(customPlayEventName, handlePauseVideo);
-        };
-    }, []);
 
     /**
      * Player stop useEffect
@@ -411,9 +413,15 @@ export const YoutubeAtomPlayer = ({
          * useEffect update.
          */
         return () => {
-            listeners.current.forEach((listener) => {
-                player.current?.off(listener);
+            playerListeners.current.forEach((playerListener) => {
+                player.current?.off(playerListener);
             });
+
+            Object.entries(customListeners.current).forEach(
+                ([eventName, eventHandler]) => {
+                    document.removeEventListener(eventName, eventHandler);
+                },
+            );
         };
     }, []);
 
