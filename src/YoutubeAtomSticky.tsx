@@ -128,20 +128,19 @@ export const YoutubeAtomSticky = ({
     const handleCloseClick = () => {
         // unstick the video
         setIsSticky(false);
-
         // reset the sticky event sender
         setStickEventSent(false);
-
         // stop the video
         onStopVideo();
 
-        // emit a 'close' event
+        // log a 'close' event
         log('dotcom', {
             from: `YoutubeAtom handleCloseClick`,
             videoId,
             msg: 'Close',
         });
 
+        // submit a 'close' event to Ophan
         submitComponentEvent({
             component: {
                 componentType: 'STICKY_VIDEO',
