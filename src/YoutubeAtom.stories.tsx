@@ -329,3 +329,44 @@ export const DuplicateVideos = (): JSX.Element => {
         </div>
     );
 };
+
+export const MultipleVideos = (): JSX.Element => {
+    return (
+        <div style={{ width: '500px' }}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <YoutubeAtom
+                elementId="xyu"
+                videoId="3jpXAMwRSu4"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+        </div>
+    );
+};
