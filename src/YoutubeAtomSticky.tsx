@@ -5,6 +5,7 @@ import { useIsInView } from './lib/useIsInView';
 import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
+import { submitComponentEvent } from './lib/ophan';
 
 const buttonStyles = css`
     position: absolute;
@@ -127,17 +128,27 @@ export const YoutubeAtomSticky = ({
     const handleCloseClick = () => {
         // unstick the video
         setIsSticky(false);
+
         // reset the sticky event sender
         setStickEventSent(false);
+
         // stop the video
         onStopVideo();
+
         // emit a 'close' event
         log('dotcom', {
             from: `YoutubeAtom handleCloseClick`,
             videoId,
             msg: 'Close',
         });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('close'));
+
+        submitComponentEvent({
+            component: {
+                componentType: 'STICKY_VIDEO',
+                id: videoId,
+            },
+            action: 'CLOSE',
+        });
     };
 
     /**
@@ -179,7 +190,14 @@ export const YoutubeAtomSticky = ({
                 videoId,
                 msg: 'Stick',
             });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('stick'));
+
+            submitComponentEvent({
+                component: {
+                    componentType: 'STICKY_VIDEO',
+                    id: videoId,
+                },
+                action: 'STICK',
+            });
         }
     }, [isSticky, stickEventSent, videoId, eventEmitters]);
 
