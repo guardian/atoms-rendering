@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.0.0
+
+### Major Changes
+
+-   30fa8f2: YoutubeAtom duplicate video fix
+
 ## 22.6.3
 
 ### Patch Changes
