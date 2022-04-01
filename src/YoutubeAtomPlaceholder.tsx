@@ -2,14 +2,15 @@ import React from 'react';
 import { css } from '@emotion/react';
 
 export const YoutubeAtomPlaceholder = ({
-    videoId,
+    uniqueId,
 }: {
-    videoId: string;
+    uniqueId: string;
 }): JSX.Element => {
+    const id = `youtube-placeholder-${uniqueId}`;
     return (
         <div
-            data-name={`youtube-placeholder-${videoId}`}
-            data-testid={`youtube-placeholder-${videoId}`}
+            data-name={id}
+            data-testid={id}
             css={[
                 css`
                     width: 100%;

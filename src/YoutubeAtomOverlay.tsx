@@ -16,7 +16,7 @@ import { ImageSource, RoleType } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 
 type Props = {
-    videoId: string;
+    uniqueId: string;
     overrideImage?: ImageSource[];
     posterImage?: ImageSource[];
     height: number;
@@ -98,7 +98,7 @@ const videoDurationStyles = (pillar: ArticleTheme) => css`
 `;
 
 export const YoutubeAtomOverlay = ({
-    videoId,
+    uniqueId,
     overrideImage,
     posterImage,
     height,
@@ -110,10 +110,11 @@ export const YoutubeAtomOverlay = ({
     title,
     onClick,
 }: Props): JSX.Element => {
+    const id = `youtube-overlay-${uniqueId}`;
     return (
         <button
-            data-cy={`youtube-overlay-${videoId}`}
-            data-testid={`youtube-overlay-${videoId}`}
+            data-cy={id}
+            data-testid={id}
             onClick={onClick}
             css={overlayStyles}
             aria-label={`Play video: ${title}`}
