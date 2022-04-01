@@ -32,7 +32,7 @@ declare global {
 
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
-type PlayCustomEventDetail = { videoId: string };
+type CustomPlayEventDetail = { videoId: string };
 const customPlayEventName = 'video:play';
 
 /**
@@ -357,7 +357,7 @@ export const YoutubeAtomPlayer = ({
      * Pause the current video when another video is played on the same page
      */
     const handlePauseVideo = (
-        event: CustomEventInit<PlayCustomEventDetail>,
+        event: CustomEventInit<CustomPlayEventDetail>,
     ) => {
         if (event instanceof CustomEvent) {
             if (event.detail.videoId !== videoId) {
