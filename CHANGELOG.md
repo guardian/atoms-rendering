@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.0.1
+
+### Patch Changes
+
+-   c33ed2f: Handle multiple videos
+
 ## 23.0.0
 
 ### Major Changes
