@@ -63,149 +63,151 @@ type ProgressEvents = {
 /**
  * ProgressEvents are a ref, see below
  */
-const createOnStateChangeListener = (
-    videoId: string,
-    progressEvents: ProgressEvents,
-    eventEmitters: Props['eventEmitters'],
-): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
-    const loggerFrom = 'YoutubeAtomPlayer onStateChange';
-    log('dotcom', {
-        from: loggerFrom,
-        videoId,
-        event,
-    });
+const createOnStateChangeListener =
+    (
+        videoId: string,
+        progressEvents: ProgressEvents,
+        eventEmitters: Props['eventEmitters'],
+    ): YT.PlayerEventHandler<YT.OnStateChangeEvent> =>
+    (event) => {
+        const loggerFrom = 'YoutubeAtomPlayer onStateChange';
+        log('dotcom', {
+            from: loggerFrom,
+            videoId,
+            event,
+        });
 
-    /**
-     * event.target is the actual underlying YT player
-     */
-    const player = event.target;
-
-    if (event.data === YT.PlayerState.PLAYING) {
         /**
-         * Emit video play event so other components
-         * get aware when a video is played
+         * event.target is the actual underlying YT player
          */
-        document.dispatchEvent(
-            new CustomEvent(customPlayEventName, {
-                detail: { videoId },
-            }),
-        );
+        const player = event.target;
 
-        if (!progressEvents.hasSentPlayEvent) {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'start play',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-            progressEvents.hasSentPlayEvent = true;
-
+        if (event.data === YT.PlayerState.PLAYING) {
             /**
-             * Set a timeout to check progress again in the future
+             * Emit video play event so other components
+             * get aware when a video is played
              */
-            setTimeout(() => {
-                checkProgress();
-            }, 3000);
-        } else {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'resume',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
-        }
+            document.dispatchEvent(
+                new CustomEvent(customPlayEventName, {
+                    detail: { videoId },
+                }),
+            );
 
-        const checkProgress = async () => {
-            if (!player) return null;
-            const currentTime = player && player.getCurrentTime();
-            const duration = player && player.getDuration();
-
-            if (!duration || !currentTime) return;
-
-            const percentPlayed = (currentTime / duration) * 100;
-
-            if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
+            if (!progressEvents.hasSentPlayEvent) {
                 log('dotcom', {
                     from: loggerFrom,
                     videoId,
-                    msg: 'played 25%',
+                    msg: 'start play',
                     event,
                 });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
-                progressEvents.hasSent25Event = true;
-            }
+                eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
+                progressEvents.hasSentPlayEvent = true;
 
-            if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
-                log('dotcom', {
-                    from: loggerFrom,
-                    videoId,
-                    msg: 'played 50%',
-                    event,
-                });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
-                progressEvents.hasSent50Event = true;
-            }
-
-            if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
-                log('dotcom', {
-                    from: loggerFrom,
-                    videoId,
-                    msg: 'played 75%',
-                    event,
-                });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
-                progressEvents.hasSent75Event = true;
-            }
-
-            const currentPlayerState = player && player.getPlayerState();
-
-            if (currentPlayerState !== YT.PlayerState.ENDED) {
                 /**
                  * Set a timeout to check progress again in the future
                  */
-                setTimeout(() => checkProgress(), 3000);
+                setTimeout(() => {
+                    checkProgress();
+                }, 3000);
+            } else {
+                log('dotcom', {
+                    from: loggerFrom,
+                    videoId,
+                    msg: 'resume',
+                    event,
+                });
+                eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
             }
-        };
-    }
 
-    if (event.data === YT.PlayerState.PAUSED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'pause',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
-    }
+            const checkProgress = async () => {
+                if (!player) return null;
+                const currentTime = player && player.getCurrentTime();
+                const duration = player && player.getDuration();
 
-    if (event.data === YT.PlayerState.CUED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'cued',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
-        progressEvents.hasSentPlayEvent = false;
-    }
+                if (!duration || !currentTime) return;
 
-    if (
-        event.data === YT.PlayerState.ENDED &&
-        !progressEvents.hasSentEndEvent
-    ) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'ended',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-        progressEvents.hasSentEndEvent = true;
-        progressEvents.hasSentPlayEvent = false;
-    }
-};
+                const percentPlayed = (currentTime / duration) * 100;
+
+                if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 25%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
+                    progressEvents.hasSent25Event = true;
+                }
+
+                if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 50%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
+                    progressEvents.hasSent50Event = true;
+                }
+
+                if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 75%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
+                    progressEvents.hasSent75Event = true;
+                }
+
+                const currentPlayerState = player && player.getPlayerState();
+
+                if (currentPlayerState !== YT.PlayerState.ENDED) {
+                    /**
+                     * Set a timeout to check progress again in the future
+                     */
+                    setTimeout(() => checkProgress(), 3000);
+                }
+            };
+        }
+
+        if (event.data === YT.PlayerState.PAUSED) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'pause',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
+        }
+
+        if (event.data === YT.PlayerState.CUED) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'cued',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+            progressEvents.hasSentPlayEvent = false;
+        }
+
+        if (
+            event.data === YT.PlayerState.ENDED &&
+            !progressEvents.hasSentEndEvent
+        ) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'ended',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+            progressEvents.hasSentEndEvent = true;
+            progressEvents.hasSentPlayEvent = false;
+        }
+    };
 
 export const YoutubeAtomPlayer = ({
     uniqueId,
@@ -309,7 +311,8 @@ export const YoutubeAtomPlayer = ({
                 ) => {
                     if (event instanceof CustomEvent) {
                         if (event.detail.videoId !== videoId) {
-                            const playerStatePromise = player.current?.getPlayerState();
+                            const playerStatePromise =
+                                player.current?.getPlayerState();
                             playerStatePromise?.then((state) => {
                                 if (state === YT.PlayerState.PLAYING) {
                                     player.current?.pauseVideo();

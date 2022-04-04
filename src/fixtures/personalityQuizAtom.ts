@@ -5,8 +5,7 @@ export const examplePersonalityQuestions = [
         answers: [
             {
                 id: '6d2d7e61-7352-4ff0-a1d1-0e2f3373bc57',
-                text:
-                    'I exercised right to buy on my council flat. Thanks, Thatcher!',
+                text: 'I exercised right to buy on my council flat. Thanks, Thatcher!',
                 answerBuckets: [
                     'ea8fceaa-6b49-4e4e-b433-4047d613df06',
                     '3c48359a-064f-46d7-a6d0-5bcd31f792d1',
@@ -15,15 +14,13 @@ export const examplePersonalityQuestions = [
             },
             {
                 id: 'd169eecf-521e-4db3-85bd-5a542c898d4e',
-                text:
-                    'Detached house in the suburbs, garden, two dogs, a pond, some frogs, and a small but growing buy-to-let empire',
+                text: 'Detached house in the suburbs, garden, two dogs, a pond, some frogs, and a small but growing buy-to-let empire',
                 answerBuckets: ['3c48359a-064f-46d7-a6d0-5bcd31f792d1'],
                 isCorrect: false,
             },
             {
                 id: 'c48aa7d4-f87b-4bef-96f1-fd9458e3e145',
-                text:
-                    "I live with four or five friends in a shared house. We don't have a living room but we know how to party",
+                text: "I live with four or five friends in a shared house. We don't have a living room but we know how to party",
                 answerBuckets: ['d9574643-86f6-49e6-a384-7bc9e7cc5454'],
                 isCorrect: false,
             },
@@ -38,8 +35,7 @@ export const examplePersonalityQuestions = [
             },
             {
                 id: '7d389f7d-855f-47bc-95cd-c54d56ff0b62',
-                text:
-                    'Renting a house with my partner, hoping to save for a deposit in the next 10 to 20 years',
+                text: 'Renting a house with my partner, hoping to save for a deposit in the next 10 to 20 years',
                 answerBuckets: ['48fe5e8d-acc0-4797-a10e-37fd54838ae1'],
                 isCorrect: false,
             },
