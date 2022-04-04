@@ -122,15 +122,12 @@ export const PersonalityQuizAtom = ({
         [key: string]: string;
     }>({});
 
-    const [hasSubmittedAnswers, setHasSubmittedAnswers] = useState<boolean>(
-        false,
-    );
+    const [hasSubmittedAnswers, setHasSubmittedAnswers] =
+        useState<boolean>(false);
     const [hasMissingAnswers, setHasMissingAnswers] = useState<boolean>(false);
 
-    const [
-        topSelectedResult,
-        setTopSelectedResult,
-    ] = useState<ResultsBucket | null>();
+    const [topSelectedResult, setTopSelectedResult] =
+        useState<ResultsBucket | null>();
 
     const onSubmit = (e: MouseEvent | KeyboardEvent) => {
         e.preventDefault();

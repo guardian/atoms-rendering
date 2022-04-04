@@ -24,11 +24,14 @@ export const NewsTimelineStoryNoDescriptionExpanded = (): JSX.Element => {
 };
 
 // Based on https://www.theguardian.com/sport/blog/2020/jul/09/why-chris-froome-and-team-ineos-parting-of-the-ways-cycling
-export const SportTimelineStoryWithDescriptionAndEventsExpanded = (): JSX.Element => {
-    return (
-        <TimelineAtom {...sportTimelineStoryWithDescriptionAndEventsExpanded} />
-    );
-};
+export const SportTimelineStoryWithDescriptionAndEventsExpanded =
+    (): JSX.Element => {
+        return (
+            <TimelineAtom
+                {...sportTimelineStoryWithDescriptionAndEventsExpanded}
+            />
+        );
+    };
 
 // Based on https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order
 export const NewsStoryWithDatesToExpanded = (): JSX.Element => {

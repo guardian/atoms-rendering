@@ -4,92 +4,79 @@ const NewsEvents = [
     {
         title: '',
         date: '1999',
-        body:
-            '<p>In the early 90s, <b>Ghislaine Maxwell</b>, the daughter of British media tycoon Robert Maxwell, met investment banker and financier <b>Jeffrey Epstein</b>. Their relationship was initially romantic, but it evolved into something more akin to that of Maxwell being a close friend, confidante and personal assistant.&nbsp;</p><p>The Duke of York, <b>Prince Andrew</b>, was reportedly introduced to Epstein through their mutual friend Maxwell in 1999, and Epstein reportedly visited <b>the Queen</b>’s private retreat\nin Aberdeenshire.</p><p>Some have suggested the introduction was made earlier. A 2011&nbsp;<a href="https://www.itv.com/news/2019-11-20/prince-andrew-and-jeffrey-epstein-met-in-early-1990s-not-1999-as-claimed-in-interview/">letter to the Times of London</a>&nbsp;from the prince’s then private secretary, Alastair Watson, suggests Andrew and Epstein knew each other from the early 90s.</p>',
+        body: '<p>In the early 90s, <b>Ghislaine Maxwell</b>, the daughter of British media tycoon Robert Maxwell, met investment banker and financier <b>Jeffrey Epstein</b>. Their relationship was initially romantic, but it evolved into something more akin to that of Maxwell being a close friend, confidante and personal assistant.&nbsp;</p><p>The Duke of York, <b>Prince Andrew</b>, was reportedly introduced to Epstein through their mutual friend Maxwell in 1999, and Epstein reportedly visited <b>the Queen</b>’s private retreat\nin Aberdeenshire.</p><p>Some have suggested the introduction was made earlier. A 2011&nbsp;<a href="https://www.itv.com/news/2019-11-20/prince-andrew-and-jeffrey-epstein-met-in-early-1990s-not-1999-as-claimed-in-interview/">letter to the Times of London</a>&nbsp;from the prince’s then private secretary, Alastair Watson, suggests Andrew and Epstein knew each other from the early 90s.</p>',
         unixDate: 915148800000,
     },
     {
         title: '',
         date: '2000',
-        body:
-            '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAndrew, Maxwell and Epstein are seen together at <b>Donald\nTrump</b>’s Mar-a-Lago club in Florida. Later that year, Epstein and Maxwell\nattend a joint birthday party at Windsor Castle hosted by the Queen.</p>',
+        body: '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAndrew, Maxwell and Epstein are seen together at <b>Donald\nTrump</b>’s Mar-a-Lago club in Florida. Later that year, Epstein and Maxwell\nattend a joint birthday party at Windsor Castle hosted by the Queen.</p>',
         unixDate: 946684800000,
     },
     {
         title: '',
         date: '2001',
-        body:
-            '<p>Andrew and Epstein holiday together and are pictured on a yacht in Phuket, Thailand,&nbsp;<a href="https://www.thetimes.co.uk/article/andrew-relaxes-on-epsteins-yacht-after-hard-year-on-holiday-5qjz0nh0rkz">surrounded by topless women</a>. The Times of London reported the prince’s holiday was paid for by Epstein.</p><p>In the same year, <b>Virginia Giuffre</b>, then 17, claims to have had sex\nwith Andrew in Maxwell’s home in Belgravia, London. Giuffre, whose surname was \nRoberts at the time of the alleged incidents, says she slept with Andrew\n twice more, at Epstein’s\nNew York home and at an “orgy” on his private island in the Caribbean.</p>',
+        body: '<p>Andrew and Epstein holiday together and are pictured on a yacht in Phuket, Thailand,&nbsp;<a href="https://www.thetimes.co.uk/article/andrew-relaxes-on-epsteins-yacht-after-hard-year-on-holiday-5qjz0nh0rkz">surrounded by topless women</a>. The Times of London reported the prince’s holiday was paid for by Epstein.</p><p>In the same year, <b>Virginia Giuffre</b>, then 17, claims to have had sex\nwith Andrew in Maxwell’s home in Belgravia, London. Giuffre, whose surname was \nRoberts at the time of the alleged incidents, says she slept with Andrew\n twice more, at Epstein’s\nNew York home and at an “orgy” on his private island in the Caribbean.</p>',
         unixDate: 978307200000,
     },
     {
         title: '',
         date: '2008',
-        body:
-            '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEpstein is jailed for 18 months by a Florida&nbsp;state court after pleading guilty to\nprostituting minors.</p>',
+        body: '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEpstein is jailed for 18 months by a Florida&nbsp;state court after pleading guilty to\nprostituting minors.</p>',
         unixDate: 1199145600000,
     },
     {
         title: '',
         date: '2010',
-        body:
-            '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSoon after his release, Epstein is visited by\nAndrew in New York. The pair are photographed together in Central Park. Footage\nemerges years later, reportedly shot on 6 December, that appears to show Andrew\ninside Epstein’s Manhattan mansion waving goodbye to a woman from behind a door.</p>',
+        body: '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSoon after his release, Epstein is visited by\nAndrew in New York. The pair are photographed together in Central Park. Footage\nemerges years later, reportedly shot on 6 December, that appears to show Andrew\ninside Epstein’s Manhattan mansion waving goodbye to a woman from behind a door.</p>',
         unixDate: 1262304000000,
     },
     {
         title: '',
         date: '2011',
-        body:
-            '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAndrew quits his role as UK trade envoy following a\nfurore over the Central Park photos.</p>',
+        body: '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAndrew quits his role as UK trade envoy following a\nfurore over the Central Park photos.</p>',
         unixDate: 1293840000000,
     },
     {
         title: '',
         date: '2015',
-        body:
-            '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAllegations that Andrew had sex with Giuffre emerge\nin court documents in Florida related to Epstein. The papers say she was forced to have sex with Andrew when she was 17, which is under the\nage of consent under Florida law. Buckingham Palace denies the allegations. The claims against Andrew are later struck from US civil\ncourt records following a federal judge’s ruling.</p>',
+        body: '<p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAllegations that Andrew had sex with Giuffre emerge\nin court documents in Florida related to Epstein. The papers say she was forced to have sex with Andrew when she was 17, which is under the\nage of consent under Florida law. Buckingham Palace denies the allegations. The claims against Andrew are later struck from US civil\ncourt records following a federal judge’s ruling.</p>',
         unixDate: 1420070400000,
     },
     {
         title: '',
         date: '2019',
-        body:
-            "<p>Andrew is accused of sexual\nimpropriety by a second alleged Epstein victim, <b>Johanna Sjoberg</b>. She claims he\ntouched her breast at the billionaire’s Manhattan apartment in 2001.\nBuckingham Palace says the allegations are 'categorically untrue'.</p>",
+        body: "<p>Andrew is accused of sexual\nimpropriety by a second alleged Epstein victim, <b>Johanna Sjoberg</b>. She claims he\ntouched her breast at the billionaire’s Manhattan apartment in 2001.\nBuckingham Palace says the allegations are 'categorically untrue'.</p>",
         unixDate: 1546300800000,
     },
     {
         title: ' ',
         date: '10 August 2019',
-        body:
-            '<p>Epstein is found dead in his jail cell after being re-arrested and charged with sex trafficking. <a href="https://www.theguardian.com/us-news/2019/aug/16/jeffrey-epstein-cause-of-death-coroner-report">A medical examiner says the death was a suicide</a>.</p><p>A pilot on Epstein’s private jet later that month claims Andrew was a passenger on past flights with the financier and Giuffre.</p>',
+        body: '<p>Epstein is found dead in his jail cell after being re-arrested and charged with sex trafficking. <a href="https://www.theguardian.com/us-news/2019/aug/16/jeffrey-epstein-cause-of-death-coroner-report">A medical examiner says the death was a suicide</a>.</p><p>A pilot on Epstein’s private jet later that month claims Andrew was a passenger on past flights with the financier and Giuffre.</p>',
         unixDate: 1565395200000,
     },
     {
         title: ' ',
         date: 'November 2019',
-        body:
-            '<p>Andrew takes part in a disastrous BBC TV interview during which he claims he could not have had&nbsp;<a href="https://www.theguardian.com/uk-news/2019/sep/20/prince-andrew-abuser-claims-virginia-giuffre-tv-interview">sex with Giuffre</a>&nbsp;because he was at home after&nbsp;<a href="https://www.theguardian.com/uk-news/2019/nov/17/wokings-pizza-express-customers-struggle-to-remember-first-visit">a visit to Pizza Express in Woking</a>, and that her description of his dancing with her beforehand could not be true because he was unable to sweat, and that he had "no recollection of ever meeting this lady". After several days of negative reaction, Andrew announces he is to step back from public duties \'for the foreseeable future\'.</p>',
+        body: '<p>Andrew takes part in a disastrous BBC TV interview during which he claims he could not have had&nbsp;<a href="https://www.theguardian.com/uk-news/2019/sep/20/prince-andrew-abuser-claims-virginia-giuffre-tv-interview">sex with Giuffre</a>&nbsp;because he was at home after&nbsp;<a href="https://www.theguardian.com/uk-news/2019/nov/17/wokings-pizza-express-customers-struggle-to-remember-first-visit">a visit to Pizza Express in Woking</a>, and that her description of his dancing with her beforehand could not be true because he was unable to sweat, and that he had "no recollection of ever meeting this lady". After several days of negative reaction, Andrew announces he is to step back from public duties \'for the foreseeable future\'.</p>',
         unixDate: 1574208000000,
     },
     {
         title: ' ',
         date: '27 January 2020',
-        body:
-            "<p>US prosecutor <b>Geoffrey Berman</b> gives a public statement suggesting there has been 'zero cooperation' with the investigation from Andrew.</p>",
+        body: "<p>US prosecutor <b>Geoffrey Berman</b> gives a public statement suggesting there has been 'zero cooperation' with the investigation from Andrew.</p>",
         unixDate: 1580083200000,
     },
     {
         title: ' ',
         date: '9 June 2020',
-        body:
-            "<p>After Berman again claims the prince has 'completely shut the door' on cooperating with the US investigation in March, lawyers for Andrew insist he has repeatedly offered to cooperate and accuse US prosecutors of misleading the public and breaching confidentiality.</p>",
+        body: "<p>After Berman again claims the prince has 'completely shut the door' on cooperating with the US investigation in March, lawyers for Andrew insist he has repeatedly offered to cooperate and accuse US prosecutors of misleading the public and breaching confidentiality.</p>",
         unixDate: 1591632988000,
     },
     {
         title: ' ',
         date: 'July 2020',
-        body:
-            '<p>Maxwell, who has seldom been seen in public in recent years, is <a href="https://www.theguardian.com/us-news/2020/jul/02/ghislaine-maxwell-arrest-jeffrey-epstein-charges-latest-fbi">arrested by the FBI</a>&nbsp;on charges related to Epstein. Unsealed testimony from a 2015 civil case reveal a series of claims about her role in Epstein sex-trafficking ring, including allegations that she <a href="https://www.theguardian.com/us-news/2020/jul/31/ghislaine-maxwell-underage-girls-sex-jeffrey-epstein">trained underage girls as sex slaves</a>.</p>',
+        body: '<p>Maxwell, who has seldom been seen in public in recent years, is <a href="https://www.theguardian.com/us-news/2020/jul/02/ghislaine-maxwell-arrest-jeffrey-epstein-charges-latest-fbi">arrested by the FBI</a>&nbsp;on charges related to Epstein. Unsealed testimony from a 2015 civil case reveal a series of claims about her role in Epstein sex-trafficking ring, including allegations that she <a href="https://www.theguardian.com/us-news/2020/jul/31/ghislaine-maxwell-underage-girls-sex-jeffrey-epstein">trained underage girls as sex slaves</a>.</p>',
         unixDate: 1593706442000,
     },
 ];
@@ -98,36 +85,31 @@ const SportEvents = [
     {
         title: ' First Grand Tour win',
         date: 'September 2011',
-        body:
-            '<p>Froome outshines his team leader, Bradley Wiggins, to finish second at the 2011 Vuelta. He is later upgraded to first place after the original winner, Juan José Cobo, was disqualified for drug offences</p>',
+        body: '<p>Froome outshines his team leader, Bradley Wiggins, to finish second at the 2011 Vuelta. He is later upgraded to first place after the original winner, Juan José Cobo, was disqualified for drug offences</p>',
         unixDate: 1315526400000,
     },
     {
         title: ' Tour de France breakthrough',
         date: 'July 2013',
-        body:
-            '<p>Froome came second to Wiggins at the 2012 Tour but was the team leader at the next edition, where a memorable surge up Mont Ventoux leads him to his first Tour de France title</p>',
+        body: '<p>Froome came second to Wiggins at the 2012 Tour but was the team leader at the next edition, where a memorable surge up Mont Ventoux leads him to his first Tour de France title</p>',
         unixDate: 1373155200000,
     },
     {
         title: 'Hat-trick of Tour titles',
         date: 'July 2016',
-        body:
-            '<p>After crashing out early in 2014, Froome bounces back to win the 2015 edition after a battle through the mountains with Nairo Quintana. Froome defends his title in all-action style in 2016, even running a few yards up Ventoux when his bike is damaged</p>',
+        body: '<p>After crashing out early in 2014, Froome bounces back to win the 2015 edition after a battle through the mountains with Nairo Quintana. Froome defends his title in all-action style in 2016, even running a few yards up Ventoux when his bike is damaged</p>',
         unixDate: 1467849600000,
     },
     {
         title: 'Tour-Vuelta double',
         date: 'September 2017',
-        body:
-            '<p>Froome wins his fourth Tour de France, and third in succession, in 2017 and follows it up with a second Vuelta title. He becomes the first rider from outside France to win the Tour and Vuelta back-to-back</p>',
+        body: '<p>Froome wins his fourth Tour de France, and third in succession, in 2017 and follows it up with a second Vuelta title. He becomes the first rider from outside France to win the Tour and Vuelta back-to-back</p>',
         unixDate: 1504915200000,
     },
     {
         title: ' Giro win completes collection',
         date: 'June 2018',
-        body:
-            '<p>Froome gets the better of Simon Yates in a spectacular ride on the Colle delle Finestre to win his first Giro and complete his Grand Tour collection. At the 2018 Tour, he ends up working to lead his teammate, Geraint Thomas, to overall victory</p>',
+        body: '<p>Froome gets the better of Simon Yates in a spectacular ride on the Colle delle Finestre to win his first Giro and complete his Grand Tour collection. At the 2018 Tour, he ends up working to lead his teammate, Geraint Thomas, to overall victory</p>',
         unixDate: 1528243200000,
     },
 ];
@@ -136,8 +118,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'June 2010',
-        body:
-            '<p>WikiLeaks releases about 470,000 classified military documents concerning American diplomacy and the wars in Afghanistan and Iraq. It later releases a further tranche of more than 250,000 classified US diplomatic cables.</p>',
+        body: '<p>WikiLeaks releases about 470,000 classified military documents concerning American diplomacy and the wars in Afghanistan and Iraq. It later releases a further tranche of more than 250,000 classified US diplomatic cables.</p>',
         toDate: 'October 2010',
         unixDate: 1275350400000,
         toUnixDate: 1285891200000,
@@ -145,8 +126,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'November 2010',
-        body:
-            '<p>A Swedish prosecutor issues a European arrest warrant for Assange over sexual assault allegations involving two Swedish women. Assange denies the claims.</p>',
+        body: '<p>A Swedish prosecutor issues a European arrest warrant for Assange over sexual assault allegations involving two Swedish women. Assange denies the claims.</p>',
         toDate: 'December 2010',
         unixDate: 1288569600000,
         toUnixDate: 1291680000000,
@@ -154,8 +134,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'December 2010',
-        body:
-            '<p><a href="https://www.theguardian.com/news/blog/2010/dec/07/wikileaks-us-embassy-cables-live-updates">He turns himself in to police in London</a> and is placed in custody. He is later released on bail and calls the Swedish allegations a smear campaign.</p>',
+        body: '<p><a href="https://www.theguardian.com/news/blog/2010/dec/07/wikileaks-us-embassy-cables-live-updates">He turns himself in to police in London</a> and is placed in custody. He is later released on bail and calls the Swedish allegations a smear campaign.</p>',
         toDate: 'February 2011',
         unixDate: 1291680000000,
         toUnixDate: 1296518400000,
@@ -163,8 +142,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'February 2011',
-        body:
-            '<p>A British judge rules that Assange can be extradited to Sweden. Assange fears Sweden will hand him over to US authorities who could prosecute him.</p>',
+        body: '<p>A British judge rules that Assange can be extradited to Sweden. Assange fears Sweden will hand him over to US authorities who could prosecute him.</p>',
         toDate: 'June 2012',
         unixDate: 1296518400000,
         toUnixDate: 1340064000000,
@@ -172,8 +150,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'June 2012',
-        body:
-            '<p><a href="https://www.theguardian.com/media/2012/jun/19/julian-assange-wikileaks-asylum-ecuador">He takes refuge in the Ecuadorian embassy</a> in London. He requests, and is later granted, political asylum.</p>',
+        body: '<p><a href="https://www.theguardian.com/media/2012/jun/19/julian-assange-wikileaks-asylum-ecuador">He takes refuge in the Ecuadorian embassy</a> in London. He requests, and is later granted, political asylum.</p>',
         toDate: 'November 2016',
         unixDate: 1340064000000,
         toUnixDate: 1479081600000,
@@ -181,8 +158,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'November 2016',
-        body:
-            '<p>Assange&nbsp;<a href="https://www.theguardian.com/media/2016/nov/14/julian-assange-to-face-swedish-prosecutors-over-accusation">is questioned</a>&nbsp;in a two-day interview over the allegations at the Ecuadorian embassy by Swedish authorities.</p>',
+        body: '<p>Assange&nbsp;<a href="https://www.theguardian.com/media/2016/nov/14/julian-assange-to-face-swedish-prosecutors-over-accusation">is questioned</a>&nbsp;in a two-day interview over the allegations at the Ecuadorian embassy by Swedish authorities.</p>',
         toDate: 'January 2017',
         unixDate: 1479081600000,
         toUnixDate: 1479081600000,
@@ -190,8 +166,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'January 2017',
-        body:
-            "<p>WikiLeaks says <a href=\"https://www.theguardian.com/media/2017/jan/19/julian-assange-confirms-he-is-willing-to-travel-to-us-after-manning-decision\">Assange could travel to the United States to face investigation</a> if his rights are 'guaranteed'. It comes after one of the site's main sources of leaked documents, Chelsea Manning, is given clemency.</p>",
+        body: "<p>WikiLeaks says <a href=\"https://www.theguardian.com/media/2017/jan/19/julian-assange-confirms-he-is-willing-to-travel-to-us-after-manning-decision\">Assange could travel to the United States to face investigation</a> if his rights are 'guaranteed'. It comes after one of the site's main sources of leaked documents, Chelsea Manning, is given clemency.</p>",
         toDate: 'May 2017',
         unixDate: 1484784000000,
         toUnixDate: 1495152000000,
@@ -199,8 +174,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'May 2017',
-        body:
-            '<p>Swedish prosecutors say they have <a href="https://www.theguardian.com/media/2017/may/19/julian-assange-signals-he-will-stay-in-ecuadorian-embassy">closed their seven-year sex assault investigation into Assange</a>. British police say they would still arrest him if he leaves the embassy as he breached the terms of his bail in 2012.</p>',
+        body: '<p>Swedish prosecutors say they have <a href="https://www.theguardian.com/media/2017/may/19/julian-assange-signals-he-will-stay-in-ecuadorian-embassy">closed their seven-year sex assault investigation into Assange</a>. British police say they would still arrest him if he leaves the embassy as he breached the terms of his bail in 2012.</p>',
         toDate: 'January 2018',
         unixDate: 1495152000000,
         toUnixDate: 1515628800000,
@@ -208,8 +182,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'January 2018',
-        body:
-            "<p>Britain refuses Ecuador's request to accord Assange diplomatic status, which would allow him to leave the embassy without being arrested.</p>",
+        body: "<p>Britain refuses Ecuador's request to accord Assange diplomatic status, which would allow him to leave the embassy without being arrested.</p>",
         toDate: 'February 2018',
         unixDate: 1515628800000,
         toUnixDate: 1518480000000,
@@ -217,8 +190,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'February 2018',
-        body:
-            '<p><a href="https://www.theguardian.com/media/2018/feb/13/judge-refuses-to-withdraw-julian-assange-arrest-warrant">He loses a bid to have his British arrest warrant cancelled</a> on health grounds.</p>',
+        body: '<p><a href="https://www.theguardian.com/media/2018/feb/13/judge-refuses-to-withdraw-julian-assange-arrest-warrant">He loses a bid to have his British arrest warrant cancelled</a> on health grounds.</p>',
         toDate: 'March 2018',
         unixDate: 1518480000000,
         toUnixDate: 1522195200000,
@@ -226,8 +198,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'March 2018',
-        body:
-            '<p><a href="https://www.theguardian.com/media/2018/mar/28/julian-assange-internet-connection-ecuador-embassy-cut-off-wikileaks">Ecuador cuts off Assange\'s internet access</a> alleging he broke an agreement on interfering in other countries\' affairs.</p>',
+        body: '<p><a href="https://www.theguardian.com/media/2018/mar/28/julian-assange-internet-connection-ecuador-embassy-cut-off-wikileaks">Ecuador cuts off Assange\'s internet access</a> alleging he broke an agreement on interfering in other countries\' affairs.</p>',
         toDate: 'November 2018',
         unixDate: 1522195200000,
         toUnixDate: 1542326400000,
@@ -235,8 +206,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: 'November 2018',
-        body:
-            '<p>US prosecutors inadvertently disclose <a href="https://www.theguardian.com/media/2018/nov/16/julian-assange-charged-in-secret-mistake-on-us-court-filing-suggests">the existence of a sealed indictment against Assange</a>.</p>',
+        body: '<p>US prosecutors inadvertently disclose <a href="https://www.theguardian.com/media/2018/nov/16/julian-assange-charged-in-secret-mistake-on-us-court-filing-suggests">the existence of a sealed indictment against Assange</a>.</p>',
         toDate: '2 April 2019',
         unixDate: 1542326400000,
         toUnixDate: 1554163200000,
@@ -244,8 +214,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '2 April 2019',
-        body:
-            "<p>Ecuador's President Lenin Moreno says Assange has <a href=\"https://www.theguardian.com/world/2019/apr/02/julian-assange-wikileaks-asylum-ecuador-violated\">'repeatedly violated' the conditions of his asylum</a> at the embassy.</p>",
+        body: "<p>Ecuador's President Lenin Moreno says Assange has <a href=\"https://www.theguardian.com/world/2019/apr/02/julian-assange-wikileaks-asylum-ecuador-violated\">'repeatedly violated' the conditions of his asylum</a> at the embassy.</p>",
         toDate: '11 April 2019',
         unixDate: 1554163200000,
         toUnixDate: 1554977694000,
@@ -253,8 +222,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '11 April 2019',
-        body:
-            '<p><a href="https://www.theguardian.com/uk-news/2019/apr/11/julian-assange-arrested-at-ecuadorian-embassy-wikileaks">Police arrest Assange at the embassy</a>&nbsp;on behalf of the US after his asylum was withdrawn. He is charged by the US with \'a federal charge of conspiracy to commit computer intrusion for agreeing to break a password to a classified U.S. government computer.\'</p>',
+        body: '<p><a href="https://www.theguardian.com/uk-news/2019/apr/11/julian-assange-arrested-at-ecuadorian-embassy-wikileaks">Police arrest Assange at the embassy</a>&nbsp;on behalf of the US after his asylum was withdrawn. He is charged by the US with \'a federal charge of conspiracy to commit computer intrusion for agreeing to break a password to a classified U.S. government computer.\'</p>',
         toDate: '1 May 2019',
         unixDate: 1554977694000,
         toUnixDate: 1556717256000,
@@ -262,8 +230,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '1 May 2019',
-        body:
-            '<p><a href="https://www.theguardian.com/media/2019/may/01/julian-assange-jailed-for-50-weeks-for-breaching-bail-in-2012">He is jailed for 50 weeks</a>&nbsp;in the UK for breaching his bail conditions back in 2012. An apology letter from Assange is read out in court, but the judge rules that he had engaged in a \'deliberate attempt to evade justice\'. On the following day <a href="https://www.theguardian.com/media/2019/may/02/us-begins-extradition-case-against-julian-assange-in-london">the US extradition proceedings were formally started</a>.&nbsp;</p>',
+        body: '<p><a href="https://www.theguardian.com/media/2019/may/01/julian-assange-jailed-for-50-weeks-for-breaching-bail-in-2012">He is jailed for 50 weeks</a>&nbsp;in the UK for breaching his bail conditions back in 2012. An apology letter from Assange is read out in court, but the judge rules that he had engaged in a \'deliberate attempt to evade justice\'. On the following day <a href="https://www.theguardian.com/media/2019/may/02/us-begins-extradition-case-against-julian-assange-in-london">the US extradition proceedings were formally started</a>.&nbsp;</p>',
         toDate: '13 May 2019',
         unixDate: 1556717256000,
         toUnixDate: 1557738992000,
@@ -271,8 +238,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '13 May 2019',
-        body:
-            '<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
+        body: '<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
         toDate: '13 June 2019',
         unixDate: 1557738992000,
         toUnixDate: 1560414280000,
@@ -280,8 +246,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '13 June 2019',
-        body:
-            '<p>Home secretary Sajid Javid reveals he has <a href="https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order">signed the US extradition order for Assange</a> paving the way for it to be heard in court.</p>',
+        body: '<p>Home secretary Sajid Javid reveals he has <a href="https://www.theguardian.com/media/2019/jun/13/julian-assange-sajid-javid-signs-us-extradition-order">signed the US extradition order for Assange</a> paving the way for it to be heard in court.</p>',
         toDate: '24 February 2020',
         unixDate: 1560414280000,
         toUnixDate: 1582502400000,
@@ -289,8 +254,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '24 February 2020',
-        body:
-            '<p>Assange\'s <a href="https://www.theguardian.com/uk-news/2020/feb/24/julian-assange-hearing-journalism-is-no-excuse-for-breaking-law">extradition hearing begins</a> at Woolwich crown court in south-east London. After a week of opening arguments, the extradition case is to \nbe adjourned until May. Further delays are caused by the coronavirus outbreak.</p>',
+        body: '<p>Assange\'s <a href="https://www.theguardian.com/uk-news/2020/feb/24/julian-assange-hearing-journalism-is-no-excuse-for-breaking-law">extradition hearing begins</a> at Woolwich crown court in south-east London. After a week of opening arguments, the extradition case is to \nbe adjourned until May. Further delays are caused by the coronavirus outbreak.</p>',
         toDate: '15 September 2020',
         unixDate: 1582502400000,
         toUnixDate: 1600150732000,
@@ -298,8 +262,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '15 September 2020',
-        body:
-            '<p>A hearing scheduled for four weeks <a href="https://www.theguardian.com/media/2020/sep/07/julian-assange-due-court-latest-stage-fight-against-us-extradition">begins at the Old Bailey</a> with the US government expected to make their case that Assange tried to recruit hackers to find classified government information. If the courts approve extradition, the British government will still have the final say.</p>',
+        body: '<p>A hearing scheduled for four weeks <a href="https://www.theguardian.com/media/2020/sep/07/julian-assange-due-court-latest-stage-fight-against-us-extradition">begins at the Old Bailey</a> with the US government expected to make their case that Assange tried to recruit hackers to find classified government information. If the courts approve extradition, the British government will still have the final say.</p>',
         toDate: '1 October 2020',
         unixDate: 160150732000,
         toUnixDate: 1601510400000,
@@ -315,8 +278,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '26 November 2020',
-        body:
-            '<p>Stella Moris urges Donald Trump to pardon Assange before he leaves office.</p>',
+        body: '<p>Stella Moris urges Donald Trump to pardon Assange before he leaves office.</p>',
         toDate: '4 January 2020',
         unixDate: 1606348800000,
         toUnixDate: 1609718400000,
@@ -324,8 +286,7 @@ const DateToEvents = [
     {
         title: ' ',
         date: '4 January 2021',
-        body:
-            '<p>A British judge rules that Assange cannot be extradited to the US. The US has 15 days to appeal against the judgment.</p>',
+        body: '<p>A British judge rules that Assange cannot be extradited to the US. The US has 15 days to appeal against the judgment.</p>',
         unixDate: 1609718400000,
     },
 ];
