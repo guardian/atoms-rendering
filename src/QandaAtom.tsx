@@ -1,5 +1,6 @@
 import React from 'react';
 import { QandaAtomType } from './types';
+import { submitComponentEvent } from './lib/ophan';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { Body } from './expandableAtom/Body';
@@ -23,13 +24,49 @@ export const QandaAtom = ({
         atomTypeTitle="Q&A"
         pillar={pillar}
         expandForStorybook={expandForStorybook}
-        expandCallback={expandCallback}
+        expandCallback={
+            expandCallback ||
+            (() =>
+                submitComponentEvent({
+                    component: {
+                        componentType: 'QANDA_ATOM',
+                        id,
+                        products: [],
+                        labels: [],
+                    },
+                    action: 'EXPAND',
+                }))
+        }
     >
         <Body html={html} image={image} credit={credit} pillar={pillar} />
         <Footer
             pillar={pillar}
-            likeHandler={likeHandler}
-            dislikeHandler={dislikeHandler}
+            dislikeHandler={
+                dislikeHandler ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'QANDA_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'DISLIKE',
+                    }))
+            }
+            likeHandler={
+                likeHandler ||
+                (() =>
+                    submitComponentEvent({
+                        component: {
+                            componentType: 'QANDA_ATOM',
+                            id,
+                            products: [],
+                            labels: [],
+                        },
+                        action: 'LIKE',
+                    }))
+            }
         ></Footer>
     </Container>
 );

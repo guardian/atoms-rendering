@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
@@ -9,16 +8,15 @@ export default {
     component: YoutubeAtom,
 };
 
+const containerStyle = { width: '800px', margin: '24px' };
+const containerStyleSmall = { width: '400px', margin: '24px' };
+
 export const NoConsent = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
-                assetId="-ZCvZmYlQD8"
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -28,6 +26,8 @@ export const NoConsent = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                shouldStick={false}
+                isMainMedia={false}
             />
         </div>
     );
@@ -35,14 +35,10 @@ export const NoConsent = (): JSX.Element => {
 
 export const NoOverlay = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
-                assetId="-ZCvZmYlQD8"
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -53,6 +49,9 @@ export const NoOverlay = (): JSX.Element => {
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
+                shouldStick={false}
+                isMainMedia={false}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
         </div>
     );
@@ -60,14 +59,10 @@ export const NoOverlay = (): JSX.Element => {
 
 export const WithOverrideImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
-                assetId="3jpXAMwRSu4"
+                elementId="xyz"
+                videoId="3jpXAMwRSu4"
                 alt="Microscopic image of COVID"
                 role="inline"
                 eventEmitters={[
@@ -87,6 +82,9 @@ export const WithOverrideImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                shouldStick={false}
+                isMainMedia={false}
+                title="How to stop the spread of coronavirus"
             />
         </div>
     );
@@ -94,14 +92,10 @@ export const WithOverrideImage = (): JSX.Element => {
 
 export const WithPosterImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
-                assetId="N9Cgy-ke5-s"
+                elementId="xyz"
+                videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -138,6 +132,9 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                shouldStick={false}
+                isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
             />
         </div>
     );
@@ -145,14 +142,10 @@ export const WithPosterImage = (): JSX.Element => {
 
 export const WithOverlayAndPosterImage = (): JSX.Element => {
     return (
-        <div
-            css={css`
-                width: 800px;
-                margin: 25px;
-            `}
-        >
+        <div style={containerStyle}>
             <YoutubeAtom
-                assetId="N9Cgy-ke5-s"
+                elementId="xyz"
+                videoId="N9Cgy-ke5-s"
                 alt=""
                 role="inline"
                 eventEmitters={[
@@ -200,6 +193,9 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 ]}
                 height={450}
                 width={800}
+                shouldStick={false}
+                isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio"
             />
         </div>
     );
@@ -210,14 +206,10 @@ export const GiveConsent = (): JSX.Element => {
     return (
         <>
             <button onClick={() => setConsented(true)}>Give consent</button>
-            <div
-                css={css`
-                    width: 800px;
-                    margin: 25px;
-                `}
-            >
+            <div style={containerStyle}>
                 <YoutubeAtom
-                    assetId="3jpXAMwRSu4"
+                    elementId="xyz"
+                    videoId="3jpXAMwRSu4"
                     alt="Microscopic image of COVID"
                     role="inline"
                     eventEmitters={[
@@ -239,8 +231,142 @@ export const GiveConsent = (): JSX.Element => {
                     ]}
                     height={450}
                     width={800}
+                    shouldStick={false}
+                    isMainMedia={false}
+                    title="How to stop the spread of coronavirus"
                 />
             </div>
         </>
+    );
+};
+
+export const Sticky = (): JSX.Element => {
+    return (
+        <div>
+            <div style={{ height: '1000px' }}></div>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <div style={{ height: '1000px' }}></div>
+        </div>
+    );
+};
+
+export const StickyMainMedia = (): JSX.Element => {
+    return (
+        <div>
+            <div style={{ height: '1000px' }}></div>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <div style={{ height: '1000px' }}></div>
+        </div>
+    );
+};
+
+export const DuplicateVideos = (): JSX.Element => {
+    return (
+        <div style={containerStyleSmall}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+            />
+            <br />
+            <YoutubeAtom
+                elementId="xyz2"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+            />
+        </div>
+    );
+};
+
+export const MultipleVideos = (): JSX.Element => {
+    return (
+        <div style={{ width: '500px' }}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <YoutubeAtom
+                elementId="xyu"
+                videoId="3jpXAMwRSu4"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+        </div>
     );
 };

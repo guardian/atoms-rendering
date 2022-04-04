@@ -41,9 +41,9 @@ export type GuideAtomType = {
     credit?: string;
     pillar: ArticleTheme;
     expandForStorybook?: boolean;
-    likeHandler: () => void;
-    dislikeHandler: () => void;
-    expandCallback: () => void;
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+    expandCallback?: () => void;
 };
 
 export type InteractiveAtomBlockElementType = {
@@ -73,9 +73,9 @@ export type ProfileAtomType = {
     credit?: string;
     pillar: ArticleTheme;
     expandForStorybook?: boolean;
-    likeHandler: () => void;
-    dislikeHandler: () => void;
-    expandCallback: () => void;
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+    expandCallback?: () => void;
 };
 
 export type QandaAtomType = {
@@ -86,9 +86,9 @@ export type QandaAtomType = {
     credit?: string;
     pillar: ArticleTheme;
     expandForStorybook?: boolean;
-    likeHandler: () => void;
-    dislikeHandler: () => void;
-    expandCallback: () => void;
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+    expandCallback?: () => void;
 };
 
 export type TimelineAtomType = {
@@ -98,9 +98,9 @@ export type TimelineAtomType = {
     pillar: ArticleTheme;
     description?: string;
     expandForStorybook?: boolean;
-    likeHandler: () => void;
-    dislikeHandler: () => void;
-    expandCallback: () => void;
+    likeHandler?: () => void;
+    dislikeHandler?: () => void;
+    expandCallback?: () => void;
 };
 
 export interface TimelineEvent {
@@ -156,3 +156,16 @@ export type SharingUrlsType = {
         userMessage: string;
     };
 };
+
+export type VideoEventKey =
+    | 'play'
+    | '25'
+    | '50'
+    | '75'
+    | 'end'
+    | 'skip'
+    | 'cued'
+    | 'resume'
+    | 'pause'
+    | 'stick'
+    | 'close';
