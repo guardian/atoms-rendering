@@ -66,6 +66,7 @@ type ProgressEvents = {
 const createOnStateChangeListener =
     (
         videoId: string,
+        uniqueId: string,
         progressEvents: ProgressEvents,
         eventEmitters: Props['eventEmitters'],
     ): YT.PlayerEventHandler<YT.OnStateChangeEvent> =>
@@ -89,7 +90,7 @@ const createOnStateChangeListener =
              */
             document.dispatchEvent(
                 new CustomEvent(customPlayEventName, {
-                    detail: { videoId },
+                    detail: { uniqueId },
                 }),
             );
 
@@ -294,6 +295,7 @@ export const YoutubeAtomPlayer = ({
                  */
                 const stateChangeListener = createOnStateChangeListener(
                     videoId,
+                    uniqueId,
                     progressEvents.current,
                     eventEmitters,
                 );
@@ -310,7 +312,7 @@ export const YoutubeAtomPlayer = ({
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
-                        if (event.detail.videoId !== videoId) {
+                        if (event.detail.uniqueId !== uniqueId) {
                             const playerStatePromise =
                                 player.current?.getPlayerState();
                             playerStatePromise?.then((state) => {
