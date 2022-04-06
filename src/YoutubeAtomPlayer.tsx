@@ -238,18 +238,10 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
-    const playerListeners = useRef<Array<YoutubeCallback>>([]);
-
-    /**
-     * A map ref with a key of eventname and a value of eventHandler
-     */
-    const customListeners = useRef<
-        Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
-    >({});
     const id = `youtube-video-${uniqueId}`;
 
     /**
-     * Initialise player useEffect
+     * Initialise player
      */
     useOnMount(() => {
         log('dotcom', {
@@ -362,28 +354,14 @@ export const YoutubeAtomPlayer = ({
         const playerReadyListener = player.current?.on('ready', readyListener);
 
         /**
-         * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
-         */
-        playerReadyListener &&
-            playerListeners.current.push(playerReadyListener);
-        playerStateChangeListener &&
-            playerListeners.current.push(playerStateChangeListener);
-
-        customListeners.current[customPlayEventName] = handlePauseVideo;
-
-        /**
-         * Return the cleanup effect that will run _only_ on component unmount via useOnMount
+         * Return the cleanup effect that will run _only_ on unmount via useOnMount API
          */
         return () => {
-            playerListeners.current.forEach((playerListener) => {
-                player.current?.off(playerListener);
-            });
+            playerReadyListener && player.current?.off(playerReadyListener);
+            playerStateChangeListener &&
+                player.current?.off(playerStateChangeListener);
 
-            Object.entries(customListeners.current).forEach(
-                ([eventName, eventHandler]) => {
-                    document.removeEventListener(eventName, eventHandler);
-                },
-            );
+            document.removeEventListener(customPlayEventName, handlePauseVideo);
         };
     });
 
