@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import YouTubePlayer from 'youtube-player';
+import { useOnMount } from './lib/useOnMount';
 
 import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -250,151 +251,141 @@ export const YoutubeAtomPlayer = ({
     /**
      * Initialise player useEffect
      */
-    useEffect(
-        () => {
-            if (!player.current) {
-                log('dotcom', {
-                    from: 'YoutubeAtomPlayer initialise',
-                    videoId,
-                });
-
-                const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting.disableAds
-                        ? disabledAds
-                        : buildAdsConfigWithConsent(
-                              false,
-                              adTargeting.adUnit,
-                              adTargeting.customParams,
-                              consentState,
-                          );
-
-                /**
-                 * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
-                 * It will load the iframe embed
-                 * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
-                 */
-                player.current = YouTubePlayer(id, {
-                    height: width,
-                    width: height,
-                    videoId,
-                    playerVars: {
-                        modestbranding: 1,
-                        origin,
-                        playsinline: 1,
-                        rel: 0,
-                    },
-                    embedConfig: {
-                        relatedChannels: [],
-                        adsConfig,
-                    },
-                    title,
-                });
-
-                /**
-                 * Register an onStateChange listener
-                 */
-                const stateChangeListener = createOnStateChangeListener(
-                    videoId,
-                    uniqueId,
-                    progressEvents.current,
-                    eventEmitters,
-                );
-
-                const playerStateChangeListener = player.current?.on(
-                    'stateChange',
-                    stateChangeListener,
-                );
-
-                /**
-                 * Pause the current video when another video is played on the same page
-                 */
-                const handlePauseVideo = (
-                    event: CustomEventInit<CustomPlayEventDetail>,
-                ) => {
-                    if (event instanceof CustomEvent) {
-                        if (event.detail.uniqueId !== uniqueId) {
-                            const playerStatePromise =
-                                player.current?.getPlayerState();
-                            playerStatePromise?.then((state) => {
-                                if (state === YT.PlayerState.PLAYING) {
-                                    player.current?.pauseVideo();
-                                }
-                            });
-                        }
-                    }
-                };
-
-                /**
-                 * add listener for custom play event
-                 */
-                document.addEventListener(
-                    customPlayEventName,
-                    handlePauseVideo,
-                );
-
-                /**
-                 * Register an onReady listener
-                 */
-                const readyListener = (event: YT.PlayerEvent) => {
-                    log('dotcom', {
-                        from: 'YoutubeAtomPlayer onReady',
-                        videoId,
-                        msg: 'Ready',
-                        event,
-                    });
-                    /**
-                     * Callback to notify that the player is ready
-                     */
-                    onReady();
-                    /**
-                     * Autoplay is determined by the parent
-                     * Typically true when there is a preceding overlay
-                     */
-                    if (autoPlay) {
-                        log('dotcom', {
-                            from: 'YoutubeAtomPlayer onReady',
-                            videoId,
-                            msg: 'Playing video',
-                            event,
-                        });
-                        /**
-                         * event.target is the actual underlying YT player
-                         */
-                        event.target.playVideo();
-                    }
-                };
-
-                const playerReadyListener = player.current?.on(
-                    'ready',
-                    readyListener,
-                );
-
-                /**
-                 * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
-                 */
-                playerReadyListener &&
-                    playerListeners.current.push(playerReadyListener);
-                playerStateChangeListener &&
-                    playerListeners.current.push(playerStateChangeListener);
-
-                customListeners.current[customPlayEventName] = handlePauseVideo;
-            }
-        },
-        /**
-         * useEffect dependencies are mostly static but added to array for correctness
-         */
-        [
-            adTargeting,
-            autoPlay,
-            consentState,
-            eventEmitters,
-            height,
-            onReady,
-            origin,
+    useOnMount(() => {
+        log('dotcom', {
+            from: 'YoutubeAtomPlayer initialise',
             videoId,
-            width,
-        ],
-    );
+        });
+
+        const adsConfig: AdsConfig =
+            !adTargeting || adTargeting.disableAds
+                ? disabledAds
+                : buildAdsConfigWithConsent(
+                      false,
+                      adTargeting.adUnit,
+                      adTargeting.customParams,
+                      consentState,
+                  );
+
+        /**
+         * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
+         * It will load the iframe embed
+         * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
+         */
+        player.current = YouTubePlayer(id, {
+            height: width,
+            width: height,
+            videoId,
+            playerVars: {
+                modestbranding: 1,
+                origin,
+                playsinline: 1,
+                rel: 0,
+            },
+            embedConfig: {
+                relatedChannels: [],
+                adsConfig,
+            },
+            title,
+        });
+
+        /**
+         * Register an onStateChange listener
+         */
+        const stateChangeListener = createOnStateChangeListener(
+            videoId,
+            uniqueId,
+            progressEvents.current,
+            eventEmitters,
+        );
+
+        const playerStateChangeListener = player.current?.on(
+            'stateChange',
+            stateChangeListener,
+        );
+
+        /**
+         * Pause the current video when another video is played on the same page
+         */
+        const handlePauseVideo = (
+            event: CustomEventInit<CustomPlayEventDetail>,
+        ) => {
+            if (event instanceof CustomEvent) {
+                if (event.detail.uniqueId !== uniqueId) {
+                    const playerStatePromise = player.current?.getPlayerState();
+                    playerStatePromise?.then((state) => {
+                        if (state === YT.PlayerState.PLAYING) {
+                            player.current?.pauseVideo();
+                        }
+                    });
+                }
+            }
+        };
+
+        /**
+         * add listener for custom play event
+         */
+        document.addEventListener(customPlayEventName, handlePauseVideo);
+
+        /**
+         * Register an onReady listener
+         */
+        const readyListener = (event: YT.PlayerEvent) => {
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer onReady',
+                videoId,
+                msg: 'Ready',
+                event,
+            });
+            /**
+             * Callback to notify that the player is ready
+             */
+            onReady();
+            /**
+             * Autoplay is determined by the parent
+             * Typically true when there is a preceding overlay
+             */
+            if (autoPlay) {
+                log('dotcom', {
+                    from: 'YoutubeAtomPlayer onReady',
+                    videoId,
+                    msg: 'Playing video',
+                    event,
+                });
+                /**
+                 * event.target is the actual underlying YT player
+                 */
+                event.target.playVideo();
+            }
+        };
+
+        const playerReadyListener = player.current?.on('ready', readyListener);
+
+        /**
+         * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
+         */
+        playerReadyListener &&
+            playerListeners.current.push(playerReadyListener);
+        playerStateChangeListener &&
+            playerListeners.current.push(playerStateChangeListener);
+
+        customListeners.current[customPlayEventName] = handlePauseVideo;
+
+        /**
+         * Return the cleanup effect that will run _only_ on component unmount via useOnMount
+         */
+        return () => {
+            playerListeners.current.forEach((playerListener) => {
+                player.current?.off(playerListener);
+            });
+
+            Object.entries(customListeners.current).forEach(
+                ([eventName, eventHandler]) => {
+                    document.removeEventListener(eventName, eventHandler);
+                },
+            );
+        };
+    });
 
     /**
      * Player stop useEffect
