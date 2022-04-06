@@ -402,30 +402,6 @@ export const YoutubeAtomPlayer = ({
     }, [stopVideo]);
 
     /**
-     * Unregister listeners useEffect
-     */
-    useEffect(() => {
-        /**
-         * Unregister listeners on component unmount
-         *
-         * A useEffect with an empty dependency array will
-         * call its cleanup on unmount and not after every
-         * useEffect update.
-         */
-        return () => {
-            playerListeners.current.forEach((playerListener) => {
-                player.current?.off(playerListener);
-            });
-
-            Object.entries(customListeners.current).forEach(
-                ([eventName, eventHandler]) => {
-                    document.removeEventListener(eventName, eventHandler);
-                },
-            );
-        };
-    }, []);
-
-    /**
      * An element for the YouTube iFrame to hook into the dom
      */
     return (
