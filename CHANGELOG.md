@@ -1,5 +1,12 @@
 # @guardian/atoms-rendering
 
+## 23.1.0
+
+### Minor Changes
+
+-   2fb4e42: Upgrade Source and ESlint
+-   803d814: Move 'stick' and 'close' component tracking into YoutubeAtomSticky
+
 ## 23.0.2
 
 ### Patch Changes
