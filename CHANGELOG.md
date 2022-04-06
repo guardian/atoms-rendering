@@ -1,5 +1,24 @@
 # @guardian/atoms-rendering
 
+## 23.0.2
+
+### Patch Changes
+
+-   f5351c5: Bump prettier version and fix prettier errors
+-   897234b: fix dispatch play event on duplicate videos
+
+## 23.0.1
+
+### Patch Changes
+
+-   c33ed2f: Handle multiple videos
+
+## 23.0.0
+
+### Major Changes
+
+-   30fa8f2: YoutubeAtom duplicate video fix
+
 ## 22.6.3
 
 ### Patch Changes

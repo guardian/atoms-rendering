@@ -76,8 +76,7 @@ export const WithOverrideImage = (): JSX.Element => {
                         srcSet: [
                             {
                                 width: 500,
-                                src:
-                                    'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
+                                src: 'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
                             },
                         ],
                     },
@@ -108,23 +107,19 @@ export const WithPosterImage = (): JSX.Element => {
                     {
                         srcSet: [
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
                                 width: 1000,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
                                 width: 500,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
                                 width: 140,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
                                 width: 1920,
                             },
                         ],
@@ -157,8 +152,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                     {
                         srcSet: [
                             {
-                                src:
-                                    'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
+                                src: 'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
                                 width: 1000,
                             },
                         ],
@@ -169,23 +163,19 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                     {
                         srcSet: [
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
                                 width: 1000,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
                                 width: 500,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
                                 width: 140,
                             },
                             {
-                                src:
-                                    'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
                                 width: 1920,
                             },
                         ],
@@ -223,8 +213,7 @@ export const GiveConsent = (): JSX.Element => {
                             srcSet: [
                                 {
                                     width: 500,
-                                    src:
-                                        'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
+                                    src: 'https://i.guim.co.uk/img/media/4b3808707ec341629932a9d443ff5a812cf4df14/0_309_1800_1081/master/1800.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=aff4b8255693eb449f13070df88e9cac',
                                 },
                             ],
                         },
@@ -325,6 +314,64 @@ export const DuplicateVideos = (): JSX.Element => {
                 height={450}
                 width={800}
                 shouldStick={true}
+            />
+        </div>
+    );
+};
+
+export const MultipleVideos = (): JSX.Element => {
+    return (
+        <div style={{ width: '500px' }}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <YoutubeAtom
+                elementId="xyz-2"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+            <YoutubeAtom
+                elementId="xyu"
+                videoId="3jpXAMwRSu4"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={{}}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
             />
         </div>
     );

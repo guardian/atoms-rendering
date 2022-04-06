@@ -33,6 +33,9 @@ declare global {
 
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
+type CustomPlayEventDetail = { videoId: string };
+const customPlayEventName = 'video:play';
+
 /**
  * youtube-player doesn't have a type definition
  * Based on https://github.com/gajus/youtube-player
@@ -46,7 +49,7 @@ type YoutubePlayerType = {
     pauseVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
-    getPlayerState: () => number;
+    getPlayerState: () => Promise<YT.PlayerState>;
 };
 
 type ProgressEvents = {
@@ -60,139 +63,152 @@ type ProgressEvents = {
 /**
  * ProgressEvents are a ref, see below
  */
-const createOnStateChangeListener = (
-    videoId: string,
-    progressEvents: ProgressEvents,
-    eventEmitters: Props['eventEmitters'],
-): YT.PlayerEventHandler<YT.OnStateChangeEvent> => (event) => {
-    const loggerFrom = 'YoutubeAtomPlayer onStateChange';
-    log('dotcom', {
-        from: loggerFrom,
-        videoId,
-        event,
-    });
+const createOnStateChangeListener =
+    (
+        videoId: string,
+        uniqueId: string,
+        progressEvents: ProgressEvents,
+        eventEmitters: Props['eventEmitters'],
+    ): YT.PlayerEventHandler<YT.OnStateChangeEvent> =>
+    (event) => {
+        const loggerFrom = 'YoutubeAtomPlayer onStateChange';
+        log('dotcom', {
+            from: loggerFrom,
+            videoId,
+            event,
+        });
 
-    /**
-     * event.target is the actual underlying YT player
-     */
-    const player = event.target;
+        /**
+         * event.target is the actual underlying YT player
+         */
+        const player = event.target;
 
-    if (event.data === YT.PlayerState.PLAYING) {
-        if (!progressEvents.hasSentPlayEvent) {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'start play',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
-            progressEvents.hasSentPlayEvent = true;
-
+        if (event.data === YT.PlayerState.PLAYING) {
             /**
-             * Set a timeout to check progress again in the future
+             * Emit video play event so other components
+             * get aware when a video is played
              */
-            setTimeout(() => {
-                checkProgress();
-            }, 3000);
-        } else {
-            log('dotcom', {
-                from: loggerFrom,
-                videoId,
-                msg: 'resume',
-                event,
-            });
-            eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
-        }
+            document.dispatchEvent(
+                new CustomEvent(customPlayEventName, {
+                    detail: { uniqueId },
+                }),
+            );
 
-        const checkProgress = async () => {
-            if (!player) return null;
-            const currentTime = player && player.getCurrentTime();
-            const duration = player && player.getDuration();
-
-            if (!duration || !currentTime) return;
-
-            const percentPlayed = (currentTime / duration) * 100;
-
-            if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
+            if (!progressEvents.hasSentPlayEvent) {
                 log('dotcom', {
                     from: loggerFrom,
                     videoId,
-                    msg: 'played 25%',
+                    msg: 'start play',
                     event,
                 });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
-                progressEvents.hasSent25Event = true;
-            }
+                eventEmitters.forEach((eventEmitter) => eventEmitter('play'));
+                progressEvents.hasSentPlayEvent = true;
 
-            if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
-                log('dotcom', {
-                    from: loggerFrom,
-                    videoId,
-                    msg: 'played 50%',
-                    event,
-                });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
-                progressEvents.hasSent50Event = true;
-            }
-
-            if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
-                log('dotcom', {
-                    from: loggerFrom,
-                    videoId,
-                    msg: 'played 75%',
-                    event,
-                });
-                eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
-                progressEvents.hasSent75Event = true;
-            }
-
-            const currentPlayerState = player && player.getPlayerState();
-
-            if (currentPlayerState !== YT.PlayerState.ENDED) {
                 /**
                  * Set a timeout to check progress again in the future
                  */
-                setTimeout(() => checkProgress(), 3000);
+                setTimeout(() => {
+                    checkProgress();
+                }, 3000);
+            } else {
+                log('dotcom', {
+                    from: loggerFrom,
+                    videoId,
+                    msg: 'resume',
+                    event,
+                });
+                eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
             }
-        };
-    }
 
-    if (event.data === YT.PlayerState.PAUSED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'pause',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
-    }
+            const checkProgress = async () => {
+                if (!player) return null;
+                const currentTime = player && player.getCurrentTime();
+                const duration = player && player.getDuration();
 
-    if (event.data === YT.PlayerState.CUED) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'cued',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
-        progressEvents.hasSentPlayEvent = false;
-    }
+                if (!duration || !currentTime) return;
 
-    if (
-        event.data === YT.PlayerState.ENDED &&
-        !progressEvents.hasSentEndEvent
-    ) {
-        log('dotcom', {
-            from: loggerFrom,
-            videoId,
-            msg: 'ended',
-            event,
-        });
-        eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
-        progressEvents.hasSentEndEvent = true;
-        progressEvents.hasSentPlayEvent = false;
-    }
-};
+                const percentPlayed = (currentTime / duration) * 100;
+
+                if (!progressEvents.hasSent25Event && 25 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 25%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('25'));
+                    progressEvents.hasSent25Event = true;
+                }
+
+                if (!progressEvents.hasSent50Event && 50 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 50%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('50'));
+                    progressEvents.hasSent50Event = true;
+                }
+
+                if (!progressEvents.hasSent75Event && 75 < percentPlayed) {
+                    log('dotcom', {
+                        from: loggerFrom,
+                        videoId,
+                        msg: 'played 75%',
+                        event,
+                    });
+                    eventEmitters.forEach((eventEmitter) => eventEmitter('75'));
+                    progressEvents.hasSent75Event = true;
+                }
+
+                const currentPlayerState = player && player.getPlayerState();
+
+                if (currentPlayerState !== YT.PlayerState.ENDED) {
+                    /**
+                     * Set a timeout to check progress again in the future
+                     */
+                    setTimeout(() => checkProgress(), 3000);
+                }
+            };
+        }
+
+        if (event.data === YT.PlayerState.PAUSED) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'pause',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('pause'));
+        }
+
+        if (event.data === YT.PlayerState.CUED) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'cued',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('cued'));
+            progressEvents.hasSentPlayEvent = false;
+        }
+
+        if (
+            event.data === YT.PlayerState.ENDED &&
+            !progressEvents.hasSentEndEvent
+        ) {
+            log('dotcom', {
+                from: loggerFrom,
+                videoId,
+                msg: 'ended',
+                event,
+            });
+            eventEmitters.forEach((eventEmitter) => eventEmitter('end'));
+            progressEvents.hasSentEndEvent = true;
+            progressEvents.hasSentPlayEvent = false;
+        }
+    };
 
 export const YoutubeAtomPlayer = ({
     uniqueId,
@@ -221,7 +237,14 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
-    const listeners = useRef<Array<YoutubeCallback>>([]);
+    const playerListeners = useRef<Array<YoutubeCallback>>([]);
+
+    /**
+     * A map ref with a key of eventname and a value of eventHandler
+     */
+    const customListeners = useRef<
+        Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
+    >({});
     const id = `youtube-video-${uniqueId}`;
 
     /**
@@ -272,6 +295,7 @@ export const YoutubeAtomPlayer = ({
                  */
                 const stateChangeListener = createOnStateChangeListener(
                     videoId,
+                    uniqueId,
                     progressEvents.current,
                     eventEmitters,
                 );
@@ -279,6 +303,33 @@ export const YoutubeAtomPlayer = ({
                 const playerStateChangeListener = player.current?.on(
                     'stateChange',
                     stateChangeListener,
+                );
+
+                /**
+                 * Pause the current video when another video is played on the same page
+                 */
+                const handlePauseVideo = (
+                    event: CustomEventInit<CustomPlayEventDetail>,
+                ) => {
+                    if (event instanceof CustomEvent) {
+                        if (event.detail.uniqueId !== uniqueId) {
+                            const playerStatePromise =
+                                player.current?.getPlayerState();
+                            playerStatePromise?.then((state) => {
+                                if (state === YT.PlayerState.PLAYING) {
+                                    player.current?.pauseVideo();
+                                }
+                            });
+                        }
+                    }
+                };
+
+                /**
+                 * add listener for custom play event
+                 */
+                document.addEventListener(
+                    customPlayEventName,
+                    handlePauseVideo,
                 );
 
                 /**
@@ -319,12 +370,14 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
-                 * Record the listeners so they can be unregistered on component unmount
+                 * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
                  */
                 playerReadyListener &&
-                    listeners.current.push(playerReadyListener);
+                    playerListeners.current.push(playerReadyListener);
                 playerStateChangeListener &&
-                    listeners.current.push(playerStateChangeListener);
+                    playerListeners.current.push(playerStateChangeListener);
+
+                customListeners.current[customPlayEventName] = handlePauseVideo;
             }
         },
         /**
@@ -369,9 +422,15 @@ export const YoutubeAtomPlayer = ({
          * useEffect update.
          */
         return () => {
-            listeners.current.forEach((listener) => {
-                player.current?.off(listener);
+            playerListeners.current.forEach((playerListener) => {
+                player.current?.off(playerListener);
             });
+
+            Object.entries(customListeners.current).forEach(
+                ([eventName, eventHandler]) => {
+                    document.removeEventListener(eventName, eventHandler);
+                },
+            );
         };
     }, []);
 

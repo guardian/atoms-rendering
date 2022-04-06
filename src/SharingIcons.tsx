@@ -88,13 +88,8 @@ export const SharingIcons = ({
     return (
         <div css={shareIconList}>
             {shareList.map((shareListItem) => {
-                const {
-                    Icon,
-                    id,
-                    url,
-                    userMessage,
-                    mobileOnly,
-                } = shareListItem;
+                const { Icon, id, url, userMessage, mobileOnly } =
+                    shareListItem;
 
                 return (
                     <div

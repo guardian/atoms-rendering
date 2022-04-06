@@ -33,27 +33,23 @@ export const exampleKnowledgeQuestions = [
     },
     {
         id: '1a335512-22f9-440b-8d51-e2b87d039965',
-        text:
-            'Which of these statements about the 1980 European Championship is true?',
+        text: 'Which of these statements about the 1980 European Championship is true?',
         answers: [
             {
                 id: '0d78318b-8707-48e3-92ea-697262bdcbf7',
-                text:
-                    'It was the first finals tournament to feature eight teams\n',
+                text: 'It was the first finals tournament to feature eight teams\n',
                 isCorrect: false,
                 answerBuckets: [],
             },
             {
                 id: 'eef3f58e-c436-4f66-8f55-dc2c3c5d0ad5',
-                text:
-                    'It was the last European Championship to feature a third-fourth play-off match\n',
+                text: 'It was the last European Championship to feature a third-fourth play-off match\n',
                 isCorrect: false,
                 answerBuckets: [],
             },
             {
                 id: 'dff2dbdf-b737-4bbb-8c76-081f915a6757',
-                text:
-                    'The top scorer in the tournament scored all his goals in one match\n',
+                text: 'The top scorer in the tournament scored all his goals in one match\n',
                 isCorrect: false,
                 answerBuckets: [],
             },
@@ -69,8 +65,7 @@ export const exampleKnowledgeQuestions = [
     },
     {
         id: 'b4a75142-8e28-4634-b9ac-fe7556aee2cf',
-        text:
-            'At which stadium did Liverpool beat Everton to win the 1984 Milk Cup final – their fourth consecutive League Cup triumph?',
+        text: 'At which stadium did Liverpool beat Everton to win the 1984 Milk Cup final – their fourth consecutive League Cup triumph?',
         answers: [
             {
                 id: '8c08e076-e124-4411-ac3e-669581824f4d',
@@ -140,8 +135,7 @@ export const resultGroups = [
 export const natureQuestions = [
     {
         id: '51027fed-227d-4521-848d-fbf674fc2469',
-        text:
-            'Grampy pig, hardback and curly bug are all common names for what?',
+        text: 'Grampy pig, hardback and curly bug are all common names for what?',
         answers: [
             {
                 id: '954d5600-b8e8-412b-b52b-4f54b9963d73',
@@ -237,8 +231,7 @@ export const natureQuestions = [
     },
     {
         id: 'd90cfdd4-3839-4ab0-b6de-ca792d717d2b',
-        text:
-            'Which of the following is a visitor to the UK (ie, not resident)?',
+        text: 'Which of the following is a visitor to the UK (ie, not resident)?',
         answers: [
             {
                 id: 'ed13d7ee-d6dd-42dc-9f41-ee2fcf1a3025',
@@ -262,8 +255,7 @@ export const natureQuestions = [
     },
     {
         id: 'adfd41f2-eb88-47f2-b303-9f9ebc424d6e',
-        text:
-            'Dead man’s finger (Xylaria polymorpha) is common in woodlands. Is it a …',
+        text: 'Dead man’s finger (Xylaria polymorpha) is common in woodlands. Is it a …',
         answers: [
             {
                 id: 'e75a1012-b287-422f-97c5-f73e00fe28cb',
@@ -311,8 +303,7 @@ export const natureQuestions = [
     },
     {
         id: 'b1d0b0ca-8a61-4d5b-aa71-d1ff3f00bfbc',
-        text:
-            'You are walking in the countryside and find a deep 15cm conical hole with foul-smelling liquid poo in the bottom. You have found …',
+        text: 'You are walking in the countryside and find a deep 15cm conical hole with foul-smelling liquid poo in the bottom. You have found …',
         answers: [
             {
                 id: '12538a36-14b0-425c-91c2-6e4b6d7040ff',
@@ -409,8 +400,7 @@ export const natureQuestions = [
     },
     {
         id: '11337957-0415-488a-9878-d3629ab7dae8',
-        text:
-            'The once common turtle dove has declined by 93% since the 1970s. The main reason for this is …',
+        text: 'The once common turtle dove has declined by 93% since the 1970s. The main reason for this is …',
         answers: [
             {
                 id: 'e488ed61-cf6d-4540-96bb-44845fbde784',
@@ -460,8 +450,7 @@ export const natureQuestions = [
     },
     {
         id: '4339cc24-d597-43d0-9efd-2dd9d8f4982f',
-        text:
-            'How fast does a gannet hit the surface of the sea when diving for fish?',
+        text: 'How fast does a gannet hit the surface of the sea when diving for fish?',
         answers: [
             {
                 id: 'ced71c4a-31d0-4464-9962-0cf3f6696d42',
