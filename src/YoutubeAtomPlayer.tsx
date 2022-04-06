@@ -242,6 +242,8 @@ export const YoutubeAtomPlayer = ({
 
     /**
      * Initialise player
+     *
+     * Please refer to the JS Doc for useOnMount to understand it's API
      */
     useOnMount(() => {
         log('dotcom', {
