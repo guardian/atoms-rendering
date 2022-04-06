@@ -354,9 +354,13 @@ export const YoutubeAtomPlayer = ({
         const playerReadyListener = player.current?.on('ready', readyListener);
 
         /**
-         * Return the cleanup effect that will run _only_ on unmount via useOnMount API
+         * Return the cleanup function that will run _only_ on unmount via useOnMount API
          */
         return () => {
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer cleanup',
+                videoId,
+            });
             playerReadyListener && player.current?.off(playerReadyListener);
             playerStateChangeListener &&
                 player.current?.off(playerStateChangeListener);
