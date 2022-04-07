@@ -243,7 +243,20 @@ export const YoutubeAtomPlayer = ({
     /**
      * Initialise player
      *
-     * Please refer to the JS Doc for useOnMount to understand it's API
+     * Please refer to the useOnMount API
+     *
+     * The following dependencies are used with the values set at component mount:
+     *
+     * adTargeting,
+     * autoPlay,
+     * consentState, *this must be defined*
+     * eventEmitters,
+     * height,
+     * onReady,
+     * origin,
+     * videoId,
+     * width,
+     *
      */
     useOnMount(() => {
         log('dotcom', {
