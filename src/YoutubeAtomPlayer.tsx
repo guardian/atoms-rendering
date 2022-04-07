@@ -373,7 +373,7 @@ export const YoutubeAtomPlayer = ({
          */
         return () => {
             log('dotcom', {
-                from: 'YoutubeAtomPlayer cleanup',
+                from: 'YoutubeAtomPlayer cleanup and unmount',
                 videoId,
             });
             playerReadyListener && player.current?.off(playerReadyListener);
