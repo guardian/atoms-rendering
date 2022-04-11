@@ -6,6 +6,7 @@ import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
 import { submitComponentEvent } from './lib/ophan';
+import { detectMobile } from './lib/detectMobile';
 
 const buttonStyles = css`
     position: absolute;
@@ -36,7 +37,7 @@ const buttonStyles = css`
 /**
  * This extended hover area allows users to click the close video button more easily
  */
-const hoverAreaStyles = (fullOverlay: boolean) => {
+const hoverAreaStyles = (fullWidthOverlay: boolean) => {
     const hoverAreaWidth = 37;
 
     return css`
@@ -50,15 +51,13 @@ const hoverAreaStyles = (fullOverlay: boolean) => {
             display: flex;
         }
 
-        @media only screen {
-            width: ${fullOverlay
-                ? `calc(100% + ${hoverAreaWidth}px)`
-                : `${hoverAreaWidth}px`};
-        }
+        width: ${fullWidthOverlay
+            ? `calc(100% + ${hoverAreaWidth}px)`
+            : `${hoverAreaWidth}px`};
     `;
 };
 
-const stickyStyles = (fullOverlay: boolean) => css`
+const stickyStyles = (showButton: boolean) => css`
     @keyframes fade-in-up {
         from {
             transform: translateY(100%);
@@ -73,13 +72,9 @@ const stickyStyles = (fullOverlay: boolean) => css`
 
     position: fixed;
     bottom: 20px;
-    width: 216px;
+    width: 215px;
     z-index: 21;
     animation: fade-in-up 1s ease both;
-
-    &:hover button {
-        display: flex;
-    }
 
     ${from.tablet} {
         width: 300px;
@@ -89,10 +84,12 @@ const stickyStyles = (fullOverlay: boolean) => css`
         display: none;
     }
 
-    @media only screen {
-        button {
-            display: ${fullOverlay ? 'none' : 'flex'};
-        }
+    button {
+        display: ${showButton ? 'flex' : 'none'};
+    }
+
+    &:hover button {
+        display: flex;
     }
 `;
 
@@ -117,7 +114,6 @@ type Props = {
     onStopVideo: () => void;
     isPlaying: boolean;
     isMainMedia?: boolean;
-    uniqueId?: string;
     children: JSX.Element;
 };
 
@@ -130,9 +126,11 @@ export const YoutubeAtomSticky = ({
     isMainMedia,
     children,
 }: Props): JSX.Element => {
+    const isMobile = detectMobile();
+
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
-    const [fullWidthOverlay, setFullWidthOverlay] = useState(true);
+    const [showOverlay, setShowOverlay] = useState<boolean>(isMobile);
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
@@ -150,8 +148,6 @@ export const YoutubeAtomSticky = ({
         setStickEventSent(false);
         // stop the video
         onStopVideo();
-
-        setFullWidthOverlay(true);
 
         // log a 'close' event
         log('dotcom', {
@@ -191,17 +187,6 @@ export const YoutubeAtomSticky = ({
     }, []);
 
     /**
-     * useEffect to add a full width overlay when sticky
-     *
-     * This is used to show the close button on touchscreen devices
-     */
-    useEffect(() => {
-        if (isSticky) {
-            setFullWidthOverlay(true);
-        }
-    }, [isSticky]);
-
-    /**
      * useEffect for the sticky state
      */
     useEffect(() => {
@@ -231,15 +216,26 @@ export const YoutubeAtomSticky = ({
         }
     }, [isSticky, stickEventSent, videoId, eventEmitters]);
 
+    /**
+     * useEffect for mobile only sticky overlay
+     *
+     * this allows mobile uses to tap to reveal the close button
+     */
+    useEffect(() => {
+        setShowOverlay(isMobile && isSticky);
+    }, [isSticky, isMobile]);
+
+    const showCloseButton = !showOverlay && isMobile;
+
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
-            <div css={isSticky && stickyStyles(fullWidthOverlay)}>
+            <div css={isSticky && stickyStyles(showCloseButton)}>
                 {children}
                 {isSticky && (
                     <>
                         <span
-                            css={hoverAreaStyles(fullWidthOverlay)}
-                            onClick={() => setFullWidthOverlay(false)}
+                            css={hoverAreaStyles(showOverlay)}
+                            onClick={() => setShowOverlay(false)}
                         />
                         <button css={buttonStyles} onClick={handleCloseClick}>
                             <SvgCross size="medium" />
