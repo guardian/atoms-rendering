@@ -132,6 +132,7 @@ export const YoutubeAtom = ({
             eventEmitters={eventEmitters}
             onStopVideo={() => setStopVideo(true)}
             isMainMedia={isMainMedia}
+            uniqueId={uniqueId}
         >
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (

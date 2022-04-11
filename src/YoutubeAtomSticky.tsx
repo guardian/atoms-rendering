@@ -36,19 +36,29 @@ const buttonStyles = css`
 /**
  * This extended hover area allows users to click the close video button more easily
  */
-const hoverAreaStyles = css`
-    position: absolute;
-    top: -4px;
-    bottom: 0;
-    left: -${32 * 1.15}px;
-    width: ${32 * 1.15}px;
+const hoverAreaStyles = (fullOverlay: boolean) => {
+    const hoverAreaWidth = 37;
 
-    &:hover button {
-        display: flex;
-    }
-`;
+    return css`
+        position: absolute;
+        top: -4px;
+        bottom: 0;
+        left: -${hoverAreaWidth}px;
+        width: ${hoverAreaWidth}px;
 
-const stickyStyles = css`
+        &:hover button {
+            display: flex;
+        }
+
+        @media only screen {
+            width: ${fullOverlay
+                ? `calc(100% + ${hoverAreaWidth}px)`
+                : `${hoverAreaWidth}px`};
+        }
+    `;
+};
+
+const stickyStyles = (fullOverlay: boolean) => css`
     @keyframes fade-in-up {
         from {
             transform: translateY(100%);
@@ -78,6 +88,12 @@ const stickyStyles = css`
     figcaption {
         display: none;
     }
+
+    @media only screen {
+        button {
+            display: ${fullOverlay ? 'none' : 'flex'};
+        }
+    }
 `;
 
 const stickyContainerStyles = (isMainMedia?: boolean) => {
@@ -101,6 +117,7 @@ type Props = {
     onStopVideo: () => void;
     isPlaying: boolean;
     isMainMedia?: boolean;
+    uniqueId?: string;
     children: JSX.Element;
 };
 
@@ -115,6 +132,7 @@ export const YoutubeAtomSticky = ({
 }: Props): JSX.Element => {
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
+    const [fullWidthOverlay, setFullWidthOverlay] = useState(true);
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
@@ -132,6 +150,8 @@ export const YoutubeAtomSticky = ({
         setStickEventSent(false);
         // stop the video
         onStopVideo();
+
+        setFullWidthOverlay(true);
 
         // log a 'close' event
         log('dotcom', {
@@ -171,6 +191,17 @@ export const YoutubeAtomSticky = ({
     }, []);
 
     /**
+     * useEffect to add a full width overlay when sticky
+     *
+     * This is used to show the close button on touchscreen devices
+     */
+    useEffect(() => {
+        if (isSticky) {
+            setFullWidthOverlay(true);
+        }
+    }, [isSticky]);
+
+    /**
      * useEffect for the sticky state
      */
     useEffect(() => {
@@ -202,11 +233,14 @@ export const YoutubeAtomSticky = ({
 
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
-            <div css={isSticky && stickyStyles}>
+            <div css={isSticky && stickyStyles(fullWidthOverlay)}>
                 {children}
                 {isSticky && (
                     <>
-                        <span css={hoverAreaStyles} />
+                        <span
+                            css={hoverAreaStyles(fullWidthOverlay)}
+                            onClick={() => setFullWidthOverlay(false)}
+                        />
                         <button css={buttonStyles} onClick={handleCloseClick}>
                             <SvgCross size="medium" />
                         </button>
