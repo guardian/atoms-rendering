@@ -46,7 +46,6 @@ type YoutubePlayerType = {
     loadVideoById: (videoId: string) => void;
     playVideo: () => void;
     stopVideo: () => void;
-    pauseVideo: () => void;
     getCurrentTime: () => number;
     getDuration: () => number;
     getPlayerState: () => Promise<YT.PlayerState>;
@@ -306,9 +305,9 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 /**
-                 * Pause the current video when another video is played on the same page
+                 * Stop the current video when another video is played on the same page
                  */
-                const handlePauseVideo = (
+                const handleStopVideo = (
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
@@ -317,7 +316,7 @@ export const YoutubeAtomPlayer = ({
                                 player.current?.getPlayerState();
                             playerStatePromise?.then((state) => {
                                 if (state === YT.PlayerState.PLAYING) {
-                                    player.current?.pauseVideo();
+                                    player.current?.stopVideo();
                                 }
                             });
                         }
@@ -327,10 +326,7 @@ export const YoutubeAtomPlayer = ({
                 /**
                  * add listener for custom play event
                  */
-                document.addEventListener(
-                    customPlayEventName,
-                    handlePauseVideo,
-                );
+                document.addEventListener(customPlayEventName, handleStopVideo);
 
                 /**
                  * Register an onReady listener
@@ -377,7 +373,7 @@ export const YoutubeAtomPlayer = ({
                 playerStateChangeListener &&
                     playerListeners.current.push(playerStateChangeListener);
 
-                customListeners.current[customPlayEventName] = handlePauseVideo;
+                customListeners.current[customPlayEventName] = handleStopVideo;
             }
         },
         /**
