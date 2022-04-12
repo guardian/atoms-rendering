@@ -117,6 +117,8 @@ type Props = {
     children: JSX.Element;
 };
 
+const isMobile = detectMobile();
+
 export const YoutubeAtomSticky = ({
     videoId,
     eventEmitters,
@@ -126,8 +128,6 @@ export const YoutubeAtomSticky = ({
     isMainMedia,
     children,
 }: Props): JSX.Element => {
-    const isMobile = detectMobile();
-
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
     const [showOverlay, setShowOverlay] = useState<boolean>(isMobile);
