@@ -6,6 +6,7 @@ import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
 import { submitComponentEvent } from './lib/ophan';
+import detectMobile from 'is-mobile';
 
 const buttonStyles = css`
     position: absolute;
@@ -36,19 +37,27 @@ const buttonStyles = css`
 /**
  * This extended hover area allows users to click the close video button more easily
  */
-const hoverAreaStyles = css`
-    position: absolute;
-    top: -4px;
-    bottom: 0;
-    left: -${32 * 1.15}px;
-    width: ${32 * 1.15}px;
+const hoverAreaStyles = (fullWidthOverlay: boolean) => {
+    const hoverAreaWidth = 37;
 
-    &:hover button {
-        display: flex;
-    }
-`;
+    return css`
+        position: absolute;
+        top: -4px;
+        bottom: 0;
+        left: -${hoverAreaWidth}px;
+        width: ${hoverAreaWidth}px;
 
-const stickyStyles = css`
+        &:hover button {
+            display: flex;
+        }
+
+        width: ${fullWidthOverlay
+            ? `calc(100% + ${hoverAreaWidth}px)`
+            : `${hoverAreaWidth}px`};
+    `;
+};
+
+const stickyStyles = (showButton: boolean) => css`
     @keyframes fade-in-up {
         from {
             transform: translateY(100%);
@@ -63,13 +72,9 @@ const stickyStyles = css`
 
     position: fixed;
     bottom: 20px;
-    width: 216px;
+    width: 215px;
     z-index: 21;
     animation: fade-in-up 1s ease both;
-
-    &:hover button {
-        display: flex;
-    }
 
     ${from.tablet} {
         width: 300px;
@@ -77,6 +82,14 @@ const stickyStyles = css`
 
     figcaption {
         display: none;
+    }
+
+    button {
+        display: ${showButton ? 'flex' : 'none'};
+    }
+
+    &:hover button {
+        display: flex;
     }
 `;
 
@@ -104,6 +117,8 @@ type Props = {
     children: JSX.Element;
 };
 
+const isMobile = detectMobile();
+
 export const YoutubeAtomSticky = ({
     videoId,
     eventEmitters,
@@ -115,6 +130,7 @@ export const YoutubeAtomSticky = ({
 }: Props): JSX.Element => {
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
+    const [showOverlay, setShowOverlay] = useState<boolean>(isMobile);
 
     const [isIntersecting, setRef] = useIsInView({
         threshold: 0.5,
@@ -200,13 +216,27 @@ export const YoutubeAtomSticky = ({
         }
     }, [isSticky, stickEventSent, videoId, eventEmitters]);
 
+    /**
+     * useEffect for mobile only sticky overlay
+     *
+     * this allows mobile uses to tap to reveal the close button
+     */
+    useEffect(() => {
+        setShowOverlay(isMobile && isSticky);
+    }, [isSticky, isMobile]);
+
+    const showCloseButton = !showOverlay && isMobile;
+
     return (
         <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
-            <div css={isSticky && stickyStyles}>
+            <div css={isSticky && stickyStyles(showCloseButton)}>
                 {children}
                 {isSticky && (
                     <>
-                        <span css={hoverAreaStyles} />
+                        <span
+                            css={hoverAreaStyles(showOverlay)}
+                            onClick={() => setShowOverlay(false)}
+                        />
                         <button css={buttonStyles} onClick={handleCloseClick}>
                             <SvgCross size="medium" />
                         </button>
