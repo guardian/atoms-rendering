@@ -1,5 +1,14 @@
 # @guardian/atoms-rendering
 
+## 23.1.1
+
+### Patch Changes
+
+-   fe87e3d: Add storybook viewport addon
+-   3bcfe75: Add transparent overlay for touch events on mobile
+-   608d633: Add missing tablet flag to isMobile check in YoutubeAtomSticky
+-   3295bcf: Remove pause and resume events from playerState
+
 ## 23.1.0
 
 ### Minor Changes
