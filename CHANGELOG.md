@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.1.2
+
+### Patch Changes
+
+-   eb92aa7: Move isMobile dependency
+
 ## 23.1.1
 
 ### Patch Changes
