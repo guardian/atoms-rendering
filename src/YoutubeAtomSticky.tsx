@@ -6,7 +6,7 @@ import { from, neutral, space } from '@guardian/source-foundations';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/source-react-components';
 import { submitComponentEvent } from './lib/ophan';
-import { detectMobile } from './lib/detectMobile';
+import detectMobile from 'is-mobile';
 
 const buttonStyles = css`
     position: absolute;
