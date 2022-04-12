@@ -117,7 +117,7 @@ type Props = {
     children: JSX.Element;
 };
 
-const isMobile = detectMobile();
+const isMobile = detectMobile({ tablet: true });
 
 export const YoutubeAtomSticky = ({
     videoId,
