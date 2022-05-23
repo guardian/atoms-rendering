@@ -167,3 +167,8 @@ export type VideoEventKey =
     | 'cued'
     | 'resume'
     | 'pause';
+
+export type RecipeSchemaAtomType = {
+    id: string;
+    json: string;
+};

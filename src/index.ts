@@ -11,6 +11,7 @@ import { PersonalityQuizAtom } from './PersonalityQuiz';
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 import { TimelineAtom } from './TimelineAtom';
 import { VideoAtom } from './VideoAtom';
+import { RecipeSchemaAtom } from './RecipeSchemaAtom';
 
 export {
     ExplainerAtom,
@@ -26,4 +27,5 @@ export {
     KnowledgeQuizAtom,
     TimelineAtom,
     VideoAtom,
+    RecipeSchemaAtom as RecipeAtom,
 };
