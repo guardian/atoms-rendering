@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.2.0
+
+### Minor Changes
+
+-   9b5f618: Adds a barebones recipe schema atom
+
 ## 23.1.2
 
 ### Patch Changes
