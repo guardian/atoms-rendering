@@ -75,6 +75,7 @@ export const Footer = ({
                 >
                     <div>Was this helpful?</div>
                     <button
+                        aria-label="yes, this was helpful"
                         data-testid="like"
                         css={buttonStyling}
                         onClick={() => {
@@ -85,6 +86,7 @@ export const Footer = ({
                         <ThumbImage />
                     </button>
                     <button
+                        aria-label="no, this was not helpful"
                         css={[
                             buttonStyling,
                             css`
