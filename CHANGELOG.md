@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.2.1
+
+### Patch Changes
+
+-   9a0c753: Adding improved labels to like & dislike button for Q&A atom
+
 ## 23.2.0
 
 ### Minor Changes
