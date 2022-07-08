@@ -135,7 +135,7 @@ export const YoutubeAtomOverlay = ({
                 >
                     <SvgPlay />
                 </div>
-                {duration > 0 && (
+                {duration !== undefined && duration > 0 && (
                     <div css={videoDurationStyles(pillar)}>
                         {formatTime(duration)}
                     </div>
