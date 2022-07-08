@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.2.2
+
+### Patch Changes
+
+-   317ecad: Don't display a 0 if we're unable to get the duration of a youtube video.
+
 ## 23.2.1
 
 ### Patch Changes
