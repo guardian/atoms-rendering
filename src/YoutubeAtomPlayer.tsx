@@ -23,6 +23,7 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     stopVideo: boolean;
+    enableIma?: boolean;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -220,6 +221,14 @@ const createOnReadyListener =
         }
     };
 
+function makeAdsRequest(adsRequest: { adTagUrl: string }) {
+    adsRequest.adTagUrl =
+        'https://pubads.g.doubleclick.net/gampad/ads?' +
+        'iu=/59666047/theguardian.com&description_url=[placeholder]&' +
+        'tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&' +
+        'env=vp&impl=s&correlator=&add=1';
+}
+
 export const YoutubeAtomPlayer = ({
     uniqueId,
     videoId,
@@ -233,6 +242,7 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     stopVideo,
+    enableIma,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -255,6 +265,7 @@ export const YoutubeAtomPlayer = ({
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
     const id = `youtube-video-${uniqueId}`;
+    const adID = `youtube-ad-container-${uniqueId}`;
 
     /**
      * Initialise player useEffect
@@ -268,7 +279,7 @@ export const YoutubeAtomPlayer = ({
                 });
 
                 const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting.disableAds
+                    !adTargeting || adTargeting.disableAds || enableIma
                         ? disabledAds
                         : buildAdsConfigWithConsent(
                               false,
@@ -276,6 +287,14 @@ export const YoutubeAtomPlayer = ({
                               adTargeting.customParams,
                               consentState,
                           );
+
+                const embedConfig = {
+                    relatedChannels: [],
+                    adsConfig,
+                    // will using null preserve default values for following two options?
+                    enableIma: enableIma ? true : null,
+                    disableRelatedVideos: enableIma ? true : null,
+                };
 
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
@@ -292,10 +311,7 @@ export const YoutubeAtomPlayer = ({
                         playsinline: 1,
                         rel: 0,
                     },
-                    embedConfig: {
-                        relatedChannels: [],
-                        adsConfig,
-                    },
+                    embedConfig,
                     events: {
                         onReady: createOnReadyListener(
                             videoId,
@@ -392,12 +408,15 @@ export const YoutubeAtomPlayer = ({
      * An element for the YouTube iFrame to hook into the dom
      */
     return (
-        <div
-            id={id}
-            data-atom-id={id}
-            data-testid={id}
-            data-atom-type="youtube"
-            title={title}
-        ></div>
+        <div>
+            <div
+                id={id}
+                data-atom-id={id}
+                data-testid={id}
+                data-atom-type="youtube"
+                title={title}
+            ></div>
+            {!enableIma && <div id={adID}></div>}
+        </div>
     );
 };
