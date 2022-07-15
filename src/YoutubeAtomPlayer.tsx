@@ -25,12 +25,6 @@ type Props = {
     stopVideo: boolean;
 };
 
-declare global {
-    interface Window {
-        onYouTubeIframeAPIReady: unknown;
-    }
-}
-
 type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
 
 type CustomPlayEventDetail = { videoId: string };
