@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import YouTubePlayer from 'youtube-player';
+import { YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -25,25 +25,8 @@ type Props = {
     stopVideo: boolean;
 };
 
-type YoutubeCallback = (e: YT.PlayerEvent & YT.OnStateChangeEvent) => void;
-
 type CustomPlayEventDetail = { videoId: string };
 const customPlayEventName = 'video:play';
-
-/**
- * youtube-player doesn't have a type definition
- * Based on https://github.com/gajus/youtube-player
- */
-type YoutubePlayerType = {
-    on: (state: string, callback: YoutubeCallback) => YoutubeCallback;
-    off: (callback: YoutubeCallback) => void;
-    loadVideoById: (videoId: string) => void;
-    playVideo: () => void;
-    stopVideo: () => void;
-    getCurrentTime: () => number;
-    getDuration: () => number;
-    getPlayerState: () => Promise<YT.PlayerState>;
-};
 
 type ProgressEvents = {
     hasSentPlayEvent: boolean;
@@ -203,6 +186,40 @@ const createOnStateChangeListener =
         }
     };
 
+/**
+ * returns an onReady listener
+ */
+const createOnReadyListener =
+    (videoId: string, onReadyCallback: () => void, autoPlay: boolean) =>
+    (event: YT.PlayerEvent) => {
+        log('dotcom', {
+            from: 'YoutubeAtomPlayer onReady',
+            videoId,
+            msg: 'Ready',
+            event,
+        });
+        /**
+         * Callback to notify YoutubeAtom that the player is ready
+         */
+        onReadyCallback();
+        /**
+         * Autoplay is determined by the parent
+         * Typically true when there is a preceding overlay
+         */
+        if (autoPlay) {
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer onReady',
+                videoId,
+                msg: 'Playing video',
+                event,
+            });
+            /**
+             * event.target is the actual underlying YT player
+             */
+            event.target.playVideo();
+        }
+    };
+
 export const YoutubeAtomPlayer = ({
     uniqueId,
     videoId,
@@ -222,7 +239,7 @@ export const YoutubeAtomPlayer = ({
      * Provides mutable persistent state for the player across renders
      * Does not cause re-renders on update
      */
-    const player = useRef<YoutubePlayerType>();
+    const player = useRef<YouTubePlayer>();
     const progressEvents = useRef<ProgressEvents>({
         hasSentPlayEvent: false,
         hasSent25Event: false,
@@ -230,7 +247,6 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
-    const playerListeners = useRef<Array<YoutubeCallback>>([]);
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -266,7 +282,7 @@ export const YoutubeAtomPlayer = ({
                  * It will load the iframe embed
                  * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
                  */
-                player.current = YouTubePlayer(id, {
+                player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
                     videoId,
@@ -280,23 +296,20 @@ export const YoutubeAtomPlayer = ({
                         relatedChannels: [],
                         adsConfig,
                     },
-                    title,
+                    events: {
+                        onReady: createOnReadyListener(
+                            videoId,
+                            onReady,
+                            autoPlay,
+                        ),
+                        onStateChange: createOnStateChangeListener(
+                            videoId,
+                            uniqueId,
+                            progressEvents.current,
+                            eventEmitters,
+                        ),
+                    },
                 });
-
-                /**
-                 * Register an onStateChange listener
-                 */
-                const stateChangeListener = createOnStateChangeListener(
-                    videoId,
-                    uniqueId,
-                    progressEvents.current,
-                    eventEmitters,
-                );
-
-                const playerStateChangeListener = player.current?.on(
-                    'stateChange',
-                    stateChangeListener,
-                );
 
                 /**
                  * Stop the current video when another video is played on the same page
@@ -306,13 +319,13 @@ export const YoutubeAtomPlayer = ({
                 ) => {
                     if (event instanceof CustomEvent) {
                         if (event.detail.uniqueId !== uniqueId) {
-                            const playerStatePromise =
-                                player.current?.getPlayerState();
-                            playerStatePromise?.then((state) => {
-                                if (state === YT.PlayerState.PLAYING) {
-                                    player.current?.stopVideo();
-                                }
-                            });
+                            // const playerStatePromise =
+                            //     player.current?.getPlayerState();
+                            // playerStatePromise?.then((state) => {
+                            //     if (state === YT.PlayerState.PLAYING) {
+                            //         player.current?.stopVideo();
+                            //     }
+                            // });
                         }
                     }
                 };
@@ -321,51 +334,6 @@ export const YoutubeAtomPlayer = ({
                  * add listener for custom play event
                  */
                 document.addEventListener(customPlayEventName, handleStopVideo);
-
-                /**
-                 * Register an onReady listener
-                 */
-                const readyListener = (event: YT.PlayerEvent) => {
-                    log('dotcom', {
-                        from: 'YoutubeAtomPlayer onReady',
-                        videoId,
-                        msg: 'Ready',
-                        event,
-                    });
-                    /**
-                     * Callback to notify that the player is ready
-                     */
-                    onReady();
-                    /**
-                     * Autoplay is determined by the parent
-                     * Typically true when there is a preceding overlay
-                     */
-                    if (autoPlay) {
-                        log('dotcom', {
-                            from: 'YoutubeAtomPlayer onReady',
-                            videoId,
-                            msg: 'Playing video',
-                            event,
-                        });
-                        /**
-                         * event.target is the actual underlying YT player
-                         */
-                        event.target.playVideo();
-                    }
-                };
-
-                const playerReadyListener = player.current?.on(
-                    'ready',
-                    readyListener,
-                );
-
-                /**
-                 * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
-                 */
-                playerReadyListener &&
-                    playerListeners.current.push(playerReadyListener);
-                playerStateChangeListener &&
-                    playerListeners.current.push(playerStateChangeListener);
 
                 customListeners.current[customPlayEventName] = handleStopVideo;
             }
@@ -395,9 +363,9 @@ export const YoutubeAtomPlayer = ({
          *
          * 'stopVideo' is controlled by the close sticky video button
          */
-        if (stopVideo) {
-            player.current?.stopVideo();
-        }
+        // if (stopVideo) {
+        //     player.current?.stopVideo();
+        // }
     }, [stopVideo]);
 
     /**
@@ -412,10 +380,6 @@ export const YoutubeAtomPlayer = ({
          * useEffect update.
          */
         return () => {
-            playerListeners.current.forEach((playerListener) => {
-                player.current?.off(playerListener);
-            });
-
             Object.entries(customListeners.current).forEach(
                 ([eventName, eventHandler]) => {
                     document.removeEventListener(eventName, eventHandler);

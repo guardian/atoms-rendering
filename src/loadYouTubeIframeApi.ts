@@ -9,6 +9,7 @@ declare global {
 const loadScripts = () => {
     const scripts = [
         loadScript('https://www.youtube.com/iframe_api?ima=1'),
+        // TODO only load if enableIma
         loadScript('//imasdk.googleapis.com/js/sdkloader/ima3.js'),
     ];
     return Promise.all(scripts);
