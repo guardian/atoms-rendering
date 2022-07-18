@@ -13,8 +13,8 @@ const loadScripts = () => {
 
 export default (): Promise<typeof YT> => {
     /**
-     * A promise that is resolved when window.onYouTubeIframeAPIReady is called.
-     * The promise is resolved with a reference to window.YT object.
+     * A promise that is resolves when the YouTube IFrame API is loaded
+     * and ready with a reference to window.YT
      */
     const iframeAPIReady = new Promise<typeof YT>((resolve) => {
         if (
@@ -23,15 +23,16 @@ export default (): Promise<typeof YT> => {
             window.YT.Player instanceof Function
         ) {
             resolve(window.YT);
-
             return;
         }
 
         const previous = window.onYouTubeIframeAPIReady;
 
         loadScripts().then(() => {
-            // The API will call this function when page has finished downloading
-            // the JavaScript for the player API.
+            /**
+             * The YouTube IFrame API will call `window.onYouTubeIframeAPIReady`
+             * when it has downloaded and is ready
+             */
             window.onYouTubeIframeAPIReady = () => {
                 if (previous) {
                     previous();
