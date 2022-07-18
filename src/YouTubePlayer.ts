@@ -41,6 +41,10 @@ class YouTubePlayer {
         const player = await this.setup();
         return player.getPlayerState();
     }
+    async stopVideo() {
+        const player = await this.setup();
+        player.stopVideo();
+    }
 }
 
 export { YouTubePlayer };

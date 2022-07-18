@@ -321,11 +321,11 @@ export const YoutubeAtomPlayer = ({
                         if (event.detail.uniqueId !== uniqueId) {
                             const playerStatePromise =
                                 player.current?.getPlayerState();
-                            // playerStatePromise?.then((state) => {
-                            //     if (state === YT.PlayerState.PLAYING) {
-                            //         player.current?.stopVideo();
-                            //     }
-                            // });
+                            playerStatePromise?.then((state) => {
+                                if (state === YT.PlayerState.PLAYING) {
+                                    player.current?.stopVideo();
+                                }
+                            });
                         }
                     }
                 };
@@ -363,9 +363,9 @@ export const YoutubeAtomPlayer = ({
          *
          * 'stopVideo' is controlled by the close sticky video button
          */
-        // if (stopVideo) {
-        //     player.current?.stopVideo();
-        // }
+        if (stopVideo) {
+            player.current?.stopVideo();
+        }
     }, [stopVideo]);
 
     /**
