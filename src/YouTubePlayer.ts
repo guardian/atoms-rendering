@@ -1,5 +1,5 @@
 import type { AdsConfig } from '@guardian/commercial-core';
-import loadYouTubeIframeApi from './loadYouTubeIframeApi';
+import { loadYouTubeAPI } from './loadYouTubeIframeApi';
 
 type EmbedConfig = {
     embedConfig: {
@@ -22,7 +22,7 @@ class YouTubePlayer {
     }
 
     private async setup() {
-        await loadYouTubeIframeApi();
+        await loadYouTubeAPI();
         return this.getOrInitializePlayer(this.id, this.playerOptions);
     }
 

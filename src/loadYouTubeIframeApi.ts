@@ -11,12 +11,12 @@ const loadScripts = () => {
     return Promise.all(scripts);
 };
 
-export default (): Promise<typeof YT> => {
+const loadYouTubeAPI = (): Promise<typeof YT> => {
     /**
      * A promise that is resolves when the YouTube IFrame API is loaded
      * and ready with a reference to window.YT
      */
-    const iframeAPIReady = new Promise<typeof YT>((resolve) => {
+    const youTubeAPIPromise = new Promise<typeof YT>((resolve) => {
         if (
             window.YT &&
             window.YT.Player &&
@@ -43,5 +43,7 @@ export default (): Promise<typeof YT> => {
         });
     });
 
-    return iframeAPIReady;
+    return youTubeAPIPromise;
 };
+
+export { loadYouTubeAPI };
