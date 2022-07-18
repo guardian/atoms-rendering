@@ -10,26 +10,36 @@ type EmbedConfig = {
 type PlayerOptions = YT.PlayerOptions & EmbedConfig;
 
 class YouTubePlayer {
+    id: string;
+    playerOptions: PlayerOptions;
     player: YT.Player | undefined;
+    playerInitialized?: Promise<YT.Player>;
 
     constructor(id: string, playerOptions: PlayerOptions) {
-        loadYouTubeIframeApi().then(() => {
-            // TODO what if this.player used before it's defined?
+        this.id = id;
+        this.playerOptions = playerOptions;
+        this.setup();
+    }
+
+    private async setup() {
+        await loadYouTubeIframeApi();
+        return this.getOrInitializePlayer(this.id, this.playerOptions);
+    }
+
+    private getOrInitializePlayer(id: string, playerOptions: PlayerOptions) {
+        if (this.playerInitialized) {
+            return this.playerInitialized;
+        }
+        this.playerInitialized = new Promise<YT.Player>((resolve) => {
             this.player = new YT.Player(id, playerOptions);
+            resolve(this.player);
         });
+        return this.playerInitialized;
     }
-    on(eventName: string, callBack: unknown) {
-        console.log('on', eventName);
-        return () => {
-            console.log("I'm empty");
-        };
-    }
-    getPlayerState() {
-        console.log(
-            'Eachhashingalgorithmgeneratesthesamenumberofbytesirrespectiveoftheplaintextsize',
-        );
-        return 1;
-        // return this.player.getPlayerState();
+
+    async getPlayerState() {
+        const player = await this.setup();
+        return player.getPlayerState();
     }
 }
 

@@ -319,8 +319,8 @@ export const YoutubeAtomPlayer = ({
                 ) => {
                     if (event instanceof CustomEvent) {
                         if (event.detail.uniqueId !== uniqueId) {
-                            // const playerStatePromise =
-                            //     player.current?.getPlayerState();
+                            const playerStatePromise =
+                                player.current?.getPlayerState();
                             // playerStatePromise?.then((state) => {
                             //     if (state === YT.PlayerState.PLAYING) {
                             //         player.current?.stopVideo();
