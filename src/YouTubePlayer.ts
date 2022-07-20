@@ -1,4 +1,5 @@
 import type { AdsConfig } from '@guardian/commercial-core';
+import { log } from '@guardian/libs';
 import { loadYouTubeAPI } from './loadYouTubeIframeApi';
 
 type EmbedConfig = {
@@ -19,21 +20,36 @@ class YouTubePlayer {
 
     private async setPlayer(id: string, playerOptions: PlayerOptions) {
         const YTAPI = await loadYouTubeAPI();
-        const playerPromise = new Promise<YT.Player>((resolve) => {
-            const player = new YTAPI.Player(id, playerOptions);
-            resolve(player);
+        const playerPromise = new Promise<YT.Player>((resolve, reject) => {
+            try {
+                const player = new YTAPI.Player(id, playerOptions);
+                resolve(player);
+            } catch (e) {
+                this.logError(e as Error);
+                reject(e);
+            }
         });
         return playerPromise;
     }
 
-    async getPlayerState() {
-        const player = await this.playerPromise;
-        return player.getPlayerState();
+    private logError(e: Error) {
+        log('dotcom', `YouTubePlayer failed to load: ${e}`);
     }
 
-    async stopVideo() {
-        const player = await this.playerPromise;
-        player.stopVideo();
+    getPlayerState(): Promise<YT.PlayerState | void> {
+        return this.playerPromise
+            .then((player) => {
+                return player.getPlayerState();
+            })
+            .catch(this.logError);
+    }
+
+    stopVideo(): Promise<void> {
+        return this.playerPromise
+            .then((player) => {
+                player.stopVideo();
+            })
+            .catch(this.logError);
     }
 }
 
