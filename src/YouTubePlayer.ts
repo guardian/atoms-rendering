@@ -6,6 +6,7 @@ type EmbedConfig = {
     embedConfig: {
         relatedChannels: string[];
         adsConfig: AdsConfig;
+        enableIma: boolean;
     };
 };
 
@@ -19,7 +20,7 @@ class YouTubePlayer {
     }
 
     private async setPlayer(id: string, playerOptions: PlayerOptions) {
-        const YTAPI = await loadYouTubeAPI();
+        const YTAPI = await loadYouTubeAPI(playerOptions.embedConfig.enableIma);
         const playerPromise = new Promise<YT.Player>((resolve, reject) => {
             try {
                 const player = new YTAPI.Player(id, playerOptions);

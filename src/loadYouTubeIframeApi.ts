@@ -9,7 +9,7 @@ declare global {
 let scriptsPromise: Promise<(Event | undefined)[]>;
 let youtubeAPIReadyPromise: Promise<typeof YT>;
 
-const loadScripts = () => {
+const loadScripts = (enableIma = false) => {
     /**
      * Since loadScripts can be called multiple times on the same page for pages with more than one video,
      * only attempt to load the scripts if this is the first call and return a promise if we're on a subsequent call.
@@ -17,10 +17,17 @@ const loadScripts = () => {
     if (scriptsPromise) {
         return scriptsPromise;
     }
-    const scripts = [
-        // keep array multi-line
-        loadScript('https://www.youtube.com/iframe_api'),
-    ];
+
+    let scripts;
+    if (enableIma) {
+        scripts = [
+            loadScript('https://www.youtube.com/iframe_api?ima=1'),
+            loadScript('//imasdk.googleapis.com/js/sdkloader/ima3.js'),
+        ];
+    } else {
+        scripts = [loadScript('https://www.youtube.com/iframe_api')];
+    }
+
     scriptsPromise = Promise.all(scripts);
     return scriptsPromise;
 };
@@ -46,13 +53,13 @@ const youtubeAPIReady = () => {
     return youtubeAPIReadyPromise;
 };
 
-const loadYouTubeAPI = (): Promise<typeof YT> => {
+const loadYouTubeAPI = (enableIma = false): Promise<typeof YT> => {
     // if another part of the code has already loaded youtube api, return early
     if (window.YT && window.YT.Player && window.YT.Player instanceof Function) {
         return Promise.resolve(window.YT);
     }
 
-    return loadScripts().then(() => {
+    return loadScripts(enableIma).then(() => {
         return youtubeAPIReady();
     });
 };
