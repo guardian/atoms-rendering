@@ -191,7 +191,12 @@ const createOnStateChangeListener =
  * returns an onReady listener
  */
 const createOnReadyListener =
-    (videoId: string, onReadyCallback: () => void, autoPlay: boolean) =>
+    (
+        videoId: string,
+        onReadyCallback: () => void,
+        autoPlay: boolean,
+        instantiateImaManager: (event: YT.PlayerEvent) => void,
+    ) =>
     (event: YT.PlayerEvent) => {
         log('dotcom', {
             from: 'YoutubeAtomPlayer onReady',
@@ -219,6 +224,10 @@ const createOnReadyListener =
              */
             event.target.playVideo();
         }
+        /**
+         * instantiate IMA manager if enableIma param is true
+         */
+        instantiateImaManager(event);
     };
 
 function makeAdsRequest(adsRequest: { adTagUrl: string }) {
@@ -265,7 +274,25 @@ export const YoutubeAtomPlayer = ({
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
     const id = `youtube-video-${uniqueId}`;
-    const adID = `youtube-ad-container-${uniqueId}`;
+    const adId = `youtube-ad-container-${uniqueId}`;
+
+    let instantiateImaManager: (event: YT.PlayerEvent) => void;
+    if (enableIma) {
+        instantiateImaManager = (event) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore IMA is an experimental feature and ImaManager is not yet officially part of the YT type
+            if (typeof window.YT.ImaManager !== 'undefined') {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore same
+                new window.YT.ImaManager(
+                    event.target,
+                    id,
+                    adId,
+                    makeAdsRequest,
+                );
+            }
+        };
+    }
 
     log('commercial', { enableIma });
 
@@ -294,8 +321,8 @@ export const YoutubeAtomPlayer = ({
                     relatedChannels: [],
                     adsConfig,
                     // TODO will using null preserve default values for following two options?
-                    enableIma: enableIma,
-                    disableRelatedVideos: enableIma,
+                    enableIma: !!enableIma,
+                    disableRelatedVideos: !!enableIma,
                 };
 
                 log('commercial', { embedConfig });
@@ -321,6 +348,7 @@ export const YoutubeAtomPlayer = ({
                             videoId,
                             onReady,
                             autoPlay,
+                            instantiateImaManager,
                         ),
                         onStateChange: createOnStateChangeListener(
                             videoId,
@@ -421,7 +449,7 @@ export const YoutubeAtomPlayer = ({
                 data-atom-type="youtube"
                 title={title}
             ></div>
-            {enableIma && <div id={adID}></div>}
+            {enableIma && <div id={adId}></div>}
         </div>
     );
 };
