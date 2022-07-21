@@ -31,6 +31,7 @@ type Props = {
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
+    enableIma?: boolean;
 };
 
 export const YoutubeAtom = ({
@@ -51,6 +52,7 @@ export const YoutubeAtom = ({
     pillar,
     shouldStick,
     isMainMedia,
+    enableIma,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -132,6 +134,7 @@ export const YoutubeAtom = ({
             isMainMedia={isMainMedia}
         >
             <MaintainAspectRatio height={height} width={width}>
+                {/* maintain aspect ratio's padding is messing up ad container styles */}
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
                         videoId={videoId}
@@ -150,6 +153,7 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         stopVideo={stopVideo}
+                        enableIma={enableIma}
                     />
                 )}
                 {showOverlay && (

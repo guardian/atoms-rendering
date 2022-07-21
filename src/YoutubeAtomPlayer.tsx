@@ -267,6 +267,8 @@ export const YoutubeAtomPlayer = ({
     const id = `youtube-video-${uniqueId}`;
     const adID = `youtube-ad-container-${uniqueId}`;
 
+    log('commercial', { enableIma });
+
     /**
      * Initialise player useEffect
      */
@@ -291,10 +293,12 @@ export const YoutubeAtomPlayer = ({
                 const embedConfig = {
                     relatedChannels: [],
                     adsConfig,
-                    // will using null preserve default values for following two options?
-                    enableIma: enableIma ? true : null,
-                    disableRelatedVideos: enableIma ? true : null,
+                    // TODO will using null preserve default values for following two options?
+                    enableIma: enableIma,
+                    disableRelatedVideos: enableIma,
                 };
+
+                log('commercial', { embedConfig });
 
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
@@ -367,6 +371,7 @@ export const YoutubeAtomPlayer = ({
             origin,
             videoId,
             width,
+            enableIma,
         ],
     );
 
@@ -416,7 +421,7 @@ export const YoutubeAtomPlayer = ({
                 data-atom-type="youtube"
                 title={title}
             ></div>
-            {!enableIma && <div id={adID}></div>}
+            {enableIma && <div id={adID}></div>}
         </div>
     );
 };
