@@ -23,7 +23,7 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     stopVideo: boolean;
-    enableIma?: boolean;
+    imaAdTagUrl?: string;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -205,7 +205,7 @@ const createOnReadyListener =
             event,
         });
         /**
-         * instantiate IMA manager if enableIma param is true
+         * instantiate IMA manager if IMA enabled
          */
         if (instantiateImaManager) {
             instantiateImaManager(event.target);
@@ -232,13 +232,10 @@ const createOnReadyListener =
         }
     };
 
-function makeAdsRequest(adsRequest: { adTagUrl: string }) {
-    adsRequest.adTagUrl =
-        'https://pubads.g.doubleclick.net/gampad/ads?' +
-        'iu=/59666047/theguardian.com&description_url=[placeholder]&' +
-        'tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&' +
-        'env=vp&impl=s&correlator=&add=1';
-}
+const createMakeAdsRequestCallback =
+    (adTagUrl: string) => (adsRequest: { adTagUrl: string }) => {
+        adsRequest.adTagUrl = adTagUrl;
+    };
 
 export const YoutubeAtomPlayer = ({
     uniqueId,
@@ -253,7 +250,7 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     stopVideo,
-    enableIma,
+    imaAdTagUrl,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -268,6 +265,7 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
+    const enableIma = !!imaAdTagUrl;
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -279,14 +277,19 @@ export const YoutubeAtomPlayer = ({
     const adId = `youtube-ad-container-${uniqueId}`;
 
     let instantiateImaManager: (player: YT.Player) => void;
-    if (enableIma) {
+    if (enableIma && imaAdTagUrl) {
         instantiateImaManager = (player) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore IMA is an experimental feature and ImaManager is not yet officially part of the YT type
             if (typeof window.YT.ImaManager !== 'undefined') {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore see above
-                new window.YT.ImaManager(player, id, adId, makeAdsRequest);
+                new window.YT.ImaManager(
+                    player,
+                    id,
+                    adId,
+                    createMakeAdsRequestCallback(imaAdTagUrl),
+                );
             }
         };
     }
