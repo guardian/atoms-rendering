@@ -195,7 +195,7 @@ const createOnReadyListener =
         videoId: string,
         onReadyCallback: () => void,
         autoPlay: boolean,
-        instantiateImaManager: (event: YT.PlayerEvent) => void,
+        instantiateImaManager?: (player: YT.Player) => void,
     ) =>
     (event: YT.PlayerEvent) => {
         log('dotcom', {
@@ -204,6 +204,12 @@ const createOnReadyListener =
             msg: 'Ready',
             event,
         });
+        /**
+         * instantiate IMA manager if enableIma param is true
+         */
+        if (instantiateImaManager) {
+            instantiateImaManager(event.target);
+        }
         /**
          * Callback to notify YoutubeAtom that the player is ready
          */
@@ -224,10 +230,6 @@ const createOnReadyListener =
              */
             event.target.playVideo();
         }
-        /**
-         * instantiate IMA manager if enableIma param is true
-         */
-        instantiateImaManager(event);
     };
 
 function makeAdsRequest(adsRequest: { adTagUrl: string }) {
@@ -276,20 +278,15 @@ export const YoutubeAtomPlayer = ({
     const id = `youtube-video-${uniqueId}`;
     const adId = `youtube-ad-container-${uniqueId}`;
 
-    let instantiateImaManager: (event: YT.PlayerEvent) => void;
+    let instantiateImaManager: (player: YT.Player) => void;
     if (enableIma) {
-        instantiateImaManager = (event) => {
+        instantiateImaManager = (player) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore IMA is an experimental feature and ImaManager is not yet officially part of the YT type
             if (typeof window.YT.ImaManager !== 'undefined') {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore same
-                new window.YT.ImaManager(
-                    event.target,
-                    id,
-                    adId,
-                    makeAdsRequest,
-                );
+                // @ts-ignore see above
+                new window.YT.ImaManager(player, id, adId, makeAdsRequest);
             }
         };
     }
