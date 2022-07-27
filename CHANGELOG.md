@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.3.0
+
+### Minor Changes
+
+-   e440d44: Remove youtube-player library
+
 ## 23.2.2
 
 ### Patch Changes
