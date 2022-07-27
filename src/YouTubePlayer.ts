@@ -45,6 +45,14 @@ class YouTubePlayer {
             .catch(this.logError);
     }
 
+    playVideo(): Promise<void> {
+        return this.playerPromise
+            .then((player) => {
+                player.playVideo();
+            })
+            .catch(this.logError);
+    }
+
     stopVideo(): Promise<void> {
         return this.playerPromise
             .then((player) => {

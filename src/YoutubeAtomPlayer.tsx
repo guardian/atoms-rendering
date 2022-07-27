@@ -194,7 +194,7 @@ const createOnReadyListener =
     (
         videoId: string,
         onReadyCallback: () => void,
-        autoPlay: boolean,
+        setPlayerReady: () => void,
         instantiateImaManager?: (player: YT.Player) => void,
     ) =>
     (event: YT.PlayerEvent) => {
@@ -205,30 +205,24 @@ const createOnReadyListener =
             event,
         });
         /**
-         * instantiate IMA manager if IMA enabled
-         */
-        if (instantiateImaManager) {
-            instantiateImaManager(event.target);
-        }
-        /**
          * Callback to notify YoutubeAtom that the player is ready
          */
         onReadyCallback();
+
         /**
-         * Autoplay is determined by the parent
-         * Typically true when there is a preceding overlay
+         * Callback to set value of playerReady ref
          */
-        if (autoPlay) {
-            log('dotcom', {
-                from: 'YoutubeAtomPlayer onReady',
-                videoId,
-                msg: 'Playing video',
-                event,
-            });
-            /**
-             * event.target is the actual underlying YT player
-             */
-            event.target.playVideo();
+        setPlayerReady();
+
+        /**
+         * instantiate IMA manager if IMA enabled
+         */
+        if (instantiateImaManager) {
+            try {
+                instantiateImaManager(event.target);
+            } catch (e) {
+                log('commercial', 'error instatiating IMA manager:', e);
+            }
         }
     };
 
@@ -258,6 +252,7 @@ export const YoutubeAtomPlayer = ({
      * Does not cause re-renders on update
      */
     const player = useRef<YouTubePlayer>();
+    const playerReady = useRef<boolean>();
     const progressEvents = useRef<ProgressEvents>({
         hasSentPlayEvent: false,
         hasSent25Event: false,
@@ -294,7 +289,9 @@ export const YoutubeAtomPlayer = ({
         };
     }
 
-    log('commercial', { enableIma });
+    const setPlayerReady = () => {
+        playerReady.current = true;
+    };
 
     /**
      * Initialise player useEffect
@@ -325,8 +322,6 @@ export const YoutubeAtomPlayer = ({
                     disableRelatedVideos: !!enableIma,
                 };
 
-                log('commercial', { embedConfig });
-
                 /**
                  * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
                  * It will load the iframe embed
@@ -347,7 +342,7 @@ export const YoutubeAtomPlayer = ({
                         onReady: createOnReadyListener(
                             videoId,
                             onReady,
-                            autoPlay,
+                            setPlayerReady,
                             instantiateImaManager,
                         ),
                         onStateChange: createOnStateChangeListener(
@@ -402,6 +397,30 @@ export const YoutubeAtomPlayer = ({
             enableIma,
         ],
     );
+
+    useEffect(() => {
+        console.log('autoplay useEffect', {
+            'playerReady.current': playerReady.current,
+            autoPlay,
+        });
+        if (playerReady.current && autoPlay) {
+            /**
+             * Autoplay is determined by the parent
+             * Typically true when there is a preceding overlay
+             */
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer onReady',
+                videoId,
+                msg: 'Playing video',
+            });
+            const imaManagerDefined =
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore see above
+                typeof window.YT.ImaManager !== 'undefined';
+            console.log({ imaManagerDefined });
+            player.current?.playVideo();
+        }
+    }, [playerReady.current, autoPlay]);
 
     /**
      * Player stop useEffect
