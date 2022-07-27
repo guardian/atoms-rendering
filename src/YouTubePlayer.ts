@@ -11,6 +11,10 @@ type EmbedConfig = {
 
 type PlayerOptions = YT.PlayerOptions & EmbedConfig;
 
+type YouTubeEventListenerName = keyof YT.Events;
+
+type YouTubeEventListener = NonNullable<YT.Events[YouTubeEventListenerName]>;
+
 class YouTubePlayer {
     playerPromise: Promise<YT.Player>;
 
@@ -44,6 +48,19 @@ class YouTubePlayer {
             .catch(this.logError);
     }
 
+    removeEventListener(
+        eventName: keyof YT.Events,
+        eventListener: YouTubeEventListener,
+    ): Promise<void> {
+        return this.playerPromise
+            .then((player) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore ignore for now
+                player.removeEventListener(eventName, eventListener);
+            })
+            .catch(this.logError);
+    }
+
     stopVideo(): Promise<void> {
         return this.playerPromise
             .then((player) => {
@@ -53,4 +70,4 @@ class YouTubePlayer {
     }
 }
 
-export { YouTubePlayer };
+export { YouTubeEventListener, YouTubeEventListenerName, YouTubePlayer };

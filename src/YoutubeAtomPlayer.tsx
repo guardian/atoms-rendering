@@ -1,4 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import type {
+    YouTubeEventListener,
+    YouTubeEventListenerName,
+} from './YouTubePlayer';
 import { YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
@@ -190,7 +194,12 @@ const createOnStateChangeListener =
  * returns an onReady listener
  */
 const createOnReadyListener =
-    (videoId: string, onReadyCallback: () => void, autoPlay: boolean) =>
+    (
+        videoId: string,
+        onReadyCallback: () => void,
+        autoPlay: boolean,
+        setPlayerCallback: (player: YT.Player) => void,
+    ) =>
     (event: YT.PlayerEvent) => {
         log('dotcom', {
             from: 'YoutubeAtomPlayer onReady',
@@ -202,6 +211,10 @@ const createOnReadyListener =
          * Callback to notify YoutubeAtom that the player is ready
          */
         onReadyCallback();
+        /**
+         * Callback to set reference to YT.Player
+         */
+        setPlayerCallback(event.target);
         /**
          * Autoplay is determined by the parent
          * Typically true when there is a preceding overlay
@@ -240,6 +253,7 @@ export const YoutubeAtomPlayer = ({
      * Does not cause re-renders on update
      */
     const player = useRef<YouTubePlayer>();
+    const ytPlayer = useRef<YT.Player>();
     const progressEvents = useRef<ProgressEvents>({
         hasSentPlayEvent: false,
         hasSent25Event: false,
@@ -247,6 +261,12 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
+    const playerListeners = useRef<
+        Array<{
+            name: YouTubeEventListenerName;
+            listener: YouTubeEventListener;
+        }>
+    >([]);
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -277,6 +297,24 @@ export const YoutubeAtomPlayer = ({
                               consentState,
                           );
 
+                const setPlayerCallback = (player: YT.Player) => {
+                    ytPlayer.current = player;
+                };
+
+                const onReadyListener = createOnReadyListener(
+                    videoId,
+                    onReady,
+                    autoPlay,
+                    setPlayerCallback,
+                );
+
+                const onStateChangeListener = createOnStateChangeListener(
+                    videoId,
+                    uniqueId,
+                    progressEvents.current,
+                    eventEmitters,
+                );
+
                 player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
@@ -292,17 +330,8 @@ export const YoutubeAtomPlayer = ({
                         adsConfig,
                     },
                     events: {
-                        onReady: createOnReadyListener(
-                            videoId,
-                            onReady,
-                            autoPlay,
-                        ),
-                        onStateChange: createOnStateChangeListener(
-                            videoId,
-                            uniqueId,
-                            progressEvents.current,
-                            eventEmitters,
-                        ),
+                        onReady: onReadyListener,
+                        onStateChange: onStateChangeListener,
                     },
                 });
 
@@ -327,6 +356,14 @@ export const YoutubeAtomPlayer = ({
                         }
                     }
                 };
+
+                /**
+                 * Record the listeners using refs so they can be separately unregistered _only_ on component unmount
+                 */
+                playerListeners.current.push(
+                    { name: 'onReady', listener: onReadyListener },
+                    { name: 'onStateChange', listener: onStateChangeListener },
+                );
 
                 /**
                  * add listener for custom play event
@@ -369,7 +406,7 @@ export const YoutubeAtomPlayer = ({
     /**
      * Unregister listeners useEffect
      */
-    useEffect(() => {
+    useLayoutEffect(() => {
         /**
          * Unregister listeners on component unmount
          *
@@ -378,6 +415,18 @@ export const YoutubeAtomPlayer = ({
          * useEffect update.
          */
         return () => {
+            playerListeners.current.forEach((playerListener) => {
+                // player.current?.removeEventListener(
+                //     playerListener.name,
+                //     playerListener.listener,
+                // );
+                ytPlayer.current?.removeEventListener(
+                    playerListener.name,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    playerListener.listener,
+                );
+            });
             Object.entries(customListeners.current).forEach(
                 ([eventName, eventHandler]) => {
                     document.removeEventListener(eventName, eventHandler);
