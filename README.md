@@ -99,7 +99,7 @@ An example PR for adding the Profile Atom can be found [here](https://github.com
 
 Generate a changeset describing your work by running `yarn changeset` and following the prompts.
 
-Publishing is triggered by merging the auto-generated Version Packages PR that changesets manages.
+Publishing is triggered by merging the auto-generated Bump Version PR that changesets manages.
 
 Once complete, you can update the version of `@guardian/atoms-rendering` in any consuming project to see the changes.
 
