@@ -322,11 +322,6 @@ export const YoutubeAtomPlayer = ({
                     disableRelatedVideos: !!enableIma,
                 };
 
-                /**
-                 * We use the wrapper library youtube-player: https://github.com/gajus/youtube-player
-                 * It will load the iframe embed
-                 * It's API allows us to queue up calls to YT that will fire when the underlying player is ready
-                 */
                 player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
@@ -364,8 +359,11 @@ export const YoutubeAtomPlayer = ({
                         if (event.detail.uniqueId !== uniqueId) {
                             const playerStatePromise =
                                 player.current?.getPlayerState();
-                            playerStatePromise?.then((state) => {
-                                if (state && state === YT.PlayerState.PLAYING) {
+                            playerStatePromise?.then((playerState) => {
+                                if (
+                                    playerState &&
+                                    playerState === YT.PlayerState.PLAYING
+                                ) {
                                     player.current?.stopVideo();
                                 }
                             });
