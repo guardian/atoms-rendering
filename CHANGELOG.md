@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.3.1
+
+### Patch Changes
+
+-   39dd4f4: Update readme with correct name for changesets auto generated PR
+
 ## 23.3.0
 
 ### Minor Changes
