@@ -259,10 +259,10 @@ export const YoutubeAtomPlayer = ({
         hasSent75Event: false,
         hasSentEndEvent: false,
     });
-    const enableIma = !!imaAdTagUrl;
 
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
+    const enableIma = !!imaAdTagUrl && consentState.canTarget;
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -315,9 +315,10 @@ export const YoutubeAtomPlayer = ({
                 const embedConfig = {
                     relatedChannels: [],
                     adsConfig,
-                    // TODO will using null preserve default values for following two options?
-                    enableIma: !!enableIma,
-                    disableRelatedVideos: !!enableIma,
+                    enableIma: enableIma,
+                    // YouTube recommends disabling related videos when IMA is enabled
+                    // The default value is false
+                    disableRelatedVideos: enableIma,
                 };
 
                 player.current = new YouTubePlayer(id, {
