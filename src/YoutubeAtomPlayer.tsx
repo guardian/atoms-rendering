@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
@@ -252,7 +252,6 @@ export const YoutubeAtomPlayer = ({
      * Does not cause re-renders on update
      */
     const player = useRef<YouTubePlayer>();
-    const playerReady = useRef<boolean>();
     const progressEvents = useRef<ProgressEvents>({
         hasSentPlayEvent: false,
         hasSent25Event: false,
@@ -261,6 +260,9 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
     const enableIma = !!imaAdTagUrl;
+
+    const [playerReady, setPlayerReady] = useState<boolean>(false);
+    const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -288,10 +290,6 @@ export const YoutubeAtomPlayer = ({
             }
         };
     }
-
-    const setPlayerReady = () => {
-        playerReady.current = true;
-    };
 
     /**
      * Initialise player useEffect
@@ -337,7 +335,7 @@ export const YoutubeAtomPlayer = ({
                         onReady: createOnReadyListener(
                             videoId,
                             onReady,
-                            setPlayerReady,
+                            playerReadyCallback,
                             instantiateImaManager,
                         ),
                         onStateChange: createOnStateChangeListener(
@@ -397,11 +395,7 @@ export const YoutubeAtomPlayer = ({
     );
 
     useEffect(() => {
-        console.log('autoplay useEffect', {
-            'playerReady.current': playerReady.current,
-            autoPlay,
-        });
-        if (playerReady.current && autoPlay) {
+        if (playerReady && autoPlay) {
             /**
              * Autoplay is determined by the parent
              * Typically true when there is a preceding overlay
@@ -411,14 +405,9 @@ export const YoutubeAtomPlayer = ({
                 videoId,
                 msg: 'Playing video',
             });
-            const imaManagerDefined =
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore see above
-                typeof window.YT.ImaManager !== 'undefined';
-            console.log({ imaManagerDefined });
             player.current?.playVideo();
         }
-    }, [playerReady.current, autoPlay]);
+    }, [playerReady, autoPlay]);
 
     /**
      * Player stop useEffect
