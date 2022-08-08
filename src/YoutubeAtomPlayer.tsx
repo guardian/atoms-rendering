@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { YouTubePlayer } from './YouTubePlayer';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import { YouTubeEventListenerName, YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -35,6 +35,13 @@ type ProgressEvents = {
     hasSent75Event: boolean;
     hasSentEndEvent: boolean;
 };
+
+type PlayerListenerItem<T extends YouTubeEventListenerName> = {
+    name: T;
+    listener: NonNullable<YT.Events[T]>;
+};
+
+type PlayerListeners = Array<PlayerListenerItem<YouTubeEventListenerName>>;
 
 /**
  * ProgressEvents are a ref, see below
