@@ -37,11 +37,17 @@ type ProgressEvents = {
 };
 
 type PlayerListenerItem<T extends YouTubeEventListenerName> = {
+    // onReady, onStateChange, etc.
     name: T;
+    // PlayerEventHandler<PlayerEvent>,  PlayerEventHandler<OnStateChangeEvent>
     listener: NonNullable<YT.Events[T]>;
 };
 
 type PlayerListeners = Array<PlayerListenerItem<YouTubeEventListenerName>>;
+
+// Given a PlayerEventHandler, (e.g. PlayerEventHandler<OnStateChangeEvent>)
+// return its event type (e.g. OnStateChangeEvent)
+type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X> ? X : never;
 
 /**
  * ProgressEvents are a ref, see below
@@ -400,10 +406,6 @@ export const YoutubeAtomPlayer = ({
          * call its cleanup before unmount.
          */
         return () => {
-            type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X>
-                ? X
-                : never;
-
             playerListeners.current.forEach((playerListener) => {
                 type T = ExtractEventType<typeof playerListener.name>;
                 player.current?.removeEventListener<T>(
