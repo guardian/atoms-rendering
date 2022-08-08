@@ -305,11 +305,6 @@ export const YoutubeAtomPlayer = ({
                     eventEmitters,
                 );
 
-                const test: Array<PlayerListenerItem<keyof YT.Events>> = [
-                    { name: 'onReady', listener: onReadyListener },
-                ];
-                console.log(test);
-
                 player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
