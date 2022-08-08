@@ -255,6 +255,8 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
 
+    const playerListeners = useRef<PlayerListeners>([]);
+
     /**
      * A map ref with a key of eventname and a value of eventHandler
      */
@@ -284,6 +286,24 @@ export const YoutubeAtomPlayer = ({
                               consentState,
                           );
 
+                const onReadyListener = createOnReadyListener(
+                    videoId,
+                    onReady,
+                    autoPlay,
+                );
+
+                const onStateChangeListener = createOnStateChangeListener(
+                    videoId,
+                    uniqueId,
+                    progressEvents.current,
+                    eventEmitters,
+                );
+
+                const test: Array<PlayerListenerItem<keyof YT.Events>> = [
+                    { name: 'onReady', listener: onReadyListener },
+                ];
+                console.log(test);
+
                 player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
@@ -299,17 +319,8 @@ export const YoutubeAtomPlayer = ({
                         adsConfig,
                     },
                     events: {
-                        onReady: createOnReadyListener(
-                            videoId,
-                            onReady,
-                            autoPlay,
-                        ),
-                        onStateChange: createOnStateChangeListener(
-                            videoId,
-                            uniqueId,
-                            progressEvents.current,
-                            eventEmitters,
-                        ),
+                        onReady: onReadyListener,
+                        onStateChange: onStateChangeListener,
                     },
                 });
 
@@ -341,6 +352,11 @@ export const YoutubeAtomPlayer = ({
                 document.addEventListener(customPlayEventName, handleStopVideo);
 
                 customListeners.current[customPlayEventName] = handleStopVideo;
+
+                playerListeners.current.push(
+                    { name: 'onReady', listener: onReadyListener },
+                    { name: 'onStateChange', listener: onStateChangeListener },
+                );
             }
         },
         /**
@@ -374,17 +390,28 @@ export const YoutubeAtomPlayer = ({
     }, [stopVideo]);
 
     /**
-     * Unregister listeners useEffect
+     * Unregister listeners useLayoutEffect
      */
-    useEffect(() => {
+    useLayoutEffect(() => {
         /**
-         * Unregister listeners on component unmount
+         * Unregister listeners before component unmount
          *
-         * A useEffect with an empty dependency array will
-         * call its cleanup on unmount and not after every
-         * useEffect update.
+         * A useLayoutEffect with an empty dependency array will
+         * call its cleanup before unmount.
          */
         return () => {
+            type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X>
+                ? X
+                : never;
+
+            playerListeners.current.forEach((playerListener) => {
+                type T = ExtractEventType<typeof playerListener.name>;
+                player.current?.removeEventListener<T>(
+                    playerListener.name,
+                    playerListener.listener,
+                );
+            });
+
             Object.entries(customListeners.current).forEach(
                 ([eventName, eventHandler]) => {
                     document.removeEventListener(eventName, eventHandler);
