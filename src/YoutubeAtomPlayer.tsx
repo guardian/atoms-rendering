@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { YouTubeEventListenerName, YouTubePlayer } from './YouTubePlayer';
+import { PlayerListenerName, YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -36,14 +36,14 @@ type ProgressEvents = {
     hasSentEndEvent: boolean;
 };
 
-type PlayerListenerItem<T extends YouTubeEventListenerName> = {
+type PlayerListener<T extends PlayerListenerName> = {
     // onReady, onStateChange, etc.
     name: T;
     // PlayerEventHandler<PlayerEvent>,  PlayerEventHandler<OnStateChangeEvent>
     listener: NonNullable<YT.Events[T]>;
 };
 
-type PlayerListeners = Array<PlayerListenerItem<YouTubeEventListenerName>>;
+type PlayerListeners = Array<PlayerListener<PlayerListenerName>>;
 
 // Given a PlayerEventHandler, (e.g. PlayerEventHandler<OnStateChangeEvent>)
 // return its event type (e.g. OnStateChangeEvent)
