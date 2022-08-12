@@ -1,4 +1,4 @@
-import { loadScript } from '@guardian/libs';
+import { loadScript, log } from '@guardian/libs';
 
 declare global {
     interface Window {
@@ -15,16 +15,19 @@ const loadScripts = (enableIma = false) => {
      * only attempt to load the scripts if this is the first call and return a promise if we're on a subsequent call.
      */
     if (scriptsPromise) {
+        log('dotcom', 'loadYT: returning load script promise');
         return scriptsPromise;
     }
 
     let scripts;
     if (enableIma) {
+        log('dotcom', 'loadYT: loading YT & IMA script');
         scripts = [
             loadScript('https://www.youtube.com/iframe_api?ima=1'),
             loadScript('//imasdk.googleapis.com/js/sdkloader/ima3.js'),
         ];
     } else {
+        log('dotcom', 'loadYT: loading YT script');
         scripts = [loadScript('https://www.youtube.com/iframe_api')];
     }
 
@@ -43,10 +46,13 @@ const youtubeAPIReady = () => {
      * if we're on a subsequent call.
      */
     if (youtubeAPIReadyPromise) {
+        log('dotcom', 'loadYT: returning YTAPI promise');
         return youtubeAPIReadyPromise;
     }
     youtubeAPIReadyPromise = new Promise((resolve) => {
+        log('dotcom', 'loadYT: creating YTAPI promise');
         window.onYouTubeIframeAPIReady = () => {
+            log('dotcom', 'loadYT: resolving YTAPI promise');
             resolve(window.YT);
         };
     });
@@ -56,10 +62,12 @@ const youtubeAPIReady = () => {
 const loadYouTubeAPI = (enableIma = false): Promise<typeof YT> => {
     // if another part of the code has already loaded youtube api, return early
     if (window.YT && window.YT.Player && window.YT.Player instanceof Function) {
+        log('dotcom', 'loadYT: returning window.YT');
         return Promise.resolve(window.YT);
     }
 
     return loadScripts(enableIma).then(() => {
+        log('dotcom', 'loadYT: returning youtubeAPIReady()');
         return youtubeAPIReady();
     });
 };
