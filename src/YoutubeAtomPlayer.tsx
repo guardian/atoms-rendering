@@ -36,17 +36,22 @@ type ProgressEvents = {
     hasSentEndEvent: boolean;
 };
 
+/**
+ *  E.g.
+ *  name: onReady, onStateChange, etc...
+ *  listener: YT.PlayerEventHandler<PlayerEvent>, YT.PlayerEventHandler<OnStateChangeEvent>
+ */
 type PlayerListener<T extends PlayerListenerName> = {
-    // onReady, onStateChange, etc.
     name: T;
-    // PlayerEventHandler<PlayerEvent>,  PlayerEventHandler<OnStateChangeEvent>
     listener: NonNullable<YT.Events[T]>;
 };
 
 type PlayerListeners = Array<PlayerListener<PlayerListenerName>>;
 
-// Given a PlayerEventHandler, (e.g. PlayerEventHandler<OnStateChangeEvent>)
-// return its event type (e.g. OnStateChangeEvent)
+/**
+ * Given a YT.PlayerEventHandler, (e.g. PlayerEventHandler<OnStateChangeEvent>)
+ * return its event type (e.g. OnStateChangeEvent)
+ */
 type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X> ? X : never;
 
 /**
