@@ -397,8 +397,14 @@ export const YoutubeAtomPlayer = ({
         /**
          * Unregister listeners before component unmount
          *
-         * A useLayoutEffect with an empty dependency array will
-         * call its cleanup before unmount.
+         * An empty dependency array will call its cleanup on unmount.
+         *
+         * Use useLayoutEffect to ensure the cleanup function is run
+         * before the component is removed from the DOM. Usually clean up
+         * functions will run after the render and commit phase.
+         *
+         * If we attempt to unregister listeners after the component is
+         * removed from the DOM the YouTube API logs a warning to the console.
          */
         return () => {
             playerListeners.current.forEach((playerListener) => {
