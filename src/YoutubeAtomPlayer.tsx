@@ -456,7 +456,9 @@ export const YoutubeAtomPlayer = ({
                 data-atom-type="youtube"
                 title={title}
             ></div>
-            {enableIma && <div id={adId}></div>}
+            {enableIma && (
+                <div id={adId} data-atom-type="ima-ad-container"></div>
+            )}
         </div>
     );
 };
