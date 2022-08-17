@@ -134,7 +134,6 @@ export const YoutubeAtom = ({
             isMainMedia={isMainMedia}
         >
             <MaintainAspectRatio height={height} width={width}>
-                {/* TODO maintain aspect ratio's padding is messing up ad container styles */}
                 {loadPlayer && consentState && (
                     <YoutubeAtomPlayer
                         videoId={videoId}
