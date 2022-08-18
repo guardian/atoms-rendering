@@ -61,7 +61,8 @@ export const YoutubeAtom = ({
     const [stopVideo, setStopVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
-    const adContainerId = imaAdTagUrl
+    const enableIma = !!imaAdTagUrl && !!consentState && consentState.canTarget;
+    const adContainerId = enableIma
         ? `youtube-ad-container-${uniqueId}`
         : undefined;
 
@@ -156,11 +157,12 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         stopVideo={stopVideo}
+                        enableIma={enableIma}
                         imaAdTagUrl={imaAdTagUrl}
                         adContainerId={adContainerId}
                     />
                 )}
-                {adContainerId && (
+                {enableIma && adContainerId && (
                     <ImaAdContainer adContainerId={adContainerId} />
                 )}
                 {showOverlay && (

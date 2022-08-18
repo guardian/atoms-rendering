@@ -23,6 +23,7 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     stopVideo: boolean;
+    enableIma: boolean;
     imaAdTagUrl?: string;
     adContainerId?: string;
 };
@@ -245,6 +246,7 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     stopVideo,
+    enableIma,
     imaAdTagUrl,
     adContainerId,
 }: Props): JSX.Element => {
@@ -264,7 +266,6 @@ export const YoutubeAtomPlayer = ({
 
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
-    const enableIma = !!imaAdTagUrl && consentState.canTarget;
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
