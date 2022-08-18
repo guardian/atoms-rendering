@@ -228,11 +228,6 @@ const createOnReadyListener =
         }
     };
 
-const createMakeAdsRequestCallback =
-    (adTagUrl: string) => (adsRequest: { adTagUrl: string }) => {
-        adsRequest.adTagUrl = adTagUrl;
-    };
-
 export const YoutubeAtomPlayer = ({
     uniqueId,
     videoId,
@@ -277,6 +272,9 @@ export const YoutubeAtomPlayer = ({
 
     let instantiateImaManager: (player: YT.Player) => void;
     if (enableIma && imaAdTagUrl) {
+        const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
+            adsRequest.adTagUrl = imaAdTagUrl;
+        };
         instantiateImaManager = (player) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore IMA is an experimental feature and ImaManager is not yet officially part of the YT type
@@ -287,7 +285,7 @@ export const YoutubeAtomPlayer = ({
                     player,
                     id,
                     adContainerId,
-                    createMakeAdsRequestCallback(imaAdTagUrl),
+                    makeAdsRequestCallback,
                 );
             }
         };
