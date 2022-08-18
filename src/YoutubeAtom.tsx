@@ -12,6 +12,7 @@ import type {
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import { ImaAdContainer } from './ImaAdContainer';
 
 type Props = {
     elementId: string;
@@ -60,6 +61,9 @@ export const YoutubeAtom = ({
     const [stopVideo, setStopVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
+    const adContainerId = imaAdTagUrl
+        ? `youtube-ad-container-${uniqueId}`
+        : undefined;
 
     /**
      * Update the isPlaying state based on video events
@@ -153,7 +157,11 @@ export const YoutubeAtom = ({
                         onReady={playerReadyCallback}
                         stopVideo={stopVideo}
                         imaAdTagUrl={imaAdTagUrl}
+                        adContainerId={adContainerId}
                     />
+                )}
+                {adContainerId && (
+                    <ImaAdContainer adContainerId={adContainerId} />
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay

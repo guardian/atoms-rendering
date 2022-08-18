@@ -24,6 +24,7 @@ type Props = {
     onReady: () => void;
     stopVideo: boolean;
     imaAdTagUrl?: string;
+    adContainerId?: string;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -221,7 +222,7 @@ const createOnReadyListener =
             try {
                 instantiateImaManager(event.target);
             } catch (e) {
-                log('commercial', 'error instatiating IMA manager:', e);
+                log('commercial', 'error instantiating IMA manager:', e);
             }
         }
     };
@@ -245,6 +246,7 @@ export const YoutubeAtomPlayer = ({
     onReady,
     stopVideo,
     imaAdTagUrl,
+    adContainerId,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -271,7 +273,6 @@ export const YoutubeAtomPlayer = ({
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
     const id = `youtube-video-${uniqueId}`;
-    const adId = `youtube-ad-container-${uniqueId}`;
 
     let instantiateImaManager: (player: YT.Player) => void;
     if (enableIma && imaAdTagUrl) {
@@ -284,7 +285,7 @@ export const YoutubeAtomPlayer = ({
                 new window.YT.ImaManager(
                     player,
                     id,
-                    adId,
+                    adContainerId,
                     createMakeAdsRequestCallback(imaAdTagUrl),
                 );
             }
@@ -448,17 +449,12 @@ export const YoutubeAtomPlayer = ({
      * An element for the YouTube iFrame to hook into the dom
      */
     return (
-        <div>
-            <div
-                id={id}
-                data-atom-id={id}
-                data-testid={id}
-                data-atom-type="youtube"
-                title={title}
-            ></div>
-            {enableIma && (
-                <div id={adId} data-atom-type="ima-ad-container"></div>
-            )}
-        </div>
+        <div
+            id={id}
+            data-atom-id={id}
+            data-testid={id}
+            data-atom-type="youtube"
+            title={title}
+        ></div>
     );
 };
