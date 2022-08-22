@@ -11,8 +11,12 @@ type EmbedConfig = {
 
 type PlayerOptions = YT.PlayerOptions & EmbedConfig;
 
+// PlayerEvent, OnStateChangeEvent, etc.
+type PlayerListenerName = keyof YT.Events;
+
 class YouTubePlayer {
     playerPromise: Promise<YT.Player>;
+    private _player?: YT.Player;
 
     constructor(id: string, playerOptions: PlayerOptions) {
         this.playerPromise = this.setPlayer(id, playerOptions);
@@ -22,8 +26,8 @@ class YouTubePlayer {
         const YTAPI = await loadYouTubeAPI();
         const playerPromise = new Promise<YT.Player>((resolve, reject) => {
             try {
-                const player = new YTAPI.Player(id, playerOptions);
-                resolve(player);
+                this._player = new YTAPI.Player(id, playerOptions);
+                resolve(this._player);
             } catch (e) {
                 this.logError(e as Error);
                 reject(e);
@@ -51,6 +55,18 @@ class YouTubePlayer {
             })
             .catch(this.logError);
     }
+
+    removeEventListener<T extends YT.PlayerEvent>(
+        eventName: PlayerListenerName,
+        listener: YT.PlayerEventHandler<T>,
+    ): void {
+        /**
+         * If the YouTube API hasn't finished loading,
+         * this._player may be undefined in which case removeEventListener
+         * will fail silently.
+         */
+        this._player?.removeEventListener<T>(eventName, listener);
+    }
 }
 
-export { YouTubePlayer };
+export { YouTubePlayer, PlayerListenerName };
