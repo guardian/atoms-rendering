@@ -10,6 +10,9 @@ export default {
 
 const containerStyle = { width: '800px', margin: '24px' };
 const containerStyleSmall = { width: '400px', margin: '24px' };
+const consentStateCanTarget = {
+    canTarget: true,
+};
 
 export const NoConsent = (): JSX.Element => {
     return (
@@ -372,6 +375,127 @@ export const MultipleVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+            />
+        </div>
+    );
+};
+
+export const ConsentedNoOverlayImaAd = (): JSX.Element => {
+    return (
+        <div style={containerStyle}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="N9Cgy-ke5-s"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                pillar={ArticlePillar.Sport}
+                duration={252}
+                consentState={consentStateCanTarget}
+                height={450}
+                width={800}
+                shouldStick={false}
+                isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
+                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
+            />
+        </div>
+    );
+};
+
+export const WithPosterImageAndImaAd = (): JSX.Element => {
+    const [consentState, setConsentState] = useState({});
+    return (
+        <>
+            <button onClick={() => setConsentState(consentStateCanTarget)}>
+                Give consent
+            </button>
+            <div style={containerStyle}>
+                <YoutubeAtom
+                    elementId="xyz"
+                    videoId="N9Cgy-ke5-s"
+                    alt=""
+                    role="inline"
+                    eventEmitters={[
+                        (e) => console.log(`analytics event ${e} called`),
+                    ]}
+                    pillar={ArticlePillar.Sport}
+                    duration={252}
+                    consentState={consentState}
+                    posterImage={[
+                        {
+                            srcSet: [
+                                {
+                                    src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
+                                    width: 1000,
+                                },
+                                {
+                                    src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
+                                    width: 500,
+                                },
+                                {
+                                    src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
+                                    width: 140,
+                                },
+                                {
+                                    src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
+                                    width: 1920,
+                                },
+                            ],
+                        },
+                    ]}
+                    height={450}
+                    width={800}
+                    shouldStick={false}
+                    isMainMedia={false}
+                    title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
+                    imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
+                />
+            </div>
+        </>
+    );
+};
+
+export const ConsentedMultipleVideosWithImaAds = (): JSX.Element => {
+    return (
+        <div style={{ width: '500px' }}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={consentStateCanTarget}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
+            />
+            <YoutubeAtom
+                elementId="xyu"
+                videoId="3jpXAMwRSu4"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                consentState={consentStateCanTarget}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={true}
+                isMainMedia={true}
+                title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
