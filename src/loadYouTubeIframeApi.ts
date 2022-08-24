@@ -6,23 +6,23 @@ declare global {
     }
 }
 
-let scriptsPromise: Promise<(Event | undefined)[]>;
-let youtubeAPIReadyPromise: Promise<typeof YT>;
+let _scriptsPromise: Promise<(Event | undefined)[]>;
+let _youtubeAPIReadyPromise: Promise<typeof YT>;
 
 const loadScripts = () => {
     /**
      * Since loadScripts can be called multiple times on the same page for pages with more than one video,
-     * only attempt to load the scripts if this is the first call and return a promise if we're on a subsequent call.
+     * only attempt to load the scripts if this is the first call and return the same promise otherwise.
      */
-    if (scriptsPromise) {
-        return scriptsPromise;
+    if (_scriptsPromise) {
+        return _scriptsPromise;
     }
     const scripts = [
         // keep array multi-line
         loadScript('https://www.youtube.com/iframe_api'),
     ];
-    scriptsPromise = Promise.all(scripts);
-    return scriptsPromise;
+    _scriptsPromise = Promise.all(scripts);
+    return _scriptsPromise;
 };
 
 /**
@@ -32,28 +32,34 @@ const loadScripts = () => {
 const youtubeAPIReady = () => {
     /**
      * Since youtubeAPIReady can be called multiple times on the same page for pages with more than one video,
-     * only overwrite window.onYouTubeIframeAPIReady if this is the first call and return a promise
-     * if we're on a subsequent call.
+     * only overwrite window.onYouTubeIframeAPIReady if this is the first call and return the same promise otherwise.
      */
-    if (youtubeAPIReadyPromise) {
-        return youtubeAPIReadyPromise;
+    if (_youtubeAPIReadyPromise) {
+        return _youtubeAPIReadyPromise;
     }
-    youtubeAPIReadyPromise = new Promise((resolve) => {
+
+    _youtubeAPIReadyPromise = new Promise((resolve) => {
         window.onYouTubeIframeAPIReady = () => {
             resolve(window.YT);
         };
     });
-    return youtubeAPIReadyPromise;
+    return _youtubeAPIReadyPromise;
 };
 
 const loadYouTubeAPI = (): Promise<typeof YT> => {
-    // if another part of the code has already loaded youtube api, return early
+    /* If another part of the code has already loaded youtube api, return early. */
     if (window.YT && window.YT.Player && window.YT.Player instanceof Function) {
         return Promise.resolve(window.YT);
     }
 
+    /* Create youtubeAPIReady promise before loading scripts so that
+     * window.onYouTubeIframeAPIReady is guaranteed to be defined
+     * by the time the youtube script calls it.
+     */
+    const youtubeAPIReadyPromise = youtubeAPIReady();
+
     return loadScripts().then(() => {
-        return youtubeAPIReady();
+        return youtubeAPIReadyPromise;
     });
 };
 
