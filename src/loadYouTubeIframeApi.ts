@@ -6,19 +6,17 @@ declare global {
     }
 }
 
-let scriptsPromise: Promise<(Event | undefined)[]>;
-let youtubeAPIReadyPromise: Promise<typeof YT>;
+let _scriptsPromise: Promise<(Event | undefined)[]>;
+let _youtubeAPIReadyPromise: Promise<typeof YT>;
 
 const loadScripts = (enableIma = false) => {
     /**
      * Since loadScripts can be called multiple times on the same page for pages with more than one video,
-     * only attempt to load the scripts if this is the first call and return a promise if we're on a subsequent call.
+     * only attempt to load the scripts if this is the first call and return the same promise otherwise.
      */
-    if (scriptsPromise) {
-        log('dotcom', 'loadYT: returning load script promise');
-        return scriptsPromise;
+    if (_scriptsPromise) {
+        return _scriptsPromise;
     }
-
     let scripts;
     if (enableIma) {
         log('dotcom', 'loadYT: loading YT & IMA script');
@@ -30,9 +28,8 @@ const loadScripts = (enableIma = false) => {
         log('dotcom', 'loadYT: loading YT script');
         scripts = [loadScript('https://www.youtube.com/iframe_api')];
     }
-
-    scriptsPromise = Promise.all(scripts);
-    return scriptsPromise;
+    _scriptsPromise = Promise.all(scripts);
+    return _scriptsPromise;
 };
 
 /**
@@ -42,33 +39,37 @@ const loadScripts = (enableIma = false) => {
 const youtubeAPIReady = () => {
     /**
      * Since youtubeAPIReady can be called multiple times on the same page for pages with more than one video,
-     * only overwrite window.onYouTubeIframeAPIReady if this is the first call and return a promise
-     * if we're on a subsequent call.
+     * only overwrite window.onYouTubeIframeAPIReady if this is the first call and return the same promise otherwise.
      */
-    if (youtubeAPIReadyPromise) {
-        log('dotcom', 'loadYT: returning YTAPI promise');
-        return youtubeAPIReadyPromise;
+    if (_youtubeAPIReadyPromise) {
+        return _youtubeAPIReadyPromise;
     }
-    youtubeAPIReadyPromise = new Promise((resolve) => {
-        log('dotcom', 'loadYT: creating YTAPI promise');
+
+    _youtubeAPIReadyPromise = new Promise((resolve) => {
         window.onYouTubeIframeAPIReady = () => {
             log('dotcom', 'loadYT: resolving YTAPI promise');
             resolve(window.YT);
         };
     });
-    return youtubeAPIReadyPromise;
+    return _youtubeAPIReadyPromise;
 };
 
 const loadYouTubeAPI = (enableIma = false): Promise<typeof YT> => {
     // if another part of the code has already loaded youtube api, return early
+    /* If another part of the code has already loaded youtube api, return early. */
     if (window.YT && window.YT.Player && window.YT.Player instanceof Function) {
         log('dotcom', 'loadYT: returning window.YT');
         return Promise.resolve(window.YT);
     }
 
+    /* Create youtubeAPIReady promise before loading scripts so that
+     * window.onYouTubeIframeAPIReady is guaranteed to be defined
+     * by the time the youtube script calls it.
+     */
+    const youtubeAPIReadyPromise = youtubeAPIReady();
+
     return loadScripts(enableIma).then(() => {
-        log('dotcom', 'loadYT: returning youtubeAPIReady()');
-        return youtubeAPIReady();
+        return youtubeAPIReadyPromise;
     });
 };
 

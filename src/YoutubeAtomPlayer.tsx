@@ -1,5 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { YouTubePlayer } from './YouTubePlayer';
+import React, {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
+import { PlayerListenerName, YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
@@ -38,6 +44,24 @@ type ProgressEvents = {
     hasSent75Event: boolean;
     hasSentEndEvent: boolean;
 };
+
+/**
+ *  E.g.
+ *  name: onReady, onStateChange, etc...
+ *  listener: YT.PlayerEventHandler<PlayerEvent>, YT.PlayerEventHandler<OnStateChangeEvent>
+ */
+type PlayerListener<T extends PlayerListenerName> = {
+    name: T;
+    listener: NonNullable<YT.Events[T]>;
+};
+
+type PlayerListeners = Array<PlayerListener<PlayerListenerName>>;
+
+/**
+ * Given a YT.PlayerEventHandler, (e.g. PlayerEventHandler<OnStateChangeEvent>)
+ * return its event type (e.g. OnStateChangeEvent)
+ */
+type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X> ? X : never;
 
 /**
  * ProgressEvents are a ref, see below
@@ -261,6 +285,7 @@ export const YoutubeAtomPlayer = ({
 
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
+    const playerListeners = useRef<PlayerListeners>([]);
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -321,6 +346,20 @@ export const YoutubeAtomPlayer = ({
                     disableRelatedVideos: enableIma,
                 };
 
+                const onReadyListener = createOnReadyListener(
+                    videoId,
+                    onReady,
+                    playerReadyCallback,
+                    instantiateImaManager,
+                );
+
+                const onStateChangeListener = createOnStateChangeListener(
+                    videoId,
+                    uniqueId,
+                    progressEvents.current,
+                    eventEmitters,
+                );
+
                 player.current = new YouTubePlayer(id, {
                     height: width,
                     width: height,
@@ -333,18 +372,8 @@ export const YoutubeAtomPlayer = ({
                     },
                     embedConfig,
                     events: {
-                        onReady: createOnReadyListener(
-                            videoId,
-                            onReady,
-                            playerReadyCallback,
-                            instantiateImaManager,
-                        ),
-                        onStateChange: createOnStateChangeListener(
-                            videoId,
-                            uniqueId,
-                            progressEvents.current,
-                            eventEmitters,
-                        ),
+                        onReady: onReadyListener,
+                        onStateChange: onStateChangeListener,
                     },
                 });
 
@@ -376,6 +405,11 @@ export const YoutubeAtomPlayer = ({
                 document.addEventListener(customPlayEventName, handleStopVideo);
 
                 customListeners.current[customPlayEventName] = handleStopVideo;
+
+                playerListeners.current.push(
+                    { name: 'onReady', listener: onReadyListener },
+                    { name: 'onStateChange', listener: onStateChangeListener },
+                );
             }
         },
         /**
@@ -428,17 +462,30 @@ export const YoutubeAtomPlayer = ({
     }, [stopVideo]);
 
     /**
-     * Unregister listeners useEffect
+     * Unregister listeners useLayoutEffect
      */
-    useEffect(() => {
+    useLayoutEffect(() => {
         /**
-         * Unregister listeners on component unmount
+         * Unregister listeners before component unmount
          *
-         * A useEffect with an empty dependency array will
-         * call its cleanup on unmount and not after every
-         * useEffect update.
+         * An empty dependency array will call its cleanup on unmount.
+         *
+         * Use useLayoutEffect to ensure the cleanup function is run
+         * before the component is removed from the DOM. Usually clean up
+         * functions will run after the render and commit phase.
+         *
+         * If we attempt to unregister listeners after the component is
+         * removed from the DOM the YouTube API logs a warning to the console.
          */
         return () => {
+            playerListeners.current.forEach((playerListener) => {
+                type T = ExtractEventType<typeof playerListener.name>;
+                player.current?.removeEventListener<T>(
+                    playerListener.name,
+                    playerListener.listener,
+                );
+            });
+
             Object.entries(customListeners.current).forEach(
                 ([eventName, eventHandler]) => {
                     document.removeEventListener(eventName, eventHandler);
