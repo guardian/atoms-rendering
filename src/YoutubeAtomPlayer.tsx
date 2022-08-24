@@ -395,6 +395,9 @@ export const YoutubeAtomPlayer = ({
         ],
     );
 
+    /**
+     * Autoplay useEffect
+     */
     useEffect(() => {
         if (playerReady && autoPlay) {
             /**
@@ -402,7 +405,7 @@ export const YoutubeAtomPlayer = ({
              * Typically true when there is a preceding overlay
              */
             log('dotcom', {
-                from: 'YoutubeAtomPlayer onReady',
+                from: 'YoutubeAtomPlayer autoplay',
                 videoId,
                 msg: 'Playing video',
             });
