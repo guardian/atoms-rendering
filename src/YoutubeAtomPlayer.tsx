@@ -286,6 +286,7 @@ export const YoutubeAtomPlayer = ({
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
+    const imaManager = useRef<any>();
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -295,6 +296,7 @@ export const YoutubeAtomPlayer = ({
     >({});
     const id = `youtube-video-${uniqueId}`;
 
+    // TODO move this outside of component
     let instantiateImaManager: (player: YT.Player) => void;
     if (enableIma && imaAdTagUrl) {
         const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
@@ -306,7 +308,7 @@ export const YoutubeAtomPlayer = ({
             if (typeof window.YT.ImaManager !== 'undefined') {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore see above
-                new window.YT.ImaManager(
+                imaManager.current = new window.YT.ImaManager(
                     player,
                     id,
                     adContainerId,
@@ -384,7 +386,9 @@ export const YoutubeAtomPlayer = ({
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
-                        if (event.detail.uniqueId !== uniqueId) {
+                        const playedVideoId = event.detail.uniqueId;
+                        const thisVideoId = uniqueId;
+                        if (playedVideoId !== thisVideoId) {
                             const playerStatePromise =
                                 player.current?.getPlayerState();
                             playerStatePromise?.then((playerState) => {
@@ -392,9 +396,13 @@ export const YoutubeAtomPlayer = ({
                                     playerState &&
                                     playerState === YT.PlayerState.PLAYING
                                 ) {
-                                    player.current?.stopVideo();
+                                    player.current?.pauseVideo();
                                 }
                             });
+                            // pause ima ads playing on other videos
+                            const adsManager =
+                                imaManager.current.getAdsManager();
+                            adsManager.pause();
                         }
                     }
                 };
