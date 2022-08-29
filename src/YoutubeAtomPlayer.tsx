@@ -15,6 +15,7 @@ import {
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
+import { google } from './ima';
 
 type Props = {
     uniqueId: string;
@@ -63,6 +64,14 @@ type PlayerListeners = Array<PlayerListener<PlayerListenerName>>;
  */
 type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X> ? X : never;
 
+const dispatchCustomPlayEvent = (uniqueId: string) => {
+    document.dispatchEvent(
+        new CustomEvent(customPlayEventName, {
+            detail: { uniqueId },
+        }),
+    );
+};
+
 /**
  * ProgressEvents are a ref, see below
  */
@@ -91,11 +100,7 @@ const createOnStateChangeListener =
              * Emit video play event so other components
              * get aware when a video is played
              */
-            document.dispatchEvent(
-                new CustomEvent(customPlayEventName, {
-                    detail: { uniqueId },
-                }),
-            );
+            dispatchCustomPlayEvent(uniqueId);
 
             if (!progressEvents.hasSentPlayEvent) {
                 log('dotcom', {
@@ -254,10 +259,12 @@ const createOnReadyListener =
 
 const createInstantiateImaManager =
     (
+        uniqueId: string,
         imaAdTagUrl: string,
         id: string,
         adContainerId: string,
         imaManager: React.MutableRefObject<any>,
+        adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
     (player: YT.Player) => {
         const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
@@ -273,6 +280,23 @@ const createInstantiateImaManager =
                 id,
                 adContainerId,
                 makeAdsRequestCallback,
+            );
+            const adsLoader = imaManager.current.getAdsLoader();
+
+            const onAdsManagerLoaded = () => {
+                adsManager.current = imaManager.current.getAdsManager();
+                adsManager.current?.addEventListener(
+                    google.ima.AdEvent.Type.STARTED,
+                    () => {
+                        dispatchCustomPlayEvent(uniqueId);
+                    },
+                );
+            };
+
+            adsLoader.addEventListener(
+                google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+                onAdsManagerLoaded,
+                false,
             );
         }
     };
@@ -312,6 +336,7 @@ export const YoutubeAtomPlayer = ({
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
     const imaManager = useRef<any>();
+    const adsManager = useRef<google.ima.AdsManager>();
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -354,10 +379,12 @@ export const YoutubeAtomPlayer = ({
                 const instantiateImaManager =
                     enableIma && imaAdTagUrl && adContainerId
                         ? createInstantiateImaManager(
+                              uniqueId,
                               imaAdTagUrl,
                               id,
                               adContainerId,
                               imaManager,
+                              adsManager,
                           )
                         : undefined;
 
@@ -413,9 +440,7 @@ export const YoutubeAtomPlayer = ({
                                 }
                             });
                             // pause ima ads playing on other videos
-                            const adsManager =
-                                imaManager.current.getAdsManager();
-                            adsManager.pause();
+                            adsManager.current?.pause();
                         }
                     }
                 };
