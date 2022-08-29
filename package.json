@@ -29,7 +29,8 @@
         "test:ci": "jest",
         "validate": "yarn tsc && yarn test:ci && yarn lint",
         "chromatic": "chromatic",
-        "release": "yarn validate && yarn build && changeset publish"
+        "release": "yarn validate && yarn build && changeset publish",
+        "start": "yarn storybook"
     },
     "devDependencies": {
         "@changesets/changelog-github": "^0.4.3",

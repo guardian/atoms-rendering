@@ -63,7 +63,7 @@ Some of the storybook stories need to fetch YouTube scripts that are only availa
 In order for these stories to run as expected locally, you'll need to use [dev-nginx](https://github.com/guardian/dev-nginx) to proxy `atoms-rendering.local.dev-gutools.co.uk` to localhost. This can be set up by
 
 -   Running `./script/setup`
--   Running `./script/start` then opening https://atoms-rendering.local.dev-gutools.co.uk/ in your browser
+-   Running `yarn start` then opening https://atoms-rendering.local.dev-gutools.co.uk/ in your browser
 
 ## Testing locally
 
