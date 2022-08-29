@@ -112,7 +112,7 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     shouldStick?: boolean;
     onStopVideo: () => void;
-    isPlaying: boolean;
+    hasStarted: boolean;
     isMainMedia?: boolean;
     children: JSX.Element;
 };
@@ -124,7 +124,7 @@ export const YoutubeAtomSticky = ({
     eventEmitters,
     shouldStick,
     onStopVideo,
-    isPlaying,
+    hasStarted,
     isMainMedia,
     children,
 }: Props): JSX.Element => {
@@ -190,8 +190,8 @@ export const YoutubeAtomSticky = ({
      * useEffect for the sticky state
      */
     useEffect(() => {
-        if (shouldStick) setIsSticky(isPlaying && !isIntersecting);
-    }, [isIntersecting, isPlaying, shouldStick]);
+        if (shouldStick) setIsSticky(hasStarted && !isIntersecting);
+    }, [isIntersecting, hasStarted, shouldStick]);
 
     /**
      * useEffect for the stick events
