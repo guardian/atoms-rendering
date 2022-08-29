@@ -30,7 +30,6 @@
         "validate": "yarn tsc && yarn test:ci && yarn lint",
         "chromatic": "chromatic",
         "release": "yarn validate && yarn build && changeset publish",
-        "start": "yarn storybook",
         "nginx:setup": "./scripts/nginx/setup.sh"
     },
     "devDependencies": {
