@@ -331,9 +331,9 @@ export const YoutubeAtomPlayer = ({
                 });
 
                 /**
-                 * Pause the current video when another video is played on the same page
+                 * Pause the current video when another video is played
                  */
-                const handlePauseVideo = (
+                const handleCustomPlayEvent = (
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
@@ -357,10 +357,11 @@ export const YoutubeAtomPlayer = ({
                  */
                 document.addEventListener(
                     customPlayEventName,
-                    handlePauseVideo,
+                    handleCustomPlayEvent,
                 );
 
-                customListeners.current[customPlayEventName] = handlePauseVideo;
+                customListeners.current[customPlayEventName] =
+                    handleCustomPlayEvent;
 
                 playerListeners.current.push(
                     { name: 'onReady', listener: onReadyListener },
