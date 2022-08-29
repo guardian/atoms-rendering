@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR=${DIR}/..
-MAPPING_FILE=${ROOT_DIR}/scripts/nginx/nginx-mappings.yml
+set -e
 
-dev-nginx setup-app ${MAPPING_FILE}
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+dev-nginx setup-app ${DIR}/nginx-mappings.yml
+
+echo "🌎 Successfully installed config. https://atoms-rendering.local.dev-gutools.co.uk/ is now setup."
