@@ -55,7 +55,7 @@ export const YoutubeAtom = ({
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const [hasStarted, setHasStarted] = useState<boolean>(false);
-    const [stopVideo, setStopVideo] = useState<boolean>(false);
+    const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
 
@@ -67,7 +67,7 @@ export const YoutubeAtom = ({
     const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
-                setStopVideo(false);
+                setPauseVideo(false);
                 setHasStarted(true);
                 break;
             case 'end':
@@ -128,7 +128,7 @@ export const YoutubeAtom = ({
             shouldStick={shouldStick}
             hasStarted={hasStarted}
             eventEmitters={eventEmitters}
-            onStopVideo={() => setStopVideo(true)}
+            setPauseVideo={() => setPauseVideo(true)}
             isMainMedia={isMainMedia}
         >
             <MaintainAspectRatio height={height} width={width}>
@@ -149,7 +149,7 @@ export const YoutubeAtom = ({
                          */
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
-                        stopVideo={stopVideo}
+                        pauseVideo={pauseVideo}
                     />
                 )}
                 {showOverlay && (

@@ -111,7 +111,7 @@ type Props = {
     videoId: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     shouldStick?: boolean;
-    onStopVideo: () => void;
+    setPauseVideo: () => void;
     hasStarted: boolean;
     isMainMedia?: boolean;
     children: JSX.Element;
@@ -123,7 +123,7 @@ export const YoutubeAtomSticky = ({
     videoId,
     eventEmitters,
     shouldStick,
-    onStopVideo,
+    setPauseVideo,
     hasStarted,
     isMainMedia,
     children,
@@ -146,8 +146,8 @@ export const YoutubeAtomSticky = ({
         setIsSticky(false);
         // reset the sticky event sender
         setStickEventSent(false);
-        // stop the video
-        onStopVideo();
+        // pause the video
+        setPauseVideo();
 
         // log a 'close' event
         log('dotcom', {
