@@ -62,7 +62,7 @@ The available yarn commands are given below:
 Some of the storybook stories need to fetch YouTube scripts that are only available to clients with an allow-listed domain. YouTube has allow-listed `dev-gutools.co.uk` (along with dotcom code and prod domains).
 In order for these stories to run as expected locally, you'll need to use [dev-nginx](https://github.com/guardian/dev-nginx) to proxy `atoms-rendering.local.dev-gutools.co.uk` to localhost. This can be set up by
 
--   Running `./script/setup`
+-   Running `yarn nginx:setup`
 -   Running `yarn start` then opening https://atoms-rendering.local.dev-gutools.co.uk/ in your browser
 
 ## Testing locally
