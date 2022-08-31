@@ -15,7 +15,13 @@ import {
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
-import { google } from './ima';
+import type { google } from './ima';
+
+declare global {
+    interface Window {
+        google: typeof google;
+    }
+}
 
 type Props = {
     uniqueId: string;
@@ -286,7 +292,7 @@ const createInstantiateImaManager =
             const onAdsManagerLoaded = () => {
                 adsManager.current = imaManager.current.getAdsManager();
                 adsManager.current?.addEventListener(
-                    google.ima.AdEvent.Type.STARTED,
+                    window.google.ima.AdEvent.Type.STARTED,
                     () => {
                         dispatchCustomPlayEvent(uniqueId);
                     },
@@ -294,7 +300,7 @@ const createInstantiateImaManager =
             };
 
             adsLoader.addEventListener(
-                google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+                window.google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
                 onAdsManagerLoaded,
                 false,
             );
