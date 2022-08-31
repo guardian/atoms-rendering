@@ -63,7 +63,7 @@ export const YoutubeAtom = ({
     const uniqueId = `${videoId}-${elementId}`;
     const enableIma = !!imaAdTagUrl && !!consentState && consentState.canTarget;
     const adContainerId = enableIma
-        ? `youtube-ad-container-${uniqueId}`
+        ? `ima-ad-container-${uniqueId}`
         : undefined;
 
     /**
