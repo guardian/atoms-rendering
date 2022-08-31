@@ -115,6 +115,8 @@ type Props = {
     isActive: boolean;
     isMainMedia?: boolean;
     children: JSX.Element;
+    isClosed: boolean;
+    setIsClosed: (state: boolean) => void;
 };
 
 const isMobile = detectMobile({ tablet: true });
@@ -127,6 +129,8 @@ export const YoutubeAtomSticky = ({
     isActive,
     isMainMedia,
     children,
+    isClosed,
+    setIsClosed,
 }: Props): JSX.Element => {
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
@@ -148,6 +152,8 @@ export const YoutubeAtomSticky = ({
         setStickEventSent(false);
         // pause the video
         setPauseVideo();
+        // set isClosed so that player won't restick
+        setIsClosed(true);
 
         // log a 'close' event
         log('dotcom', {
@@ -190,8 +196,8 @@ export const YoutubeAtomSticky = ({
      * useEffect for the sticky state
      */
     useEffect(() => {
-        if (shouldStick) setIsSticky(isActive && !isIntersecting);
-    }, [isIntersecting, isActive, shouldStick]);
+        if (shouldStick) setIsSticky(isActive && !isIntersecting && !isClosed);
+    }, [isIntersecting, isActive, shouldStick, isClosed]);
 
     /**
      * useEffect for the stick events

@@ -55,6 +55,7 @@ export const YoutubeAtom = ({
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [isClosed, setIsClosed] = useState<boolean>(false);
     const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
@@ -69,6 +70,7 @@ export const YoutubeAtom = ({
             case 'play':
             case 'resume':
                 setPauseVideo(false);
+                setIsClosed(false);
                 setIsActive(true);
                 break;
             case 'end':
@@ -131,6 +133,8 @@ export const YoutubeAtom = ({
             eventEmitters={eventEmitters}
             setPauseVideo={() => setPauseVideo(true)}
             isMainMedia={isMainMedia}
+            isClosed={isClosed}
+            setIsClosed={setIsClosed}
         >
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
