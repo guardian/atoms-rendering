@@ -319,9 +319,9 @@ export const DuplicateVideos = (): JSX.Element => {
     );
 };
 
-export const MultipleVideos = (): JSX.Element => {
+export const MultipleStickyVideos = (): JSX.Element => {
     return (
-        <div style={{ width: '500px' }}>
+        <div style={{ width: '500px', height: '5000px' }}>
             <YoutubeAtom
                 elementId="xyz"
                 videoId="-ZCvZmYlQD8"
