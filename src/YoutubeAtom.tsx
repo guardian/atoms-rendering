@@ -67,6 +67,7 @@ export const YoutubeAtom = ({
     const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
+            case 'resume':
                 setPauseVideo(false);
                 setIsActive(true);
                 break;
@@ -150,6 +151,9 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         pauseVideo={pauseVideo}
+                        deactivateVideo={() => {
+                            setIsActive(false);
+                        }}
                     />
                 )}
                 {showOverlay && (

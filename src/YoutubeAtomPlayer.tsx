@@ -23,6 +23,7 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     pauseVideo: boolean;
+    deactivateVideo: () => void;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -251,6 +252,7 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     pauseVideo,
+    deactivateVideo,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -348,6 +350,7 @@ export const YoutubeAtomPlayer = ({
                                     player.current?.pauseVideo();
                                 }
                             });
+                            deactivateVideo();
                         }
                     }
                 };
