@@ -403,8 +403,8 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 player.current = new YouTubePlayer(id, {
-                    height: width,
-                    width: height,
+                    height,
+                    width,
                     videoId,
                     playerVars: {
                         modestbranding: 1,
