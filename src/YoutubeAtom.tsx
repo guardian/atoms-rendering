@@ -54,13 +54,13 @@ export const YoutubeAtom = ({
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
-    const [hasStarted, setHasStarted] = useState<boolean>(false);
+    const [isActive, setIsActive] = useState<boolean>(false);
     const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
 
     /**
-     * Update the hasStarted state based on video events
+     * Update the isActive state based on video events
      *
      * @param {VideoEventKey} videoEvent the video event which triggers the callback
      */
@@ -68,11 +68,11 @@ export const YoutubeAtom = ({
         switch (videoEvent) {
             case 'play':
                 setPauseVideo(false);
-                setHasStarted(true);
+                setIsActive(true);
                 break;
             case 'end':
             case 'cued':
-                setHasStarted(false);
+                setIsActive(false);
                 break;
         }
     };
@@ -126,7 +126,7 @@ export const YoutubeAtom = ({
         <YoutubeAtomSticky
             videoId={videoId}
             shouldStick={shouldStick}
-            hasStarted={hasStarted}
+            isActive={isActive}
             eventEmitters={eventEmitters}
             setPauseVideo={() => setPauseVideo(true)}
             isMainMedia={isMainMedia}
