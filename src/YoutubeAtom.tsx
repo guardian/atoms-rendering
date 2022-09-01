@@ -127,6 +127,7 @@ export const YoutubeAtom = ({
 
     return (
         <YoutubeAtomSticky
+            uniqueId={uniqueId}
             videoId={videoId}
             shouldStick={shouldStick}
             isActive={isActive}

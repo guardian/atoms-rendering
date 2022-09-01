@@ -108,6 +108,7 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
 };
 
 type Props = {
+    uniqueId: string;
     videoId: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     shouldStick?: boolean;
@@ -122,6 +123,7 @@ type Props = {
 const isMobile = detectMobile({ tablet: true });
 
 export const YoutubeAtomSticky = ({
+    uniqueId,
     videoId,
     eventEmitters,
     shouldStick,
@@ -234,7 +236,12 @@ export const YoutubeAtomSticky = ({
     const showCloseButton = !showOverlay && isMobile;
 
     return (
-        <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
+        <div
+            ref={setRef}
+            css={isSticky && stickyContainerStyles(isMainMedia)}
+            data-cy={`atom-sticky-${uniqueId}`}
+            data-is-sticky={isSticky}
+        >
             <div css={isSticky && stickyStyles(showCloseButton)}>
                 {children}
                 {isSticky && (
