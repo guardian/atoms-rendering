@@ -249,7 +249,11 @@ export const YoutubeAtomSticky = ({
                             css={hoverAreaStyles(showOverlay)}
                             onClick={() => setShowOverlay(false)}
                         />
-                        <button css={buttonStyles} onClick={handleCloseClick}>
+                        <button
+                            css={buttonStyles}
+                            onClick={handleCloseClick}
+                            data-cy={`youtube-sticky-close-${uniqueId}`}
+                        >
                             <SvgCross size="medium" />
                         </button>
                     </>
