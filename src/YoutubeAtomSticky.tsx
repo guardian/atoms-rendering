@@ -190,7 +190,6 @@ export const YoutubeAtomSticky = ({
      */
     useEffect(() => {
         window.addEventListener('keydown', handleKeydown);
-
         return () => window.removeEventListener('keydown', handleKeydown);
     }, []);
 
@@ -239,7 +238,7 @@ export const YoutubeAtomSticky = ({
         <div
             ref={setRef}
             css={isSticky && stickyContainerStyles(isMainMedia)}
-            data-cy={`atom-sticky-${uniqueId}`}
+            data-cy={`youtube-sticky-${uniqueId}`}
             data-is-sticky={isSticky}
         >
             <div css={isSticky && stickyStyles(showCloseButton)}>
