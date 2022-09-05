@@ -1,5 +1,16 @@
 # @guardian/atoms-rendering
 
+## 23.4.0
+
+### Minor Changes
+
+-   b01c028: YoutubeAtom - Pause video rather than stop
+
+### Patch Changes
+
+-   9931bf5: YoutubeAtomPlayer removes YouTube event listeners before unmount
+-   67d04bb: Fix potential race in loadYouTubeAPI
+
 ## 23.3.1
 
 ### Patch Changes
