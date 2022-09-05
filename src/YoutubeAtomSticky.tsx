@@ -108,25 +108,31 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
 };
 
 type Props = {
+    uniqueId: string;
     videoId: string;
     eventEmitters: ((event: VideoEventKey) => void)[];
     shouldStick?: boolean;
-    onStopVideo: () => void;
-    isPlaying: boolean;
+    setPauseVideo: () => void;
+    isActive: boolean;
     isMainMedia?: boolean;
     children: JSX.Element;
+    isClosed: boolean;
+    setIsClosed: (state: boolean) => void;
 };
 
 const isMobile = detectMobile({ tablet: true });
 
 export const YoutubeAtomSticky = ({
+    uniqueId,
     videoId,
     eventEmitters,
     shouldStick,
-    onStopVideo,
-    isPlaying,
+    setPauseVideo,
+    isActive,
     isMainMedia,
     children,
+    isClosed,
+    setIsClosed,
 }: Props): JSX.Element => {
     const [isSticky, setIsSticky] = useState<boolean>(false);
     const [stickEventSent, setStickEventSent] = useState<boolean>(false);
@@ -146,8 +152,10 @@ export const YoutubeAtomSticky = ({
         setIsSticky(false);
         // reset the sticky event sender
         setStickEventSent(false);
-        // stop the video
-        onStopVideo();
+        // pause the video
+        setPauseVideo();
+        // set isClosed so that player won't restick
+        setIsClosed(true);
 
         // log a 'close' event
         log('dotcom', {
@@ -182,7 +190,6 @@ export const YoutubeAtomSticky = ({
      */
     useEffect(() => {
         window.addEventListener('keydown', handleKeydown);
-
         return () => window.removeEventListener('keydown', handleKeydown);
     }, []);
 
@@ -190,8 +197,8 @@ export const YoutubeAtomSticky = ({
      * useEffect for the sticky state
      */
     useEffect(() => {
-        if (shouldStick) setIsSticky(isPlaying && !isIntersecting);
-    }, [isIntersecting, isPlaying, shouldStick]);
+        if (shouldStick) setIsSticky(isActive && !isIntersecting && !isClosed);
+    }, [isIntersecting, isActive, shouldStick, isClosed]);
 
     /**
      * useEffect for the stick events
@@ -228,7 +235,12 @@ export const YoutubeAtomSticky = ({
     const showCloseButton = !showOverlay && isMobile;
 
     return (
-        <div ref={setRef} css={isSticky && stickyContainerStyles(isMainMedia)}>
+        <div
+            ref={setRef}
+            css={isSticky && stickyContainerStyles(isMainMedia)}
+            data-cy={`youtube-sticky-${uniqueId}`}
+            data-is-sticky={isSticky}
+        >
             <div css={isSticky && stickyStyles(showCloseButton)}>
                 {children}
                 {isSticky && (
@@ -237,7 +249,11 @@ export const YoutubeAtomSticky = ({
                             css={hoverAreaStyles(showOverlay)}
                             onClick={() => setShowOverlay(false)}
                         />
-                        <button css={buttonStyles} onClick={handleCloseClick}>
+                        <button
+                            css={buttonStyles}
+                            onClick={handleCloseClick}
+                            data-cy={`youtube-sticky-close-${uniqueId}`}
+                        >
                             <SvgCross size="medium" />
                         </button>
                     </>

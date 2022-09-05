@@ -22,7 +22,8 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
-    stopVideo: boolean;
+    pauseVideo: boolean;
+    deactivateVideo: () => void;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -250,7 +251,8 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
-    stopVideo,
+    pauseVideo,
+    deactivateVideo,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -331,9 +333,9 @@ export const YoutubeAtomPlayer = ({
                 });
 
                 /**
-                 * Stop the current video when another video is played on the same page
+                 * Pause the current video when another video is played
                  */
-                const handleStopVideo = (
+                const handleCustomPlayEvent = (
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
@@ -345,9 +347,10 @@ export const YoutubeAtomPlayer = ({
                                     playerState &&
                                     playerState === YT.PlayerState.PLAYING
                                 ) {
-                                    player.current?.stopVideo();
+                                    player.current?.pauseVideo();
                                 }
                             });
+                            deactivateVideo();
                         }
                     }
                 };
@@ -355,9 +358,13 @@ export const YoutubeAtomPlayer = ({
                 /**
                  * add listener for custom play event
                  */
-                document.addEventListener(customPlayEventName, handleStopVideo);
+                document.addEventListener(
+                    customPlayEventName,
+                    handleCustomPlayEvent,
+                );
 
-                customListeners.current[customPlayEventName] = handleStopVideo;
+                customListeners.current[customPlayEventName] =
+                    handleCustomPlayEvent;
 
                 playerListeners.current.push(
                     { name: 'onReady', listener: onReadyListener },
@@ -382,18 +389,18 @@ export const YoutubeAtomPlayer = ({
     );
 
     /**
-     * Player stop useEffect
+     * Player pause useEffect
      */
     useEffect(() => {
         /**
-         * if the 'stopVideo' prop is true this should stop the video
+         * if the 'pauseVideo' prop is true this should pause the video
          *
-         * 'stopVideo' is controlled by the close sticky video button
+         * 'pauseVideo' is controlled by the close sticky video button
          */
-        if (stopVideo) {
-            player.current?.stopVideo();
+        if (pauseVideo) {
+            player.current?.pauseVideo();
         }
-    }, [stopVideo]);
+    }, [pauseVideo]);
 
     /**
      * Unregister listeners useLayoutEffect

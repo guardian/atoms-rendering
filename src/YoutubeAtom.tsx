@@ -54,25 +54,28 @@ export const YoutubeAtom = ({
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [stopVideo, setStopVideo] = useState<boolean>(false);
+    const [isActive, setIsActive] = useState<boolean>(false);
+    const [isClosed, setIsClosed] = useState<boolean>(false);
+    const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
 
     /**
-     * Update the isPlaying state based on video events
+     * Update the isActive state based on video events
      *
      * @param {VideoEventKey} videoEvent the video event which triggers the callback
      */
     const playerState = (videoEvent: VideoEventKey) => {
         switch (videoEvent) {
             case 'play':
-                setStopVideo(false);
-                setIsPlaying(true);
+            case 'resume':
+                setPauseVideo(false);
+                setIsClosed(false);
+                setIsActive(true);
                 break;
             case 'end':
             case 'cued':
-                setIsPlaying(false);
+                setIsActive(false);
                 break;
         }
     };
@@ -124,12 +127,15 @@ export const YoutubeAtom = ({
 
     return (
         <YoutubeAtomSticky
+            uniqueId={uniqueId}
             videoId={videoId}
             shouldStick={shouldStick}
-            isPlaying={isPlaying}
+            isActive={isActive}
             eventEmitters={eventEmitters}
-            onStopVideo={() => setStopVideo(true)}
+            setPauseVideo={() => setPauseVideo(true)}
             isMainMedia={isMainMedia}
+            isClosed={isClosed}
+            setIsClosed={setIsClosed}
         >
             <MaintainAspectRatio height={height} width={width}>
                 {loadPlayer && consentState && (
@@ -149,7 +155,10 @@ export const YoutubeAtom = ({
                          */
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
-                        stopVideo={stopVideo}
+                        pauseVideo={pauseVideo}
+                        deactivateVideo={() => {
+                            setIsActive(false);
+                        }}
                     />
                 )}
                 {showOverlay && (
