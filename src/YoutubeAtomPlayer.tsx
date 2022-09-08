@@ -305,6 +305,12 @@ const createInstantiateImaManager =
                 onAdsManagerLoaded,
                 false,
             );
+        } else {
+            console.warn(
+                'YT.ImaManager is undefined, probably because the youtube iframe_api script was fetched from ' +
+                    "a domain that isn't allow-listed (theguardian.com, thegulocal.com, gutools.co.uk). " +
+                    'If you are running an app locally, use dev-nginx to proxy one of these domains to localhost.',
+            );
         }
     };
 
