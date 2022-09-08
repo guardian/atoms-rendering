@@ -15,11 +15,25 @@ import {
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
-import type { google } from './ima';
+import { google } from './ima';
+
+declare class ImaManager {
+    constructor(
+        player: YT.Player,
+        id: string,
+        adContainerId: string,
+        makeAdsRequestCallback: (adsRequest: { adTagUrl: string }) => void,
+    );
+    getAdsLoader: () => google.ima.AdsLoader;
+    getAdsManager: () => google.ima.AdsManager;
+}
 
 declare global {
     interface Window {
         google: typeof google;
+        YT: {
+            ImaManager: typeof ImaManager;
+        };
     }
 }
 
@@ -270,18 +284,14 @@ const createInstantiateImaManager =
         imaAdTagUrl: string,
         id: string,
         adContainerId: string,
-        imaManager: React.MutableRefObject<any>,
+        imaManager: React.MutableRefObject<ImaManager | undefined>,
         adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
     (player: YT.Player) => {
         const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
             adsRequest.adTagUrl = imaAdTagUrl;
         };
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore IMA is an experimental feature and ImaManager is not yet officially part of the YT type
         if (typeof window.YT.ImaManager !== 'undefined') {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore see above
             imaManager.current = new window.YT.ImaManager(
                 player,
                 id,
@@ -291,7 +301,7 @@ const createInstantiateImaManager =
             const adsLoader = imaManager.current.getAdsLoader();
 
             const onAdsManagerLoaded = () => {
-                adsManager.current = imaManager.current.getAdsManager();
+                adsManager.current = imaManager.current?.getAdsManager();
                 adsManager.current?.addEventListener(
                     window.google.ima.AdEvent.Type.STARTED,
                     () => {
@@ -349,7 +359,7 @@ export const YoutubeAtomPlayer = ({
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
-    const imaManager = useRef<any>();
+    const imaManager = useRef<ImaManager>();
     const adsManager = useRef<google.ima.AdsManager>();
 
     /**
