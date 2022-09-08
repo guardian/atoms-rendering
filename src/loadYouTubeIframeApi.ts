@@ -21,6 +21,12 @@ const loadScripts = (enableIma = false) => {
     if (enableIma) {
         log('dotcom', 'loadYT: loading YT & IMA script');
         scripts = [
+            /**
+             * The IMA version of the iframe api script can only be fetched from
+             * a domain that is on YouTube's allow list (theguardian.com, thegulocal.com, gutools.co.uk).
+             * If the request is made from a domain that isn't on the list (e.g. localhost),
+             * the standard, non-IMA version will be returned and IMA functionality will fail silently.
+             */
             loadScript('https://www.youtube.com/iframe_api?ima=1'),
             loadScript('//imasdk.googleapis.com/js/sdkloader/ima3.js'),
         ];
