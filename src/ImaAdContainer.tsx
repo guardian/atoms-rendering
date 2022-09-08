@@ -5,7 +5,7 @@ type Props = {
 };
 
 const ImaAdContainer = ({ adContainerId }: Props): JSX.Element => {
-    return <div id={adContainerId} data-atom-type="ima-ad-container"></div>;
+    return <div id={adContainerId}></div>;
 };
 
 export { ImaAdContainer };
