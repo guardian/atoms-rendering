@@ -62,7 +62,12 @@ export const YoutubeAtom = ({
     const [pauseVideo, setPauseVideo] = useState<boolean>(false);
 
     const uniqueId = `${videoId}-${elementId}`;
-    const enableIma = !!imaAdTagUrl && !!consentState && consentState.canTarget;
+    const enableIma =
+        !!imaAdTagUrl &&
+        !!adTargeting &&
+        !adTargeting.disableAds &&
+        !!consentState &&
+        consentState.canTarget;
     const adContainerId = enableIma
         ? `ima-ad-container-${uniqueId}`
         : undefined;
