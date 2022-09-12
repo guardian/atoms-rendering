@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
+import { consentStateCanTarget } from './fixtures/consentStateCanTarget';
 
 export default {
     title: 'YoutubeAtomWithImaAd',
@@ -10,8 +11,9 @@ export default {
 
 const containerStyle = { width: '800px', margin: '24px' };
 const containerStyleSmall = { width: '400px', margin: '24px' };
-const consentStateCanTarget = {
-    canTarget: true,
+const adTargeting = {
+    customParams: {},
+    adUnit: '/59666047/theguardian.com/news/article/ng',
 };
 
 export const NoConsent = (): JSX.Element => {
@@ -25,6 +27,7 @@ export const NoConsent = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -32,6 +35,30 @@ export const NoConsent = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
+            />
+        </div>
+    );
+};
+
+export const AdFree = (): JSX.Element => {
+    return (
+        <div style={containerStyle}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="-ZCvZmYlQD8"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                adTargeting={{ disableAds: true }}
+                consentState={consentStateCanTarget}
+                duration={252}
+                pillar={ArticlePillar.Culture}
+                height={450}
+                width={800}
+                shouldStick={false}
+                isMainMedia={false}
             />
         </div>
     );
@@ -48,6 +75,7 @@ export const NoOverlay = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -74,6 +102,7 @@ export const WithOverrideImage = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 pillar={ArticlePillar.News}
                 overrideImage={[
@@ -108,6 +137,7 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 pillar={ArticlePillar.Sport}
                 duration={252}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 posterImage={[
                     {
@@ -165,6 +195,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 posterImage={[
                     {
@@ -213,7 +244,8 @@ export const GiveConsent = (): JSX.Element => {
                     eventEmitters={[
                         (e) => console.log(`analytics event ${e} called`),
                     ]}
-                    consentState={consented ? {} : undefined}
+                    adTargeting={adTargeting}
+                    consentState={consented ? consentStateCanTarget : undefined}
                     duration={252}
                     pillar={ArticlePillar.News}
                     overrideImage={[
@@ -250,6 +282,7 @@ export const Sticky = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -277,6 +310,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -303,6 +337,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -320,6 +355,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -343,6 +379,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -361,6 +398,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
@@ -379,6 +417,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
+                adTargeting={adTargeting}
                 consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
