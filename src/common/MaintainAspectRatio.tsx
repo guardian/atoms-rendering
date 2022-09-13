@@ -40,6 +40,7 @@ export const MaintainAspectRatio = ({
                 position: absolute !important;
                 top: 0;
                 left: 0;
+                display: none;
             }
         `}
     >
