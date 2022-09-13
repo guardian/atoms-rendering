@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.5.0
+
+### Minor Changes
+
+-   8e7e15c: Fixes an accessibility problem with the legend element & Adds support for image alts on quizes
+
 ## 23.4.0
 
 ### Minor Changes
