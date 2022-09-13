@@ -59,6 +59,7 @@ export const AdFree = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
