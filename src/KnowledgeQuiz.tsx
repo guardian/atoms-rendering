@@ -35,6 +35,7 @@ type QuestionType = {
     text: string;
     answers: AnswerType[];
     imageUrl?: string;
+    imageAlt?: string;
 };
 
 type QuizAtomType = {
@@ -92,6 +93,7 @@ export const KnowledgeQuizAtom = ({
                     number={idx + 1}
                     text={question.text}
                     imageUrl={question.imageUrl}
+                    imageAlt={question.imageAlt}
                     answers={question.answers}
                     quizSelection={quizSelection}
                     setQuizSelection={setQuizSelection}
@@ -115,6 +117,7 @@ export const Question = ({
     id,
     text,
     imageUrl,
+    imageAlt,
     answers,
     number,
     quizSelection,
@@ -153,28 +156,27 @@ export const Question = ({
             `}
         >
             <fieldset css={fieldsetStyle}>
-                <div>
-                    <legend
+                <legend
+                    css={css`
+                        margin-bottom: 12px;
+                    `}
+                >
+                    <span
                         css={css`
-                            margin-bottom: 12px;
+                            padding-right: 12px;
                         `}
                     >
-                        <span
-                            css={css`
-                                padding-right: 12px;
-                            `}
-                        >
-                            {`${number}.`}
-                        </span>
-                        {text}
-                    </legend>
-                </div>
+                        {`${number}.`}
+                    </span>
+                    {text}
+                </legend>
                 {imageUrl && (
                     <img
                         css={css`
                             width: 100%;
                         `}
                         src={imageUrl}
+                        alt={imageAlt || ''}
                     />
                 )}
                 <Answers
