@@ -96,6 +96,7 @@ export const exampleKnowledgeQuestions = [
         ],
         imageUrl:
             'https://i.guim.co.uk/img/media/9bd896505173dcf4adadd02e5f40a03414c50bdc/172_201_2329_1397/master/2329.jpg?width=620&quality=85&auto=format&fit=max&s=133b7c6ce78a0780e99e605bb3ae7479',
+        imageAlt: 'A group of players line up on the field',
     },
 ];
 
@@ -447,6 +448,8 @@ export const natureQuestions = [
         ],
         imageUrl:
             'https://i.guim.co.uk/img/media/cf44ae3573ee2b617f76021c6599f49316837e09/56_581_4045_2427/master/4045.jpg?width=620&quality=85&auto=format&fit=max&s=afb7e45cc2a3873745cb5bcb620d8291',
+        imageAlt:
+            'Brown winged butterfly with white spots, some of which have black spots with white eyes within them',
     },
     {
         id: '4339cc24-d597-43d0-9efd-2dd9d8f4982f',
