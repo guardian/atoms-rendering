@@ -6,6 +6,7 @@ type EmbedConfig = {
     embedConfig: {
         relatedChannels: string[];
         adsConfig: AdsConfig;
+        enableIma: boolean;
     };
 };
 
@@ -23,7 +24,7 @@ class YouTubePlayer {
     }
 
     private async setPlayer(id: string, playerOptions: PlayerOptions) {
-        const YTAPI = await loadYouTubeAPI();
+        const YTAPI = await loadYouTubeAPI(playerOptions.embedConfig.enableIma);
         const playerPromise = new Promise<YT.Player>((resolve, reject) => {
             try {
                 this._player = new YTAPI.Player(id, playerOptions);
@@ -44,6 +45,14 @@ class YouTubePlayer {
         return this.playerPromise
             .then((player) => {
                 return player.getPlayerState();
+            })
+            .catch(this.logError);
+    }
+
+    playVideo(): Promise<void> {
+        return this.playerPromise
+            .then((player) => {
+                player.playVideo();
             })
             .catch(this.logError);
     }

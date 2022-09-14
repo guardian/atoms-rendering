@@ -1,4 +1,4 @@
-import { loadScript } from '@guardian/libs';
+import { loadScript, log } from '@guardian/libs';
 
 declare global {
     interface Window {
@@ -9,7 +9,7 @@ declare global {
 let _scriptsPromise: Promise<(Event | undefined)[]>;
 let _youtubeAPIReadyPromise: Promise<typeof YT>;
 
-const loadScripts = () => {
+const loadScripts = (enableIma = false) => {
     /**
      * Since loadScripts can be called multiple times on the same page for pages with more than one video,
      * only attempt to load the scripts if this is the first call and return the same promise otherwise.
@@ -17,10 +17,23 @@ const loadScripts = () => {
     if (_scriptsPromise) {
         return _scriptsPromise;
     }
-    const scripts = [
-        // keep array multi-line
-        loadScript('https://www.youtube.com/iframe_api'),
-    ];
+    let scripts;
+    if (enableIma) {
+        log('dotcom', 'loadYT: loading YT & IMA script');
+        scripts = [
+            /**
+             * The IMA version of the iframe api script can only be fetched from
+             * a domain that is on YouTube's allow list (theguardian.com, thegulocal.com, gutools.co.uk).
+             * If the request is made from a domain that isn't on the list (e.g. localhost),
+             * the standard, non-IMA version will be returned and IMA functionality will fail silently.
+             */
+            loadScript('https://www.youtube.com/iframe_api?ima=1'),
+            loadScript('//imasdk.googleapis.com/js/sdkloader/ima3.js'),
+        ];
+    } else {
+        log('dotcom', 'loadYT: loading YT script');
+        scripts = [loadScript('https://www.youtube.com/iframe_api')];
+    }
     _scriptsPromise = Promise.all(scripts);
     return _scriptsPromise;
 };
@@ -40,15 +53,18 @@ const youtubeAPIReady = () => {
 
     _youtubeAPIReadyPromise = new Promise((resolve) => {
         window.onYouTubeIframeAPIReady = () => {
+            log('dotcom', 'loadYT: resolving YTAPI promise');
             resolve(window.YT);
         };
     });
     return _youtubeAPIReadyPromise;
 };
 
-const loadYouTubeAPI = (): Promise<typeof YT> => {
+const loadYouTubeAPI = (enableIma = false): Promise<typeof YT> => {
+    // if another part of the code has already loaded youtube api, return early
     /* If another part of the code has already loaded youtube api, return early. */
     if (window.YT && window.YT.Player && window.YT.Player instanceof Function) {
+        log('dotcom', 'loadYT: returning window.YT');
         return Promise.resolve(window.YT);
     }
 
@@ -58,7 +74,7 @@ const loadYouTubeAPI = (): Promise<typeof YT> => {
      */
     const youtubeAPIReadyPromise = youtubeAPIReady();
 
-    return loadScripts().then(() => {
+    return loadScripts(enableIma).then(() => {
         return youtubeAPIReadyPromise;
     });
 };

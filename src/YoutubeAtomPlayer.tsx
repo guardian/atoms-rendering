@@ -1,4 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from 'react';
 import { PlayerListenerName, YouTubePlayer } from './YouTubePlayer';
 
 import type { AdTargeting, VideoEventKey } from './types';
@@ -9,6 +15,31 @@ import {
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
+import { google } from './ima';
+
+declare class ImaManager {
+    constructor(
+        player: YT.Player,
+        id: string,
+        adContainerId: string,
+        makeAdsRequestCallback: (adsRequest: { adTagUrl: string }) => void,
+    );
+    getAdsLoader: () => google.ima.AdsLoader;
+    getAdsManager: () => google.ima.AdsManager;
+}
+
+declare global {
+    interface Window {
+        /**
+         * Here we want to type the google object that will be added to window.
+         * Since the imported google namespace is a value rather than a type, use typeof.
+         */
+        google: typeof google;
+        YT: {
+            ImaManager: typeof ImaManager;
+        };
+    }
+}
 
 type Props = {
     uniqueId: string;
@@ -22,6 +53,9 @@ type Props = {
     eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
+    enableIma: boolean;
+    imaAdTagUrl?: string;
+    adContainerId?: string;
     pauseVideo: boolean;
     deactivateVideo: () => void;
 };
@@ -55,6 +89,14 @@ type PlayerListeners = Array<PlayerListener<PlayerListenerName>>;
  */
 type ExtractEventType<T> = T extends YT.PlayerEventHandler<infer X> ? X : never;
 
+const dispatchCustomPlayEvent = (uniqueId: string) => {
+    document.dispatchEvent(
+        new CustomEvent(customPlayEventName, {
+            detail: { uniqueId },
+        }),
+    );
+};
+
 /**
  * ProgressEvents are a ref, see below
  */
@@ -83,11 +125,7 @@ const createOnStateChangeListener =
              * Emit video play event so other components
              * get aware when a video is played
              */
-            document.dispatchEvent(
-                new CustomEvent(customPlayEventName, {
-                    detail: { uniqueId },
-                }),
-            );
+            dispatchCustomPlayEvent(uniqueId);
 
             if (!progressEvents.hasSentPlayEvent) {
                 log('dotcom', {
@@ -209,7 +247,12 @@ const createOnStateChangeListener =
  * returns an onReady listener
  */
 const createOnReadyListener =
-    (videoId: string, onReadyCallback: () => void, autoPlay: boolean) =>
+    (
+        videoId: string,
+        onReadyCallback: () => void,
+        setPlayerReady: () => void,
+        instantiateImaManager?: (player: YT.Player) => void,
+    ) =>
     (event: YT.PlayerEvent) => {
         log('dotcom', {
             from: 'YoutubeAtomPlayer onReady',
@@ -221,21 +264,67 @@ const createOnReadyListener =
          * Callback to notify YoutubeAtom that the player is ready
          */
         onReadyCallback();
+
         /**
-         * Autoplay is determined by the parent
-         * Typically true when there is a preceding overlay
+         * Callback to set value of playerReady ref
          */
-        if (autoPlay) {
-            log('dotcom', {
-                from: 'YoutubeAtomPlayer onReady',
-                videoId,
-                msg: 'Playing video',
-                event,
-            });
-            /**
-             * event.target is the actual underlying YT player
-             */
-            event.target.playVideo();
+        setPlayerReady();
+
+        /**
+         * instantiate IMA manager if IMA enabled
+         */
+        if (instantiateImaManager) {
+            try {
+                instantiateImaManager(event.target);
+            } catch (e) {
+                log('commercial', 'error instantiating IMA manager:', e);
+            }
+        }
+    };
+
+const createInstantiateImaManager =
+    (
+        uniqueId: string,
+        imaAdTagUrl: string,
+        id: string,
+        adContainerId: string,
+        imaManager: React.MutableRefObject<ImaManager | undefined>,
+        adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
+    ) =>
+    (player: YT.Player) => {
+        const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
+            adsRequest.adTagUrl = imaAdTagUrl;
+        };
+        if (typeof window.YT.ImaManager !== 'undefined') {
+            imaManager.current = new window.YT.ImaManager(
+                player,
+                id,
+                adContainerId,
+                makeAdsRequestCallback,
+            );
+            const adsLoader = imaManager.current.getAdsLoader();
+
+            const onAdsManagerLoaded = () => {
+                adsManager.current = imaManager.current?.getAdsManager();
+                adsManager.current?.addEventListener(
+                    window.google.ima.AdEvent.Type.STARTED,
+                    () => {
+                        dispatchCustomPlayEvent(uniqueId);
+                    },
+                );
+            };
+
+            adsLoader.addEventListener(
+                window.google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+                onAdsManagerLoaded,
+                false,
+            );
+        } else {
+            console.warn(
+                'YT.ImaManager is undefined, probably because the youtube iframe_api script was fetched from ' +
+                    "a domain that isn't allow-listed (theguardian.com, thegulocal.com, gutools.co.uk). " +
+                    'If you are running an app locally, use dev-nginx to proxy one of these domains to localhost.',
+            );
         }
     };
 
@@ -251,6 +340,9 @@ export const YoutubeAtomPlayer = ({
     eventEmitters,
     autoPlay,
     onReady,
+    enableIma,
+    imaAdTagUrl,
+    adContainerId,
     pauseVideo,
     deactivateVideo,
 }: Props): JSX.Element => {
@@ -268,7 +360,11 @@ export const YoutubeAtomPlayer = ({
         hasSentEndEvent: false,
     });
 
+    const [playerReady, setPlayerReady] = useState<boolean>(false);
+    const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
+    const imaManager = useRef<ImaManager>();
+    const adsManager = useRef<google.ima.AdsManager>();
 
     /**
      * A map ref with a key of eventname and a value of eventHandler
@@ -290,7 +386,7 @@ export const YoutubeAtomPlayer = ({
                 });
 
                 const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting.disableAds
+                    !adTargeting || adTargeting.disableAds || enableIma
                         ? disabledAds
                         : buildAdsConfigWithConsent(
                               false,
@@ -299,10 +395,32 @@ export const YoutubeAtomPlayer = ({
                               consentState,
                           );
 
+                const embedConfig = {
+                    relatedChannels: [],
+                    adsConfig,
+                    enableIma: enableIma,
+                    // YouTube recommends disabling related videos when IMA is enabled
+                    // The default value is false
+                    disableRelatedVideos: enableIma,
+                };
+
+                const instantiateImaManager =
+                    enableIma && imaAdTagUrl && adContainerId
+                        ? createInstantiateImaManager(
+                              uniqueId,
+                              imaAdTagUrl,
+                              id,
+                              adContainerId,
+                              imaManager,
+                              adsManager,
+                          )
+                        : undefined;
+
                 const onReadyListener = createOnReadyListener(
                     videoId,
                     onReady,
-                    autoPlay,
+                    playerReadyCallback,
+                    instantiateImaManager,
                 );
 
                 const onStateChangeListener = createOnStateChangeListener(
@@ -313,8 +431,8 @@ export const YoutubeAtomPlayer = ({
                 );
 
                 player.current = new YouTubePlayer(id, {
-                    height: width,
-                    width: height,
+                    height,
+                    width,
                     videoId,
                     playerVars: {
                         modestbranding: 1,
@@ -322,10 +440,7 @@ export const YoutubeAtomPlayer = ({
                         playsinline: 1,
                         rel: 0,
                     },
-                    embedConfig: {
-                        relatedChannels: [],
-                        adsConfig,
-                    },
+                    embedConfig,
                     events: {
                         onReady: onReadyListener,
                         onStateChange: onStateChangeListener,
@@ -339,7 +454,9 @@ export const YoutubeAtomPlayer = ({
                     event: CustomEventInit<CustomPlayEventDetail>,
                 ) => {
                     if (event instanceof CustomEvent) {
-                        if (event.detail.uniqueId !== uniqueId) {
+                        const playedVideoId = event.detail.uniqueId;
+                        const thisVideoId = uniqueId;
+                        if (playedVideoId !== thisVideoId) {
                             const playerStatePromise =
                                 player.current?.getPlayerState();
                             playerStatePromise?.then((playerState) => {
@@ -350,6 +467,9 @@ export const YoutubeAtomPlayer = ({
                                     player.current?.pauseVideo();
                                 }
                             });
+                            // pause ima ads playing on other videos
+                            adsManager.current?.pause();
+                            // mark player as inactive
                             deactivateVideo();
                         }
                     }
@@ -385,8 +505,27 @@ export const YoutubeAtomPlayer = ({
             origin,
             videoId,
             width,
+            enableIma,
         ],
     );
+
+    /**
+     * Autoplay useEffect
+     */
+    useEffect(() => {
+        if (playerReady && autoPlay) {
+            /**
+             * Autoplay is determined by the parent
+             * Typically true when there is a preceding overlay
+             */
+            log('dotcom', {
+                from: 'YoutubeAtomPlayer autoplay',
+                videoId,
+                msg: 'Playing video',
+            });
+            player.current?.playVideo();
+        }
+    }, [playerReady, autoPlay]);
 
     /**
      * Player pause useEffect
