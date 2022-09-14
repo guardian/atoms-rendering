@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.6.0
+
+### Minor Changes
+
+-   2572865: Integrate Interactive Media Ads to YoutubePlayer
+
 ## 23.5.0
 
 ### Minor Changes
