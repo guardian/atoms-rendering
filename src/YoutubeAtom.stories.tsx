@@ -130,6 +130,8 @@ export const WithPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
+                caption="this is a caption"
+                credit="anna beddow"
             />
         </div>
     );
