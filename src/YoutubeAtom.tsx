@@ -4,6 +4,8 @@ import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
 import { YoutubeAtomPlaceholder } from './YoutubeAtomPlaceholder';
 import { YoutubeAtomSticky } from './YoutubeAtomSticky';
+import { YoutubeAtomCaption } from './YoutubeAtomCaption';
+
 import type {
     AdTargeting,
     ImageSource,
@@ -31,6 +33,8 @@ type Props = {
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
+    caption?: string;
+    credit?: string;
 };
 
 export const YoutubeAtom = ({
@@ -51,6 +55,8 @@ export const YoutubeAtom = ({
     pillar,
     shouldStick,
     isMainMedia,
+    caption,
+    credit,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -97,6 +103,17 @@ export const YoutubeAtom = ({
      * - It hasn't been clicked
      */
     const showOverlay = hasOverlay && !overlayClicked;
+
+    /**
+     * Show a caption if:
+     *
+     * - It exists
+     *
+     * AND
+     *
+     * - It hasn't been clicked
+     */
+    const showCaption = caption && showOverlay;
 
     /**
      * Show a placeholder if:
@@ -160,6 +177,11 @@ export const YoutubeAtom = ({
                             setIsActive(false);
                         }}
                     />
+                )}
+                                {true && (
+
+                // {showCaption && (
+                    <YoutubeAtomCaption caption={caption} credit={credit} />
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay
