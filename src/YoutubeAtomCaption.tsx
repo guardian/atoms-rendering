@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { space, textSans, neutral } from '@guardian/source-foundations';
 import { SvgVideo } from '@guardian/source-react-components';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const buttonStyle = css`
     position: absolute;
