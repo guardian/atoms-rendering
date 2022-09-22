@@ -130,8 +130,54 @@ export const WithPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
-                caption="this is a caption"
-                credit="anna beddow"
+            />
+        </div>
+    );
+};
+
+export const WithPosterImageAndCaption = (): JSX.Element => {
+    return (
+        <div style={containerStyle}>
+            <YoutubeAtom
+                elementId="xyz"
+                videoId="N9Cgy-ke5-s"
+                alt=""
+                role="inline"
+                eventEmitters={[
+                    (e) => console.log(`analytics event ${e} called`),
+                ]}
+                pillar={ArticlePillar.Sport}
+                duration={252}
+                consentState={{}}
+                posterImage={[
+                    {
+                        srcSet: [
+                            {
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1000.jpg',
+                                width: 1000,
+                            },
+                            {
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/500.jpg',
+                                width: 500,
+                            },
+                            {
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/140.jpg',
+                                width: 140,
+                            },
+                            {
+                                src: 'https://media.guim.co.uk/757dd4db5818984fd600b41cdaf687668497051d/0_0_1920_1080/1920.jpg',
+                                width: 1920,
+                            },
+                        ],
+                    },
+                ]}
+                height={450}
+                width={800}
+                shouldStick={false}
+                isMainMedia={false}
+                title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
+                caption="A Donald Trump dummy stands at in front of a campaign sign and the American flag."
+                credit="Photograph used in a storybook test."
             />
         </div>
     );
