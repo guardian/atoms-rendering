@@ -178,9 +178,8 @@ export const YoutubeAtom = ({
                         }}
                     />
                 )}
-                                {true && (
 
-                // {showCaption && (
+                {showCaption && (
                     <YoutubeAtomCaption caption={caption} credit={credit} />
                 )}
                 {showOverlay && (
