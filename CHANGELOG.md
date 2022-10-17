@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.7.1
+
+### Patch Changes
+
+-   0e3fae1: Bump `@guardian/libs@^7.1.0`
+
 ## 23.7.0
 
 ### Minor Changes
