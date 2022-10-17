@@ -306,6 +306,14 @@ const createInstantiateImaManager =
 
             const onAdsManagerLoaded = () => {
                 adsManager.current = imaManager.current?.getAdsManager();
+                const adsRenderingsettings =
+                    new window.google.ima.AdsRenderingSettings();
+                adsRenderingsettings.uiElements = [
+                    window.google.ima.UiElements.AD_ATTRIBUTION,
+                ];
+                adsManager.current?.updateAdsRenderingSettings(
+                    adsRenderingsettings,
+                );
                 adsManager.current?.addEventListener(
                     window.google.ima.AdEvent.Type.STARTED,
                     () => {
