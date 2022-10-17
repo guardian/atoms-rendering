@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.7.0
+
+### Minor Changes
+
+-   57d3ff1: Add ad label to YouTube IMA integration
+
 ## 23.6.0
 
 ### Minor Changes
