@@ -25,4 +25,5 @@ export const pillarPalette: Record<ArticleTheme, PillarColours> = {
     [ArticlePillar.Lifestyle]: lifestyle,
     [ArticleSpecial.Labs]: lifestyle,
     [ArticleSpecial.SpecialReport]: news,
+    [ArticleSpecial.SpecialReportAlt]: news,
 };
