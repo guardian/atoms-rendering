@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.7.2
+
+### Patch Changes
+
+-   855a650: Bump `@guardian/libs@^9.0.1`
+
 ## 23.7.1
 
 ### Patch Changes
