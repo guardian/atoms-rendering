@@ -32,7 +32,6 @@ type Props = {
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
-    imaAdTagUrl?: string;
 };
 
 export const YoutubeAtom = ({
@@ -53,7 +52,6 @@ export const YoutubeAtom = ({
     pillar,
     shouldStick,
     isMainMedia,
-    imaAdTagUrl,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -63,7 +61,6 @@ export const YoutubeAtom = ({
 
     const uniqueId = `${videoId}-${elementId}`;
     const enableIma =
-        !!imaAdTagUrl &&
         !!adTargeting &&
         !adTargeting.disableAds &&
         !!consentState &&
@@ -168,7 +165,6 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         enableIma={enableIma}
-                        imaAdTagUrl={imaAdTagUrl}
                         adContainerId={adContainerId}
                         pauseVideo={pauseVideo}
                         deactivateVideo={() => {
