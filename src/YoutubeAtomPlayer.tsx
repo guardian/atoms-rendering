@@ -12,6 +12,7 @@ import type { ConsentState } from '@guardian/consent-management-platform/dist/ty
 import {
     AdsConfig,
     buildAdsConfigWithConsent,
+    buildImaAdTagUrl,
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
@@ -283,17 +284,25 @@ const createOnReadyListener =
 const createInstantiateImaManager =
     (
         uniqueId: string,
-        imaAdTagUrl: string,
         id: string,
         adContainerId: string,
+        adTargeting: AdTargeting | undefined,
         imaManager: React.MutableRefObject<ImaManager | undefined>,
         adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
     (player: YT.Player) => {
+        const adTargetingEnabled = adTargeting && !adTargeting.disableAds;
+        const adUnit =
+            adTargetingEnabled && adTargeting.adUnit ? adTargeting.adUnit : '';
+        const customParams =
+            adTargetingEnabled && adTargeting.customParams
+                ? adTargeting.customParams
+                : {};
+
         const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
-            adsRequest.adTagUrl =
-                'https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies';
+            adsRequest.adTagUrl = buildImaAdTagUrl(adUnit, customParams);
         };
+
         if (typeof window.YT.ImaManager !== 'undefined') {
             imaManager.current = new window.YT.ImaManager(
                 player,
@@ -368,15 +377,16 @@ export const YoutubeAtomPlayer = ({
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
-    const imaManager = useRef<ImaManager>();
-    const adsManager = useRef<google.ima.AdsManager>();
-
     /**
      * A map ref with a key of eventname and a value of eventHandler
      */
     const customListeners = useRef<
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
+
+    const imaManager = useRef<ImaManager>();
+    const adsManager = useRef<google.ima.AdsManager>();
+
     const id = `youtube-video-${uniqueId}`;
     const imaAdContainerId = `ima-ad-container-${uniqueId}`;
 
@@ -404,18 +414,19 @@ export const YoutubeAtomPlayer = ({
                 const embedConfig = {
                     relatedChannels: [],
                     adsConfig,
-                    enableIma: enableIma,
-                    // YouTube recommends disabling related videos when IMA is enabled
-                    // The default value is false
+                    enableIma,
+                    /**
+                     * YouTube recommends disabling related videos when IMA is enabled
+                     */
                     disableRelatedVideos: enableIma,
                 };
 
                 const instantiateImaManager = enableIma
                     ? createInstantiateImaManager(
                           uniqueId,
-                          '',
                           id,
                           imaAdContainerId,
+                          adTargeting,
                           imaManager,
                           adsManager,
                       )
