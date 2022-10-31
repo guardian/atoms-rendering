@@ -16,7 +16,6 @@ import {
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
 import { google } from './ima';
-import { ImaAdContainer } from './ImaAdContainer';
 
 declare class ImaManager {
     constructor(
@@ -592,7 +591,12 @@ export const YoutubeAtomPlayer = ({
                 data-atom-type="youtube"
                 title={title}
             ></div>
-            {enableIma && <ImaAdContainer uniqueId={uniqueId} />}
+            {enableIma && (
+                <div
+                    id={imaAdContainerId}
+                    data-atom-type="ima-ad-container"
+                ></div>
+            )}
         </>
     );
 };
