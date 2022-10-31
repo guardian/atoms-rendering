@@ -12,7 +12,6 @@ import type {
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
-import { ImaAdContainer } from './ImaAdContainer';
 
 type Props = {
     elementId: string;
@@ -65,9 +64,6 @@ export const YoutubeAtom = ({
         !adTargeting.disableAds &&
         !!consentState &&
         consentState.canTarget;
-    const adContainerId = enableIma
-        ? `ima-ad-container-${uniqueId}`
-        : undefined;
 
     /**
      * Update the isActive state based on video events
@@ -165,15 +161,11 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         enableIma={enableIma}
-                        adContainerId={adContainerId}
                         pauseVideo={pauseVideo}
                         deactivateVideo={() => {
                             setIsActive(false);
                         }}
                     />
-                )}
-                {enableIma && adContainerId && (
-                    <ImaAdContainer adContainerId={adContainerId} />
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay

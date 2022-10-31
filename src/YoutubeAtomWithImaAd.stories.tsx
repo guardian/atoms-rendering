@@ -34,7 +34,6 @@ export const NoConsent = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -59,7 +58,6 @@ export const AdFree = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -85,7 +83,6 @@ export const NoOverlay = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -119,7 +116,6 @@ export const WithOverrideImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How to stop the spread of coronavirus"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -167,7 +163,6 @@ export const WithPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -225,7 +220,6 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -264,7 +258,6 @@ export const GiveConsent = (): JSX.Element => {
                     shouldStick={false}
                     isMainMedia={false}
                     title="How to stop the spread of coronavirus"
-                    imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
                 />
             </div>
         </>
@@ -292,7 +285,6 @@ export const Sticky = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -320,7 +312,6 @@ export const StickyMainMedia = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -345,7 +336,6 @@ export const DuplicateVideos = (): JSX.Element => {
                 height={450}
                 width={800}
                 shouldStick={true}
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
             <br />
             <YoutubeAtom
@@ -363,7 +353,6 @@ export const DuplicateVideos = (): JSX.Element => {
                 height={450}
                 width={800}
                 shouldStick={true}
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );
@@ -389,7 +378,6 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
             <YoutubeAtom
                 elementId="xyz-2"
@@ -408,7 +396,6 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
             <YoutubeAtom
                 elementId="xyu"
@@ -427,7 +414,6 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
-                imaAdTagUrl="https://pubads.g.doubleclick.net/gampad/live/ads?iu=/59666047/theguardian.com&description_url=[placeholder]&tfcd=0&npa=0&sz=400x300&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear&cust_params=at%3Dfixed-puppies"
             />
         </div>
     );

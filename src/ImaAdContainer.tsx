@@ -1,11 +1,16 @@
 import React from 'react';
 
 type Props = {
-    adContainerId: string;
+    uniqueId: string;
 };
 
-const ImaAdContainer = ({ adContainerId }: Props): JSX.Element => {
-    return <div id={adContainerId} data-atom-type="ima-ad-container"></div>;
+const ImaAdContainer = ({ uniqueId }: Props): JSX.Element => {
+    return (
+        <div
+            id={`ima-ad-container-${uniqueId}`}
+            data-atom-type="ima-ad-container"
+        ></div>
+    );
 };
 
 export { ImaAdContainer };
