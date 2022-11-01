@@ -34,6 +34,7 @@ export const NoConsent = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={true}
             />
         </div>
     );
@@ -58,6 +59,7 @@ export const AdFree = (): JSX.Element => {
                 width={800}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={true}
             />
         </div>
     );
@@ -83,6 +85,7 @@ export const NoOverlay = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
         </div>
     );
@@ -116,6 +119,7 @@ export const WithOverrideImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How to stop the spread of coronavirus"
+                imaEnabled={true}
             />
         </div>
     );
@@ -163,6 +167,7 @@ export const WithPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
+                imaEnabled={true}
             />
         </div>
     );
@@ -220,6 +225,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio"
+                imaEnabled={true}
             />
         </div>
     );
@@ -258,6 +264,7 @@ export const GiveConsent = (): JSX.Element => {
                     shouldStick={false}
                     isMainMedia={false}
                     title="How to stop the spread of coronavirus"
+                    imaEnabled={true}
                 />
             </div>
         </>
@@ -285,6 +292,7 @@ export const Sticky = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -312,6 +320,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -336,6 +345,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 height={450}
                 width={800}
                 shouldStick={true}
+                imaEnabled={true}
             />
             <br />
             <YoutubeAtom
@@ -353,6 +363,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 height={450}
                 width={800}
                 shouldStick={true}
+                imaEnabled={true}
             />
         </div>
     );
@@ -378,6 +389,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
             <YoutubeAtom
                 elementId="xyz-2"
@@ -396,6 +408,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
             <YoutubeAtom
                 elementId="xyu"
@@ -414,6 +427,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 shouldStick={true}
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
+                imaEnabled={true}
             />
         </div>
     );
