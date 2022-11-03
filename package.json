@@ -37,7 +37,7 @@
         "@changesets/cli": "^2.21.1",
         "@emotion/eslint-plugin": "^11.7.0",
         "@emotion/react": "^11.1.5",
-        "@guardian/commercial-core": "^0.26.0",
+        "@guardian/commercial-core": "^4.21.0",
         "@guardian/consent-management-platform": "^10",
         "@guardian/eslint-plugin-source-foundations": "^4.0.2",
         "@guardian/eslint-plugin-source-react-components": "^4.1.0",

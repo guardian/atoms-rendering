@@ -12,6 +12,7 @@ import type { ConsentState } from '@guardian/consent-management-platform/dist/ty
 import {
     AdsConfig,
     buildAdsConfigWithConsent,
+    buildImaAdTagUrl,
     disabledAds,
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
@@ -54,8 +55,6 @@ type Props = {
     autoPlay: boolean;
     onReady: () => void;
     enableIma: boolean;
-    imaAdTagUrl?: string;
-    adContainerId?: string;
     pauseVideo: boolean;
     deactivateVideo: () => void;
 };
@@ -285,16 +284,25 @@ const createOnReadyListener =
 const createInstantiateImaManager =
     (
         uniqueId: string,
-        imaAdTagUrl: string,
         id: string,
         adContainerId: string,
+        adTargeting: AdTargeting | undefined,
         imaManager: React.MutableRefObject<ImaManager | undefined>,
         adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
     (player: YT.Player) => {
+        const adTargetingEnabled = adTargeting && !adTargeting.disableAds;
+        const adUnit =
+            adTargetingEnabled && adTargeting.adUnit ? adTargeting.adUnit : '';
+        const customParams =
+            adTargetingEnabled && adTargeting.customParams
+                ? adTargeting.customParams
+                : {};
+
         const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
-            adsRequest.adTagUrl = imaAdTagUrl;
+            adsRequest.adTagUrl = buildImaAdTagUrl(adUnit, customParams);
         };
+
         if (typeof window.YT.ImaManager !== 'undefined') {
             imaManager.current = new window.YT.ImaManager(
                 player,
@@ -349,8 +357,6 @@ export const YoutubeAtomPlayer = ({
     autoPlay,
     onReady,
     enableIma,
-    imaAdTagUrl,
-    adContainerId,
     pauseVideo,
     deactivateVideo,
 }: Props): JSX.Element => {
@@ -371,16 +377,18 @@ export const YoutubeAtomPlayer = ({
     const [playerReady, setPlayerReady] = useState<boolean>(false);
     const playerReadyCallback = useCallback(() => setPlayerReady(true), []);
     const playerListeners = useRef<PlayerListeners>([]);
-    const imaManager = useRef<ImaManager>();
-    const adsManager = useRef<google.ima.AdsManager>();
-
     /**
      * A map ref with a key of eventname and a value of eventHandler
      */
     const customListeners = useRef<
         Record<string, (event: CustomEventInit<CustomPlayEventDetail>) => void>
     >({});
+
+    const imaManager = useRef<ImaManager>();
+    const adsManager = useRef<google.ima.AdsManager>();
+
     const id = `youtube-video-${uniqueId}`;
+    const imaAdContainerId = `ima-ad-container-${uniqueId}`;
 
     /**
      * Initialise player useEffect
@@ -406,23 +414,23 @@ export const YoutubeAtomPlayer = ({
                 const embedConfig = {
                     relatedChannels: [],
                     adsConfig,
-                    enableIma: enableIma,
-                    // YouTube recommends disabling related videos when IMA is enabled
-                    // The default value is false
+                    enableIma,
+                    /**
+                     * YouTube recommends disabling related videos when IMA is enabled
+                     */
                     disableRelatedVideos: enableIma,
                 };
 
-                const instantiateImaManager =
-                    enableIma && imaAdTagUrl && adContainerId
-                        ? createInstantiateImaManager(
-                              uniqueId,
-                              imaAdTagUrl,
-                              id,
-                              adContainerId,
-                              imaManager,
-                              adsManager,
-                          )
-                        : undefined;
+                const instantiateImaManager = enableIma
+                    ? createInstantiateImaManager(
+                          uniqueId,
+                          id,
+                          imaAdContainerId,
+                          adTargeting,
+                          imaManager,
+                          adsManager,
+                      )
+                    : undefined;
 
                 const onReadyListener = createOnReadyListener(
                     videoId,
@@ -586,12 +594,20 @@ export const YoutubeAtomPlayer = ({
      * An element for the YouTube iFrame to hook into the dom
      */
     return (
-        <div
-            id={id}
-            data-atom-id={id}
-            data-testid={id}
-            data-atom-type="youtube"
-            title={title}
-        ></div>
+        <>
+            <div
+                id={id}
+                data-atom-id={id}
+                data-testid={id}
+                data-atom-type="youtube"
+                title={title}
+            ></div>
+            {enableIma && (
+                <div
+                    id={imaAdContainerId}
+                    data-atom-type="ima-ad-container"
+                ></div>
+            )}
+        </>
     );
 };

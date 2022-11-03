@@ -12,7 +12,6 @@ import type {
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
-import { ImaAdContainer } from './ImaAdContainer';
 
 type Props = {
     elementId: string;
@@ -32,7 +31,7 @@ type Props = {
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
-    imaAdTagUrl?: string;
+    imaEnabled: boolean;
 };
 
 export const YoutubeAtom = ({
@@ -53,7 +52,7 @@ export const YoutubeAtom = ({
     pillar,
     shouldStick,
     isMainMedia,
-    imaAdTagUrl,
+    imaEnabled,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -63,14 +62,11 @@ export const YoutubeAtom = ({
 
     const uniqueId = `${videoId}-${elementId}`;
     const enableIma =
-        !!imaAdTagUrl &&
+        imaEnabled &&
         !!adTargeting &&
         !adTargeting.disableAds &&
         !!consentState &&
         consentState.canTarget;
-    const adContainerId = enableIma
-        ? `ima-ad-container-${uniqueId}`
-        : undefined;
 
     /**
      * Update the isActive state based on video events
@@ -168,16 +164,11 @@ export const YoutubeAtom = ({
                         autoPlay={hasOverlay}
                         onReady={playerReadyCallback}
                         enableIma={enableIma}
-                        imaAdTagUrl={imaAdTagUrl}
-                        adContainerId={adContainerId}
                         pauseVideo={pauseVideo}
                         deactivateVideo={() => {
                             setIsActive(false);
                         }}
                     />
-                )}
-                {enableIma && adContainerId && (
-                    <ImaAdContainer adContainerId={adContainerId} />
                 )}
                 {showOverlay && (
                     <YoutubeAtomOverlay
