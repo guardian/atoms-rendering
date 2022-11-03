@@ -238,6 +238,7 @@ export const GiveConsent = (): JSX.Element => {
 export const Sticky = (): JSX.Element => {
     return (
         <div>
+            <div style={{ fontSize: '36px' }}>⬇️</div>
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
                 elementId="xyz"
@@ -265,6 +266,7 @@ export const Sticky = (): JSX.Element => {
 export const StickyMainMedia = (): JSX.Element => {
     return (
         <div>
+            <div style={{ fontSize: '36px' }}>⬇️</div>
             <div style={{ height: '1000px' }}></div>
             <YoutubeAtom
                 elementId="xyz"
