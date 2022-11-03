@@ -1,5 +1,15 @@
 # @guardian/atoms-rendering
 
+## 23.8.0
+
+### Minor Changes
+
+-   ad472ee: Use buildImaTagUrl from commercial-core
+
+### Patch Changes
+
+-   e4268d0: Upgrade TypeScript and Storybook
+
 ## 23.7.2
 
 ### Patch Changes
