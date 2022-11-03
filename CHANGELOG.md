@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.8.1
+
+### Patch Changes
+
+-   4cf9547: Fix YouTube IMA ad label
+
 ## 23.8.0
 
 ### Minor Changes
