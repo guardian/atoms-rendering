@@ -23,7 +23,10 @@ declare class ImaManager {
         player: YT.Player,
         id: string,
         adContainerId: string,
-        makeAdsRequestCallback: (adsRequest: { adTagUrl: string }) => void,
+        makeAdsRequestCallback: (
+            adsRequest: { adTagUrl: string },
+            adsRenderingSettings: google.ima.AdsRenderingSettings,
+        ) => void,
     );
     getAdsLoader: () => google.ima.AdsLoader;
     getAdsManager: () => google.ima.AdsManager;
@@ -299,8 +302,14 @@ const createInstantiateImaManager =
                 ? adTargeting.customParams
                 : {};
 
-        const makeAdsRequestCallback = (adsRequest: { adTagUrl: string }) => {
+        const makeAdsRequestCallback = (
+            adsRequest: { adTagUrl: string },
+            adsRenderingSettings: google.ima.AdsRenderingSettings,
+        ) => {
             adsRequest.adTagUrl = buildImaAdTagUrl(adUnit, customParams);
+            adsRenderingSettings.uiElements = [
+                window.google.ima.UiElements.AD_ATTRIBUTION,
+            ];
         };
 
         if (typeof window.YT.ImaManager !== 'undefined') {
@@ -314,14 +323,6 @@ const createInstantiateImaManager =
 
             const onAdsManagerLoaded = () => {
                 adsManager.current = imaManager.current?.getAdsManager();
-                const adsRenderingsettings =
-                    new window.google.ima.AdsRenderingSettings();
-                adsRenderingsettings.uiElements = [
-                    window.google.ima.UiElements.AD_ATTRIBUTION,
-                ];
-                adsManager.current?.updateAdsRenderingSettings(
-                    adsRenderingsettings,
-                );
                 adsManager.current?.addEventListener(
                     window.google.ima.AdEvent.Type.STARTED,
                     () => {
