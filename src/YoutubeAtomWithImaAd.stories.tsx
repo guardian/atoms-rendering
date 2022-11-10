@@ -12,7 +12,9 @@ export default {
 const containerStyle = { width: '800px', margin: '24px' };
 const containerStyleSmall = { width: '400px', margin: '24px' };
 const adTargeting = {
-    customParams: {},
+    customParams: {
+        at: 'fixed-puppies',
+    },
     adUnit: '/59666047/theguardian.com/news/article/ng',
 };
 
