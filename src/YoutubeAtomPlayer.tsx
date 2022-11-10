@@ -290,6 +290,7 @@ const createInstantiateImaManager =
         id: string,
         adContainerId: string,
         adTargeting: AdTargeting | undefined,
+        consentState: ConsentState,
         imaManager: React.MutableRefObject<ImaManager | undefined>,
         adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
@@ -306,7 +307,11 @@ const createInstantiateImaManager =
             adsRequest: { adTagUrl: string },
             adsRenderingSettings: google.ima.AdsRenderingSettings,
         ) => {
-            adsRequest.adTagUrl = buildImaAdTagUrl(adUnit, customParams);
+            adsRequest.adTagUrl = buildImaAdTagUrl(
+                adUnit,
+                customParams,
+                consentState,
+            );
             adsRenderingSettings.uiElements = [
                 window.google.ima.UiElements.AD_ATTRIBUTION,
             ];
@@ -428,6 +433,7 @@ export const YoutubeAtomPlayer = ({
                           id,
                           imaAdContainerId,
                           adTargeting,
+                          consentState,
                           imaManager,
                           adsManager,
                       )
