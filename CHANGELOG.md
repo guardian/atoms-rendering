@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.9.0
+
+### Minor Changes
+
+-   d79bf55: Full targeting for YouTube IMA integration
+
 ## 23.8.1
 
 ### Patch Changes
