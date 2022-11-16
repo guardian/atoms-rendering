@@ -39,11 +39,11 @@
         "@emotion/react": "^11.1.5",
         "@guardian/commercial-core": "^4.23.0",
         "@guardian/consent-management-platform": "^10",
-        "@guardian/eslint-plugin-source-foundations": "^4.0.2",
-        "@guardian/eslint-plugin-source-react-components": "^4.1.0",
+        "@guardian/eslint-plugin-source-foundations": "^8.0.0",
+        "@guardian/eslint-plugin-source-react-components": "^10.0.0",
         "@guardian/libs": "^9.0.1",
-        "@guardian/source-foundations": "^4.0.2",
-        "@guardian/source-react-components": "^4.0.1",
+        "@guardian/source-foundations": "^7.0.1",
+        "@guardian/source-react-components": "^9.0.1",
         "@storybook/addon-docs": "^6.5.13",
         "@storybook/addon-viewport": "^6.5.13",
         "@storybook/addons": "^6.5.13",
@@ -76,7 +76,7 @@
         "ts-jest": "^24.3.0",
         "ts-loader": "^8.4.0",
         "typescript": "^4.8.4",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^3.1.0"
     },
     "eslintConfig": {
         "root": true,
