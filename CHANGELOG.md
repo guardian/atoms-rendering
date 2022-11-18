@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.10.0
+
+### Minor Changes
+
+-   0f8547f: Full targeting for YouTubeAtomPlayer
+
 ## 23.9.0
 
 ### Minor Changes
