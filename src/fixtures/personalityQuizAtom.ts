@@ -117,8 +117,6 @@ export const examplePersonalityQuestions = [
         ],
         imageUrl:
             'https://i.guim.co.uk/img/media/816db2120eb8020529b5882c19be8432acb64741/0_0_1920_1152/master/1920.jpg?width=620&quality=85&auto=format&fit=max&s=0226a9202b9014a60f977f42b319113e',
-        imageAlt:
-            'The sun coming over the horizon, with the sky & clouds lit up red.',
     },
 ];
 

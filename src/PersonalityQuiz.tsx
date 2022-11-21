@@ -40,7 +40,6 @@ type QuestionType = {
     text: string;
     answers: AnswerType[];
     imageUrl?: string;
-    imageAlt?: string;
 };
 
 type QuizAtomType = {
@@ -183,7 +182,6 @@ export const PersonalityQuizAtom = ({
                     questionNumber={idx + 1}
                     text={question.text}
                     imageUrl={question.imageUrl}
-                    imageAlt={question.imageAlt}
                     answers={question.answers}
                     updateSelectedAnswer={(selectedAnswerId: string) => {
                         setHasMissingAnswers(false);
@@ -262,7 +260,6 @@ type PersonalityQuizAnswersProps = {
     questionNumber: number;
     text: string;
     imageUrl?: string;
-    imageAlt?: string;
     answers: AnswerType[];
     updateSelectedAnswer: (selectedAnswerId: string) => void;
     globallySelectedAnswer?: string;
@@ -275,7 +272,6 @@ const PersonalityQuizAnswers = ({
     questionNumber,
     text,
     imageUrl,
-    imageAlt,
     answers,
     updateSelectedAnswer,
     globallySelectedAnswer,
@@ -298,27 +294,28 @@ const PersonalityQuizAnswers = ({
 
     return (
         <fieldset css={answersWrapperStyle(theme)}>
-            <legend
-                css={css`
-                    margin-bottom: 12px;
-                `}
-            >
-                <span
+            <div>
+                <legend
                     css={css`
-                        padding-right: 12px;
+                        margin-bottom: 12px;
                     `}
                 >
-                    {questionNumber + '.'}
-                </span>
-                {text}
-            </legend>
+                    <span
+                        css={css`
+                            padding-right: 12px;
+                        `}
+                    >
+                        {questionNumber + '.'}
+                    </span>
+                    {text}
+                </legend>
+            </div>
             {imageUrl && (
                 <img
                     css={css`
                         width: 100%;
                     `}
                     src={imageUrl}
-                    alt={imageAlt || ''}
                 />
             )}
             <AnswersGroup
