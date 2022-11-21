@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 23.11.0
+
+### Minor Changes
+
+-   a54e806: YouTube player is passed client side participations for targeting
+
 ## 23.10.0
 
 ### Minor Changes
