@@ -91,10 +91,12 @@
         "is-mobile": "^3.1.1"
     },
     "devDependencies": {
+        "@babel/core": "^7.0.0",
         "@changesets/changelog-github": "^0.4.3",
         "@changesets/cli": "^2.21.1",
         "@emotion/eslint-plugin": "^11.7.0",
         "@emotion/react": "11.1.5",
+        "@guardian/ab-core": "^2.0.0",
         "@guardian/commercial-core": "4.24.0",
         "@guardian/consent-management-platform": "10.5.0",
         "@guardian/eslint-plugin-source-foundations": "^8.0.0",
@@ -120,6 +122,7 @@
         "eslint": "^8.7.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.25.2",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.29.4",
         "husky": "^4.3.0",
@@ -131,10 +134,13 @@
         "pretty-quick": "^3.1.0",
         "react": "17.0.1",
         "react-dom": "17.0.1",
-        "ts-jest": "^24.3.0",
+        "require-from-string": "^2.0.2",
+        "ts-jest": "^26.5.6",
         "ts-loader": "^8.4.0",
+        "tslib": "^2.4.0",
         "typescript": "4.8.4",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "webpack": "^4.0.0"
     },
     "peerDependencies": {
         "@emotion/react": "^11.1.5",
