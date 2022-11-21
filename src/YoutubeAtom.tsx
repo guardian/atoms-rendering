@@ -12,6 +12,7 @@ import type {
 } from './types';
 import type { ArticleTheme } from '@guardian/libs';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import type { Participations } from '@guardian/ab-core';
 
 type Props = {
     elementId: string;
@@ -32,6 +33,7 @@ type Props = {
     shouldStick?: boolean;
     isMainMedia?: boolean;
     imaEnabled: boolean;
+    abTestParticipations: Participations;
 };
 
 export const YoutubeAtom = ({
@@ -53,6 +55,7 @@ export const YoutubeAtom = ({
     shouldStick,
     isMainMedia,
     imaEnabled,
+    abTestParticipations,
 }: Props): JSX.Element => {
     const [overlayClicked, setOverlayClicked] = useState<boolean>(false);
     const [playerReady, setPlayerReady] = useState<boolean>(false);
@@ -168,6 +171,7 @@ export const YoutubeAtom = ({
                         deactivateVideo={() => {
                             setIsActive(false);
                         }}
+                        abTestParticipations={abTestParticipations}
                     />
                 )}
                 {showOverlay && (
