@@ -1,36 +1,94 @@
 {
     "name": "@guardian/atoms-rendering",
+    "version": "23.10.0",
     "repository": {
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
     },
-    "version": "23.10.0",
-    "source": "src/index.ts",
     "main": "dist/commonjs/index.js",
     "module": "dist/esm/index.js",
+    "source": "src/index.ts",
     "types": "dist/types/index.d.ts",
-    "publishConfig": {
-        "access": "public"
-    },
     "files": [
         "dist/**/*"
     ],
     "scripts": {
         "build": "yarn build:esm && yarn build:commonjs",
-        "build:esm": "tsc",
+        "build-storybook": "build-storybook",
         "build:commonjs": "tsc --outDir dist/commonjs --module CommonJS --target ES2018",
+        "build:esm": "tsc",
+        "chromatic": "chromatic",
+        "lint": "eslint . --ext .ts,.tsx",
+        "nginx:setup": "./scripts/nginx/setup.sh",
         "prettier:check": "prettier . --check",
         "prettier:fix": "prettier . --write",
+        "release": "yarn validate && yarn build && changeset publish",
         "storybook": "start-storybook -p 6006",
-        "build-storybook": "build-storybook",
-        "tsc": "tsc --noEmit",
-        "lint": "eslint . --ext .ts,.tsx",
         "test": "jest --watch",
         "test:ci": "jest",
-        "validate": "yarn tsc && yarn test:ci && yarn lint",
-        "chromatic": "chromatic",
-        "release": "yarn validate && yarn build && changeset publish",
-        "nginx:setup": "./scripts/nginx/setup.sh"
+        "tsc": "tsc --noEmit",
+        "validate": "yarn tsc && yarn test:ci && yarn lint"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "pretty-quick --staged && yarn lint && yarn tsc && yarn test --watchAll=false"
+        }
+    },
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@emotion",
+            "@typescript-eslint"
+        ],
+        "extends": [
+            "eslint:recommended",
+            "plugin:prettier/recommended",
+            "plugin:react/recommended",
+            "plugin:@typescript-eslint/recommended",
+            "plugin:@guardian/eslint-plugin-source-foundations/recommended",
+            "plugin:@guardian/eslint-plugin-source-react-components/recommended"
+        ],
+        "rules": {
+            "no-unused-vars": "off",
+            "@emotion/import-from-emotion": "error",
+            "@emotion/no-vanilla": "error",
+            "@emotion/styled-import": "error",
+            "@typescript-eslint/no-unused-vars": "error"
+        },
+        "ignorePatterns": [
+            "/dist"
+        ],
+        "root": true
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{ts,tsx}"
+        ],
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false,
+                "tsConfigFile": "tsconfig.json"
+            }
+        },
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "preset": "ts-jest/presets/js-with-ts",
+        "testEnvironment": "jest-environment-jsdom-sixteen",
+        "testMatch": [
+            "**/*.test.+(ts|tsx|js)"
+        ],
+        "transform": {
+            "^.+\\.(ts|tsx)$": "ts-jest"
+        },
+        "transformIgnorePatterns": [
+            "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
+        ]
+    },
+    "dependencies": {
+        "is-mobile": "^3.1.1"
     },
     "devDependencies": {
         "@changesets/changelog-github": "^0.4.3",
@@ -78,37 +136,6 @@
         "typescript": "^4.8.4",
         "web-vitals": "^2.1.4"
     },
-    "eslintConfig": {
-        "root": true,
-        "ignorePatterns": [
-            "/dist"
-        ],
-        "parser": "@typescript-eslint/parser",
-        "plugins": [
-            "@emotion",
-            "@typescript-eslint"
-        ],
-        "extends": [
-            "eslint:recommended",
-            "plugin:prettier/recommended",
-            "plugin:react/recommended",
-            "plugin:@typescript-eslint/recommended",
-            "plugin:@guardian/eslint-plugin-source-foundations/recommended",
-            "plugin:@guardian/eslint-plugin-source-react-components/recommended"
-        ],
-        "rules": {
-            "@emotion/no-vanilla": "error",
-            "@emotion/import-from-emotion": "error",
-            "@emotion/styled-import": "error",
-            "no-unused-vars": "off",
-            "@typescript-eslint/no-unused-vars": "error"
-        }
-    },
-    "husky": {
-        "hooks": {
-            "pre-push": "pretty-quick --staged && yarn lint && yarn tsc && yarn test --watchAll=false"
-        }
-    },
     "peerDependencies": {
         "@emotion/react": "^11.1.5",
         "@guardian/consent-management-platform": "^10",
@@ -119,34 +146,7 @@
         "typescript": "^4.8.4",
         "web-vitals": "^2.1.4"
     },
-    "jest": {
-        "testEnvironment": "jest-environment-jsdom-sixteen",
-        "transformIgnorePatterns": [
-            "node_modules/(?!(@guardian/src-foundations|@guardian/types|@guardian/libs)/)"
-        ],
-        "preset": "ts-jest/presets/js-with-ts",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js"
-        ],
-        "transform": {
-            "^.+\\.(ts|tsx)$": "ts-jest"
-        },
-        "globals": {
-            "ts-jest": {
-                "diagnostics": false,
-                "tsConfigFile": "tsconfig.json"
-            }
-        },
-        "testMatch": [
-            "**/*.test.+(ts|tsx|js)"
-        ],
-        "collectCoverageFrom": [
-            "src/**/*.{ts,tsx}"
-        ]
-    },
-    "dependencies": {
-        "is-mobile": "^3.1.1"
+    "publishConfig": {
+        "access": "public"
     }
 }
