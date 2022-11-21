@@ -67,7 +67,7 @@
         "globals": {
             "ts-jest": {
                 "diagnostics": false,
-                "tsConfigFile": "tsconfig.json"
+                "tsconfig": "tsconfig.json"
             }
         },
         "moduleFileExtensions": [
