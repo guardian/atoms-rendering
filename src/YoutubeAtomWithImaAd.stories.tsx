@@ -37,6 +37,7 @@ export const NoConsent = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -62,6 +63,7 @@ export const AdFree = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -88,6 +90,7 @@ export const NoOverlay = (): JSX.Element => {
                 isMainMedia={false}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -122,6 +125,7 @@ export const WithOverrideImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How to stop the spread of coronavirus"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -170,6 +174,7 @@ export const WithPosterImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -228,6 +233,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -267,6 +273,7 @@ export const GiveConsent = (): JSX.Element => {
                     isMainMedia={false}
                     title="How to stop the spread of coronavirus"
                     imaEnabled={true}
+                    abTestParticipations={{}}
                 />
             </div>
         </>
@@ -296,6 +303,7 @@ export const Sticky = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -325,6 +333,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -350,6 +359,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 width={800}
                 shouldStick={true}
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
             <br />
             <YoutubeAtom
@@ -368,6 +378,7 @@ export const DuplicateVideos = (): JSX.Element => {
                 width={800}
                 shouldStick={true}
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -394,6 +405,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
             <YoutubeAtom
                 elementId="xyz-2"
@@ -413,6 +425,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
             <YoutubeAtom
                 elementId="xyu"
@@ -432,6 +445,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={true}
+                abTestParticipations={{}}
             />
         </div>
     );
