@@ -17,6 +17,7 @@ import {
 } from '@guardian/commercial-core';
 import { log } from '@guardian/libs';
 import { google } from './ima';
+import { Participations } from '@guardian/ab-core';
 
 declare class ImaManager {
     constructor(
@@ -60,6 +61,7 @@ type Props = {
     enableIma: boolean;
     pauseVideo: boolean;
     deactivateVideo: () => void;
+    abTestParticipations: Participations;
 };
 
 type CustomPlayEventDetail = { videoId: string };
@@ -291,6 +293,7 @@ const createInstantiateImaManager =
         adContainerId: string,
         adTargeting: AdTargeting | undefined,
         consentState: ConsentState,
+        abTestParticipations: Participations,
         imaManager: React.MutableRefObject<ImaManager | undefined>,
         adsManager: React.MutableRefObject<google.ima.AdsManager | undefined>,
     ) =>
@@ -307,11 +310,12 @@ const createInstantiateImaManager =
             adsRequest: { adTagUrl: string },
             adsRenderingSettings: google.ima.AdsRenderingSettings,
         ) => {
-            adsRequest.adTagUrl = buildImaAdTagUrl(
+            adsRequest.adTagUrl = buildImaAdTagUrl({
                 adUnit,
                 customParams,
                 consentState,
-            );
+                clientSideParticipations: abTestParticipations,
+            });
             adsRenderingSettings.uiElements = [
                 window.google.ima.UiElements.AD_ATTRIBUTION,
             ];
@@ -365,6 +369,7 @@ export const YoutubeAtomPlayer = ({
     enableIma,
     pauseVideo,
     deactivateVideo,
+    abTestParticipations,
 }: Props): JSX.Element => {
     /**
      * useRef for player and progressEvents
@@ -410,12 +415,13 @@ export const YoutubeAtomPlayer = ({
                 const adsConfig: AdsConfig =
                     !adTargeting || adTargeting.disableAds || enableIma
                         ? disabledAds
-                        : buildAdsConfigWithConsent(
-                              false,
-                              adTargeting.adUnit,
-                              adTargeting.customParams,
+                        : buildAdsConfigWithConsent({
+                              adUnit: adTargeting.adUnit,
+                              clientSideParticipations: abTestParticipations,
                               consentState,
-                          );
+                              customParams: adTargeting.customParams,
+                              isAdFreeUser: false,
+                          });
 
                 const embedConfig = {
                     relatedChannels: [],
@@ -434,6 +440,7 @@ export const YoutubeAtomPlayer = ({
                           imaAdContainerId,
                           adTargeting,
                           consentState,
+                          abTestParticipations,
                           imaManager,
                           adsManager,
                       )
