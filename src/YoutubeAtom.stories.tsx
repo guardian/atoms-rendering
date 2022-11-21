@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
+import { consentStateCanTarget } from './fixtures/consentStateCanTarget';
 
 export default {
     title: 'YoutubeAtom',
@@ -29,6 +29,7 @@ export const NoConsent = (): JSX.Element => {
                 shouldStick={false}
                 isMainMedia={false}
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -45,7 +46,7 @@ export const NoOverlay = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -54,6 +55,7 @@ export const NoOverlay = (): JSX.Element => {
                 isMainMedia={false}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -71,7 +73,7 @@ export const WithOverrideImage = (): JSX.Element => {
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
                 duration={252}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 pillar={ArticlePillar.News}
                 overrideImage={[
                     {
@@ -87,6 +89,7 @@ export const WithOverrideImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How to stop the spread of coronavirus"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -105,7 +108,7 @@ export const WithPosterImage = (): JSX.Element => {
                 ]}
                 pillar={ArticlePillar.Sport}
                 duration={252}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 posterImage={[
                     {
                         srcSet: [
@@ -134,6 +137,7 @@ export const WithPosterImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio | Anywhere but Washington"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -162,7 +166,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                         ],
                     },
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 posterImage={[
                     {
                         srcSet: [
@@ -191,6 +195,7 @@ export const WithOverlayAndPosterImage = (): JSX.Element => {
                 isMainMedia={false}
                 title="How Donald Trump’s broken promises failed Ohio"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -210,7 +215,7 @@ export const GiveConsent = (): JSX.Element => {
                     eventEmitters={[
                         (e) => console.log(`analytics event ${e} called`),
                     ]}
-                    consentState={consented ? {} : undefined}
+                    consentState={consented ? consentStateCanTarget : undefined}
                     duration={252}
                     pillar={ArticlePillar.News}
                     overrideImage={[
@@ -229,6 +234,7 @@ export const GiveConsent = (): JSX.Element => {
                     isMainMedia={false}
                     title="How to stop the spread of coronavirus"
                     imaEnabled={false}
+                    abTestParticipations={{}}
                 />
             </div>
         </>
@@ -248,7 +254,7 @@ export const Sticky = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -257,6 +263,7 @@ export const Sticky = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -276,7 +283,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -285,6 +292,7 @@ export const StickyMainMedia = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
             <div style={{ height: '1000px' }}></div>
         </div>
@@ -302,13 +310,14 @@ export const DuplicateVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
                 shouldStick={true}
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
             <br />
             <YoutubeAtom
@@ -319,13 +328,14 @@ export const DuplicateVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
                 width={800}
                 shouldStick={true}
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
@@ -342,7 +352,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -351,6 +361,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
             <YoutubeAtom
                 elementId="xyz-2"
@@ -360,7 +371,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -369,6 +380,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
             <YoutubeAtom
                 elementId="xyu"
@@ -378,7 +390,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 eventEmitters={[
                     (e) => console.log(`analytics event ${e} called`),
                 ]}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 duration={252}
                 pillar={ArticlePillar.Culture}
                 height={450}
@@ -387,6 +399,7 @@ export const MultipleStickyVideos = (): JSX.Element => {
                 isMainMedia={true}
                 title="Rayshard Brooks: US justice system treats us like 'animals'"
                 imaEnabled={false}
+                abTestParticipations={{}}
             />
         </div>
     );
