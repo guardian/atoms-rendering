@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 24.0.0
+
+### Major Changes
+
+-   511780d: Bump Source versions and fix peer deps
+
 ## 23.11.0
 
 ### Minor Changes
