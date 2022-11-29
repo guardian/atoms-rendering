@@ -86,20 +86,22 @@ export const KnowledgeQuizAtom = ({
                     />
                 </div>
             )}
-            {questions.map((question, idx) => (
-                <Question
-                    key={question.id}
-                    id={question.id}
-                    number={idx + 1}
-                    text={question.text}
-                    imageUrl={question.imageUrl}
-                    imageAlt={question.imageAlt}
-                    answers={question.answers}
-                    quizSelection={quizSelection}
-                    setQuizSelection={setQuizSelection}
-                    theme={theme}
-                />
-            ))}
+            <ol>
+                {questions.map((question, idx) => (
+                    <Question
+                        key={question.id}
+                        id={question.id}
+                        number={idx + 1}
+                        text={question.text}
+                        imageUrl={question.imageUrl}
+                        imageAlt={question.imageAlt}
+                        answers={question.answers}
+                        quizSelection={quizSelection}
+                        setQuizSelection={setQuizSelection}
+                        theme={theme}
+                    />
+                ))}
+            </ol>
             {haveAllQuestionsBeenAnswered && (
                 <div data-testid="quiz-results-block-top">
                     <Result
@@ -148,7 +150,7 @@ export const Question = ({
     }, [selectedAnswerId, setQuizSelection, hasSubmitted, answers]);
 
     return (
-        <div
+        <li
             css={css`
                 ${theme === ArticleSpecial.Labs
                     ? textSans.medium()
@@ -220,7 +222,7 @@ export const Question = ({
                     </Button>
                 </div>
             </fieldset>
-        </div>
+        </li>
     );
 };
 

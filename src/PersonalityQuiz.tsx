@@ -176,31 +176,33 @@ export const PersonalityQuizAtom = ({
                     />
                 </div>
             )}
-            {questions.map((question, idx) => (
-                <PersonalityQuizAnswers
-                    key={question.id}
-                    id={question.id}
-                    questionNumber={idx + 1}
-                    text={question.text}
-                    imageUrl={question.imageUrl}
-                    imageAlt={question.imageAlt}
-                    answers={question.answers}
-                    updateSelectedAnswer={(selectedAnswerId: string) => {
-                        setHasMissingAnswers(false);
-                        setSelectedGlobalAnswers({
-                            ...selectedGlobalAnswers,
-                            [question.id]: selectedAnswerId,
-                        });
-                    }}
-                    globallySelectedAnswer={
-                        question.id in selectedGlobalAnswers
-                            ? selectedGlobalAnswers[question.id]
-                            : undefined
-                    }
-                    hasSubmittedAnswers={hasSubmittedAnswers}
-                    theme={theme}
-                />
-            ))}
+            <ol>
+                {questions.map((question, idx) => (
+                    <PersonalityQuizAnswers
+                        key={question.id}
+                        id={question.id}
+                        questionNumber={idx + 1}
+                        text={question.text}
+                        imageUrl={question.imageUrl}
+                        imageAlt={question.imageAlt}
+                        answers={question.answers}
+                        updateSelectedAnswer={(selectedAnswerId: string) => {
+                            setHasMissingAnswers(false);
+                            setSelectedGlobalAnswers({
+                                ...selectedGlobalAnswers,
+                                [question.id]: selectedAnswerId,
+                            });
+                        }}
+                        globallySelectedAnswer={
+                            question.id in selectedGlobalAnswers
+                                ? selectedGlobalAnswers[question.id]
+                                : undefined
+                        }
+                        hasSubmittedAnswers={hasSubmittedAnswers}
+                        theme={theme}
+                    />
+                ))}
+            </ol>
             {hasMissingAnswers && <MissingAnswers />}
             {hasSubmittedAnswers && topSelectedResult && (
                 <div data-testid="quiz-results-block-bottom">
@@ -297,39 +299,41 @@ const PersonalityQuizAnswers = ({
     }, [globallySelectedAnswer, setSelectedAnswers]);
 
     return (
-        <fieldset css={answersWrapperStyle(theme)}>
-            <legend
-                css={css`
-                    margin-bottom: 12px;
-                `}
-            >
-                <span
+        <li css={answersWrapperStyle(theme)}>
+            <fieldset>
+                <legend
                     css={css`
-                        padding-right: 12px;
+                        margin-bottom: 12px;
                     `}
                 >
-                    {questionNumber + '.'}
-                </span>
-                {text}
-            </legend>
-            {imageUrl && (
-                <img
-                    css={css`
-                        width: 100%;
-                    `}
-                    src={imageUrl}
-                    alt={imageAlt || ''}
+                    <span
+                        css={css`
+                            padding-right: 12px;
+                        `}
+                    >
+                        {questionNumber + '.'}
+                    </span>
+                    {text}
+                </legend>
+                {imageUrl && (
+                    <img
+                        css={css`
+                            width: 100%;
+                        `}
+                        src={imageUrl}
+                        alt={imageAlt || ''}
+                    />
+                )}
+                <AnswersGroup
+                    hasSubmittedAnswers={hasSubmittedAnswers}
+                    questionId={questionId}
+                    answers={answers}
+                    selectedAnswer={selectedAnswer}
+                    setSelectedAnswers={setSelectedAnswers}
+                    theme={theme}
                 />
-            )}
-            <AnswersGroup
-                hasSubmittedAnswers={hasSubmittedAnswers}
-                questionId={questionId}
-                answers={answers}
-                selectedAnswer={selectedAnswer}
-                setSelectedAnswers={setSelectedAnswers}
-                theme={theme}
-            />
-        </fieldset>
+            </fieldset>
+        </li>
     );
 };
 
