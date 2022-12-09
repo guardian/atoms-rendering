@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 25.0.2
+
+### Patch Changes
+
+-   f48dc07: Fix YoutubeAtom.test TypeScript errors
+
 ## 25.0.1
 
 ### Patch Changes
