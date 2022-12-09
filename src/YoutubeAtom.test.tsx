@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
 import { YoutubeAtom } from './YoutubeAtom';
+import { consentStateCanTarget } from './fixtures/consentStateCanTarget';
 
 const overlayImage = [
     {
@@ -26,9 +27,11 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -46,10 +49,12 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 overrideImage={overlayImage}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -75,9 +80,11 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -96,10 +103,12 @@ describe('YoutubeAtom', () => {
                 role="inline"
                 eventEmitters={[]}
                 pillar={0}
-                consentState={{}}
+                consentState={consentStateCanTarget}
                 overrideImage={overlayImage}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -121,6 +130,8 @@ describe('YoutubeAtom', () => {
                 pillar={0}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -141,6 +152,8 @@ describe('YoutubeAtom', () => {
                 overrideImage={overlayImage}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -161,6 +174,8 @@ describe('YoutubeAtom', () => {
                 overrideImage={overlayImage}
                 shouldStick={false}
                 isMainMedia={false}
+                imaEnabled={false}
+                abTestParticipations={{}}
             />
         );
         const { getByTestId } = render(atom);
@@ -185,6 +200,8 @@ describe('YoutubeAtom', () => {
                     overrideImage={overlayImage}
                     shouldStick={false}
                     isMainMedia={false}
+                    imaEnabled={false}
+                    abTestParticipations={{}}
                 />
                 <YoutubeAtom
                     elementId="xyz"
@@ -197,6 +214,8 @@ describe('YoutubeAtom', () => {
                     overrideImage={overlayImage}
                     shouldStick={false}
                     isMainMedia={false}
+                    imaEnabled={false}
+                    abTestParticipations={{}}
                 />
             </>
         );
