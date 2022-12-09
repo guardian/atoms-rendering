@@ -1,5 +1,15 @@
 # @guardian/atoms-rendering
 
+## 25.0.0
+
+### Major Changes
+
+-   dc53b19: Bumps commercial core and CMP versions
+
+### Minor Changes
+
+-   4719724: Improve accessibility of Quiz atoms
+
 ## 24.0.0
 
 ### Major Changes
