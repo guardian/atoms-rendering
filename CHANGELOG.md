@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 25.0.1
+
+### Patch Changes
+
+-   b757712: Make commercial core and CMP optional peer deps
+
 ## 25.0.0
 
 ### Major Changes
