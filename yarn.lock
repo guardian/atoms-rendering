@@ -1576,22 +1576,22 @@
     "@typescript-eslint/eslint-plugin" "5.45.0"
     "@typescript-eslint/parser" "5.45.0"
 
-"@guardian/libs@10.1.1":
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-10.1.1.tgz#7048c365a68dda068f707d46c78979f430221963"
-  integrity sha512-OdWReBHRWhdbErVmS15hihVzlkdU8DkKrjDsUIN0P8QZiF4twuzcU3qsPwto2UfibAwPkWqKkNwH1k8b6xNclA==
+"@guardian/libs@10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-10.0.0.tgz#3624e5ead3a9f4ffb6244327d3ee5c3d55d688fa"
+  integrity sha512-N6+5e0DrusWryaZCH6/cppJlLEksuZWFyYnQjHbe/HXM2cLe2i3GAU5kRhIh98pOlPTPer5GennBAYQ6gzQofg==
 
-"@guardian/source-foundations@7.0.3":
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/@guardian/source-foundations/-/source-foundations-7.0.3.tgz#2d30d8a76ac1a5382774bbaaaa39a84551d4709d"
-  integrity sha512-XDShUQ1MvQlTaa1Va+QbLSjHA2hg/lBhfoP31wQAFd0mqpGeCjGnwI6snSX31EdpkniLqJH4Y7gGcOsZ1SqtQg==
+"@guardian/source-foundations@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/source-foundations/-/source-foundations-7.0.0.tgz#1953d57efe1ebc161d936dbe880bb3d35d567c85"
+  integrity sha512-mDBKhkyBFfuN31U39vEyWt+q/uWI54Q2Wc0INmZ00D74B3pfeTmVxNCGHeX0t+RrUvYNhAAE9f/JaGjWRz9Epg==
   dependencies:
-    mini-svg-data-uri "1.4.4"
+    mini-svg-data-uri "^1.3.3"
 
-"@guardian/source-react-components@9.1.2":
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/@guardian/source-react-components/-/source-react-components-9.1.2.tgz#2afe6b660773449ffbedbaa74f2fc1a79cb7c3f8"
-  integrity sha512-cBw9vj9K8UrHrqAARI11fv81hnHQB4fIVVsCUhuzl/J2nvoUCicA4mo4mBl23TtlMRo+mmD+N9dn9HiZYiW95Q==
+"@guardian/source-react-components@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@guardian/source-react-components/-/source-react-components-9.0.0.tgz#9a91775dd6405d9461f7d18b836d8df688143204"
+  integrity sha512-A0d0QrqJ+LN+zb8vBLtHqB+aT9gk056tsi2S5oOc0v+pLifZ/y0tOK1htX5EKtjdIjlbsXj0UZc3s+bZtmkHzg==
 
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
@@ -10261,7 +10261,7 @@ min-indent@^1.0.0:
   resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.0.tgz#cfc45c37e9ec0d8f0a0ec3dd4ef7f7c3abe39256"
   integrity sha1-z8RcN+nsDY8KDsPdTvf3w6vjklY=
 
-mini-svg-data-uri@1.4.4:
+mini-svg-data-uri@^1.3.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz#8ab0aabcdf8c29ad5693ca595af19dd2ead09939"
   integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
