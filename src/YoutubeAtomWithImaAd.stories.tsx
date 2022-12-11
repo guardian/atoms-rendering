@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';

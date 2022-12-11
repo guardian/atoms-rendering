@@ -13,7 +13,7 @@ type EmbedConfig = {
 type PlayerOptions = YT.PlayerOptions & EmbedConfig;
 
 // PlayerEvent, OnStateChangeEvent, etc.
-type PlayerListenerName = keyof YT.Events;
+export type PlayerListenerName = keyof YT.Events;
 
 class YouTubePlayer {
     playerPromise: Promise<YT.Player>;
@@ -86,4 +86,4 @@ class YouTubePlayer {
     }
 }
 
-export { YouTubePlayer, PlayerListenerName };
+export { YouTubePlayer };

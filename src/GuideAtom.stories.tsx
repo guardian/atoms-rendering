@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GuideAtom } from './GuideAtom';
 import {
     defaultStoryExpanded,

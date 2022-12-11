@@ -1,4 +1,4 @@
-import React, {
+import {
     useCallback,
     useEffect,
     useLayoutEffect,
@@ -207,6 +207,8 @@ const createOnStateChangeListener =
                      */
                     setTimeout(() => checkProgress(), 3000);
                 }
+
+                return null;
             };
         }
 

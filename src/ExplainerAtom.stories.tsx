@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ExplainerAtom } from './ExplainerAtom';
 
 const html =

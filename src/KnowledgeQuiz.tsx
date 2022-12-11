@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { css } from '@emotion/react';
 
 import {
@@ -382,7 +382,7 @@ export const Result = ({
         // Find the score ranges
         // Decide which bracket the score is in
         for (let i = 0; i < resultGroups.length; i++) {
-            resultBrackets[i] = resultGroups[i].minScore;
+            resultBrackets[i] = resultGroups[i]?.minScore;
         }
 
         // The regular sort function doesn't sort numbers, it works alphabetically

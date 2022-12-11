@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ProfileAtomType } from './types';
 import { submitComponentEvent } from './lib/ophan';
 import { Container } from './expandableAtom/Container';

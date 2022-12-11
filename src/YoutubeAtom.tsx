@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
 import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
