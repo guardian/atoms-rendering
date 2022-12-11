@@ -116,8 +116,6 @@
         ]
     },
     "dependencies": {
-        "@guardian/eslint-config-typescript": "^2.0.1",
-        "@guardian/tsconfig": "^0.2.0",
         "is-mobile": "^3.1.1"
     },
     "devDependencies": {
@@ -129,11 +127,13 @@
         "@guardian/ab-core": "^2.0.0",
         "@guardian/commercial-core": "5.0.0",
         "@guardian/consent-management-platform": "11.0.0",
+        "@guardian/eslint-config-typescript": "^2.0.1",
         "@guardian/eslint-plugin-source-foundations": "^8.0.4",
         "@guardian/eslint-plugin-source-react-components": "^10.0.4",
         "@guardian/libs": "10.0.0",
         "@guardian/source-foundations": "7.0.0",
         "@guardian/source-react-components": "9.0.0",
+        "@guardian/tsconfig": "^0.2.0",
         "@storybook/addon-docs": "^6.5.13",
         "@storybook/addon-viewport": "^6.5.13",
         "@storybook/addons": "^6.5.13",
