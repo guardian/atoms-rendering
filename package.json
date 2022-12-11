@@ -36,19 +36,38 @@
     },
     "eslintConfig": {
         "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+            "project": "./tsconfig.json"
+        },
         "plugins": [
             "@emotion",
             "@typescript-eslint"
         ],
         "extends": [
-            "eslint:recommended",
-            "plugin:prettier/recommended",
+            "@guardian/eslint-config-typescript",
             "plugin:react/recommended",
-            "plugin:@typescript-eslint/recommended",
             "plugin:@guardian/eslint-plugin-source-foundations/recommended",
             "plugin:@guardian/eslint-plugin-source-react-components/recommended"
         ],
         "rules": {
+            "import/order": "off",
+            "sort-imports": "off",
+            "@typescript-eslint/consistent-type-imports": "off",
+            "eslint/prefer-optional-chain": "off",
+            "@typescript-eslint/naming-convention": "off",
+            "@typescript-eslint/prefer-optional-chain": "off",
+            "@typescript-eslint/no-unnecessary-condition": "off",
+            "eslint-comments/require-description": "off",
+            "@typescript-eslint/prefer-nullish-coalescing": "off",
+            "@typescript-eslint/no-unsafe-assignment": "off",
+            "@typescript-eslint/no-unsafe-member-access": "off",
+            "@typescript-eslint/array-type": "off",
+            "@typescript-eslint/no-floating-promises": "off",
+            "@typescript-eslint/consistent-indexed-object-style": "off",
+            "@typescript-eslint/no-misused-promises": "off",
+            "@typescript-eslint/unbound-method": "off",
+            "@typescript-eslint/restrict-template-expressions": "off",
+            "@typescript-eslint/restrict-plus-operands": "off",
             "no-unused-vars": "off",
             "@emotion/import-from-emotion": "error",
             "@emotion/no-vanilla": "error",
@@ -56,7 +75,8 @@
             "@typescript-eslint/no-unused-vars": "error"
         },
         "ignorePatterns": [
-            "/dist"
+            "/dist",
+            "node_modules"
         ],
         "root": true
     },
@@ -88,6 +108,8 @@
         ]
     },
     "dependencies": {
+        "@guardian/eslint-config-typescript": "^2.0.1",
+        "@guardian/tsconfig": "^0.2.0",
         "is-mobile": "^3.1.1"
     },
     "devDependencies": {
@@ -113,7 +135,7 @@
         "@types/jest": "^26.0.15",
         "@types/lodash.debounce": "^4.0.6",
         "@types/react": "^17.0.2",
-        "@types/react-dom": "^17.0.1",
+        "@types/react-dom": "^17.0.2",
         "@types/youtube": "^0.0.46",
         "@typescript-eslint/eslint-plugin": "^5.10.0",
         "@typescript-eslint/parser": "^5.10.0",
@@ -132,8 +154,8 @@
         "np": "^7.2.0",
         "prettier": "^2.6.2",
         "pretty-quick": "^3.1.0",
-        "react": "17.0.1",
-        "react-dom": "17.0.1",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
         "require-from-string": "^2.0.2",
         "ts-jest": "^26.5.6",
         "ts-loader": "^8.4.0",

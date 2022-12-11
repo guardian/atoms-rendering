@@ -1,23 +1,16 @@
 {
+    "extends": "@guardian/tsconfig",
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "ES2020",
-        "lib": ["es2017", "es7", "es6", "dom", "DOM.Iterable"],
-        "declarationDir": "dist/types",
-        "outDir": "dist/esm",
-        "strict": true,
-        "esModuleInterop": true,
-        "jsx": "react-jsx",
-        "jsxImportSource": "@emotion/react",
-        "moduleResolution": "node",
         "allowJs": true,
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "declaration": true,
+        "declarationMap": true,
         "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "isolatedModules": false,
-        "declaration": true
+        "importHelpers": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "@emotion/react"
     },
-    "files": ["src/index.ts", "src/types.ts"],
-    "exclude": []
+    "include": ["./src", ".storybook/*"],
+    "exclude": ["node_modules"]
 }
