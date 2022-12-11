@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { css } from '@emotion/react';
 
 import {

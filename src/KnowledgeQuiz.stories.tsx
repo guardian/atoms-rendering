@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 import {
     exampleKnowledgeQuestions,

@@ -1,4 +1,3 @@
-import React from 'react';
 import { QandaAtomType } from './types';
 import { submitComponentEvent } from './lib/ophan';
 import { Container } from './expandableAtom/Container';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
     examplePersonalityQuestions,

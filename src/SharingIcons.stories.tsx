@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { sharingUrls } from './fixtures/sharingUrls';
 import { SharingIcons } from './SharingIcons';
 

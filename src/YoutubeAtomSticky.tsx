@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { VideoEventKey } from './types';
 import { log } from '@guardian/libs';
 import { useIsInView } from './lib/useIsInView';

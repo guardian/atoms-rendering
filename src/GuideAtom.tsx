@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GuideAtomType } from './types';
 import { submitComponentEvent } from './lib/ophan';
 import { Footer } from './expandableAtom/Footer';
