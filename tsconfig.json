@@ -18,6 +18,6 @@
         "isolatedModules": false,
         "declaration": true
     },
-    "files": ["src/index.ts", "src/types.ts"],
-    "exclude": []
+    "include": ["./src"],
+    "exclude": ["node_modules"]
 }
