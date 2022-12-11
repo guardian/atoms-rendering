@@ -21,6 +21,7 @@ describe('AudioAtom', () => {
                 kicker="Football Weekly Extra Extra"
                 title={title}
                 pillar={ArticlePillar.Sport}
+                duration={898}
             />,
         );
         expect(getByText(title)).toBeInTheDocument();
@@ -38,6 +39,7 @@ describe('AudioAtom', () => {
                 kicker="Football Weekly Extra Extra"
                 title={title}
                 pillar={ArticlePillar.Sport}
+                duration={898}
             />,
         );
 
@@ -50,6 +52,7 @@ describe('AudioAtom', () => {
                 kicker="Football Weekly Extra Extra"
                 title={title}
                 pillar={ArticlePillar.Sport}
+                duration={898}
             />,
         );
         expect(playStub).toHaveBeenCalled();
@@ -63,6 +66,7 @@ describe('AudioAtom', () => {
                 kicker="Football Weekly Extra Extra"
                 title={title}
                 pillar={ArticlePillar.Sport}
+                duration={898}
             />,
         );
         expect(pauseStub).toHaveBeenCalled();
