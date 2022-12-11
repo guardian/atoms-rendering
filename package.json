@@ -50,6 +50,14 @@
             "plugin:@guardian/eslint-plugin-source-react-components/recommended"
         ],
         "rules": {
+            "react/no-unknown-property": [
+                "error",
+                {
+                    "ignore": [
+                        "css"
+                    ]
+                }
+            ],
             "import/order": "off",
             "sort-imports": "off",
             "@typescript-eslint/consistent-type-imports": "off",
