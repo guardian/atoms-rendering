@@ -22,7 +22,7 @@ export const VideoAtom = ({
                 ))}
                 <p>
                     {`Your browser doesn't support HTML5 video. Here is a `}
-                    <a href={assets[0].url}>link to the video</a> instead.
+                    <a href={assets[0]?.url}>link to the video</a> instead.
                 </p>
             </video>
         </MaintainAspectRatio>

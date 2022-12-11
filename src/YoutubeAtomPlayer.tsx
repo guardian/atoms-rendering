@@ -207,6 +207,8 @@ const createOnStateChangeListener =
                      */
                     setTimeout(() => checkProgress(), 3000);
                 }
+
+                return null;
             };
         }
 

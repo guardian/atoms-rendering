@@ -358,7 +358,7 @@ export const Result = ({
 }): JSX.Element => {
     const totalNumberOfQuestions = Object.keys(quizSelection).length;
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
-        (questionId) => quizSelection[questionId].isCorrect,
+        (questionId) => quizSelection[questionId]?.isCorrect,
     ).length;
     const totalResultGroups = resultGroups.length;
     let bestResultGroup: ResultGroupsType | undefined;

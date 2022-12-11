@@ -1,3 +1,4 @@
+import { ArticlePillar } from '@guardian/libs';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
@@ -9,19 +10,32 @@ import { sharingUrls } from './fixtures/sharingUrls';
 
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
-const questions = [exampleKnowledgeQuestions[0]];
+function ensure<T>(
+    argument: T | undefined | null,
+    message = 'This value was promised to be there.',
+): T {
+    if (argument === undefined || argument === null) {
+        throw new TypeError(message);
+    }
+
+    return argument;
+}
+
+const exampleQuestion = ensure(exampleKnowledgeQuestions.find((x) => x));
+const questions = [exampleQuestion];
 
 describe('KnowledgeQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
             <KnowledgeQuizAtom
                 id="123abc"
-                questions={questions}
+                questions={[exampleQuestion]}
                 resultGroups={resultGroups}
                 sharingUrls={sharingUrls}
+                theme={ArticlePillar.News}
             />,
         );
-        expect(getByText(questions[0].text)).toBeInTheDocument();
+        expect(getByText(exampleQuestion.text)).toBeInTheDocument();
     });
     describe('on answer click', () => {
         const questionId = 'b0342160-7678-417d-85c6-67a60ec4994b';
@@ -54,6 +68,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -64,6 +79,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -79,6 +95,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -90,6 +107,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -105,6 +123,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -116,6 +135,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -136,6 +156,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -153,6 +174,7 @@ describe('KnowledgeQuiz', () => {
                     questions={questions}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 

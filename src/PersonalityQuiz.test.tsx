@@ -1,3 +1,4 @@
+import { ArticlePillar } from '@guardian/libs';
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 
@@ -12,6 +13,20 @@ import {
     findMostReferredToBucketId,
 } from './PersonalityQuiz';
 
+function ensure<T>(
+    argument: T | undefined | null,
+    message = 'This value was promised to be there.',
+): T {
+    if (argument === undefined || argument === null) {
+        throw new TypeError(message);
+    }
+
+    return argument;
+}
+
+const exampleQuestion = ensure(examplePersonalityQuestions.find((x) => x));
+const exampleAnswer = ensure(exampleQuestion?.answers.find((x) => x));
+
 describe('PersonalityQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
@@ -20,22 +35,22 @@ describe('PersonalityQuiz', () => {
                 questions={examplePersonalityQuestions}
                 resultBuckets={exampleResultBuckets}
                 sharingUrls={sharingUrls}
+                theme={ArticlePillar.News}
             />,
         );
-        expect(
-            getByText(examplePersonalityQuestions[0].text),
-        ).toBeInTheDocument();
+        expect(getByText(exampleQuestion.text)).toBeInTheDocument();
     });
 
     describe('on answer click', () => {
         it('should change answer component when chosen', () => {
-            const selectedAnswer = examplePersonalityQuestions[0].answers[0];
+            const selectedAnswer = exampleAnswer;
             const { getByTestId, rerender } = render(
                 <PersonalityQuizAtom
                     id="123abc"
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -46,6 +61,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -61,6 +77,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -71,6 +88,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -86,11 +104,12 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
-            examplePersonalityQuestions.forEach((question) =>
-                fireEvent.click(getByTestId(question.answers[0].id)),
+            examplePersonalityQuestions.forEach(() =>
+                fireEvent.click(getByTestId(exampleAnswer.id)),
             );
 
             fireEvent.click(getByTestId('submit-quiz'));
@@ -100,6 +119,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -116,6 +136,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
