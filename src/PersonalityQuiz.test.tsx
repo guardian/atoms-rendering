@@ -12,6 +12,7 @@ import {
     PersonalityQuizAtom,
     findMostReferredToBucketId,
 } from './PersonalityQuiz';
+import { ArticlePillar } from '@guardian/libs';
 
 describe('PersonalityQuiz', () => {
     it('should render', () => {
@@ -21,6 +22,7 @@ describe('PersonalityQuiz', () => {
                 questions={examplePersonalityQuestions}
                 resultBuckets={exampleResultBuckets}
                 sharingUrls={sharingUrls}
+                theme={ArticlePillar.News}
             />,
         );
         expect(
@@ -37,6 +39,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -47,6 +50,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -62,6 +66,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -72,6 +77,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -87,6 +93,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -101,6 +108,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
@@ -117,6 +125,7 @@ describe('PersonalityQuiz', () => {
                     questions={examplePersonalityQuestions}
                     resultBuckets={exampleResultBuckets}
                     sharingUrls={sharingUrls}
+                    theme={ArticlePillar.News}
                 />,
             );
 
