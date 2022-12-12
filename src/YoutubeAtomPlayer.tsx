@@ -317,7 +317,7 @@ const createInstantiateImaManager =
                 clientSideParticipations: abTestParticipations,
             });
             adsRenderingSettings.uiElements = [
-                window.google.ima.UiElements.AD_ATTRIBUTION,
+                window.google.ima.UiElements.AdAttribution,
             ];
         };
 
@@ -333,7 +333,7 @@ const createInstantiateImaManager =
             const onAdsManagerLoaded = () => {
                 adsManager.current = imaManager.current?.getAdsManager();
                 adsManager.current?.addEventListener(
-                    window.google.ima.AdEvent.Type.STARTED,
+                    window.google.ima.AdEvent.Type.Started,
                     () => {
                         dispatchCustomPlayEvent(uniqueId);
                     },
@@ -341,7 +341,7 @@ const createInstantiateImaManager =
             };
 
             adsLoader.addEventListener(
-                window.google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
+                window.google.ima.AdsManagerLoadedEvent.Type.AdsManagerLoaded,
                 onAdsManagerLoaded,
                 false,
             );
