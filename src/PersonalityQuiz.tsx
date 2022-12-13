@@ -1,25 +1,23 @@
-import React, {
-    useState,
-    KeyboardEvent,
-    useEffect,
-    MouseEvent,
-    memo,
-} from 'react';
 import { css } from '@emotion/react';
-
+import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
 import {
     body,
-    textSans,
-    text,
     neutral,
     space,
+    text,
+    textSans,
 } from '@guardian/source-foundations';
-import { Button, RadioGroup, Radio } from '@guardian/source-react-components';
-
-import { SharingUrlsType } from './types';
+import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
+import React, {
+    KeyboardEvent,
+    memo,
+    MouseEvent,
+    useEffect,
+    useState,
+} from 'react';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
-import { ArticleTheme, ArticleSpecial } from '@guardian/libs';
+import { SharingUrlsType } from './types';
 
 type ResultsBucket = {
     id: string;

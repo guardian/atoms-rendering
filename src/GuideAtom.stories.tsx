@@ -1,13 +1,12 @@
 import React from 'react';
-
-import { GuideAtom } from './GuideAtom';
 import {
     defaultStoryExpanded,
-    listStoryExpanded,
-    orderedListStoryExpanded,
     imageStoryExpanded,
     lifestylePillarStoryExpanded,
+    listStoryExpanded,
+    orderedListStoryExpanded,
 } from './fixtures/guideAtom';
+import { GuideAtom } from './GuideAtom';
 
 export default {
     title: 'GuideAtom',

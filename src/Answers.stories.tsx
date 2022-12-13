@@ -1,15 +1,14 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
+import { ArticlePillar } from '@guardian/libs';
 import { Radio } from '@guardian/source-react-components';
+import React from 'react';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
     NonSelectedCorrectAnswer,
-    UnselectedAnswer,
     radioButtonWrapperStyles,
+    UnselectedAnswer,
 } from './Answers';
-import { ArticlePillar } from '@guardian/libs';
 
 export default {
     title: 'Answers',

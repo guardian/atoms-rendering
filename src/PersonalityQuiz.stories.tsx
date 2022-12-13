@@ -1,12 +1,11 @@
+import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
 import React from 'react';
-
-import { PersonalityQuizAtom } from './PersonalityQuiz';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
 } from './fixtures/personalityQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
+import { PersonalityQuizAtom } from './PersonalityQuiz';
 
 export default {
     title: 'PersonalityQuizAtom',

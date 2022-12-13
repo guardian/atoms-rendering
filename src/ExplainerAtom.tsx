@@ -1,14 +1,12 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
 import {
     headline,
-    textSans,
-    space,
     neutral,
+    space,
     text,
+    textSans,
 } from '@guardian/source-foundations';
-
+import React from 'react';
 import { ExplainerAtomType } from './types';
 
 const Container = ({

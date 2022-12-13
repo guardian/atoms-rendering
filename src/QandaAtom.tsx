@@ -1,9 +1,9 @@
 import React from 'react';
-import { QandaAtomType } from './types';
-import { submitComponentEvent } from './lib/ophan';
+import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
-import { Body } from './expandableAtom/Body';
+import { submitComponentEvent } from './lib/ophan';
+import { QandaAtomType } from './types';
 
 export const QandaAtom = ({
     id,

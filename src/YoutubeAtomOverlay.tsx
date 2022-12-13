@@ -1,19 +1,17 @@
-import React from 'react';
 import { css } from '@emotion/react';
-import { pillarPalette } from './lib/pillarPalette';
-
+import type { ArticleTheme } from '@guardian/libs';
 import {
     focusHalo,
+    neutral,
     space,
     textSans,
-    neutral,
 } from '@guardian/source-foundations';
 import { SvgPlay } from '@guardian/source-react-components';
-
+import React from 'react';
 import { formatTime } from './lib/formatTime';
+import { pillarPalette } from './lib/pillarPalette';
 import { Picture } from './Picture';
 import { ImageSource, RoleType } from './types';
-import type { ArticleTheme } from '@guardian/libs';
 
 type Props = {
     uniqueId: string;

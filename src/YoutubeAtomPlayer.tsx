@@ -1,3 +1,12 @@
+import { Participations } from '@guardian/ab-core';
+import {
+    AdsConfig,
+    buildAdsConfigWithConsent,
+    buildImaAdTagUrl,
+    disabledAds,
+} from '@guardian/commercial-core';
+import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import { log } from '@guardian/libs';
 import React, {
     useCallback,
     useEffect,
@@ -5,19 +14,10 @@ import React, {
     useRef,
     useState,
 } from 'react';
+import { google } from './ima';
+import type { AdTargeting, VideoEventKey } from './types';
 import { PlayerListenerName, YouTubePlayer } from './YouTubePlayer';
 
-import type { AdTargeting, VideoEventKey } from './types';
-import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
-import {
-    AdsConfig,
-    buildAdsConfigWithConsent,
-    buildImaAdTagUrl,
-    disabledAds,
-} from '@guardian/commercial-core';
-import { log } from '@guardian/libs';
-import { google } from './ima';
-import { Participations } from '@guardian/ab-core';
 
 declare class ImaManager {
     constructor(

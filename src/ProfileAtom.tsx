@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { ProfileAtomType } from './types';
-import { submitComponentEvent } from './lib/ophan';
+import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
-import { Body } from './expandableAtom/Body';
+import { submitComponentEvent } from './lib/ophan';
+import { ProfileAtomType } from './types';
 
 export const ProfileAtom = ({
     id,

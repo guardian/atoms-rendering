@@ -1,14 +1,13 @@
+import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
 import React from 'react';
-
-import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 import {
     exampleKnowledgeQuestions,
-    resultGroups,
     natureQuestions,
     natureResultGroups,
+    resultGroups,
 } from './fixtures/knowledgeQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
+import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
 export default {
     title: 'KnowledgeQuizAtom',

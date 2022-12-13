@@ -1,26 +1,23 @@
-import React, { useState, Fragment, useEffect } from 'react';
 import { css } from '@emotion/react';
-
+import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
 import {
     body,
-    textSans,
-    neutral,
     brand,
+    neutral,
     space,
+    textSans,
 } from '@guardian/source-foundations';
-import { RadioGroup, Radio, Button } from '@guardian/source-react-components';
-
-import { SharingUrlsType } from './types';
-import { SharingIcons } from './SharingIcons';
-
+import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
     NonSelectedCorrectAnswer,
-    UnselectedAnswer,
     radioButtonWrapperStyles,
+    UnselectedAnswer,
 } from './Answers';
-import { ArticleTheme, ArticleSpecial } from '@guardian/libs';
+import { SharingIcons } from './SharingIcons';
+import { SharingUrlsType } from './types';
 
 type AnswerType = {
     id: string;

@@ -1,9 +1,7 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
-import { neutral, text } from '@guardian/source-foundations';
-
 import { ArticleTheme } from '@guardian/libs';
+import { neutral, text } from '@guardian/source-foundations';
+import React from 'react';
 import { Summary } from './Summary';
 
 const containerStyling = css`

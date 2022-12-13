@@ -1,11 +1,10 @@
 import React from 'react';
-
-import { QandaAtom } from './QandaAtom';
 import {
     imageStoryExpanded,
-    listStoryExpanded,
     imageStoryWithCreditExpanded,
+    listStoryExpanded,
 } from './fixtures/qandaAtom';
+import { QandaAtom } from './QandaAtom';
 
 export default {
     title: 'QandaAtom',

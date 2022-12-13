@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-
-import { YoutubeAtom } from './YoutubeAtom';
 import { ArticlePillar } from '@guardian/libs';
+import React, { useState } from 'react';
 import { consentStateCanTarget } from './fixtures/consentStateCanTarget';
+import { YoutubeAtom } from './YoutubeAtom';
 
 export default {
     title: 'YoutubeAtomWithImaAd',

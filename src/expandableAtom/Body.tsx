@@ -1,10 +1,8 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
-import { neutral, body, textSans } from '@guardian/source-foundations';
-import { SvgInfo } from '@guardian/source-react-components';
-
 import { ArticleTheme } from '@guardian/libs';
+import { body, neutral, textSans } from '@guardian/source-foundations';
+import { SvgInfo } from '@guardian/source-react-components';
+import React from 'react';
 import { pillarPalette } from '../lib/pillarPalette';
 
 const imageStyling = css`

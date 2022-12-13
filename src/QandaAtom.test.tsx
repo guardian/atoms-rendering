@@ -1,9 +1,8 @@
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
-
-import { QandaAtom } from './QandaAtom';
 import { imageStory } from './fixtures/qandaAtom';
+import { QandaAtom } from './QandaAtom';
 
 describe('QandaAtom', () => {
     it('should render & expand works', () => {

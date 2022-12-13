@@ -1,9 +1,7 @@
-import React from 'react';
-
-import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
-
 import { ArticlePillar } from '@guardian/libs';
+import { fireEvent, render } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
 import { ProfileAtom } from './ProfileAtom';
 
 describe('ProfileAtom', () => {
