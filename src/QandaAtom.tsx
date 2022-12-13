@@ -25,7 +25,7 @@ export const QandaAtom = ({
         pillar={pillar}
         expandForStorybook={expandForStorybook}
         expandCallback={
-            expandCallback ||
+            expandCallback ??
             (() =>
                 submitComponentEvent({
                     component: {
@@ -42,7 +42,7 @@ export const QandaAtom = ({
         <Footer
             pillar={pillar}
             dislikeHandler={
-                dislikeHandler ||
+                dislikeHandler ??
                 (() =>
                     submitComponentEvent({
                         component: {
@@ -55,7 +55,7 @@ export const QandaAtom = ({
                     }))
             }
             likeHandler={
-                likeHandler ||
+                likeHandler ??
                 (() =>
                     submitComponentEvent({
                         component: {
