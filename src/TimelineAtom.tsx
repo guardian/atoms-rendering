@@ -1,21 +1,18 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
-import {
-    neutral,
-    brandAlt,
-    space,
-    remSpace,
-    body,
-} from '@guardian/source-foundations';
 import { ArticleTheme } from '@guardian/libs';
-
-import { TimelineEvent, TimelineAtomType } from './types';
-import { submitComponentEvent } from './lib/ophan';
-
+import {
+    body,
+    brandAlt,
+    neutral,
+    remSpace,
+    space,
+} from '@guardian/source-foundations';
+import React from 'react';
+import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
-import { Body } from './expandableAtom/Body';
+import { submitComponentEvent } from './lib/ophan';
+import { TimelineAtomType, TimelineEvent } from './types';
 
 const Snippet = css`
     :not(:last-child) {

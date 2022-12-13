@@ -1,19 +1,17 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
 import { from } from '@guardian/source-foundations';
 import {
     LinkButton,
-    SvgTwitter,
-    SvgFacebook,
     SvgEnvelope,
-    SvgWhatsApp,
-    SvgMessenger,
+    SvgFacebook,
     SvgLinkedIn,
+    SvgMessenger,
     SvgPinterest,
+    SvgTwitter,
+    SvgWhatsApp,
 } from '@guardian/source-react-components';
 import type { IconProps } from '@guardian/source-react-components';
-
+import React from 'react';
 import { SharePlatformType } from './types';
 
 const shareIconList = css`

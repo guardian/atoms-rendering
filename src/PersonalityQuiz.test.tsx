@@ -1,18 +1,16 @@
+import { ArticlePillar } from '@guardian/libs';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
-
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
 } from './fixtures/personalityQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-
 import {
-    PersonalityQuizAtom,
     findMostReferredToBucketId,
+    PersonalityQuizAtom,
 } from './PersonalityQuiz';
-import { ArticlePillar } from '@guardian/libs';
 
 describe('PersonalityQuiz', () => {
     it('should render', () => {

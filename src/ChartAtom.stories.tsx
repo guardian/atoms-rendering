@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-
 import { ChartAtom } from './ChartAtom';
 import { html } from './fixtures/chartAtoms';
-
-import { atomResizer, atomGuScriptSwap } from './lib/platformExampleScripts';
+import { atomGuScriptSwap, atomResizer } from './lib/platformExampleScripts';
 
 export default {
     title: 'ChartAtom',

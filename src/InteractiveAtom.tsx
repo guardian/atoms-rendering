@@ -1,8 +1,7 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
-import { unifyPageContent } from './lib/unifyPageContent';
 import { ArticleDisplay, ArticleFormat } from '@guardian/libs';
+import React from 'react';
+import { unifyPageContent } from './lib/unifyPageContent';
 
 const containerStyles = css`
     margin: 0;

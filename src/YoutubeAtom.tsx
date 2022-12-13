@@ -1,18 +1,18 @@
+import type { Participations } from '@guardian/ab-core';
+import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import type { ArticleTheme } from '@guardian/libs';
 import React, { useCallback, useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
-import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
-import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
-import { YoutubeAtomPlaceholder } from './YoutubeAtomPlaceholder';
-import { YoutubeAtomSticky } from './YoutubeAtomSticky';
 import type {
     AdTargeting,
     ImageSource,
     RoleType,
     VideoEventKey,
 } from './types';
-import type { ArticleTheme } from '@guardian/libs';
-import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
-import type { Participations } from '@guardian/ab-core';
+import { YoutubeAtomOverlay } from './YoutubeAtomOverlay';
+import { YoutubeAtomPlaceholder } from './YoutubeAtomPlaceholder';
+import { YoutubeAtomPlayer } from './YoutubeAtomPlayer';
+import { YoutubeAtomSticky } from './YoutubeAtomSticky';
 
 type Props = {
     elementId: string;

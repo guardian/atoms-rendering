@@ -1,15 +1,13 @@
+import { ArticlePillar } from '@guardian/libs';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
-
 import {
     exampleKnowledgeQuestions,
     resultGroups,
 } from './fixtures/knowledgeQuizAtom';
 import { sharingUrls } from './fixtures/sharingUrls';
-
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
-import { ArticlePillar } from '@guardian/libs';
 
 const questions = [exampleKnowledgeQuestions[0]];
 

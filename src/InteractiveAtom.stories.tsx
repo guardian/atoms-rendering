@@ -1,12 +1,11 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
+import { ArticleDesign, ArticleDisplay, ArticlePillar } from '@guardian/libs';
+import React from 'react';
 import {
     BlockElement,
     MainMedia,
 } from './fixtures/InteractiveAtomBlockElement';
 import { InteractiveAtom } from './InteractiveAtom';
-import { ArticleDesign, ArticleDisplay, ArticlePillar } from '@guardian/libs';
 
 export default {
     title: 'InteractiveAtom',

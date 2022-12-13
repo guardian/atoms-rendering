@@ -1,11 +1,11 @@
+import { ArticlePillar, ArticleSpecial, ArticleTheme } from '@guardian/libs';
 import {
+    culture,
+    lifestyle,
     news,
     opinion,
     sport,
-    culture,
-    lifestyle,
 } from '@guardian/source-foundations';
-import { ArticlePillar, ArticleTheme, ArticleSpecial } from '@guardian/libs';
 
 type Colour = string;
 

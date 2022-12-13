@@ -1,12 +1,11 @@
 import React from 'react';
-
-import { TimelineAtom } from './TimelineAtom';
 import {
-    noTimelineEventsStoryExpanded,
-    newsTimelineStoryNoDescriptionExpanded,
-    sportTimelineStoryWithDescriptionAndEventsExpanded,
     newsStoryWithDatesToExpanded,
+    newsTimelineStoryNoDescriptionExpanded,
+    noTimelineEventsStoryExpanded,
+    sportTimelineStoryWithDescriptionAndEventsExpanded,
 } from './fixtures/timelineAtom';
+import { TimelineAtom } from './TimelineAtom';
 
 export default {
     title: 'TimelineAtom',

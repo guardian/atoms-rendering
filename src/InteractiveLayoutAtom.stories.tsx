@@ -1,6 +1,5 @@
-import React from 'react';
 import { css } from '@emotion/react';
-
+import React from 'react';
 import { interactiveLayoutAtom } from './fixtures/InteractiveLayoutAtom';
 import { InteractiveLayoutAtom } from './InteractiveLayoutAtom';
 

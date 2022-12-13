@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef, MouseEvent } from 'react';
 import { css } from '@emotion/react';
-
+import { ArticleTheme } from '@guardian/libs';
 import {
-    textSans,
+    focusHalo,
     headline,
     neutral,
-    focusHalo,
+    textSans,
 } from '@guardian/source-foundations';
-import { ArticleTheme } from '@guardian/libs';
-
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { pillarPalette } from './lib/pillarPalette';
 import { AudioAtomType } from './types';
 

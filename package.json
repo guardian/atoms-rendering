@@ -63,9 +63,7 @@
                     ]
                 }
             ],
-            "import/order": "off",
             "import/no-default-export": "off",
-            "sort-imports": "off",
             "@typescript-eslint/consistent-type-imports": "off",
             "@typescript-eslint/no-unsafe-argument": "off",
             "@typescript-eslint/prefer-optional-chain": "off",

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { ArticlePillar } from '@guardian/libs';
+import React from 'react';
 import { ProfileAtom } from './ProfileAtom';
 
 export default {

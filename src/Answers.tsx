@@ -1,16 +1,15 @@
-import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-
-import { SvgCheckmark, SvgCross } from '@guardian/source-react-components';
+import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
 import {
+    body,
     neutral,
     news,
-    success,
-    body,
-    textSans,
     space,
+    success,
+    textSans,
 } from '@guardian/source-foundations';
-import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
+import { SvgCheckmark, SvgCross } from '@guardian/source-react-components';
+import React from 'react';
 
 // We export Radio wrapper styles to override Source Radio buttons to align
 // with our custom answers for the quiz
