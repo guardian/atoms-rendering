@@ -1,6 +1,7 @@
-import { Participations } from '@guardian/ab-core';
+import type { Participations } from '@guardian/ab-core';
+import type {
+    AdsConfig} from '@guardian/commercial-core';
 import {
-    AdsConfig,
     buildAdsConfigWithConsent,
     buildImaAdTagUrl,
     disabledAds,
@@ -14,9 +15,10 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { google } from './ima';
+import type { google } from './ima';
 import type { AdTargeting, VideoEventKey } from './types';
-import { PlayerListenerName, YouTubePlayer } from './YouTubePlayer';
+import type { PlayerListenerName} from './YouTubePlayer';
+import { YouTubePlayer } from './YouTubePlayer';
 
 
 declare class ImaManager {
@@ -55,7 +57,7 @@ type Props = {
     width: number;
     title?: string;
     origin?: string;
-    eventEmitters: ((event: VideoEventKey) => void)[];
+    eventEmitters: Array<(event: VideoEventKey) => void>;
     autoPlay: boolean;
     onReady: () => void;
     enableIma: boolean;

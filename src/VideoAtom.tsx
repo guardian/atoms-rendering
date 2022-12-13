@@ -1,6 +1,6 @@
 import React from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
-import { VideoAtomType } from './types';
+import type { VideoAtomType } from './types';
 
 export const VideoAtom = ({
     assets,

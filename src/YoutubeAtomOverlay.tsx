@@ -11,7 +11,7 @@ import React from 'react';
 import { formatTime } from './lib/formatTime';
 import { pillarPalette } from './lib/pillarPalette';
 import { Picture } from './Picture';
-import { ImageSource, RoleType } from './types';
+import type { ImageSource, RoleType } from './types';
 
 type Props = {
     uniqueId: string;

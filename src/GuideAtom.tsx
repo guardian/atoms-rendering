@@ -3,7 +3,7 @@ import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { submitComponentEvent } from './lib/ophan';
-import { GuideAtomType } from './types';
+import type { GuideAtomType } from './types';
 
 export const GuideAtom = ({
     id,

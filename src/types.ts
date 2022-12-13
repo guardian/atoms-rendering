@@ -1,5 +1,5 @@
 import type { CustomParams } from '@guardian/commercial-core';
-import { ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
 
 export type AdTargeting =
     | {

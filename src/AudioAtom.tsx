@@ -1,14 +1,15 @@
 import { css } from '@emotion/react';
-import { ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
 import {
     focusHalo,
     headline,
     neutral,
     textSans,
 } from '@guardian/source-foundations';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import type { MouseEvent} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { pillarPalette } from './lib/pillarPalette';
-import { AudioAtomType } from './types';
+import type { AudioAtomType } from './types';
 
 const wrapperStyles = css`
     width: 100%;

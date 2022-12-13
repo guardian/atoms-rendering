@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
 import {
     body,
     brandAlt,
@@ -12,7 +12,7 @@ import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { submitComponentEvent } from './lib/ophan';
-import { TimelineAtomType, TimelineEvent } from './types';
+import type { TimelineAtomType, TimelineEvent } from './types';
 
 const Snippet = css`
     :not(:last-child) {

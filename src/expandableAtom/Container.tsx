@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
 import { neutral, text } from '@guardian/source-foundations';
 import React from 'react';
 import { Summary } from './Summary';

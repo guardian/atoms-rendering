@@ -110,7 +110,7 @@ const stickyContainerStyles = (isMainMedia?: boolean) => {
 type Props = {
     uniqueId: string;
     videoId: string;
-    eventEmitters: ((event: VideoEventKey) => void)[];
+    eventEmitters: Array<(event: VideoEventKey) => void>;
     shouldStick?: boolean;
     setPauseVideo: () => void;
     isActive: boolean;

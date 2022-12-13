@@ -3,7 +3,7 @@ import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { submitComponentEvent } from './lib/ophan';
-import { QandaAtomType } from './types';
+import type { QandaAtomType } from './types';
 
 export const QandaAtom = ({
     id,
