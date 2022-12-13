@@ -7,14 +7,14 @@ import {
 } from '@guardian/source-foundations';
 import { ArticlePillar, ArticleTheme, ArticleSpecial } from '@guardian/libs';
 
-type colour = string;
+type Colour = string;
 
 interface PillarColours {
-    300: colour;
-    400: colour;
-    500: colour;
-    600: colour;
-    800: colour;
+    300: Colour;
+    400: Colour;
+    500: Colour;
+    600: Colour;
+    800: Colour;
 }
 
 export const pillarPalette: Record<ArticleTheme, PillarColours> = {

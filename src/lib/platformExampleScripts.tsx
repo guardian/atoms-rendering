@@ -2,12 +2,12 @@ export const atomResizer = (): void => {
     const iframes: HTMLIFrameElement[] = [].slice.call(
         document.querySelectorAll('.atom__iframe'),
     );
-    type heightEvent = { source: { name: string } };
+    type HeightEvent = { source: { name: string } };
 
     window.addEventListener('message', (event) => {
         const iframe: HTMLIFrameElement | undefined = iframes.find((i) => {
             try {
-                return i.name === (event as heightEvent).source.name;
+                return i.name === (event as HeightEvent).source.name;
             } catch (e) {
                 return false;
             }
