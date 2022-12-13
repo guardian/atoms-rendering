@@ -62,7 +62,7 @@ const youtubeAPIReady = () => {
 
 const loadYouTubeAPI = (enableIma = false): Promise<typeof YT> => {
     /* If another part of the code has already loaded youtube api, return early. */
-    if (window.YT.Player instanceof Function) {
+    if (window?.YT?.Player instanceof Function) {
         log('dotcom', 'loadYT: returning window.YT');
         return Promise.resolve(window.YT);
     }
