@@ -73,11 +73,9 @@ export const findMostReferredToBucketId = ({
                 (question) => question.id === questionId,
             );
             const answerId = selectedGlobalAnswers[questionId];
-            const selectedAnswer =
-                selectedQuestion &&
-                selectedQuestion.answers.find(
-                    (answer) => answer.id === answerId,
-                );
+            const selectedAnswer = selectedQuestion?.answers.find(
+                (answer) => answer.id === answerId,
+            );
             return selectedAnswer;
         })
         .filter(

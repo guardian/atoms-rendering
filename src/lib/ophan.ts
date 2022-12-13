@@ -33,11 +33,7 @@ declare global {
 type OphanRecordFunction = (event: { [key: string]: any }) => void;
 
 const getOphanRecordFunction = (): OphanRecordFunction => {
-    const record =
-        window &&
-        window.guardian &&
-        window.guardian.ophan &&
-        window.guardian.ophan.record;
+    const record = window?.guardian?.ophan?.record;
 
     if (record) {
         return record;

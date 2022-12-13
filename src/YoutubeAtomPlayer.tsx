@@ -159,8 +159,8 @@ const createOnStateChangeListener =
 
             const checkProgress = async () => {
                 if (!player) return null;
-                const currentTime = player && player.getCurrentTime();
-                const duration = player && player.getDuration();
+                const currentTime = player?.getCurrentTime();
+                const duration = player?.getDuration();
 
                 if (!duration || !currentTime) return;
 
@@ -199,7 +199,7 @@ const createOnStateChangeListener =
                     progressEvents.hasSent75Event = true;
                 }
 
-                const currentPlayerState = player && player.getPlayerState();
+                const currentPlayerState = player?.getPlayerState();
 
                 if (currentPlayerState !== YT.PlayerState.ENDED) {
                     /**
