@@ -17,7 +17,7 @@ const overlayImage = [
 ];
 
 describe('YoutubeAtom', () => {
-    it('Player initialises when no overlay and has consent state', async () => {
+    it('Player initialises when no overlay and has consent state', () => {
         const atom = (
             <YoutubeAtom
                 elementId="xyz"
@@ -39,7 +39,7 @@ describe('YoutubeAtom', () => {
         expect(playerDiv).toBeInTheDocument();
     });
 
-    it('Player initialises when overlay clicked and has consent state', async () => {
+    it('Player initialises when overlay clicked and has consent state', () => {
         const atom = (
             <YoutubeAtom
                 elementId="xyz"
@@ -68,7 +68,7 @@ describe('YoutubeAtom', () => {
         expect(playerDiv).toBeInTheDocument();
     });
 
-    it('player div has correct title', async () => {
+    it('player div has correct title', () => {
         const title = 'My Youtube video!';
 
         const atom = (
@@ -92,7 +92,7 @@ describe('YoutubeAtom', () => {
         expect(playerDiv.title).toBe(title);
     });
 
-    it('overlay has correct aria-label', async () => {
+    it('overlay has correct aria-label', () => {
         const title = 'My Youtube video!';
         const atom = (
             <YoutubeAtom
@@ -118,7 +118,7 @@ describe('YoutubeAtom', () => {
         expect(ariaLabel).toBe(`Play video: ${title}`);
     });
 
-    it('shows a placeholder if overlay is missing', async () => {
+    it('shows a placeholder if overlay is missing', () => {
         const atom = (
             <YoutubeAtom
                 elementId="xyz"
@@ -139,7 +139,7 @@ describe('YoutubeAtom', () => {
         expect(placeholder).toBeInTheDocument();
     });
 
-    it('shows an overlay if present', async () => {
+    it('shows an overlay if present', () => {
         const atom = (
             <YoutubeAtom
                 elementId="xyz"
@@ -161,7 +161,7 @@ describe('YoutubeAtom', () => {
         expect(overlay).toBeInTheDocument();
     });
 
-    it('hides an overlay once it is clicked', async () => {
+    it('hides an overlay once it is clicked', () => {
         const atom = (
             <YoutubeAtom
                 elementId="xyz"
@@ -186,7 +186,7 @@ describe('YoutubeAtom', () => {
         expect(overlay).not.toBeInTheDocument();
     });
 
-    it('when two Atoms - hides the overlay of the correct player if clicked', async () => {
+    it('when two Atoms - hides the overlay of the correct player if clicked', () => {
         const atom = (
             <>
                 <YoutubeAtom

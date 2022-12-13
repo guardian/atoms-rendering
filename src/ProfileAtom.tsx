@@ -27,7 +27,7 @@ export const ProfileAtom = ({
             atomTypeTitle="Profile"
             expandForStorybook={expandForStorybook}
             expandCallback={
-                expandCallback ||
+                expandCallback ??
                 (() =>
                     submitComponentEvent({
                         component: {
@@ -44,7 +44,7 @@ export const ProfileAtom = ({
             <Footer
                 pillar={pillar}
                 dislikeHandler={
-                    dislikeHandler ||
+                    dislikeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {
@@ -57,7 +57,7 @@ export const ProfileAtom = ({
                         }))
                 }
                 likeHandler={
-                    likeHandler ||
+                    likeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {

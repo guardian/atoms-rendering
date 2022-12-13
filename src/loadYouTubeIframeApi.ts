@@ -6,7 +6,7 @@ declare global {
     }
 }
 
-let _scriptsPromise: Promise<(Event | undefined)[]>;
+let _scriptsPromise: Promise<Array<Event | undefined>>;
 let _youtubeAPIReadyPromise: Promise<typeof YT>;
 
 const loadScripts = (enableIma = false) => {
