@@ -223,21 +223,19 @@ export const AudioAtom = ({
 
     useEffect(() => {
         const updateCurrentTimeAndPosition = () => {
-            const currentTime: number | null =
-                audioEl.current && audioEl.current.currentTime;
-            const duration: number | null =
-                audioEl.current && audioEl.current.duration;
+            const currentTime: number | undefined =
+                audioEl.current?.currentTime;
+            const duration: number | undefined = audioEl.current?.duration;
             setPercentPlayed(
                 currentTime && duration ? (currentTime / duration) * 100 : 0,
             );
             setCurrentTime(currentTime || 0);
         };
 
-        audioEl.current &&
-            audioEl.current.addEventListener(
-                'timeupdate',
-                updateCurrentTimeAndPosition,
-            );
+        audioEl.current?.addEventListener(
+            'timeupdate',
+            updateCurrentTimeAndPosition,
+        );
 
         return () =>
             audioEl.current
@@ -256,15 +254,12 @@ export const AudioAtom = ({
                 audioEl.current ? audioEl.current.duration : duration,
             );
 
-        audioEl.current &&
-            audioEl.current.addEventListener('loadeddata', updateDurationTime);
+        audioEl.current?.addEventListener('loadeddata', updateDurationTime);
         return () =>
-            audioEl.current
-                ? audioEl.current.removeEventListener(
-                      'loadeddata',
-                      updateDurationTime,
-                  )
-                : undefined;
+            audioEl.current?.removeEventListener(
+                'loadeddata',
+                updateDurationTime,
+            );
     }, [audioEl, setDurationTime]);
 
     const updateAudioCurrentTime = (e: MouseEvent<HTMLInputElement>) => {
@@ -311,12 +306,12 @@ export const AudioAtom = ({
 
     const playAudio = () => {
         setIsPlaying(true);
-        audioEl.current && audioEl.current.play();
+        audioEl.current?.play();
     };
 
     const pauseAudio = () => {
         setIsPlaying(false);
-        audioEl.current && audioEl.current.pause();
+        audioEl.current?.pause();
     };
 
     return (

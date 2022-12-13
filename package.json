@@ -70,7 +70,6 @@
             "eslint/prefer-optional-chain": "off",
             "@typescript-eslint/naming-convention": "off",
             "@typescript-eslint/no-unsafe-argument": "off",
-            "@typescript-eslint/prefer-optional-chain": "off",
             "@typescript-eslint/no-unnecessary-condition": "off",
             "eslint-comments/require-description": "off",
             "@typescript-eslint/prefer-nullish-coalescing": "off",
