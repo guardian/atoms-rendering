@@ -3,7 +3,7 @@ import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';
 import { submitComponentEvent } from './lib/ophan';
-import { ProfileAtomType } from './types';
+import type { ProfileAtomType } from './types';
 
 export const ProfileAtom = ({
     id,

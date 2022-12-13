@@ -1,4 +1,4 @@
-import { ConsentState } from '@guardian/consent-management-platform/dist/types';
+import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 
 export const consentStateCanTarget: ConsentState = {
     tcfv2: {

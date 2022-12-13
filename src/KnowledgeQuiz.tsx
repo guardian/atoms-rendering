@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
+import { ArticleSpecial } from '@guardian/libs';
 import {
     body,
     brand,
@@ -17,7 +18,7 @@ import {
     UnselectedAnswer,
 } from './Answers';
 import { SharingIcons } from './SharingIcons';
-import { SharingUrlsType } from './types';
+import type { SharingUrlsType } from './types';
 
 type AnswerType = {
     id: string;

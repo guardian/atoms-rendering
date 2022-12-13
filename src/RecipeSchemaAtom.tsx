@@ -1,5 +1,5 @@
 import React from 'react';
-import { RecipeSchemaAtomType } from './types';
+import type { RecipeSchemaAtomType } from './types';
 
 export const RecipeSchemaAtom = ({
     id,

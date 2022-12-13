@@ -1,5 +1,7 @@
-import { css, SerializedStyles } from '@emotion/react';
-import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
+import type { SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
+import type { ArticleTheme } from '@guardian/libs';
+import { ArticleSpecial } from '@guardian/libs';
 import {
     body,
     neutral,

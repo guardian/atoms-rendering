@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import { ArticleSpecial, ArticleTheme } from '@guardian/libs';
+import type { ArticleTheme } from '@guardian/libs';
+import { ArticleSpecial } from '@guardian/libs';
 import {
     body,
     neutral,
@@ -8,16 +9,17 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
-import React, {
+import type {
     KeyboardEvent,
+    MouseEvent} from 'react';
+import React, {
     memo,
-    MouseEvent,
     useEffect,
     useState,
 } from 'react';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
-import { SharingUrlsType } from './types';
+import type { SharingUrlsType } from './types';
 
 type ResultsBucket = {
     id: string;

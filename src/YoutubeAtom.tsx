@@ -28,7 +28,7 @@ type Props = {
     role: RoleType;
     duration?: number; // in seconds
     origin?: string;
-    eventEmitters: ((event: VideoEventKey) => void)[];
+    eventEmitters: Array<(event: VideoEventKey) => void>;
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
