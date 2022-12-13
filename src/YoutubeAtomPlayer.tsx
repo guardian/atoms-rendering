@@ -55,7 +55,7 @@ type Props = {
     width: number;
     title?: string;
     origin?: string;
-    eventEmitters: Array<(event: VideoEventKey) => void>;
+    eventEmitters: ((event: VideoEventKey) => void)[];
     autoPlay: boolean;
     onReady: () => void;
     enableIma: boolean;
@@ -157,12 +157,12 @@ const createOnStateChangeListener =
                 eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
             }
 
-            const checkProgress = () => {
+            const checkProgress = async () => {
                 if (!player) return null;
                 const currentTime = player && player.getCurrentTime();
                 const duration = player && player.getDuration();
 
-                if (!duration ?? !currentTime) return;
+                if (!duration || !currentTime) return;
 
                 const percentPlayed = (currentTime / duration) * 100;
 
@@ -413,7 +413,7 @@ export const YoutubeAtomPlayer = ({
                 });
 
                 const adsConfig: AdsConfig =
-                    !adTargeting || adTargeting?.disableAds || enableIma
+                    !adTargeting || adTargeting.disableAds || enableIma
                         ? disabledAds
                         : buildAdsConfigWithConsent({
                               adUnit: adTargeting.adUnit,

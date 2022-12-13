@@ -178,7 +178,7 @@ export const Question = ({
                             width: 100%;
                         `}
                         src={imageUrl}
-                        alt={imageAlt ?? ''}
+                        alt={imageAlt || ''}
                     />
                 )}
                 <Answers
@@ -211,7 +211,7 @@ export const Question = ({
                             const spaceKey = 32;
                             const enterKey = 13;
                             if (
-                                e.keyCode === spaceKey ??
+                                e.keyCode === spaceKey ||
                                 e.keyCode === enterKey
                             ) {
                                 setHasSubmitted(true);
@@ -254,7 +254,7 @@ const Answers = ({
                                     key={answer.id}
                                     id={answer.id}
                                     answerText={answer.text}
-                                    explainerText={answer.revealText ?? ''}
+                                    explainerText={answer.revealText || ''}
                                     theme={theme}
                                 />
                             );
@@ -278,7 +278,7 @@ const Answers = ({
                                 key={answer.id}
                                 id={answer.id}
                                 answerText={answer.text}
-                                explainerText={answer.revealText ?? ''}
+                                explainerText={answer.revealText || ''}
                                 theme={theme}
                             />
                         );

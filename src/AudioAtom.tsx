@@ -230,7 +230,7 @@ export const AudioAtom = ({
             setPercentPlayed(
                 currentTime && duration ? (currentTime / duration) * 100 : 0,
             );
-            setCurrentTime(currentTime ?? 0);
+            setCurrentTime(currentTime || 0);
         };
 
         audioEl.current &&
@@ -337,7 +337,7 @@ export const AudioAtom = ({
                     preload="none"
                     data-component="inarticle audio"
                     data-duration={durationTime}
-                    data-media-id={id ?? '_no_ids'}
+                    data-media-id={id || '_no_ids'}
                     data-title={titleStyle}
                 >
                     <p>

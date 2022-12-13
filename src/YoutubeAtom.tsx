@@ -28,7 +28,7 @@ type Props = {
     role: RoleType;
     duration?: number; // in seconds
     origin?: string;
-    eventEmitters: Array<(event: VideoEventKey) => void>;
+    eventEmitters: ((event: VideoEventKey) => void)[];
     pillar: ArticleTheme;
     shouldStick?: boolean;
     isMainMedia?: boolean;
@@ -96,7 +96,7 @@ export const YoutubeAtom = ({
      */
     const compositeEventEmitters = [playerState, ...eventEmitters];
 
-    const hasOverlay = !!(overrideImage ?? posterImage);
+    const hasOverlay = !!(overrideImage || posterImage);
 
     /**
      * Show an overlay if:
@@ -118,7 +118,7 @@ export const YoutubeAtom = ({
      *
      * - The player is not ready
      */
-    const showPlaceholder = (!hasOverlay ?? overlayClicked) && !playerReady;
+    const showPlaceholder = (!hasOverlay || overlayClicked) && !playerReady;
 
     let loadPlayer;
     if (!hasOverlay) {
