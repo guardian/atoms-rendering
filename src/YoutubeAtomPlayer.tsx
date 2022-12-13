@@ -157,7 +157,7 @@ const createOnStateChangeListener =
                 eventEmitters.forEach((eventEmitter) => eventEmitter('resume'));
             }
 
-            const checkProgress = async () => {
+            const checkProgress = () => {
                 if (!player) return null;
                 const currentTime = player?.getCurrentTime();
                 const duration = player?.getDuration();
