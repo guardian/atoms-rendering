@@ -30,7 +30,7 @@ declare global {
     }
 }
 
-type OphanRecordFunction = (event: { [key: string]: any }) => void;
+type OphanRecordFunction = (event: Record<string, any>) => void;
 
 const getOphanRecordFunction = (): OphanRecordFunction => {
     const record = window?.guardian?.ophan?.record;

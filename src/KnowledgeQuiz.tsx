@@ -51,9 +51,7 @@ type ResultGroupsType = {
     id: string;
 };
 
-type QuizSelectionType = {
-    [questionId: string]: AnswerType;
-};
+type QuizSelectionType = Record<string, AnswerType>;
 
 const fieldsetStyle = css`
     margin-bottom: 12px;
@@ -348,9 +346,7 @@ export const Result = ({
     resultGroups,
     sharingUrls,
 }: {
-    quizSelection: {
-        [questionId: string]: AnswerType;
-    };
+    quizSelection: Record<string, AnswerType>;
     resultGroups: ResultGroupsType[];
     sharingUrls: SharingUrlsType;
 }): JSX.Element => {
