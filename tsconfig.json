@@ -13,6 +13,5 @@
         "jsxImportSource": "@emotion/react",
         "outDir": "dist/esm"
     },
-    "include": ["src", ".storybook"],
-    "exclude": ["src/**/*.stories.tsx", "src/**/*.test.tsx"]
+    "include": ["src", ".storybook"]
 }
