@@ -67,7 +67,6 @@
             "@typescript-eslint/no-unsafe-argument": "off",
             "@typescript-eslint/no-unnecessary-condition": "off",
             "eslint-comments/require-description": "off",
-            "@typescript-eslint/prefer-nullish-coalescing": "off",
             "@typescript-eslint/no-unsafe-assignment": "off",
             "@typescript-eslint/no-unsafe-member-access": "off",
             "@typescript-eslint/no-floating-promises": "off",

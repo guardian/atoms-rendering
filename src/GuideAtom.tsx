@@ -26,7 +26,7 @@ export const GuideAtom = ({
             atomTypeTitle="Quick Guide"
             expandForStorybook={expandForStorybook}
             expandCallback={
-                expandCallback ||
+                expandCallback ??
                 (() =>
                     submitComponentEvent({
                         component: {
@@ -43,7 +43,7 @@ export const GuideAtom = ({
             <Footer
                 pillar={pillar}
                 dislikeHandler={
-                    dislikeHandler ||
+                    dislikeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {
@@ -56,7 +56,7 @@ export const GuideAtom = ({
                         }))
                 }
                 likeHandler={
-                    likeHandler ||
+                    likeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {

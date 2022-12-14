@@ -1,6 +1,5 @@
 import type { Participations } from '@guardian/ab-core';
-import type {
-    AdsConfig} from '@guardian/commercial-core';
+import type { AdsConfig } from '@guardian/commercial-core';
 import {
     buildAdsConfigWithConsent,
     buildImaAdTagUrl,
@@ -17,9 +16,8 @@ import React, {
 } from 'react';
 import type { google } from './ima';
 import type { AdTargeting, VideoEventKey } from './types';
-import type { PlayerListenerName} from './YouTubePlayer';
+import type { PlayerListenerName } from './YouTubePlayer';
 import { YouTubePlayer } from './YouTubePlayer';
-
 
 declare class ImaManager {
     constructor(
@@ -164,7 +162,7 @@ const createOnStateChangeListener =
                 const currentTime = player?.getCurrentTime();
                 const duration = player?.getDuration();
 
-                if (!duration || !currentTime) return;
+                if (!duration ?? !currentTime) return;
 
                 const percentPlayed = (currentTime / duration) * 100;
 

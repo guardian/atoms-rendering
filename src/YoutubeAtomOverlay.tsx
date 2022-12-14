@@ -118,7 +118,7 @@ export const YoutubeAtomOverlay = ({
             aria-label={`Play video: ${title}`}
         >
             <Picture
-                imageSources={overrideImage || posterImage || []}
+                imageSources={overrideImage ?? posterImage ?? []}
                 role={role}
                 alt={alt}
                 height={height}

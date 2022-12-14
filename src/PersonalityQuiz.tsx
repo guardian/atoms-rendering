@@ -9,14 +9,8 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
-import type {
-    KeyboardEvent,
-    MouseEvent} from 'react';
-import React, {
-    memo,
-    useEffect,
-    useState,
-} from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
 import type { SharingUrlsType } from './types';
@@ -225,7 +219,7 @@ export const PersonalityQuizAtom = ({
                     onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => {
                         const spaceKey = 32;
                         const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                        if (e.keyCode === spaceKey ?? e.keyCode === enterKey) {
                             onSubmit(e);
                         }
                     }}
@@ -243,7 +237,7 @@ export const PersonalityQuizAtom = ({
                     onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => {
                         const spaceKey = 32;
                         const enterKey = 13;
-                        if (e.keyCode === spaceKey || e.keyCode === enterKey) {
+                        if (e.keyCode === spaceKey ?? e.keyCode === enterKey) {
                             setSelectedGlobalAnswers({});
                             setHasSubmittedAnswers(false);
                             setTopSelectedResult(null);
@@ -320,7 +314,7 @@ const PersonalityQuizAnswers = ({
                             width: 100%;
                         `}
                         src={imageUrl}
-                        alt={imageAlt || ''}
+                        alt={imageAlt ?? ''}
                     />
                 )}
                 <AnswersGroup

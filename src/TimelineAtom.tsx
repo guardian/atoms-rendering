@@ -124,7 +124,7 @@ export const TimelineAtom = ({
             expandForStorybook={expandForStorybook}
             title={title}
             expandCallback={
-                expandCallback ||
+                expandCallback ??
                 (() =>
                     submitComponentEvent({
                         component: {
@@ -142,7 +142,7 @@ export const TimelineAtom = ({
             <Footer
                 pillar={pillar}
                 dislikeHandler={
-                    dislikeHandler ||
+                    dislikeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {
@@ -155,7 +155,7 @@ export const TimelineAtom = ({
                         }))
                 }
                 likeHandler={
-                    likeHandler ||
+                    likeHandler ??
                     (() =>
                         submitComponentEvent({
                             component: {

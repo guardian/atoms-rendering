@@ -6,7 +6,7 @@ import {
     neutral,
     textSans,
 } from '@guardian/source-foundations';
-import type { MouseEvent} from 'react';
+import type { MouseEvent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { pillarPalette } from './lib/pillarPalette';
 import type { AudioAtomType } from './types';
@@ -228,7 +228,7 @@ export const AudioAtom = ({
             setPercentPlayed(
                 currentTime && duration ? (currentTime / duration) * 100 : 0,
             );
-            setCurrentTime(currentTime || 0);
+            setCurrentTime(currentTime ?? 0);
         };
 
         audioEl.current?.addEventListener(
@@ -331,7 +331,7 @@ export const AudioAtom = ({
                     preload="none"
                     data-component="inarticle audio"
                     data-duration={durationTime}
-                    data-media-id={id || '_no_ids'}
+                    data-media-id={id ?? '_no_ids'}
                     data-title={titleStyle}
                 >
                     <p>
