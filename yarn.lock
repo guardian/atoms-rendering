@@ -1613,6 +1613,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/source-react-components/-/source-react-components-9.0.0.tgz#9a91775dd6405d9461f7d18b836d8df688143204"
   integrity sha512-A0d0QrqJ+LN+zb8vBLtHqB+aT9gk056tsi2S5oOc0v+pLifZ/y0tOK1htX5EKtjdIjlbsXj0UZc3s+bZtmkHzg==
 
+"@guardian/tsconfig@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@guardian/tsconfig/-/tsconfig-0.2.0.tgz#b1dac8831d2ff7ac557229f350d4b2f8c9fc60b5"
+  integrity sha512-RauppalK+cQZDRK6IssVmDSnU/VyqMNuVOxPxhmI03kVRxEdwcmBuRqexHwDbnClVUxW/N9hYLbFNuAb9V/p+A==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.9.2.tgz#68be55c737023009dfc5fe245d51181bb6476914"

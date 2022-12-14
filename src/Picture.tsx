@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { breakpoints } from '@guardian/source-foundations';
-import React from 'react';
 import type { ImageSource, RoleType, SrcSetItem } from './types';
 
 type Props = {

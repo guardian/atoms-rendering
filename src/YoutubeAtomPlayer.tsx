@@ -7,7 +7,7 @@ import {
 } from '@guardian/commercial-core';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import { log } from '@guardian/libs';
-import React, {
+import {
     useCallback,
     useEffect,
     useLayoutEffect,
@@ -207,6 +207,8 @@ const createOnStateChangeListener =
                      */
                     setTimeout(() => checkProgress(), 3000);
                 }
+
+                return null;
             };
         }
 

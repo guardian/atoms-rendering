@@ -1,5 +1,5 @@
 import { ArticlePillar } from '@guardian/libs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { consentStateCanTarget } from './fixtures/consentStateCanTarget';
 import { YoutubeAtom } from './YoutubeAtom';
 

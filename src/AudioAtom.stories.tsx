@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { ArticlePillar } from '@guardian/libs';
-import React from 'react';
 import { AudioAtom } from './AudioAtom';
 
 export default {

@@ -10,7 +10,7 @@ import {
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
 import type { KeyboardEvent, MouseEvent } from 'react';
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
 import type { SharingUrlsType } from './types';

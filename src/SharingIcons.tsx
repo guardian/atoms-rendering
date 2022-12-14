@@ -11,7 +11,6 @@ import {
     SvgWhatsApp,
 } from '@guardian/source-react-components';
 import type { IconProps } from '@guardian/source-react-components';
-import React from 'react';
 import type { SharePlatformType } from './types';
 
 const shareIconList = css`

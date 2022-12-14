@@ -7,7 +7,6 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { SvgPlay } from '@guardian/source-react-components';
-import React from 'react';
 import { formatTime } from './lib/formatTime';
 import { pillarPalette } from './lib/pillarPalette';
 import { Picture } from './Picture';

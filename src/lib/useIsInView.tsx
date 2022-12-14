@@ -23,7 +23,7 @@ const useIsInView = (
     // Enabling debouncing ensures the target element intersects for at least
     // 200ms before the callback is executed
     const intersectionFn: IntersectionObserverCallback = ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
             setIsInView(true);
         } else if (options.repeat) {
             setIsInView(false);

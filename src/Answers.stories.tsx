@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { ArticlePillar } from '@guardian/libs';
 import { Radio } from '@guardian/source-react-components';
-import React from 'react';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,

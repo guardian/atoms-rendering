@@ -9,7 +9,7 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
@@ -352,7 +352,7 @@ export const Result = ({
 }): JSX.Element => {
     const totalNumberOfQuestions = Object.keys(quizSelection).length;
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
-        (questionId) => quizSelection[questionId].isCorrect,
+        (questionId) => quizSelection[questionId]?.isCorrect,
     ).length;
     const totalResultGroups = resultGroups.length;
     let bestResultGroup: ResultGroupsType | undefined;

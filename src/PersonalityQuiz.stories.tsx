@@ -1,5 +1,4 @@
 import { ArticlePillar, ArticleSpecial } from '@guardian/libs';
-import React from 'react';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,

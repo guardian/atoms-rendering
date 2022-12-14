@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import type { ArticleFormat } from '@guardian/libs';
 import { ArticleDisplay } from '@guardian/libs';
-import React from 'react';
 import { unifyPageContent } from './lib/unifyPageContent';
 
 const containerStyles = css`
