@@ -115,7 +115,7 @@ export const YoutubeAtomOverlay = ({
             data-testid={id}
             onClick={onClick}
             css={overlayStyles}
-            aria-label={`Play video: ${title}`}
+            aria-label={title ? `Play video: ${title}` : `Play video`}
         >
             <Picture
                 imageSources={overrideImage ?? posterImage ?? []}

@@ -56,12 +56,10 @@ export const findMostReferredToBucketId = ({
     selectedGlobalAnswers,
     questions,
 }: {
-    selectedGlobalAnswers: {
-        [key: string]: string;
-    };
+    selectedGlobalAnswers: Record<string, string>;
     questions: QuestionType[];
 }): string => {
-    const bucketCounter: { [key: string]: number } = {};
+    const bucketCounter: Record<string, number> = {};
 
     const answersFromQuestion: AnswerType[] = Object.keys(selectedGlobalAnswers)
         .map((questionId: string): AnswerType | undefined => {
@@ -111,9 +109,9 @@ export const PersonalityQuizAtom = ({
     sharingUrls,
     theme,
 }: QuizAtomType): JSX.Element => {
-    const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<{
-        [key: string]: string;
-    }>({});
+    const [selectedGlobalAnswers, setSelectedGlobalAnswers] = useState<
+        Record<string, string>
+    >({});
 
     const [hasSubmittedAnswers, setHasSubmittedAnswers] =
         useState<boolean>(false);
@@ -304,7 +302,7 @@ const PersonalityQuizAnswers = ({
                             padding-right: 12px;
                         `}
                     >
-                        {questionNumber + '.'}
+                        {`${questionNumber}.`}
                     </span>
                     {text}
                 </legend>

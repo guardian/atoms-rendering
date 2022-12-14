@@ -38,7 +38,7 @@ class YouTubePlayer {
     }
 
     private logError(e: Error) {
-        log('dotcom', `YouTubePlayer failed to load: ${e}`);
+        log('dotcom', `YouTubePlayer failed to load: ${e.message}`);
     }
 
     getPlayerState(): Promise<YT.PlayerState | void> {
