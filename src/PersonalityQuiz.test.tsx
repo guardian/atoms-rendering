@@ -1,6 +1,7 @@
 import { ArticlePillar } from '@guardian/libs';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { ensure } from './fixtures/ensure';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
@@ -10,6 +11,9 @@ import {
     findMostReferredToBucketId,
     PersonalityQuizAtom,
 } from './PersonalityQuiz';
+
+const questionOne = ensure(examplePersonalityQuestions.find((x) => x));
+const selectedAnswer = ensure(questionOne.answers.find((x) => x));
 
 describe('PersonalityQuiz', () => {
     it('should render', () => {
@@ -22,14 +26,11 @@ describe('PersonalityQuiz', () => {
                 theme={ArticlePillar.News}
             />,
         );
-        expect(
-            getByText(examplePersonalityQuestions[0].text),
-        ).toBeInTheDocument();
+        expect(getByText(questionOne.text)).toBeInTheDocument();
     });
 
     describe('on answer click', () => {
         it('should change answer component when chosen', () => {
-            const selectedAnswer = examplePersonalityQuestions[0].answers[0];
             const { getByTestId, rerender } = render(
                 <PersonalityQuizAtom
                     id="123abc"
@@ -94,8 +95,8 @@ describe('PersonalityQuiz', () => {
                 />,
             );
 
-            examplePersonalityQuestions.forEach((question) =>
-                fireEvent.click(getByTestId(question.answers[0].id)),
+            examplePersonalityQuestions.forEach(() =>
+                fireEvent.click(getByTestId(selectedAnswer.id)),
             );
 
             fireEvent.click(getByTestId('submit-quiz'));

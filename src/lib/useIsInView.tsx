@@ -52,6 +52,8 @@ const useIsInView = (
 
             return () => currentObserver.disconnect();
         }
+
+        return;
     }, [node, options, intersectionCallback]);
 
     return [isInView, setNode];
