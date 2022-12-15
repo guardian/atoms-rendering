@@ -12,9 +12,6 @@ import {
     PersonalityQuizAtom,
 } from './PersonalityQuiz';
 
-const questionOne = ensure(examplePersonalityQuestions.find((x) => x));
-const selectedAnswer = ensure(questionOne.answers.find((x) => x));
-
 describe('PersonalityQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
@@ -26,11 +23,15 @@ describe('PersonalityQuiz', () => {
                 theme={ArticlePillar.News}
             />,
         );
-        expect(getByText(questionOne.text)).toBeInTheDocument();
+
+        const question = ensure(examplePersonalityQuestions[0]);
+        expect(getByText(question.text)).toBeInTheDocument();
     });
 
     describe('on answer click', () => {
         it('should change answer component when chosen', () => {
+            const question = ensure(examplePersonalityQuestions[0]);
+            const selectedAnswer = ensure(question.answers[0]);
             const { getByTestId, rerender } = render(
                 <PersonalityQuizAtom
                     id="123abc"
@@ -95,9 +96,10 @@ describe('PersonalityQuiz', () => {
                 />,
             );
 
-            examplePersonalityQuestions.forEach(() =>
-                fireEvent.click(getByTestId(selectedAnswer.id)),
-            );
+            examplePersonalityQuestions.forEach((question) => {
+                const answer = ensure(question.answers[0]);
+                fireEvent.click(getByTestId(answer.id));
+            });
 
             fireEvent.click(getByTestId('submit-quiz'));
             rerender(

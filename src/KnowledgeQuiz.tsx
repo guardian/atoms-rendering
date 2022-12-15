@@ -376,7 +376,11 @@ export const Result = ({
         // Find the score ranges
         // Decide which bracket the score is in
         for (let i = 0; i < resultGroups.length; i++) {
-            resultBrackets[i] = resultGroups[i].minScore;
+            const resultGroup = resultGroups[i];
+
+            if (resultGroup) {
+                resultBrackets[i] = resultGroup.minScore;
+            }
         }
 
         // The regular sort function doesn't sort numbers, it works alphabetically
@@ -385,7 +389,9 @@ export const Result = ({
         });
 
         for (let i = 0; i < resultBrackets.length; i++) {
-            if (numberOfCorrectAnswers >= resultBrackets[i]) {
+            const resultBracket = resultBrackets[i];
+
+            if (resultBracket && numberOfCorrectAnswers >= resultBracket) {
                 bracketIndex = i;
             }
         }
