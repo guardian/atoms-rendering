@@ -1,6 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
-    "version": "25.0.2",
+    "version": "25.0.3",
     "repository": {
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
