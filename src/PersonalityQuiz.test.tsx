@@ -1,7 +1,7 @@
 import { ArticlePillar } from '@guardian/libs';
 import { fireEvent, render } from '@testing-library/react';
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+import { ensure } from './fixtures/ensure';
 import {
     examplePersonalityQuestions,
     exampleResultBuckets,
@@ -23,14 +23,15 @@ describe('PersonalityQuiz', () => {
                 theme={ArticlePillar.News}
             />,
         );
-        expect(
-            getByText(examplePersonalityQuestions[0].text),
-        ).toBeInTheDocument();
+
+        const question = ensure(examplePersonalityQuestions[0]);
+        expect(getByText(question.text)).toBeInTheDocument();
     });
 
     describe('on answer click', () => {
         it('should change answer component when chosen', () => {
-            const selectedAnswer = examplePersonalityQuestions[0].answers[0];
+            const question = ensure(examplePersonalityQuestions[0]);
+            const selectedAnswer = ensure(question.answers[0]);
             const { getByTestId, rerender } = render(
                 <PersonalityQuizAtom
                     id="123abc"
@@ -95,9 +96,10 @@ describe('PersonalityQuiz', () => {
                 />,
             );
 
-            examplePersonalityQuestions.forEach((question) =>
-                fireEvent.click(getByTestId(question.answers[0].id)),
-            );
+            examplePersonalityQuestions.forEach((question) => {
+                const answer = ensure(question.answers[0]);
+                fireEvent.click(getByTestId(answer.id));
+            });
 
             fireEvent.click(getByTestId('submit-quiz'));
             rerender(

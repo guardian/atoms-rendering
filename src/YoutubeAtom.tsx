@@ -1,7 +1,7 @@
 import type { Participations } from '@guardian/ab-core';
 import type { ConsentState } from '@guardian/consent-management-platform/dist/types';
 import type { ArticleTheme } from '@guardian/libs';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MaintainAspectRatio } from './common/MaintainAspectRatio';
 import type {
     AdTargeting,

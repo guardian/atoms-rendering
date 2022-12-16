@@ -1,4 +1,3 @@
-import React from 'react';
 import { Body } from './expandableAtom/Body';
 import { Container } from './expandableAtom/Container';
 import { Footer } from './expandableAtom/Footer';

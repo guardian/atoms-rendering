@@ -9,7 +9,7 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
     CorrectSelectedAnswer,
     IncorrectAnswer,
@@ -352,7 +352,7 @@ export const Result = ({
 }): JSX.Element => {
     const totalNumberOfQuestions = Object.keys(quizSelection).length;
     const numberOfCorrectAnswers = Object.keys(quizSelection).filter(
-        (questionId) => quizSelection[questionId].isCorrect,
+        (questionId) => quizSelection[questionId]?.isCorrect,
     ).length;
     const totalResultGroups = resultGroups.length;
     let bestResultGroup: ResultGroupsType | undefined;
@@ -376,7 +376,11 @@ export const Result = ({
         // Find the score ranges
         // Decide which bracket the score is in
         for (let i = 0; i < resultGroups.length; i++) {
-            resultBrackets[i] = resultGroups[i].minScore;
+            const resultGroup = resultGroups[i];
+
+            if (resultGroup) {
+                resultBrackets[i] = resultGroup.minScore;
+            }
         }
 
         // The regular sort function doesn't sort numbers, it works alphabetically
@@ -385,7 +389,9 @@ export const Result = ({
         });
 
         for (let i = 0; i < resultBrackets.length; i++) {
-            if (numberOfCorrectAnswers >= resultBrackets[i]) {
+            const resultBracket = resultBrackets[i];
+
+            if (resultBracket && numberOfCorrectAnswers >= resultBracket) {
                 bracketIndex = i;
             }
         }

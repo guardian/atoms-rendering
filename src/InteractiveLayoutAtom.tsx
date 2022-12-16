@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import React from 'react';
 
 const containerStyles = css`
     margin: 0;

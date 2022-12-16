@@ -6,7 +6,6 @@ import {
     text,
     textSans,
 } from '@guardian/source-foundations';
-import React from 'react';
 import type { ExplainerAtomType } from './types';
 
 const Container = ({

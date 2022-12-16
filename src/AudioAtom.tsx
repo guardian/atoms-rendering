@@ -7,7 +7,7 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import type { MouseEvent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { pillarPalette } from './lib/pillarPalette';
 import type { AudioAtomType } from './types';
 

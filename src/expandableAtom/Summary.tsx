@@ -7,7 +7,7 @@ import {
     textSans,
 } from '@guardian/source-foundations';
 import { SvgMinus, SvgPlus } from '@guardian/source-react-components';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { pillarPalette } from '../lib/pillarPalette';
 
 /// SUMMARY ELEMENT

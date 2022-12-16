@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { space } from '@guardian/source-foundations';
-import React from 'react';
 import type { ChartAtomType } from './types';
 
 export const ChartAtom = ({ id, html }: ChartAtomType): JSX.Element => {
