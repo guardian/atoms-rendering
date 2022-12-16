@@ -1,5 +1,11 @@
 # @guardian/atoms-rendering
 
+## 25.0.3
+
+### Patch Changes
+
+-   7eeb826: Updated to use `@guardian/tsconfig` internally.
+
 ## 25.0.2
 
 ### Patch Changes
