@@ -3,7 +3,7 @@ import { log } from '@guardian/libs';
 import { from, neutral, space } from '@guardian/source-foundations';
 import { SvgCross } from '@guardian/source-react-components';
 import detectMobile from 'is-mobile';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { submitComponentEvent } from './lib/ophan';
 import { useIsInView } from './lib/useIsInView';
 import type { VideoEventKey } from './types';

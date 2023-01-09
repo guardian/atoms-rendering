@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { breakpoints } from '@guardian/source-foundations';
-import React from 'react';
 import type { ImageSource, RoleType, SrcSetItem } from './types';
 
 type Props = {
@@ -33,9 +32,11 @@ const getSourcesForRoleAndResolution = (
     imageSources: ImageSource[],
     resolution: ResolutionType,
 ) => {
+    const srcSetItems = imageSources[0]?.srcSet ?? [];
+
     return resolution === 'hdpi'
-        ? imageSources[0].srcSet.filter((set) => set.src.includes('dpr=2'))
-        : imageSources[0].srcSet.filter((set) => !set.src.includes('dpr=2'));
+        ? srcSetItems.filter((set) => set.src.includes('dpr=2'))
+        : srcSetItems.filter((set) => !set.src.includes('dpr=2'));
 };
 
 const getFallback = (

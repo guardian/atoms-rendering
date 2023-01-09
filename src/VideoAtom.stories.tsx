@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import React from 'react';
 import { VideoAtom } from './VideoAtom';
 
 export default {

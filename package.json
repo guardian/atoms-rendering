@@ -1,6 +1,6 @@
 {
     "name": "@guardian/atoms-rendering",
-    "version": "25.0.2",
+    "version": "25.0.3",
     "repository": {
         "type": "ssh",
         "url": "https://github.com/guardian/atoms-rendering"
@@ -13,7 +13,7 @@
         "dist/**/*"
     ],
     "scripts": {
-        "build": "yarn build:esm && yarn build:commonjs",
+        "build": "rm -rf dist/* && yarn build:esm && yarn build:commonjs",
         "build-storybook": "build-storybook",
         "build:commonjs": "tsc --outDir dist/commonjs --module CommonJS --target ES2018",
         "build:esm": "tsc",
@@ -76,6 +76,7 @@
             "@emotion/import-from-emotion": "error",
             "@emotion/no-vanilla": "error",
             "@emotion/styled-import": "error",
+            "react/react-in-jsx-scope": "off",
             "@typescript-eslint/no-unused-vars": "error"
         },
         "ignorePatterns": [
@@ -122,12 +123,13 @@
         "@guardian/ab-core": "^2.0.0",
         "@guardian/commercial-core": "5.0.0",
         "@guardian/consent-management-platform": "11.0.0",
-        "@guardian/eslint-config-typescript": "^2.0.1",
+        "@guardian/eslint-config-typescript": "^3.0.0",
         "@guardian/eslint-plugin-source-foundations": "^8.0.4",
         "@guardian/eslint-plugin-source-react-components": "^10.0.4",
         "@guardian/libs": "10.0.0",
         "@guardian/source-foundations": "7.0.0",
         "@guardian/source-react-components": "9.0.0",
+        "@guardian/tsconfig": "^0.2.0",
         "@storybook/addon-docs": "^6.5.13",
         "@storybook/addon-viewport": "^6.5.13",
         "@storybook/addons": "^6.5.13",

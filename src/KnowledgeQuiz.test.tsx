@@ -1,7 +1,7 @@
 import { ArticlePillar } from '@guardian/libs';
 import { fireEvent, render } from '@testing-library/react';
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
+import { ensure } from './fixtures/ensure';
 import {
     exampleKnowledgeQuestions,
     resultGroups,
@@ -9,20 +9,20 @@ import {
 import { sharingUrls } from './fixtures/sharingUrls';
 import { KnowledgeQuizAtom } from './KnowledgeQuiz';
 
-const questions = [exampleKnowledgeQuestions[0]];
+const questionOne = ensure(exampleKnowledgeQuestions.find((x) => x));
 
 describe('KnowledgeQuiz', () => {
     it('should render', () => {
         const { getByText } = render(
             <KnowledgeQuizAtom
                 id="123abc"
-                questions={questions}
+                questions={[questionOne]}
                 resultGroups={resultGroups}
                 sharingUrls={sharingUrls}
                 theme={ArticlePillar.News}
             />,
         );
-        expect(getByText(questions[0].text)).toBeInTheDocument();
+        expect(getByText(questionOne.text)).toBeInTheDocument();
     });
     describe('on answer click', () => {
         const questionId = 'b0342160-7678-417d-85c6-67a60ec4994b';
@@ -52,7 +52,7 @@ describe('KnowledgeQuiz', () => {
             const { getByTestId, rerender } = render(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -63,7 +63,7 @@ describe('KnowledgeQuiz', () => {
             rerender(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -79,7 +79,7 @@ describe('KnowledgeQuiz', () => {
             const { getByTestId, rerender } = render(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -91,7 +91,7 @@ describe('KnowledgeQuiz', () => {
             rerender(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -107,7 +107,7 @@ describe('KnowledgeQuiz', () => {
             const { getByTestId, rerender } = render(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -119,7 +119,7 @@ describe('KnowledgeQuiz', () => {
             rerender(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -140,7 +140,7 @@ describe('KnowledgeQuiz', () => {
             const { getByTestId, rerender } = render(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}
@@ -158,7 +158,7 @@ describe('KnowledgeQuiz', () => {
             rerender(
                 <KnowledgeQuizAtom
                     id="123abc"
-                    questions={questions}
+                    questions={[questionOne]}
                     resultGroups={resultGroups}
                     sharingUrls={sharingUrls}
                     theme={ArticlePillar.News}

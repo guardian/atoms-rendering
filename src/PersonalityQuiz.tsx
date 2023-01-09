@@ -10,7 +10,7 @@ import {
 } from '@guardian/source-foundations';
 import { Button, Radio, RadioGroup } from '@guardian/source-react-components';
 import type { KeyboardEvent, MouseEvent } from 'react';
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { radioButtonWrapperStyles } from './Answers';
 import { SharingIcons } from './SharingIcons';
 import type { SharingUrlsType } from './types';
@@ -79,7 +79,7 @@ export const findMostReferredToBucketId = ({
     answersFromQuestion.forEach((answerFromQuestion) => {
         answerFromQuestion.answerBuckets.forEach((answerBucket) => {
             if (answerBucket in bucketCounter) {
-                bucketCounter[answerBucket] = bucketCounter[answerBucket] + 1;
+                bucketCounter[answerBucket] += 1;
             } else {
                 bucketCounter[answerBucket] = 1;
             }
@@ -92,11 +92,15 @@ export const findMostReferredToBucketId = ({
             bucketIdWithHighestCount = bucketId;
             return;
         }
+        const thisBucket = bucketCounter[bucketId];
+        const currentHighestBucket = bucketCounter[bucketIdWithHighestCount];
 
-        bucketIdWithHighestCount =
-            bucketCounter[bucketId] > bucketCounter[bucketIdWithHighestCount]
-                ? bucketId
-                : bucketIdWithHighestCount;
+        if (thisBucket && currentHighestBucket) {
+            bucketIdWithHighestCount =
+                thisBucket > currentHighestBucket
+                    ? bucketId
+                    : bucketIdWithHighestCount;
+        }
     });
 
     return bucketIdWithHighestCount as string;
